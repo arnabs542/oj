@@ -41,19 +41,6 @@ public:
                 {
                     break;
                 }
-#if DEBUG
-                //printf("\np:");
-                //for (ListNode *temp = p; temp != q; temp = temp->next)
-                //{
-                //printf("\t%d", temp->val);
-                //}
-                //printf("\nq:");
-                //for (ListNode *temp = q; temp != NULL; temp = temp->next)
-                //{
-                //printf("\t%d", temp->val);
-                //}
-                //printf("\n");
-#endif
                 for (; psize || (qsize && q);)
                 {
                     if (!psize)
@@ -71,9 +58,6 @@ public:
                     else if (p->val > q->val)
                     {
                         //p is bigger than q
-#if DEBUG
-                        printf("pp->val:%d,%d > %d\n", pp ? pp->val : 0, p->val, q->val);
-#endif
                         if (pp)
                         {
                             pp->next = q;
@@ -83,9 +67,6 @@ public:
                         {
                             head = q;
                             pp = head;
-#if DEBUG
-                            printf("head->val:%d\n", head->val);
-#endif
                         }
 
                         qp->next = q->next;
@@ -102,31 +83,13 @@ public:
                         p = p->next;
                         psize--;
                     }
-#if DEBUG
-                    //printf("pp->val:%d,p->val:%d\n", pp->val, p->val);
-#endif
                 }//merge two sorted lists
-#if DEBUG
-                for (ListNode *temp = head; temp; temp = temp->next)
-                {
-                    printf("%d\t", temp->val);
-                }
-                printf("\n");
-#endif
+
                 nmerges ++;
 
                 pp = p;
                 p = q;
-                //printf("p= %p\n", p);
             }
-            //printf("\n a pass nmeges = %d,l = %d\n",
-            //nmerges, l);
-            for (ListNode *temp = head; temp; temp = temp->next)
-            {
-                //printf("%d\t", temp->val);
-            }
-            //printf("\n");
-
             if (nmerges == 0)
             {
                 break;
@@ -136,11 +99,6 @@ public:
                 l *= 2;
             }
 
-            //for (ListNode *temp = head; temp; temp = temp->next)
-            //{
-            //printf("%d\t", temp->val);
-            //}
-            //printf("\n");
         }//merge along the list
 
         return head;
@@ -149,9 +107,10 @@ public:
 
 int main(int argc, char **argv)
 {
-    int array[] = {4, 19, 14, 5, -3, 1, 8, 5, 11, 15};
+    //int array[] = {4, 19, 14, 5, -3, 1, 8, 5, 11, 15};
+    int array[] = { -84, 142, 41, -17, -71, 170, 186, 183, -21, -76, 76, 10, 29, 81, 112, -39, -6, -43, 58, 41, 111, 33, 69, 97, -38, 82, -44, -7, 99, 135, 42, 150, 149, -21, -30, 164, 153, 92, 180, -61, 99, -81, 147, 109, 34, 98, 14, 178, 105, 5, 43, 46, 40, -37, 23, 16, 123, -53, 34, 192, -73, 94, 39, 96, 115, 88, -31, -96, 106, 131, 64, 189, -91, -34, -56, -22, 105, 104, 22, -31, -43, 90, 96, 65, -85, 184, 85, 90, 118, 152, -31, 161, 22, 104, -85, 160, 120, -31, 144, 115};
     ListNode *sl, *head = NULL, *tail = NULL;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < sizeof(array) / sizeof(int); i++)
     {
         //int a = int(i * i * i - 5i * i);
         int a = array[i];
