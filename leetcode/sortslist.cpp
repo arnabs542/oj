@@ -55,39 +55,51 @@ public:
                         p = p->next;
                         psize--;
                     }
-                    else if (p->val > q->val)
+                    else
                     {
-                        //p is bigger than q
-                        if (pp)
+#if DEBUG
+                        printf("pp->val:%d,\tp->val:%d,q->val:%d\n", pp ? pp->val : 0, p->val, q->val);
+                        for (ListNode *temp = head; temp; temp = temp->next)
                         {
-                            pp->next = q;
-                            pp = q;
+                            printf("%d\t", temp->val);
+                        }
+                        printf("\n");
+#endif
+                        if (p->val > q->val)
+                        {
+                            //p is bigger than q
+                            if (pp)
+                            {
+                                pp->next = q;
+                                pp = q;
+                            }
+                            else
+                            {
+                                head = q;
+                                pp = head;
+                            }
+
+                            qp->next = q->next;
+                            q->next = p;
+
+                            q = qp->next;
+                            qsize--;
+
+
                         }
                         else
                         {
-                            head = q;
-                            pp = head;
+                            //p <= q
+                            pp = p;
+                            p = p->next;
+                            psize--;
                         }
-
-                        qp->next = q->next;
-                        q->next = p;
-
-                        q = qp->next;
-                        qsize--;
-
-                    }
-                    else
-                    {
-                        //p <= q
-                        pp = p;
-                        p = p->next;
-                        psize--;
                     }
                 }//merge two sorted lists
 
                 nmerges ++;
 
-                pp = p;
+                pp = qp;
                 p = q;
             }
             if (nmerges == 0)
@@ -98,9 +110,7 @@ public:
             {
                 l *= 2;
             }
-
         }//merge along the list
-
         return head;
     }
 };
@@ -109,6 +119,7 @@ int main(int argc, char **argv)
 {
     //int array[] = {4, 19, 14, 5, -3, 1, 8, 5, 11, 15};
     int array[] = { -84, 142, 41, -17, -71, 170, 186, 183, -21, -76, 76, 10, 29, 81, 112, -39, -6, -43, 58, 41, 111, 33, 69, 97, -38, 82, -44, -7, 99, 135, 42, 150, 149, -21, -30, 164, 153, 92, 180, -61, 99, -81, 147, 109, 34, 98, 14, 178, 105, 5, 43, 46, 40, -37, 23, 16, 123, -53, 34, 192, -73, 94, 39, 96, 115, 88, -31, -96, 106, 131, 64, 189, -91, -34, -56, -22, 105, 104, 22, -31, -43, 90, 96, 65, -85, 184, 85, 90, 118, 152, -31, 161, 22, 104, -85, 160, 120, -31, 144, 115};
+    //int array[] = {2, 4, 73, 5, 1, 9, -89, 10};
     ListNode *sl, *head = NULL, *tail = NULL;
     for (int i = 0; i < sizeof(array) / sizeof(int); i++)
     {
@@ -126,6 +137,7 @@ int main(int argc, char **argv)
         }
     }
 
+    printf("list: \n");
     for (ListNode *p = head; p; p = p->next)
     {
         printf("%d\t", p->val);
