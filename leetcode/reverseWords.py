@@ -39,7 +39,8 @@ class Solution:
                     words[i] = tmp
                     j = j + 1
                 else:
-                    words.remove(' ')
+                    #words.remove(' ')
+                    del words[i]
             else:
                 words.remove(' ')
 
@@ -49,4 +50,4 @@ class Solution:
 if __name__ == "__main__":
     a = Solution()
     ra = a.reverseWords('hello world    My name is onerhao')
-    print ra.__class__
+    print ra
