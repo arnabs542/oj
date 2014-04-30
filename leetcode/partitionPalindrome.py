@@ -82,7 +82,7 @@ class Solution:
                         newPl.append(palin)
                         pls[i].append(newPl)
                 else:
-                    newPl = [[palin]]
+                    newPl = [palin]
                     pls[i].append(newPl)
 
         return pls[len(s)-1]
@@ -90,5 +90,6 @@ class Solution:
 if __name__ == "__main__":
     print Solution().partition("aa")
     print Solution().partition("aab")
+    #print Solution
     print Solution().getAnchorPalins("aab",2,-1)
     print Solution().getAnchorPalins("aa",1,-1)
