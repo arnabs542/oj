@@ -12,6 +12,7 @@ buy one and sell one share of the stock), design an algorithm to find the maximu
 class Solution:
     def maxSubarray(self,changes):
         begin = 0
+        begin_temp = 0
         end = 0
         max_so_far = 0
         max_ending_here = 0
@@ -20,9 +21,10 @@ class Solution:
                 max_ending_here += changes[i]
             else:
                 max_ending_here = changes[i]
+                begin_temp = i
 
             if max_ending_here > max_so_far:
-                begin = i
+                begin = begin_temp
                 end = i
                 max_so_far = max_ending_here
 
