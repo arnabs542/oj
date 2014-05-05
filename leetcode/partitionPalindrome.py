@@ -24,6 +24,10 @@ class Solution:
     # @param step,1 or -1
     # @return a list of  palindrome strings that start
     #   or end with index
+    # @algorithm optimization:when deciding whether a substring is palindrome,
+    # @algorithm optimization: we can also apply dynamic programming technique.
+    # @algorithm optimization:use a two-dimension array p[n][n] to indicate whether
+    # a substring s[i:j+1] is palindrome
     @classmethod
     def getAnchorPalins(cls,s,index,step):
         pl = []
