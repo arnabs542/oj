@@ -14,6 +14,48 @@ Return
 
 class Solution:
     # @param s,a string
+    # @return an integer
+    # @apply dynamic programming.mincuts[i] = min(mincuts[i-j])+1
+    # @ j is the length of palindrome string ending with s[i]
+    def minCut(self,s):
+        mincuts = []
+        mincuts.append(0)
+
+        #pls = []
+        #pls.append([[s[0]]])
+
+        for i in range(1,len(s),1):
+            #pls.append([])
+            #palins = []
+            palins = Solution.getAnchorPalins(s,i,-1)
+            mincut =  None
+            for palin in palins:
+                j = i - len(palin)
+                if j >= 0:
+                    if mincut == None:
+                        mincut = mincuts[j] + 1
+                        #for pl in pls[j]:
+                        #newPl = list(pl)
+                        #newPl.append(palin)
+                        #pls[i].append(newPl)
+                    else:
+                        if mincut > mincuts[j] + 1:
+                            mincut = mincuts[j] + 1
+                        else:
+                            pass
+
+                else:
+                    mincut = 0
+                    #newPl = [palin]
+                    #pls[i].append(newPl)
+
+            mincuts.append(mincut)
+            #print mincuts," length is: %d"%len(mincuts)
+
+        #return pls[len(s)-1]
+        return mincuts[len(s)-1]
+
+    # @param s,a string
     # @param index,a integer
     # @param step,1 or -1
     # @return a list of  palindrome strings that start
@@ -64,32 +106,13 @@ class Solution:
             else:
                 pass
 
-    # @param, a string
-    # @return a list of lists of string
-    def partition(self,s):
-        pls = []
-        pls.append([[s[0]]])
-
-        for i in range(1,len(s),1):
-            pls.append([])
-            #palins = []
-            palins = Solution.getAnchorPalins(s,i,-1)
-            for palin in palins:
-                j = i - len(palin)
-                if j >= 0:
-                    for pl in pls[j]:
-                        newPl = list(pl)
-                        newPl.append(palin)
-                        pls[i].append(newPl)
-                else:
-                    newPl = [palin]
-                    pls[i].append(newPl)
-
-        return pls[len(s)-1]
 
 if __name__ == "__main__":
-    print Solution().partition("aa")
-    print Solution().partition("aab")
+    #print Solution().partition("aa")
+    #print Solution().partition("aab")
     #print Solution
-    print Solution().getAnchorPalins("aab",2,-1)
-    print Solution().getAnchorPalins("aa",1,-1)
+    #print Solution().getAnchorPalins("aab",2,-1)
+    #print Solution().getAnchorPalins("aa",1,-1)
+    #s = Solution().partition("aab")
+    #print Solution().minCut("aaaaaaaaaaaaaaaaaa")
+    print Solution().minCut("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
