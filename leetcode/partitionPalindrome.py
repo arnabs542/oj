@@ -11,6 +11,12 @@ Return
   [ ["aa","b"], ["a","a","b"] ]
   '''
 
+'''
+Solution:
+    @1: Dynamic Programming
+    @2: Depth First Search
+    '''
+
 
 class Solution:
     # @param s,a string
