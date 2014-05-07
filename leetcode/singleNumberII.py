@@ -9,3 +9,18 @@ Note:
     Could you implement it without using extra memory?
 
 '''
+
+class Solution:
+    # @param A,a list of integers
+    # @return an integer
+    def singleNumber(self,A):
+        ones = 0
+        twos = 0
+        for i in A:
+            twos ^= (ones &i)
+            ones ^= i
+            mask = ~(ones & twos)
+            twos &= mask
+            ones &= mask
+
+        return ones
