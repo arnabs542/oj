@@ -6,6 +6,13 @@ Follow up for N-Queens problem.
 Now, instead outputting board configurations, return the total number of distinct solutions.
 '''
 
+'''
+Solution:
+    @1: Backtrack Depth-first search.Backtrack with recursion
+    @2: Backtrack with stack implementation of DFS
+    @3: Bit manipulation instead of array representation of queens.
+    '''
+
 import math
 
 class Solution:

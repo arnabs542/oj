@@ -11,7 +11,7 @@ Note:
 
 '''
 Solution:
-    XOR bit manipulation.
+    XOR bit manipulation.Time: O(n)
     x xor x == 0
     '''
 

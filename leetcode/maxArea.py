@@ -10,6 +10,16 @@ such that the container contains the most water.
 Note: You may not slant the container.
 '''
 
+'''
+短板理论
+
+'''
+
+'''
+Solution:
+    @1: Scan from two ends.Time: O(n)
+    '''
+
 class Solution:
     # @param height,integer list
     # @return an integer
