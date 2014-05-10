@@ -12,17 +12,38 @@ Output: index1=1, index2=2
 
 '''
 
+'''
+Solution:
+    @1 hash
+    @2 sort,move index from two ends to center
+    @3 brute-force
+    '''
+
 class Solution:
     # @return a tuple (index1,index2)
     def twoSum(self,num,target):
+        mapping = dict()
         i = 0
         j = len(num) -1
-        while True:
-            if i >= j:
-                return None,None
-            if num[i] + num[j] > target:
-                j = j -1
-            elif num[i] + num[j] < target:
-                i +=1
+        for k,v in enumerate(num):
+            if mapping.has_key(v):
+                mapping[v].append(k)
             else:
-                return i+1,j+1
+                mapping[v] = []
+                mapping[v].append(k)
+
+        for k,v in enumerate(num):
+            if mapping.has_key(target - v):
+                if mapping[target-v][0] == k:
+                    if len(mapping[target-v]) >= 2:
+                        return k+1,mapping[target-v][1] + 1
+                    else:
+                        pass
+
+                else:
+                    return k+1,mapping[target-v][0]+1
+
+
+if __name__ == "__main__":
+    print Solution().twoSum([3,2,4],6)
+
