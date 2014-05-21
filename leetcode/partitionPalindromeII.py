@@ -39,7 +39,7 @@ class Solution:
                 if table[i][j] == 0:
                     continue
                 else:
-                    mincut = sys.maxint
+                    mincut = l - 1
                     for k in xrange(i,j,1):
                         mincut = min(mincut,table[i][k]+table[k+1][j] + 1)
 
@@ -47,8 +47,6 @@ class Solution:
 
             #for i in range(len(s)):
             #print table[i]
-
-            #print "\n"
 
 
         return table[0][len(s)-1]
