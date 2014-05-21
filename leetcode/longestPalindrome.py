@@ -24,6 +24,7 @@ class Solution:
     def longestPalindrome(self,s):
         table = []
 
+        #time complexity
         #for i in range(len(s)):
         #table.append([])
         #for j in range(len(s)):
