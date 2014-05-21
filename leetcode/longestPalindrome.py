@@ -35,11 +35,12 @@ class Solution:
 
         #optimization for two dimensional array initialization
         table = [[0 for x in range(len(s))] for x in range(len(s))]
-        for i in range(len(s)):
-            table[i][i] = 1
 
         longestPalin = ""
         begin = end = 0
+
+        for i in range(len(s)):
+            table[i][i] = 1
 
         for i in range(len(s)-1):
             if s[i] == s[i+1]:
