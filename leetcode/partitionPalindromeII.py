@@ -19,6 +19,14 @@ Solution:
         0   (palindrome)
         n   (n>0,not palindrome,n is the min cut of palindromic partitioning)
 
+        recurrence:
+            1) table[i][j]=(s[i]==s[j] && p[i+1][j-1] == True)
+            2) mincuts[i] = min(mincuts[i],mincuts[j-1]+1) if p[i][j] == True
+            This is optimized version for :
+                mincuts[i][j] = min(mincuts[i][k]+mincuts[k+1][j]+1)
+                which reduces the time complexity by n times.
+
+
         '''
 
 
