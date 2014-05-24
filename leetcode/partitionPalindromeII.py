@@ -37,57 +37,25 @@ class Solution:
     # @apply dynamic programming.mincuts[i] = min(mincuts[i-j])+1
     # @ j is the length of palindrome string ending with s[i]
     def minCut(self,s):
-        import sys
-        mincuts = []
-        table = Solution.getPalindromes(s)
+        table = [[-1 for x in xrange(len(s) + 1)] for x in xrange(len(s) + 1)]
+        mincuts = [ -1 for x in xrange(len(s) + 1)]
 
-        for l in xrange(2,len(s) + 1,1):
-            for i in xrange(0,len(s) - l + 1,1):
-                j = i + l - 1
-                if table[i][j] == 0:
-                    continue
-                else:
-                    mincut = l - 1
-                    for k in xrange(i,j,1):
-                        mincut = min(mincut,table[i][k]+table[k+1][j] + 1)
+        for i in xrange(0,len(s) + 1,1):
+            mincuts[i] = i - 1
 
-                    table[i][j] = mincut
-
-            #for i in range(len(s)):
-            #print table[i]
-
-
-        return table[0][len(s)-1]
-
-
-    @classmethod
-    def getPalindromes(cls,s):
-        table = [[-1 for x in xrange(len(s))] for x in xrange(len(s))]
-        for i in xrange(len(s)):
-            table[i][i] = 0
-
-        for i in xrange(len(s) - 1):
-            if s[i] == s[i+1]:
-                table[i][i+1] = 0
-
-        for l in xrange(3,len(s) + 1):
-            for i in xrange(0,len(s)-l + 1):
-                j = i + l -1
-                if s[i] == s[j] and table[i+1][j-1] == 0:
+        for j in xrange(2,len(s) + 1,1):
+            for i in xrange(1,j + 1,1):
+                if s[i - 1] == s[j - 1] and ((j-i < 2) or table[i+1][j-1] == 0 ):
                     table[i][j] = 0
+                    mincuts[j] = min(mincuts[j],mincuts[i-1] + 1)
 
-        return table
+        return mincuts[len(s)]
 
 
 if __name__ == "__main__":
-    #print Solution().partition("aa")
-    #print Solution().partition("aab")
-    #print Solution
-    #print Solution().getAnchorPalins("aab",2,-1)
-    #print Solution().getAnchorPalins("aa",1,-1)
-    #s = Solution().partition("aab")
     #print Solution().minCut("aaa")
     #print Solution().minCut("aab")
     #print Solution().minCut("aaaaaaaaaaaaaaaaaa")
-    print Solution().minCut("apjesgpsxoeiokmqmfgvjslcjukbqxpsobyhjpbgdfruqdkeiszrlmtwgfxyfostpqczidfljwfbbrflkgdvtytbgqalguewnhvvmcgxboycffopmtmhtfizxkmeftcucxpobxmelmjtuzigsxnncxpaibgpuijwhankxbplpyejxmrrjgeoevqozwdtgospohznkoyzocjlracchjqnggbfeebmuvbicbvmpuleywrpzwsihivnrwtxcukwplgtobhgxukwrdlszfaiqxwjvrgxnsveedxseeyeykarqnjrtlaliyudpacctzizcftjlunlgnfwcqqxcqikocqffsjyurzwysfjmswvhbrmshjuzsgpwyubtfbnwajuvrfhlccvfwhxfqthkcwhatktymgxostjlztwdxritygbrbibdgkezvzajizxasjnrcjwzdfvdnwwqeyumkamhzoqhnqjfzwzbixclcxqrtniznemxeahfozp")
+    #print Solution().minCut("apjesgpsxoeiokmqmfgvjslcjukbqxpsobyhjpbgdfruqdkeiszrlmtwgfxyfostpqczidfljwfbbrflkgdvtytbgqalguewnhvvmcgxboycffopmtmhtfizxkmeftcucxpobxmelmjtuzigsxnncxpaibgpuijwhankxbplpyejxmrrjgeoevqozwdtgospohznkoyzocjlracchjqnggbfeebmuvbicbvmpuleywrpzwsihivnrwtxcukwplgtobhgxukwrdlszfaiqxwjvrgxnsveedxseeyeykarqnjrtlaliyudpacctzizcftjlunlgnfwcqqxcqikocqffsjyurzwysfjmswvhbrmshjuzsgpwyubtfbnwajuvrfhlccvfwhxfqthkcwhatktymgxostjlztwdxritygbrbibdgkezvzajizxasjnrcjwzdfvdnwwqeyumkamhzoqhnqjfzwzbixclcxqrtniznemxeahfozp")
+    print Solution().minCut("adabdcaebdcebdcacaaaadbbcadabcbeabaadcbcaaddebdbddcbdacdbbaedbdaaecabdceddccbdeeddccdaabbabbdedaaabcdadbdabeacbeadbaddcbaacdbabcccbaceedbcccedbeecbccaecadccbdbdccbcbaacccbddcccbaedbacdbcaccdcaadcbaebebcceabbdcdeaabdbabadeaaaaedbdbcebcbddebccacacddebecabccbbdcbecbaeedcdacdcbdbebbacddddaabaedabbaaabaddcdaadcccdeebcabacdadbaacdccbeceddeebbbdbaaaaabaeecccaebdeabddacbedededebdebabdbcbdcbadbeeceecdcdbbdcbdbeeebcdcabdeeacabdeaedebbcaacdadaecbccbededceceabdcabdeabbcdecdedadcaebaababeedcaacdbdacbccdbcece");
     #print Solution().minCut("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
