@@ -37,7 +37,7 @@ class Solution:
     # @apply dynamic programming.mincuts[i] = min(mincuts[i-j])+1
     # @ j is the length of palindrome string ending with s[i]
     def minCut(self,s):
-        table = [[-1 for x in xrange(len(s) + 1)] for x in xrange(len(s) + 1)]
+        table = [[-1 for x in xrange(len(s))] for x in xrange(len(s))]
         mincuts = [ -1 for x in xrange(len(s) + 1)]
 
         for i in xrange(0,len(s) + 1,1):
@@ -45,8 +45,8 @@ class Solution:
 
         for j in xrange(2,len(s) + 1,1):
             for i in xrange(1,j + 1,1):
-                if s[i - 1] == s[j - 1] and ((j-i < 2) or table[i+1][j-1] == 0 ):
-                    table[i][j] = 0
+                if s[i - 1] == s[j - 1] and ((j-i < 2) or table[i][j-2] == 0 ):
+                    table[i-1][j-1] = 0
                     mincuts[j] = min(mincuts[j],mincuts[i-1] + 1)
 
         return mincuts[len(s)]
