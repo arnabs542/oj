@@ -10,6 +10,11 @@ Note:
     Although the above answer is in lexicographical order, your answer could be in any order you want.
     '''
 
+'''
+Solution:
+    Similar to N-Queen problem.It can be solved with backtracking with recursion or depth-first search.
+    '''
+
 class Solution:
     # @return a list of strings,[s1,s2]
     def letterCombinations(self,digits):
