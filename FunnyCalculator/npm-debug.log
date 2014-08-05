@@ -1,0 +1,237 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'shadowsocks' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 verbose cache add [ 'shadowsocks', null ]
+5 verbose cache add name=undefined spec="shadowsocks" args=["shadowsocks",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'shadowsocks',
+6 verbose parsed url   path: 'shadowsocks',
+6 verbose parsed url   href: 'shadowsocks' }
+7 silly lockFile 5718559c-shadowsocks shadowsocks
+8 verbose lock shadowsocks /root/.npm/5718559c-shadowsocks.lock
+9 silly lockFile 5718559c-shadowsocks shadowsocks
+10 silly lockFile 5718559c-shadowsocks shadowsocks
+11 verbose addNamed [ 'shadowsocks', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 75b29ce8-shadowsocks shadowsocks@
+14 verbose lock shadowsocks@ /root/.npm/75b29ce8-shadowsocks.lock
+15 silly addNameRange { name: 'shadowsocks', range: '*', hasData: false }
+16 verbose url raw shadowsocks
+17 verbose url resolving [ 'https://registry.npmjs.org/', './shadowsocks' ]
+18 verbose url resolved https://registry.npmjs.org/shadowsocks
+19 info trying registry request attempt 1 at 16:18:07
+20 http GET https://registry.npmjs.org/shadowsocks
+21 http 200 https://registry.npmjs.org/shadowsocks
+22 silly registry.get cb [ 200,
+22 silly registry.get   { date: 'Sat, 28 Jun 2014 08:18:25 GMT',
+22 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 silly registry.get     etag: '"4WM7SDD0KOFZDVBRE8NXPUNA1"',
+22 silly registry.get     'content-type': 'application/json',
+22 silly registry.get     'cache-control': 'max-age=30',
+22 silly registry.get     'content-length': '27407',
+22 silly registry.get     'accept-ranges': 'bytes',
+22 silly registry.get     via: '1.1 varnish',
+22 silly registry.get     age: '684',
+22 silly registry.get     'x-served-by': 'cache-sv61-SJC3',
+22 silly registry.get     'x-cache': 'MISS',
+22 silly registry.get     'x-cache-hits': '0',
+22 silly registry.get     'x-timer': 'S1403943505.193924,VS0,VE28',
+22 silly registry.get     vary: 'Accept',
+22 silly registry.get     'keep-alive': 'timeout=10, max=50',
+22 silly registry.get     connection: 'Keep-Alive' } ]
+23 silly addNameRange number 2 { name: 'shadowsocks', range: '*', hasData: true }
+24 silly addNameRange versions [ 'shadowsocks',
+24 silly addNameRange   [ '1.3.0',
+24 silly addNameRange     '1.3.1',
+24 silly addNameRange     '1.3.2',
+24 silly addNameRange     '1.3.3',
+24 silly addNameRange     '1.3.4',
+24 silly addNameRange     '1.3.5',
+24 silly addNameRange     '1.3.6',
+24 silly addNameRange     '1.3.7',
+24 silly addNameRange     '1.3.8',
+24 silly addNameRange     '1.4.0',
+24 silly addNameRange     '1.4.1',
+24 silly addNameRange     '1.4.2',
+24 silly addNameRange     '1.4.3',
+24 silly addNameRange     '1.4.4',
+24 silly addNameRange     '1.4.5',
+24 silly addNameRange     '1.4.6',
+24 silly addNameRange     '1.4.8',
+24 silly addNameRange     '1.4.10',
+24 silly addNameRange     '1.4.11',
+24 silly addNameRange     '1.4.12',
+24 silly addNameRange     '1.4.13' ] ]
+25 verbose addNamed [ 'shadowsocks', '1.4.13' ]
+26 verbose addNamed [ '1.4.13', '1.4.13' ]
+27 silly lockFile 9a39f252-shadowsocks-1-4-13 shadowsocks@1.4.13
+28 verbose lock shadowsocks@1.4.13 /root/.npm/9a39f252-shadowsocks-1-4-13.lock
+29 silly lockFile 87973401-adowsocks-shadowsocks-1-4-13-tgz https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz
+30 verbose lock https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz /root/.npm/87973401-adowsocks-shadowsocks-1-4-13-tgz.lock
+31 verbose addRemoteTarball [ 'https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz',
+31 verbose addRemoteTarball   '6e34493ee54c6cb582f3752b0144989c604156c9' ]
+32 info retry fetch attempt 1 at 16:18:09
+33 verbose fetch to= /root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz
+34 http GET https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz
+35 http 200 https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz
+36 verbose tar unpack /root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz
+37 silly lockFile cdf6f7ab-t-npm-shadowsocks-1-4-13-package tar:///root/.npm/shadowsocks/1.4.13/package
+38 verbose lock tar:///root/.npm/shadowsocks/1.4.13/package /root/.npm/cdf6f7ab-t-npm-shadowsocks-1-4-13-package.lock
+39 silly lockFile 9887bfbc-89388-0-0379857923835516-tmp-tgz tar:///root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz
+40 verbose lock tar:///root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz /root/.npm/9887bfbc-89388-0-0379857923835516-tmp-tgz.lock
+41 silly gunzTarPerm modes [ '755', '644' ]
+42 silly gunzTarPerm extractEntry package.json
+43 silly gunzTarPerm extractEntry README.md
+44 silly gunzTarPerm extractEntry LICENSE
+45 silly gunzTarPerm extractEntry bin/sslocal
+46 silly gunzTarPerm extractEntry bin/ssserver
+47 silly gunzTarPerm extractEntry .travis.yml
+48 silly gunzTarPerm extractEntry CONTRIBUTING.md
+49 silly gunzTarPerm extractEntry CHANGES
+50 silly gunzTarPerm extractEntry config.json
+51 silly gunzTarPerm extractEntry lib/shadowsocks/encrypt.js
+52 silly gunzTarPerm extractEntry lib/shadowsocks/inet.js
+53 silly gunzTarPerm extractEntry lib/shadowsocks/local.js
+54 silly gunzTarPerm extractEntry lib/shadowsocks/merge_sort.js
+55 silly gunzTarPerm extractEntry lib/shadowsocks/server.js
+56 silly gunzTarPerm extractEntry lib/shadowsocks/test.js
+57 silly gunzTarPerm extractEntry lib/shadowsocks/udprelay.js
+58 silly gunzTarPerm extractEntry lib/shadowsocks/utils.js
+59 silly gunzTarPerm extractEntry Cakefile
+60 silly gunzTarPerm extractEntry src/encrypt.coffee
+61 silly gunzTarPerm extractEntry src/local.coffee
+62 silly gunzTarPerm extractEntry src/merge_sort.coffee
+63 silly gunzTarPerm extractEntry src/server.coffee
+64 silly gunzTarPerm extractEntry src/test.coffee
+65 silly gunzTarPerm extractEntry src/udprelay.coffee
+66 silly gunzTarPerm extractEntry src/utils.coffee
+67 silly gunzTarPerm extractEntry test/benchmark.sh
+68 silly gunzTarPerm extractEntry test/config-client-multi-port.json
+69 silly gunzTarPerm extractEntry test/config-client-multi-server-port.json
+70 silly gunzTarPerm extractEntry test/config-client-multi-server.json
+71 silly gunzTarPerm extractEntry test/config-server-multi-passwd.json
+72 silly gunzTarPerm extractEntry test/config-server-multi-port.json
+73 silly gunzTarPerm extractEntry test/config.json
+74 silly lockFile cdf6f7ab-t-npm-shadowsocks-1-4-13-package tar:///root/.npm/shadowsocks/1.4.13/package
+75 silly lockFile cdf6f7ab-t-npm-shadowsocks-1-4-13-package tar:///root/.npm/shadowsocks/1.4.13/package
+76 silly lockFile 9887bfbc-89388-0-0379857923835516-tmp-tgz tar:///root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz
+77 silly lockFile 9887bfbc-89388-0-0379857923835516-tmp-tgz tar:///root/tmp/npm-2571-Cv642PXQ/1403943489388-0.0379857923835516/tmp.tgz
+78 silly lockFile 87973401-adowsocks-shadowsocks-1-4-13-tgz https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz
+79 silly lockFile 87973401-adowsocks-shadowsocks-1-4-13-tgz https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz
+80 silly lockFile 9a39f252-shadowsocks-1-4-13 shadowsocks@1.4.13
+81 silly lockFile 9a39f252-shadowsocks-1-4-13 shadowsocks@1.4.13
+82 silly lockFile 75b29ce8-shadowsocks shadowsocks@
+83 silly lockFile 75b29ce8-shadowsocks shadowsocks@
+84 silly resolved [ { name: 'shadowsocks',
+84 silly resolved     description: 'a tunnel proxy that help you get through firewalls',
+84 silly resolved     keywords: [ 'shadowsocks', 'proxy', 'socks5' ],
+84 silly resolved     author: { name: 'clowwindy' },
+84 silly resolved     version: '1.4.13',
+84 silly resolved     licenses: [ [Object] ],
+84 silly resolved     engines: { node: '>=0.10.0' },
+84 silly resolved     directories: { lib: './lib/shadowsocks' },
+84 silly resolved     main: './lib/shadowsocks/local',
+84 silly resolved     bin: { sslocal: './bin/sslocal', ssserver: './bin/ssserver' },
+84 silly resolved     scripts: { test: 'cake test' },
+84 silly resolved     homepage: 'https://github.com/clowwindy/shadowsocks-nodejs',
+84 silly resolved     bugs: { url: 'https://github.com/clowwindy/shadowsocks-nodejs/issues' },
+84 silly resolved     repository:
+84 silly resolved      { type: 'git',
+84 silly resolved        url: 'https://github.com/clowwindy/shadowsocks-nodejs.git' },
+84 silly resolved     devDependencies: { 'coffee-script': '>=1.6.2' },
+84 silly resolved     readme: 'shadowsocks-nodejs\n===========\n\nCurrent version: 1.4.12\n[![Build Status](https://travis-ci.org/clowwindy/shadowsocks-nodejs.png)](https://travis-ci.org/clowwindy/shadowsocks-nodejs)\n\nshadowsocks-nodejs is a lightweight tunnel proxy which can help you get through\n firewalls. It is a port of [shadowsocks](https://github.com/clowwindy/shadowsocks).\n\nBoth TCP CONNECT and UDP ASSOCIATE are implemented.\n\nOther ports and clients can be found [here](https://github.com/clowwindy/shadowsocks/wiki/Ports-and-Clients).\n\nUsage\n-----------\n\nDownload the lastest Node stable release. You can find them [here](http://nodejs.org/). Don\'t just use master branch of\nNode source code from Github! It\'s not stable.\n\nRun\n    \n    npm install -g shadowsocks\n\nCreate a file named `config.json`, with the following content.\n\n    {\n        "server":"my_server_ip",\n        "server_port":8388,\n        "local_port":1080,\n        "password":"barfoo!",\n        "timeout":600,\n        "method":"table",\n        "local_address":"127.0.0.1"\n    }\n\nExplaination of the fields:\n\n    server          your server IP (IPv4/IPv6), notice that your server will listen to this IP\n    server_port     server port\n    local_port      local port\n    password        a password used to encrypt transfer\n    timeout         in seconds\n    method          encryption method, "bf-cfb", "aes-256-cfb", "des-cfb", "rc4", etc. Default is table\n    local_address   local binding address, leave it alone if you don\'t know what it means\n\n`cd` into the directory of `config.json`. Run `ssserver` on your server. To run it in the background, run\n`nohup ssserver > log &`.\n\nOn your client machine, run `sslocal`.\n\nChange the proxy setting in your browser into\n\n    protocol: socks5\n    hostname: 127.0.0.1\n    port:     your local_port\n\nAdvanced\n------------\n\nYou can use args to override settings from `config.json`.\n\n    sslocal -s server_name -p server_port -l local_port -k password -m bf-cfb -b local_address\n    ssserver -p server_port -k password -m bf-cfb -t timeout\n    ssserver -c /etc/shadowsocks/config.json\n\nExample of multi-user server support can be found in `test/config-multi-passwd.json`.\n\nDeveloping\n-----------------------------\n\nYou can build coffee source code and test it:\n\n    npm install -g coffee-script\n    cake build test\n\nLicense\n-----------------\nMIT\n\nBugs and Issues\n----------------\nPlease visit [issue tracker](https://github.com/clowwindy/shadowsocks-nodejs/issues?state=open)\n\nMailing list: http://groups.google.com/group/shadowsocks\n\nAlso see [troubleshooting](https://github.com/clowwindy/shadowsocks/wiki/Troubleshooting)\n',
+84 silly resolved     readmeFilename: 'README.md',
+84 silly resolved     _id: 'shadowsocks@1.4.13',
+84 silly resolved     _shasum: '6e34493ee54c6cb582f3752b0144989c604156c9',
+84 silly resolved     _from: 'shadowsocks@',
+84 silly resolved     _resolved: 'https://registry.npmjs.org/shadowsocks/-/shadowsocks-1.4.13.tgz' } ]
+85 info install shadowsocks@1.4.13 into /usr/lib
+86 info installOne shadowsocks@1.4.13
+87 info /usr/lib/node_modules/shadowsocks unbuild
+88 verbose tar unpack /root/.npm/shadowsocks/1.4.13/package.tgz
+89 silly lockFile 828a4df6-usr-lib-node-modules-shadowsocks tar:///usr/lib/node_modules/shadowsocks
+90 verbose lock tar:///usr/lib/node_modules/shadowsocks /root/.npm/828a4df6-usr-lib-node-modules-shadowsocks.lock
+91 silly lockFile 6642d56c-m-shadowsocks-1-4-13-package-tgz tar:///root/.npm/shadowsocks/1.4.13/package.tgz
+92 verbose lock tar:///root/.npm/shadowsocks/1.4.13/package.tgz /root/.npm/6642d56c-m-shadowsocks-1-4-13-package-tgz.lock
+93 silly gunzTarPerm modes [ '755', '644' ]
+94 silly gunzTarPerm extractEntry package.json
+95 silly gunzTarPerm extractEntry README.md
+96 silly gunzTarPerm extractEntry LICENSE
+97 silly gunzTarPerm extractEntry bin/sslocal
+98 silly gunzTarPerm extractEntry bin/ssserver
+99 silly gunzTarPerm extractEntry .travis.yml
+100 silly gunzTarPerm extractEntry CONTRIBUTING.md
+101 silly gunzTarPerm extractEntry CHANGES
+102 silly gunzTarPerm extractEntry config.json
+103 silly gunzTarPerm extractEntry lib/shadowsocks/encrypt.js
+104 silly gunzTarPerm extractEntry lib/shadowsocks/inet.js
+105 silly gunzTarPerm extractEntry lib/shadowsocks/local.js
+106 silly gunzTarPerm extractEntry lib/shadowsocks/merge_sort.js
+107 silly gunzTarPerm extractEntry lib/shadowsocks/server.js
+108 silly gunzTarPerm extractEntry lib/shadowsocks/test.js
+109 silly gunzTarPerm extractEntry lib/shadowsocks/udprelay.js
+110 silly gunzTarPerm extractEntry lib/shadowsocks/utils.js
+111 silly gunzTarPerm extractEntry Cakefile
+112 silly gunzTarPerm extractEntry src/encrypt.coffee
+113 silly gunzTarPerm extractEntry src/local.coffee
+114 silly gunzTarPerm extractEntry src/merge_sort.coffee
+115 silly gunzTarPerm extractEntry src/server.coffee
+116 silly gunzTarPerm extractEntry src/test.coffee
+117 silly gunzTarPerm extractEntry src/udprelay.coffee
+118 silly gunzTarPerm extractEntry src/utils.coffee
+119 silly gunzTarPerm extractEntry test/benchmark.sh
+120 silly gunzTarPerm extractEntry test/config-client-multi-port.json
+121 silly gunzTarPerm extractEntry test/config-client-multi-server-port.json
+122 silly gunzTarPerm extractEntry test/config-client-multi-server.json
+123 silly gunzTarPerm extractEntry test/config-server-multi-passwd.json
+124 silly gunzTarPerm extractEntry test/config-server-multi-port.json
+125 silly gunzTarPerm extractEntry test/config.json
+126 silly lockFile 828a4df6-usr-lib-node-modules-shadowsocks tar:///usr/lib/node_modules/shadowsocks
+127 silly lockFile 828a4df6-usr-lib-node-modules-shadowsocks tar:///usr/lib/node_modules/shadowsocks
+128 silly lockFile 6642d56c-m-shadowsocks-1-4-13-package-tgz tar:///root/.npm/shadowsocks/1.4.13/package.tgz
+129 silly lockFile 6642d56c-m-shadowsocks-1-4-13-package-tgz tar:///root/.npm/shadowsocks/1.4.13/package.tgz
+130 info preinstall shadowsocks@1.4.13
+131 verbose readDependencies using package.json deps
+132 verbose readDependencies using package.json deps
+133 silly resolved []
+134 verbose about to build /usr/lib/node_modules/shadowsocks
+135 info build /usr/lib/node_modules/shadowsocks
+136 verbose linkStuff [ true, '/usr/lib/node_modules', true, '/usr/lib/node_modules' ]
+137 info linkStuff shadowsocks@1.4.13
+138 verbose linkBins shadowsocks@1.4.13
+139 verbose link bins [ { sslocal: './bin/sslocal', ssserver: './bin/ssserver' },
+139 verbose link bins   '/usr/bin',
+139 verbose link bins   true ]
+140 verbose linkMans shadowsocks@1.4.13
+141 verbose rebuildBundles shadowsocks@1.4.13
+142 info /usr/lib/node_modules/shadowsocks unbuild
+143 info preuninstall shadowsocks@1.4.13
+144 info uninstall shadowsocks@1.4.13
+145 verbose true,/usr/lib/node_modules,/usr/lib/node_modules unbuild shadowsocks@1.4.13
+146 verbose /usr/bin,[object Object] binRoot
+147 error error rolling back Error: Refusing to delete: /usr/bin/sslocal not in /usr/lib/node_modules/shadowsocks
+147 error error rolling back     at clobberFail (/usr/lib/node_modules/npm/lib/utils/gently-rm.js:57:12)
+147 error error rolling back     at next (/usr/lib/node_modules/npm/lib/utils/gently-rm.js:43:14)
+147 error error rolling back     at /usr/lib/node_modules/npm/lib/utils/gently-rm.js:37:30
+147 error error rolling back     at Object.oncomplete (fs.js:107:15)
+147 error error rolling back  shadowsocks@1.4.13 { [Error: Refusing to delete: /usr/bin/sslocal not in /usr/lib/node_modules/shadowsocks] code: 'EEXIST', path: '/usr/bin/sslocal' }
+148 error Refusing to delete: /usr/bin/sslocal not in /usr/lib/node_modules/shadowsocks
+File exists: /usr/bin/sslocal
+Move it away, and try again.
+149 error System Linux 3.14.6-1-ARCH
+150 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "shadowsocks"
+151 error cwd /home/administrator/Documents/project/trendmicro/FunnyCalculator
+152 error node -v v0.10.28
+153 error npm -v 1.4.9
+154 error path /usr/bin/sslocal
+155 error code EEXIST
+156 verbose exit [ 1, true ]
