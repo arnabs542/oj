@@ -9,7 +9,7 @@ Compute and return the square root of x.
 '''
 Solution:
     binary search for k ,for which k*k<=x while (k+1)*(k+1)>x'
-'''
+    '''
 
 class Solution:
     # @param x,an integer
