@@ -29,7 +29,7 @@ class Solution:
     def atoi(self, str):
         l = len(str)
         i = 0
-        sign = 0
+        sign = 1
         res = 0
         # ignore beginning whitespace
         while i < l and str[i].isspace():
@@ -38,13 +38,14 @@ class Solution:
         if i < l:
             if str[i] == '-':
                 sign = -1
+                i += 1
             elif str[i] == '+':
                 sign = 1
-            i += 1
+                i += 1
 
         while i < l:
             if not str[i].isdigit():
-                return res
+                return res * sign
             else:
                 if res > (2147483647 - int(str[i])) / 10:
                     if sign > 0:
@@ -58,3 +59,5 @@ class Solution:
 
 if __name__ == "__main__":
     print Solution().atoi("-3434")
+    print Solution().atoi("3")
+    print Solution().atoi(" -0012a42")
