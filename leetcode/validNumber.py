@@ -15,12 +15,63 @@ Some examples:
 
 "2e10" => true
 
-Note: It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.
+Note: It is intended for the problem statement to be ambiguous. You
+should gather all requirements up front before implementing one.
 '''
 
 '''
 Solution:
-    1.Beginning and trailing white spaces can be left out
-    2.The most complex situation is when a number is in scientific notation:
-        <float number>e<integer>
+    @1:
+        1.Beginning and trailing white spaces can be left out
+        2.The most complex situation is when a number is in scientific
+        notation:
+            <float number>e<integer>
+
+    AeB or AEB代表A * 10 ^ B
+    A可以是小数也可以是整数，可以带正负号
+    .35, 00.神马的都算valid小数；就”.”单独一个不算
+    B必须是整数，可以带正负号
+    有e的话，A,B就必须同时存在
+
+    @2 finite automata
 '''
+
+
+class Solution:
+    # @param s, a string
+    # @return a boolean
+
+    def isNumber(self, s):
+        state = 0
+        for i in xrange(0, len(s)):
+            state = self.nextState(state, s[i])
+            if state == -1:
+                return False
+        state = self.nextState(state, ' ')
+        return state == 8
+
+    def nextState(self, state, char):
+        #               0space,1digit,2sign,3dot,4e,5il
+        transititionTable = [[0, 2, 1, 3, -1, -1],
+                             [-1, 2, -1, 3, -1, -1],
+                             [8, 2, -1, 4, 5, -1],
+                             [-1, 4, -1, -1, -1, -1],
+                             [8, 4, -1, -1, 5, -1],
+                             [-1, 7, 6, -1, -1, -1],
+                             [-1, 7, -1, -1, -1, -1],
+                             [8, 7, -1, -1, -1, -1],
+                             [8, -1, -1, -1, -1, -1]]
+        return transititionTable[state][self.getSymbol(char)]
+
+    def getSymbol(self, char):
+        if char == ' ' or char == '\t':
+            return 0
+        if char.isdigit():
+            return 1
+        if char == '+' or char == '-':
+            return 2
+        if char == '.':
+            return 3
+        if char == 'E' or char == 'e':
+            return 4
+        return 5
