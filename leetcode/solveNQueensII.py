@@ -25,31 +25,33 @@ There exist two distinct solutions to the 4-queens puzzle:
 
 import math
 
+
 class Solution:
+
     @classmethod
-    def check(cls,stack,row,col):
-        for i in range(0,row,1):
-            if stack[i] == col or math.fabs(stack[i] -col) == row - i:
+    def check(cls, stack, row, col):
+        for i in range(0, row, 1):
+            if stack[i] == col or math.fabs(stack[i] - col) == row - i:
                 return False
 
         return True
 
     @classmethod
-    def show(cls,stack,n):
-        #print stack
+    def show(cls, stack, n):
+        # print stack
         resl = []
         for i in range(n):
             resl.append("")
             for j in range(n):
                 if stack[i] == j:
-                    resl[i] = resl[i]+'Q'
+                    resl[i] = resl[i] + 'Q'
                 else:
-                    resl[i] = resl[i]+'.'
+                    resl[i] = resl[i] + '.'
 
         return resl
 
     # @return a list of lists of string
-    def solveNQueen(self,n):
+    def solveNQueen(self, n):
         res = []
         stack = []
         stack.append(0)
@@ -57,12 +59,14 @@ class Solution:
         while True:
             sl = len(stack)
             if sl < n:
-                for i in range(start,n,1):
+                # place a new queen
+                for i in range(start, n, 1):
                     if Solution.check(stack, len(stack), i):
                         stack.append(i)
-                        start =0
+                        start = 0
                         break
 
+                # no new queen is placed,backtrack or return
                 if sl == len(stack):
                     if sl == 0:
                         return res
@@ -77,4 +81,4 @@ class Solution:
 
 if __name__ == "__main__":
     res = Solution().solveNQueen(8)
-    print "%d solutions"%len(res)
+    print "%d solutions" % len(res)
