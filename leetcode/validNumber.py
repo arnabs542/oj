@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Valid Number
 
@@ -58,18 +59,19 @@ class Solution:
             state = self.nextState(state, s[i])
             if state == -1:
                 return False
+        # To finish the state transition manually
         state = self.nextState(state, ' ')
         return state == 8
 
     def nextState(self, state, char):
         # transition function
         #               0space,1digit,2sign,3dot,4e,5il
-        transititionTable = [[0, 2, 1, 3, -1, -1],  # 0
-                             [-1, 2, -1, 3, -1, -1],  # 1
-                             [8, 2, -1, 4, 5, -1],  # 2
+        transititionTable = [[0, 2,  1,  3, -1, -1],  # 0
+                             [-1, 2, -1,  3, -1, -1],  # 1
+                             [8, 2, -1,  4,  5, -1],  # 2
                              [-1, 4, -1, -1, -1, -1],  # 3
-                             [8, 4, -1, -1, 5, -1],  # 4
-                             [-1, 7, 6, -1, -1, -1],  # 5
+                             [8, 4, -1, -1,  5, -1],  # 4
+                             [-1, 7,  6, -1, -1, -1],  # 5
                              [-1, 7, -1, -1, -1, -1],  # 6
                              [8, 7, -1, -1, -1, -1],  # 7
                              [8, -1, -1, -1, -1, -1]]  # 8
@@ -87,3 +89,7 @@ class Solution:
         if char == 'E' or char == 'e':
             return 4
         return 5
+
+if __name__ == "__main__":
+    print "-.5364764e+3 is %s" % Solution().isNumber("-.5364764e+3")
+    print "-34342.e-3 is %s" % Solution().isNumber("-34342.e-3")
