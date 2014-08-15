@@ -34,7 +34,7 @@ class Solution:
             if self.isValidNumber(s[a[top - 1]:a[top]]):
                 top += 1
                 if top == 4:
-                    # found a valid ip address
+                    # found a solution
                     valid = self.isValidNumber(s[a[top - 1]:l])
                     if valid:
                         ip = ''
@@ -48,6 +48,7 @@ class Solution:
                         pass
                     top -= 1
             else:
+                a[top] = -1
                 top -= 1
                 if top == 0:
                     return addrs
@@ -61,3 +62,4 @@ class Solution:
 
 if __name__ == "__main__":
     print Solution().restoreIpAddresses("25525511135")
+    print Solution().restoreIpAddresses("2552511135")
