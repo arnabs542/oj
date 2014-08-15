@@ -24,17 +24,18 @@ class Solution:
         addrs = []
         l = len(s)
         a = [-1] * 4
-        a[0] = 1
+        a[0] = 0
         top = 1
-        while top < 4:
+        while True:
             if a[top] == -1:
                 a[top] = a[top - 1] + 1
             else:
                 a[top] = a[top] + 1
             if self.isValidNumber(s[a[top - 1]:a[top]]):
                 top += 1
-                if top == 3:
-                    valid = self.isValidNumber(s[a[top]:l])
+                if top == 4:
+                    # found a valid ip address
+                    valid = self.isValidNumber(s[a[top - 1]:l])
                     if valid:
                         ip = ''
                         ip = ip + s[a[0]:a[1]]
@@ -44,7 +45,12 @@ class Solution:
                         # s.insert()
                         addrs.append(ip)
                     else:
-                        top -= 1
+                        pass
+                    top -= 1
+            else:
+                top -= 1
+                if top == 0:
+                    return addrs
 
     def isValidNumber(self, s):
         if s[0] == '0':
@@ -52,3 +58,6 @@ class Solution:
         if int(s) > 255:
             return False
         return True
+
+if __name__ == "__main__":
+    print Solution().restoreIpAddresses("25525511135")
