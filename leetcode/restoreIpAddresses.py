@@ -12,7 +12,9 @@ return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
 
 '''
 SOLUTION:
-    1:backtrace
+    @1:backtrace
+        1:a research depth indicator for this brute-force method.
+        2:initialize states when backtracking.
 '''
 
 
