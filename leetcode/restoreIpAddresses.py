@@ -59,7 +59,10 @@ class Solution:
 
     def isValidNumber(self, s):
         if s[0] == '0':
-            return False
+            if s == '0':
+                return True
+            else:
+                return False
         if int(s) > 255:
             return False
         return True
@@ -68,3 +71,4 @@ if __name__ == "__main__":
     print Solution().restoreIpAddresses("25525511135")
     print Solution().restoreIpAddresses("2552511135")
     print Solution().restoreIpAddresses("1111")
+    print Solution().restoreIpAddresses("0000")
