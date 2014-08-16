@@ -34,7 +34,7 @@ class Solution:
             else:
                 a[top] = a[top] + 1
 
-            # index within range and correct result of current search
+            # index within range and  current search is correct
             if a[top] < l and self.isValidNumber(s[a[top - 1]:a[top]]):
                 top += 1
                 if top == 4:
@@ -49,6 +49,7 @@ class Solution:
                         pass
                     top -= 1
             else:
+                # initialize states when backtracking
                 a[top] = -1
                 top -= 1
                 if top == 0:
