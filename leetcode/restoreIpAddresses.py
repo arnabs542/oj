@@ -33,7 +33,9 @@ class Solution:
                 a[top] = a[top - 1] + 1
             else:
                 a[top] = a[top] + 1
-            if self.isValidNumber(s[a[top - 1]:a[top]]):
+
+            # index within range and correct result of current search
+            if a[top] < l and self.isValidNumber(s[a[top - 1]:a[top]]):
                 top += 1
                 if top == 4:
                     # found a solution
@@ -65,3 +67,4 @@ class Solution:
 if __name__ == "__main__":
     print Solution().restoreIpAddresses("25525511135")
     print Solution().restoreIpAddresses("2552511135")
+    print Solution().restoreIpAddresses("1111")
