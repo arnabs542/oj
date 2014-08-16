@@ -42,11 +42,8 @@ class Solution:
                     valid = self.isValidNumber(s[a[top - 1]:l])
                     if valid:
                         ip = ''
-                        ip = ip + s[a[0]:a[1]]
-                        ip = ip + '.' + s[a[1]:a[2]]
-                        ip = ip + '.' + s[a[2]:a[3]]
-                        ip = ip + '.' + s[a[3]:l]
-                        # s.insert()
+                        ip = ip + s[a[0]:a[1]] + '.' + s[
+                            a[1]:a[2]] + '.' + s[a[2]:a[3]] + '.' + s[a[3]:l]
                         addrs.append(ip)
                     else:
                         pass
