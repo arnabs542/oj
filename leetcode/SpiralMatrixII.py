@@ -21,17 +21,18 @@ SOLUTION:
 
 
 class Solution:
-
     # @return a list of lists of integer
 
     def generateMatrix(self, n):
         # the correct way to initialize python multi-dimensional array!!!
+        if n <= 0:
+            return []
         arr = [[-1 for i in range(n)] for j in range(n)]
         row = 0
         col = 0
         cdir = 0
         arr[row][col] = 1
-        for i in range(2, n * n, 1):
+        for i in range(2, n * n + 1, 1):
             row, col, cdir = self.nextSubscript(arr, row, col, cdir)
             # if row == -1:
                 # return arr
@@ -66,5 +67,6 @@ class Solution:
             return new_row, new_col, new_cdir
 
 if __name__ == "__main__":
-    print Solution().generateMatrix(2)
+    print Solution().generateMatrix(1)
+    print Solution().generateMatrix(0)
     print Solution().generateMatrix(4)
