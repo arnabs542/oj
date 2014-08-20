@@ -104,3 +104,6 @@ if __name__ == "__main__":
         ['O', 'X', 'O', 'X']]
     Solution().solve(board)
     print board
+    board = []
+    Solution().solve(board)
+    print board
