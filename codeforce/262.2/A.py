@@ -32,6 +32,7 @@ In the second sample Vasya spends the first nine days wearing the socks that he 
 import sys
 
 
+# recursion
 def getDays(n, m):
     days = 0
     storage = n
