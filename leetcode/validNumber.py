@@ -35,6 +35,8 @@ Solution:
     有e的话，A,B就必须同时存在
 
     @2 finite automata
+        (Refer to CLRS for more information about string matching with
+        FINITE AUTOMATA)
         To construct a finite automata transition diagram.We classify the
         states:
             0:initial state
