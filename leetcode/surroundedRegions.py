@@ -85,7 +85,7 @@ class Solution:
             for i in range(4):
                 nr = r + self.nextIndexDiff[i][0]
                 nc = c + self.nextIndexDiff[i][1]
-                if nr not in range(rl) or nc not in range(cl):
+                if nr < 0 or nr >= rl or nc < 0 or nc >= cl:
                     continue
                 if board[nr][nc] == 'O':
                     board[nr][nc] = 'P'
