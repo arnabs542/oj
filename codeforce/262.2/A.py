@@ -28,6 +28,11 @@ In the first sample Vasya spends the first two days wearing the socks that he ha
 In the second sample Vasya spends the first nine days wearing the socks that he had initially. Then he spends three days wearing the socks that were bought on the third, sixth and ninth days. Than he spends another day wearing the socks that were bought on the twelfth day.
 '''
 
+'''
+Model the statement.
+Closed form is :n + floor((n-1)/(m-1))
+'''
+
 
 import sys
 
