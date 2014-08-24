@@ -92,8 +92,7 @@ This problem statement is the exclusive and proprietary property of TopCoder, In
 class Egalitarianism3Easy:
 
     def maxCities(self, n, a, b, l):
-        graph = self.buildGraph(n, a, b, l)
-        self.dfs(graph)
+        graph = self.buildGraph(n, a, b, l) self.dfs(graph)
         return self.getCities(graph)
 
     def buildGraph(self, n, a, b, l):

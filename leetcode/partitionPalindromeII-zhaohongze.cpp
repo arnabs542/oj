@@ -1,17 +1,19 @@
-//Given a string s, partition s such that every substring of the partition is a palindrome.
+// Given a string s, partition s such that every substring of the partition is a
+// palindrome.
 
-//Return the minimum cuts needed for a palindrome partitioning of s.
+// Return the minimum cuts needed for a palindrome partitioning of s.
 
-//For example, given s = "aab",
-//Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+// For example, given s = "aab",
+// Return 1 since the palindrome partitioning ["aa","b"] could be produced using
+// 1 cut.
 
-//Solution:
+// Solution:
 //@1 Dynamic Programming:
-//Use DP to check whether a string is palindromic
-//Use DP to decide the min cut of a string by partitioning it,
-//with the recurrence similar to the matrix chain order problem
+// Use DP to check whether a string is palindromic
+// Use DP to decide the min cut of a string by partitioning it,
+// with the recurrence similar to the matrix chain order problem
 
-//table[i][j]=
+// table[i][j]=
 //      -1  (initialization)
 //      0   (palindrome)
 //      n   (n>0,not palindrome,n is the min cut of palindromic partitioning)
@@ -23,7 +25,7 @@ using namespace std;
 
 class Solution
 {
-public:
+  public:
     //@param s,a string
     //@return an integer
     int minCut(string s)
@@ -39,7 +41,8 @@ public:
         {
             for (int j = 1; j <= i; j++)
             {
-                if (s[i - 1] == s[j - 1] && ((i - j ) < 2 || isPalFast[j + 1][i - 1]))
+                if (s[i - 1] == s[j - 1] &&
+                    ((i - j) < 2 || isPalFast[j + 1][i - 1]))
                 {
                     isPalFast[j][i] = true;
                     minCuts[i] = min(minCuts[i], minCuts[j - 1] + 1);
@@ -52,174 +55,8 @@ public:
 
 int main(int argc, char **argv)
 {
-    //std::cout << Solution().minCut("aab") << std::endl;
-    //std::cout << Solution().minCut("apjesgpsxoeiokmqmfgvjslcjukbqxpsobyhjpbgdfruqdkeiszrlmtwgfxyfostpqczidfljwfbbrflkgdvtytbgqalguewnhvvmcgxboycffopmtmhtfizxkmeftcucxpobxmelmjtuzigsxnncxpaibgpuijwhankxbplpyejxmrrjgeoevqozwdtgospohznkoyzocjlracchjqnggbfeebmuvbicbvmpuleywrpzwsihivnrwtxcukwplgtobhgxukwrdlszfaiqxwjvrgxnsveedxseeyeykarqnjrtlaliyudpacctzizcftjlunlgnfwcqqxcqikocqffsjyurzwysfjmswvhbrmshjuzsgpwyubtfbnwajuvrfhlccvfwhxfqthkcwhatktymgxostjlztwdxritygbrbibdgkezvzajizxasjnrcjwzdfvdnwwqeyumkamhzoqhnqjfzwzbixclcxqrtniznemxeahfozp") << std::endl;
-    std::cout << Solution().minCut("adabdcaebdcebdcacaaaadbbcadabcbeabaadcbcaaddebdbddcbdacdbbaedbdaaecabdceddccbdeeddccdaabbabbdedaaabcdadbdabeacbeadbaddcbaacdbabcccbaceedbcccedbeecbccaecadccbdbdccbcbaacccbddcccbaedbacdbcaccdcaadcbaebebcceabbdcdeaabdbabadeaaaaedbdbcebcbddebccacacddebecabccbbdcbecbaeedcdacdcbdbebbacddddaabaedabbaaabaddcdaadcccdeebcabacdadbaacdccbeceddeebbbdbaaaaabaeecccaebdeabddacbedededebdebabdbcbdcbadbeeceecdcdbbdcbdbeeebcdcabdeeacabdeaedebbcaacdadaecbccbededceceabdcabdeabbcdecdedadcaebaababeedcaacdbdacbccdbcece");
+    std::cout << Solution().minCut("abaa");
+    // std::cout <<
+    // Solution().minCut("adabdcaebdcebdcacaaaadbbcadabcbeabaadcbcaaddebdbddcbdacdbbaedbdaaecabdceddccbdeeddccdaabbabbdedaaabcdadbdabeacbeadbaddcbaacdbabcccbaceedbcccedbeecbccaecadccbdbdccbcbaacccbddcccbaedbacdbcaccdcaadcbaebebcceabbdcdeaabdbabadeaaaaedbdbcebcbddebccacacddebecabccbbdcbecbaeedcdacdcbdbebbacddddaabaedabbaaabaddcdaadcccdeebcabacdadbaacdccbeceddeebbbdbaaaaabaeecccaebdeabddacbedededebdebabdbcbdcbadbeeceecdcdbbdcbdbeeebcdcabdeeacabdeaedebbcaacdadaecbccbededceceabdcabdeabbcdecdedadcaebaababeedcaacdbdacbccdbcece");
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

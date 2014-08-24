@@ -19,21 +19,23 @@ Solution:
 
     '''
 
+
 class Solution:
     # @return a string
-    def longestPalindrome(self,s):
+
+    def longestPalindrome(self, s):
         table = []
 
-        #time complexity
-        #for i in range(len(s)):
-        #table.append([])
-        #for j in range(len(s)):
-        #if i == j :
-        #table[i].append(1)
-        #else:
-        #table[i].append(0)
+        # time complexity
+        # for i in range(len(s)):
+        # table.append([])
+        # for j in range(len(s)):
+        # if i == j :
+        # table[i].append(1)
+        # else:
+        # table[i].append(0)
 
-        #optimization for two dimensional array initialization
+        # optimization for two dimensional array initialization
         table = [[0 for x in range(len(s))] for x in range(len(s))]
 
         longestPalin = ""
@@ -42,31 +44,31 @@ class Solution:
         for i in range(len(s)):
             table[i][i] = 1
 
-        for i in range(len(s)-1):
-            if s[i] == s[i+1]:
-                table[i][i+1] = 1
+        for i in range(len(s) - 1):
+            if s[i] == s[i + 1]:
+                table[i][i + 1] = 1
                 begin = i
-                end = i+1
-                #longestPalin = s[i:i+2]
+                end = i + 1
+                # longestPalin = s[i:i+2]
 
-        for l in range(3,len(s) + 1,1):
+        for l in range(3, len(s) + 1, 1):
             for i in range(len(s) - l + 1):
-                #table[i][j] = 0
-                j = i + l -1
-                if s[i] == s[j] :
-                    if s[i+1] == s[j-1] and table[i+1][j-1] == 1:
+                # table[i][j] = 0
+                j = i + l - 1
+                if s[i] == s[j]:
+                    if s[i + 1] == s[j - 1] and table[i + 1][j - 1] == 1:
                         table[i][j] = 1
-                        #optimization to reduce time complexity constant
+                        # optimization to reduce time complexity constant
                         begin = i
-                        end = j+1
-                        #longestPalin = s[i:j+1]
+                        end = j + 1
+                        # longestPalin = s[i:j+1]
 
-                #if table[i][j] == 1:
-                ##print i,j
-                #longestPalin = s[i:j+1]
+                # if table[i][j] == 1:
+                # print i,j
+                # longestPalin = s[i:j+1]
 
-        #for i in range(len(s)):
-        #print table[i]
+        # for i in range(len(s)):
+        # print table[i]
 
         longestPalin = s[begin:end]
 
@@ -76,6 +78,3 @@ class Solution:
 if __name__ == "__main__":
     print Solution().longestPalindrome("ukxidnpsdfwieixhjnannbmtppviyppjgbsludrzdleeiydzawnfmiiztsjqqqnthwinsqnrhfjxtklvbozkaeetmblqbxbugxycrlzizthtuwxlmgfjokhqjyukrftvfwikxlptydybmmzdhworzlaeztwsjyqnshggxdsjrzazphugckgykzhqkdrleaueuajjdpgagwtueoyybzanrvrgevolwssvqimgzpkxehnunycmlnetfaflhusauopyizbcpntywntadciopanyjoamoyexaxulzrktneytynmheigspgyhkelxgwplizyszcwdixzgxzgxiawstbnpjezxinyowmqsysazgwxpthloegxvezsxcvorzquzdtfcvckjpewowazuaynfpxsxrihsfswrmuvluwbdazmcealapulnahgdxxycizeqelesvshkgpavihywwlhdfopmmbwegibxhluantulnccqieyrbjjqtlgkpfezpxmlwpyohdyftzgbeoioquxpnrwrgzlhtlgyfwxtqcgkzcuuwagmlvgiwrhnredtulxudrmepbunyamssrfwyvgabbcfzzjayccvvwxzbfgeglqmuogqmhkjebehtwnmxotjwjszvrvpfpafwomlyqsgnysydfdlbbltlwugtapwgfnsiqxcnmdlrxoodkhaaaiioqglgeyuxqefdxbqbgbltrxcnihfwnzevvtkkvtejtecqyhqwjnnwfrzptzhdnmvsjnnsnixovnotugpzuymkjplctzqbfkdbeinvtgdpcbvzrmxdqthgorpaimpsaenmnyuyoqjqqrtcwiejutafyqmfauufwripmpcoknzyphratopyuadgsfrsrqkfwkdlvuzyepsiolpxkbijqw")
     pass
-
-
-
