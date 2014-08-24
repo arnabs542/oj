@@ -16,6 +16,7 @@ class Solution:
     # @return a list of lists of integers
 
     def permuteUnique(self, num):
+        Solution.res = []
         self.permute(num, 0, len(num) - 1)
         return self.res
 
@@ -28,7 +29,7 @@ class Solution:
             end = n - 1
 
         if start == end:
-            self.res.append(num)
+            self.res.append(list(num))
             # print num
             return num
         for i in range(start, end + 1, 1):
@@ -43,4 +44,5 @@ class Solution:
                 num[start], num[i] = num[i], num[start]
 
 if __name__ == "__main__":
-    print Solution().permuteUnique([1, 1, 2])
+    print Solution().permuteUnique([1, 1, 2, 2])
+    print Solution().permuteUnique([1, 1])
