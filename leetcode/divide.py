@@ -43,3 +43,4 @@ if __name__ == "__main__":
     print Solution().divide(2147483647, 1)
     print Solution().divide(4, 3)
     print Solution().divide(34359738368, 1)
+    print Solution().divide(-1010369383, -2147483648)
