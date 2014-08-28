@@ -30,7 +30,7 @@ class Solution:
             while (c << 1) <= a:
                 order += 1
                 c = c << 1
-            a -= (b << order)
+            a -= c
             quotient += 1 << order
 
         if sign > 0:
@@ -40,6 +40,6 @@ class Solution:
 
 if __name__ == "__main__":
     print Solution().divide(4, -2)
-    print Solution().divide(4, 1)
+    print Solution().divide(2147483647, 1)
     print Solution().divide(4, 3)
     print Solution().divide(34359738368, 1)
