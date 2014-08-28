@@ -11,6 +11,8 @@ class Solution:
         return self.sum
 
     def divideAndConquer(self, a, left, right):
+        if left > right:
+            return
         n = right - left + 1
         for i in range(left, right + 1):
             self.sum += a[i]
