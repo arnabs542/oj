@@ -6,6 +6,17 @@ Given a string, find the length of the longest substring without repeating chara
 
 '''
 
+'''
+Solution:Dynamic Programming
+    Use length[n] to store the length of longest substring without repeating
+    characters of string[0...i].
+    length[i] = length[i-1] + 1,if string[i] not in
+                                    string[i-length[i-1]...i-1]
+                j,for largest j< length[i-1] such that string[i] not in
+                    string[i-j...i-1]
+
+'''
+
 
 class Solution:
     # @return an integer
@@ -15,6 +26,8 @@ class Solution:
         length = [1 for i in xrange(n)]
         max_len = 1
         end = 0
+        if n == 0:
+            return 0
         for i in xrange(1, n):
             for j in range(1, length[i - 1] + 1, 1):
                 if s[i - j] == s[i]:
