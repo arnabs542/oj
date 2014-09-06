@@ -13,6 +13,15 @@ is "()()", which has length = 4.
 
 '''
 
+'''
+Solution:Dynamic Programming
+    Similar to Longest Common Substring problem,let length[i] be the
+length of longest valid parentheses substring that ends with s[i-1].
+length[i] = 0,if s[i-1] == '(',
+            length[j-2] + 2 + l,l satisfies that s[i-l-1...i-2] is valid
+            and s[j - 1] == '(',j = i - l
+'''
+
 
 class Solution:
     # @param s,a string
@@ -32,8 +41,9 @@ class Solution:
                 length[i] = 0
             else:
                 while length[j - 1] > 0:
+                    # longest length of valid substring before
                     l += length[j - 1]
-                    j -= l
+                    j = i - l
                 if j >= 2 and s[j - 2] == '(':
                     length[i] = l + 2 + length[j - 2]
                     if max_len < length[i]:
