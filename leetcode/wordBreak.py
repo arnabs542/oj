@@ -31,4 +31,5 @@ class Solution:
         return transition[n]
 
 if __name__ == "__main__":
-    print Solution().wordBreak("leetcode", {"leet", "code"})
+    print Solution().wordBreak("leetcode", {"leet", "code", "oj"})
+    print Solution().wordBreak("hellohalloworld", {"hello", "worl", "world"})
