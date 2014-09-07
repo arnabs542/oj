@@ -12,10 +12,11 @@ class Bit:
         res = 0
         for i in xrange(n):
             res = arr[i] + carry
-            if res % 2 != arr[i]:
+            carry = res / 2
+            quotient = res % 2
+            if quotient != arr[i]:
                 changedNum += 1
-                arr[i] = res % 2
-                carry = res / 2
+                arr[i] = quotient
 
         return changedNum
 
