@@ -48,22 +48,6 @@ int main(int argc, char **argv)
         printf("NO\n");
         return 0;
     }
-    /*for (i = n - 1; i >= 0; i--)*/
-    /*{*/
-    /*for (ch = text[i] + 1; ch <= 'a' + p - 1; ch++)*/
-    /*{*/
-    /*newText[i] = ch;*/
-    /*if (!palindromeSubstring(newText))*/
-    /*{*/
-    /*printf("%s", newText);*/
-    /*return 1;*/
-    /*}*/
-    /*else*/
-    /*{*/
-    /*newText[i] = text[i];*/
-    /*}*/
-    /*}*/
-    /*}*/
 }
 
 int isPalindrome(char *text)
@@ -84,7 +68,12 @@ int isPalindrome(char *text)
 int palindromeSubstring(char *text)
 {
     int n = strlen(text);
-    int(*table)[n] = malloc(sizeof(int) * n * n);
+    if (!n)
+    {
+        return 0;
+    }
+    /*int(*table)[n] = malloc(sizeof(int) * n * n);*/
+    int(*table)[n] = (int(*)[])alloca(sizeof(int) * n * n);
     int i, j;
     memset(table, 0, sizeof(int) * n * n);
     /*printf("%s,%d\n", text, n);*/
