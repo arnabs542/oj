@@ -39,7 +39,7 @@ int main(int argc, char **argv)
         {
             /*printf("YES:\n");*/
             printf("%s\n", newText);
-            return 1;
+            return 0;
         }
     }
 
