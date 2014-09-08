@@ -20,9 +20,9 @@ or decreasing sublist.
     length[i]:the length of the longest decreasing list ending here.
     Then check the last element of the decreasing list,if it has candies
 less than 1,the total candies needed should be increased by
-    (1-candy[i])*(length[i]+1),length[i] is the longest strictly decreasing
-    list.If candy[i] > 1,the candies needed should be decreased by
-    (candy[i]-1)*length[i]
+    (1-candy[i])*(length[i]+1).
+    If candy[i] > 1,the candies needed should be decreased by
+    (candy[i]-1)*length[i].
 
 '''
 
