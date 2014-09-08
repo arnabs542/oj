@@ -35,7 +35,8 @@ int main(int argc, char **argv)
 
     while ((ptr = lexicographicalNextString(newText, newText, p)))
     {
-        if (!palindromeSubstring(newText))
+        /*if (!palindromeSubstring(newText))*/
+        if (isTolerable(newText))
         {
             /*printf("YES:\n");*/
             printf("%s\n", newText);
@@ -50,20 +51,20 @@ int main(int argc, char **argv)
     }
 }
 
-int isPalindrome(char *text)
-{
-    int i, j;
-    int n = strlen(text);
+/*int isPalindrome(char *text)*/
+/*{*/
+/*int i, j;*/
+/*int n = strlen(text);*/
 
-    for (i = 0, j = n - 1; i < j; i++, j--)
-    {
-        if (text[i] != text[j])
-        {
-            return 0;
-        }
-    }
-    return 1;
-}
+/*for (i = 0, j = n - 1; i < j; i++, j--)*/
+/*{*/
+/*if (text[i] != text[j])*/
+/*{*/
+/*return 0;*/
+/*}*/
+/*}*/
+/*return 1;*/
+/*}*/
 
 int palindromeSubstring(char *text)
 {
@@ -76,7 +77,8 @@ int palindromeSubstring(char *text)
     int(*table)[n] = (int(*)[])alloca(sizeof(int) * n * n);
     int i, j;
     memset(table, 0, sizeof(int) * n * n);
-    /*printf("%s,%d\n", text, n);*/
+    printf("%s,%d\n", text, n);
+    /*return 1;*/
     for (j = 0; j < n; j++)
         for (i = 0; i <= j; i++)
         {
@@ -90,4 +92,22 @@ int palindromeSubstring(char *text)
             }
         }
     return 0;
+}
+
+int isTolerable(char *string)
+{
+    int n = strlen(string);
+    int i;
+    for (i = n - 1; i; i--)
+    {
+        if (string[i] == string[i - 1])
+        {
+            return 0;
+        }
+        if (i - 2 >= 0 && string[i] == string[i - 2])
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
