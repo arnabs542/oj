@@ -35,4 +35,4 @@ class Solution:
         return triangle
 
 if __name__ == "__main__":
-    print Solution().generate(5)
+    print Solution().generate(6)

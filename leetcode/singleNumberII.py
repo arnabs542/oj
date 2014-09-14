@@ -10,14 +10,16 @@ Note:
 
 '''
 
+
 class Solution:
     # @param A,a list of integers
     # @return an integer
-    def singleNumber(self,A):
+
+    def singleNumber(self, A):
         ones = 0
         twos = 0
         for i in A:
-            twos ^= (ones &i)
+            twos ^= (ones & i)
             ones ^= i
             mask = ~(ones & twos)
             twos &= mask
