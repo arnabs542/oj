@@ -14,6 +14,21 @@ c) Replace a character
 
 '''
 
+'''
+Solution:Dynamic Programming
+    This problem is a variation of Longest Common Subsequence.
+
+    1. We define dp[i][j] to be the edit distance between string
+    word1[0...i-1] and word2[0...j-1].
+    2. Then we can find the recurrence:
+
+                  |  dp[i-1][j-1],   word1[i-1] == word2[j-1]
+        dp[i][j] =|
+                  |  min(dp[i][j-1],dp[i-1][j],dp[i-1][j-1])+1,  insert,
+                            delete or replace
+
+'''
+
 
 class Solution:
     # @return an integer
@@ -33,8 +48,8 @@ class Solution:
                     dp[i][j] = dp[i - 1][j - 1]
                 else:
                     # insert,delete or replace
-                    dp[i][j] = min(dp[i][j - 1],
-                                   min(dp[i - 1][j], dp[i - 1][j - 1])) + 1
+                    dp[i][j] = min(
+                        dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]) + 1
 
         return dp[m][n]
 
