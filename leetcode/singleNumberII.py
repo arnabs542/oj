@@ -26,3 +26,6 @@ class Solution:
             ones &= mask
 
         return ones
+
+if __name__ == "__main__":
+    print Solution().singleNumber([3, 3, 2, 3])
