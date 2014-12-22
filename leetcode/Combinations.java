@@ -37,9 +37,11 @@ public class Solution {
             // validation
             if (combination.get(icur) > n) {
                 combination.set(icur, -1);
+                // pop out of the stack
                 icur--;
                 continue;
             } else {
+                // push into the stack
                 icur++;
             }
 
