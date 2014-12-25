@@ -7,6 +7,10 @@ public class Solution {
         List<List<Integer>> combinations = new ArrayList<List<Integer>>();
         // n == k is acceptable
         if (n < k || k <= 0 || n <= 0) {
+            if (k == 0) {
+                // Generate empty set,necessary by definition
+                return combinations;
+            }
             return null;
         }
         int icur = 0;
