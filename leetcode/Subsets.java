@@ -8,8 +8,16 @@ public class Subsets {
         List<List<Integer>> combinations = new ArrayList<List<Integer>>();
         // n == k is acceptable
         if (n < k || k <= 0 || n <= 0) {
+            if (k == 0) {
+                return combinations;
+            }
             return null;
         }
+
+        if (k == 0) {
+            return combinations;
+        }
+
         int icur = 0;
         List<Integer> combination = new ArrayList<Integer>();
         for (int i = 0; i < k; i++) {
@@ -53,22 +61,26 @@ public class Subsets {
         return combinations;
     }
 
-    static public List<List<Integer>> Subsets(int[] S) {
+    static public List<List<Integer>> subsets(int[] S) {
         // TODO Auto-generated constructor stub
         List<List<Integer>> subsets = new ArrayList<List<Integer>>();
         int n = S.length, k = 0;
-        for (k = 1; k <= n; k++) {
+        for (k = 0; k <= n; k++) {
             ArrayList<List<Integer>> indexes = new ArrayList<List<Integer>>(combine(n, k));
             // System.out.println(k + " " + indexes);
-            for (List<Integer> index : indexes) {
-                // System.out.println(index);
-                ArrayList<Integer> sets = new ArrayList<Integer>();
-                for (int i : index) {
-                    sets.add(S[i - 1]);
+            if (indexes.size() == 0) {
+                subsets.add(new ArrayList<Integer>());
+            } else {
+                for (List<Integer> index : indexes) {
+                    // System.out.println(index);
+                    ArrayList<Integer> sets = new ArrayList<Integer>();
+                    for (int i : index) {
+                        sets.add(S[i - 1]);
+                    }
+                    Collections.sort(sets);
+                    subsets.add(sets);
+                    // subsets.addAll(sets);
                 }
-                Collections.sort(sets);
-                subsets.add(sets);
-                // subsets.addAll(sets);
             }
         }
         return subsets;
@@ -76,6 +88,6 @@ public class Subsets {
 
     public static void main(String[] args) {
         // initialize int array
-        System.out.println((new Subsets()).Subsets(new int[] { 1, 4, 3 }));
+        System.out.println((new Subsets()).subsets(new int[] { 1, 4, 3 }));
     }
 }
