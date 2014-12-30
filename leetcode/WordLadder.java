@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-public class LadderLength {
+public class WordLadder {
 
     public int length;
 
@@ -97,10 +97,6 @@ public class LadderLength {
         }
         length = -1;
         return length;
-    }
-
-    public LadderLength(String start, String end, Set<String> dict) {
-
     }
 
     static public void main(String[] args) {
