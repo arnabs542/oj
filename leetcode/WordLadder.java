@@ -130,6 +130,6 @@ public class WordLadder {
         System.out.println(ll.ladderLength("hit", "cog", set));
         
         set = new HashSet<String>(Arrays.asList("a","b","c"));
-        System.out.println(ll.ladderLength("a","c"));
+        System.out.println(ll.ladderLength("a","c",set));
     }
 }
