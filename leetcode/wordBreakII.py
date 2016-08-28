@@ -22,8 +22,11 @@ class Solution(object):
         :type wordDict: Set[str]
         :rtype: List[str]
 
-        This is a naive dynamic programming solution:
+        FIXEME: This is a naive dynamic programming solution:
             Storing partial solutions during the recursive state transition process
+        Parts that can be optimized:
+            1. PRUNE: First check whether a sentence is possible to break. If not, then just return []
+            2. Don't store partial solutions at all, use backtracking!
         """
         n = len(s)
         # index to list of string composed of words separated by space
@@ -31,6 +34,62 @@ class Solution(object):
         # sentence end index
         for j in range(1, n + 1):
             # last break word point
+            for i in range(j, 0, -1):
+                if s[i - 1:j] in wordDict:
+                    # no breaking previously
+                    if i == 1:
+                        # store partial solution
+                        tokens[j - 1].append(s[i - 1: j])
+                    # sentence end with (i - 1)th character is breakable
+                    elif tokens[i - 2]:
+                        for sentence in tokens[i - 2]:
+                            tokens[j - 1].append(
+                                '{} {}'.format(sentence, s[i - 1:j]))
+        return tokens[-1]
+
+    def _canBreak(self, s, wordDict):
+        """
+        Returns whether the sentence s can be broken with dictionary wordDict. (Problem in Word Break).
+
+        Algorithm: DYNAMIC PROGRAMMING
+            A sentence s[:j] is able to break if and only if there exists a such index i(0<=i<=j) that
+            the word s[i - 1: j] is in the dictionary and the sentence s[:i - 1] is able to break.
+        """
+        n = len(s)
+        # transition[i] indicates whether string s ending with ith element
+        # can be broken into the dictionary
+        transition = [False for i in range(n + 1)]
+        # padding, so that in the case when index is 0 the RECURSION FORMULA still stands
+        transition[0] = True
+        for j in range(1, n + 1, 1):
+            for i in range(1, j + 1):
+                if transition[i -1] and s[i - 1:j] in wordDict:
+                    transition[j] = True
+                    break
+
+        return transition[n]
+
+    def wordBreakDPPrune(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: List[str]
+
+        This is a naive dynamic programming solution:
+            Storing partial solutions during the recursive state transition process
+        Parts that can be optimized:
+            1. First check whether a sentence is possible to break. If not, then just return []
+            2. Don't store partial solutions at all, use backtracking!
+        """
+        if not self._canBreak(s, wordDict):
+            return []
+        n = len(s)
+        # index to list of string composed of words separated by space
+        tokens = [[] for i in range(n)]
+        # sentence end index
+        for j in range(1, n + 1):
+            # last word break index
+            # i.e. the last breakable sub-string's ending index, starting with 0
             for i in range(j, 0, -1):
                 if s[i - 1:j] in wordDict:
                     # no breaking previously
@@ -91,8 +150,40 @@ class Solution(object):
         # print(dp)
         solutions = []
         generate(dp, solutions, len(s) - 1, [])
-        print(solutions)
         return solutions
+
+    def wordBreakDFS(self, b, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: List[str]
+
+        This is a depth-first searching solution:
+        """
+        # TODO: DFS
+        pass
+
+    def wordBreakDFS(self, b, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: List[str]
+
+        This is a depth-first searching solution:
+        """
+        # TODO: DFS
+        pass
+
+    def wordBreakBFS(self, b, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: List[str]
+
+        This is a breadth-first searching solution:
+        """
+        # TODO: BFS
+        pass
 
     def wordBreak(self, s, wordDict):
         """
@@ -100,8 +191,11 @@ class Solution(object):
         :type wordDict: Set[str]
         :rtype: List[str]
         """
-        # return self.wordBreakDPNaive(s, wordDict)
-        return self.wordBreakDPBacktrack(s, wordDict)
+        # solutions =  self.wordBreakDPNaive(s, wordDict)
+        solutions = self.wordBreakDPPrune(s, wordDict)
+        # solutions = self.wordBreakDPBacktrack(s, wordDict)
+        print(solutions)
+        return solutions
 
 def test():
     Solution().wordBreak("leetcode", {"leet", "code", "oj"})  # True
