@@ -67,6 +67,6 @@ class Solution:
             return new_row, new_col, new_cdir
 
 if __name__ == "__main__":
-    print Solution().generateMatrix(1)
-    print Solution().generateMatrix(0)
-    print Solution().generateMatrix(4)
+    print(Solution().generateMatrix(1))
+    print(Solution().generateMatrix(0))
+    print(Solution().generateMatrix(4))

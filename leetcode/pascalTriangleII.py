@@ -22,13 +22,13 @@ class Solution:
     # @return a list of integers
 
     def getRow(self, rowIndex):
-        row = [1 for i in xrange(rowIndex + 1)]
+        row = [1 for i in range(rowIndex + 1)]
         if rowIndex < 0:
             return []
-        for i in xrange(rowIndex + 1):
-            for j in xrange(i - 1, 0, -1):
+        for i in range(rowIndex + 1):
+            for j in range(i - 1, 0, -1):
                 row[j] = row[j] + row[j - 1]
         return row
 
 if __name__ == "__main__":
-    print Solution().getRow(5)
+    print(Solution().getRow(5))

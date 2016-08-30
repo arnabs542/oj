@@ -21,7 +21,7 @@ class LRUCache:
 
     # @return an integer
     def get(self,key):
-        if self.cache.has_key(key):
+        if key in self.cache:
             return self.cache[key]
         else:
             return -1
@@ -31,7 +31,7 @@ class LRUCache:
     # @return nothing
     def set(self,key,value):
         if len(self.cache) == self.capacity:
-            for k,v in self.cache.items():
+            for k,v in list(self.cache.items()):
                 if self.least == None:
                     self.least = k
                 elif v < self.cache[self.least]:
@@ -45,8 +45,8 @@ class LRUCache:
 if __name__ == "__main__":
     c = LRUCache(1)
     c.set(2,1)
-    print c.get(2)
+    print(c.get(2))
     c.set(3,2)
     c.get(2)
-    print c.get(3)
+    print(c.get(3))
 

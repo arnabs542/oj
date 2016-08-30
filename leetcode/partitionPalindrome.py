@@ -31,7 +31,7 @@ class Solution:
     @classmethod
     def getAnchorPalins(cls,s,index,step):
         pl = []
-        for i in xrange(index,index + step*len(s),step):
+        for i in range(index,index + step*len(s),step):
             if index < i:
                 if Solution.isPalindrome(s[index:i]):
                     if s[index:i] != "":
@@ -98,8 +98,8 @@ class Solution:
         return pls[len(s)-1]
 
 if __name__ == "__main__":
-    print Solution().partition("aa")
-    print Solution().partition("aab")
+    print(Solution().partition("aa"))
+    print(Solution().partition("aab"))
     #print Solution
-    print Solution().getAnchorPalins("aab",2,-1)
-    print Solution().getAnchorPalins("aa",1,-1)
+    print(Solution().getAnchorPalins("aab",2,-1))
+    print(Solution().getAnchorPalins("aa",1,-1))

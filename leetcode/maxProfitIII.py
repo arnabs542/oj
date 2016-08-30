@@ -48,7 +48,7 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print Solution().maxProfit([1,2,4])
+    print(Solution().maxProfit([1,2,4]))
 
 
 

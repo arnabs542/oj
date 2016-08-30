@@ -23,4 +23,4 @@ class Solution:
         return "".join(cp)
 
 if __name__ == "__main__":
-    print Solution().longestCommonPrefix(["hell", "hellsf", "hellao"])
+    print(Solution().longestCommonPrefix(["hell", "hellsf", "hellao"]))

@@ -38,13 +38,13 @@ class Solution:
             return None
         p = len(mat2[0])
 
-        res = [[0 for i in xrange(p)] for j in xrange(m)]
+        res = [[0 for i in range(p)] for j in range(m)]
 
          # print res
 
-        for i in xrange(m):
-            for j in xrange(p):
-                for k in xrange(n):
+        for i in range(m):
+            for j in range(p):
+                for k in range(n):
                     res[i][j] += mat1[i][k] * mat2[k][j]
 
         # print "result matrix is :", res
@@ -55,8 +55,8 @@ class Solution:
         m = len(mat)
 
         # identity matrix
-        res = [[0 for i in xrange(m)] for j in xrange(m)]
-        for i in xrange(m):
+        res = [[0 for i in range(m)] for j in range(m)]
+        for i in range(m):
             res[i][i] = 1
 
         while order != 0:
@@ -80,6 +80,6 @@ class Solution:
 if __name__ == "__main__":
     # print Solution().climbStairs(0)
     # print Solution().climbStairs(2)
-    print Solution().climbStairs(3)
-    print Solution().climbStairs(8)
-    print Solution().climbStairs(50)
+    print(Solution().climbStairs(3))
+    print(Solution().climbStairs(8))
+    print(Solution().climbStairs(50))

@@ -22,10 +22,10 @@ class Solution:
 
         # P[i][j] denotes whether s[i..j] is a palindrome
         P = []
-        for _ in xrange(n):
+        for _ in range(n):
             P.append([False]*n)
             # Compute P[][], T(n) = O(n^2) and S(n) = O(n^2)
-            for mid in xrange(n):
+            for mid in range(n):
                 P[mid][mid] = True
                 # Check strings with the mid of s[mid]
                 i = mid - 1
@@ -44,7 +44,7 @@ class Solution:
 
         # Compute B[]
         B = [None] * n
-        for i in xrange(0, n):
+        for i in range(0, n):
             if P[0][i]:
                 B[i] = [0]
             else:
@@ -64,7 +64,7 @@ class Solution:
             temp = []
             for lst in breaks:
                 if lst[0] == 0:
-                    res.append([ s[lst[i]:lst[i+1]] for i in xrange(len(lst)-1) ])
+                    res.append([ s[lst[i]:lst[i+1]] for i in range(len(lst)-1) ])
                 else:
                     # s[0..i] = s[0..j-1] + s[j..i]
                     for j in B[lst[0]-1]:
@@ -73,4 +73,4 @@ class Solution:
                         return res
 
 if __name__ == "__main__":
-    print Solution().partition("apjesgpsxoeiokmqmfgvjslcjukbqxpsobyhjpbgdfruqdkeiszrlmtwgfxyfostpqczidfljwfbbrflkgdvtytbgqalguewnhvvmcgxboycffopmtmhtfizxkmeftcucxpobxmelmjtuzigsxnncxpaibgpuijwhankxbplpyejxmrrjgeoevqozwdtgospohznkoyzocjlracchjqnggbfeebmuvbicbvmpuleywrpzwsihivnrwtxcukwplgtobhgxukwrdlszfaiqxwjvrgxnsveedxseeyeykarqnjrtlaliyudpacctzizcftjlunlgnfwcqqxcqikocqffsjyurzwysfjmswvhbrmshjuzsgpwyubtfbnwajuvrfhlccvfwhxfqthkcwhatktymgxostjlztwdxritygbrbibdgkezvzajizxasjnrcjwzdfvdnwwqeyumkamhzoqhnqjfzwzbixclcxqrtniznemxeahfozp")
+    print(Solution().partition("apjesgpsxoeiokmqmfgvjslcjukbqxpsobyhjpbgdfruqdkeiszrlmtwgfxyfostpqczidfljwfbbrflkgdvtytbgqalguewnhvvmcgxboycffopmtmhtfizxkmeftcucxpobxmelmjtuzigsxnncxpaibgpuijwhankxbplpyejxmrrjgeoevqozwdtgospohznkoyzocjlracchjqnggbfeebmuvbicbvmpuleywrpzwsihivnrwtxcukwplgtobhgxukwrdlszfaiqxwjvrgxnsveedxseeyeykarqnjrtlaliyudpacctzizcftjlunlgnfwcqqxcqikocqffsjyurzwysfjmswvhbrmshjuzsgpwyubtfbnwajuvrfhlccvfwhxfqthkcwhatktymgxostjlztwdxritygbrbibdgkezvzajizxasjnrcjwzdfvdnwwqeyumkamhzoqhnqjfzwzbixclcxqrtniznemxeahfozp"))

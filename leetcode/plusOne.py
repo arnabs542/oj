@@ -15,7 +15,7 @@ class Solution:
         carry = s / 10
         remainder = s % 10
         digits[len(digits)-1] = remainder
-        for i in xrange(len(digits) - 2,-1,-1):
+        for i in range(len(digits) - 2,-1,-1):
             s = digits[i] + carry
             digits[i] = s%10
             carry = s/10
@@ -26,4 +26,4 @@ class Solution:
         return digits
 
 if __name__ == "__main__":
-    print Solution().plusOne([9,9,9,9,9])
+    print(Solution().plusOne([9,9,9,9,9]))

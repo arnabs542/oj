@@ -26,14 +26,14 @@ class Solution:
         i = 0
         j = len(num) -1
         for k,v in enumerate(num):
-            if mapping.has_key(v):
+            if v in mapping:
                 mapping[v].append(k)
             else:
                 mapping[v] = []
                 mapping[v].append(k)
 
         for k,v in enumerate(num):
-            if mapping.has_key(target - v):
+            if target - v in mapping:
                 if mapping[target-v][0] == k:
                     if len(mapping[target-v]) >= 2:
                         return k+1,mapping[target-v][1] + 1
@@ -45,5 +45,5 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print Solution().twoSum([3,2,4],6)
+    print(Solution().twoSum([3,2,4],6))
 

@@ -69,4 +69,4 @@ class Solution:
 
 if __name__ == "__main__":
     res = Solution().totalNQueens(8)
-    print "%d solutions" % res
+    print("%d solutions" % res)

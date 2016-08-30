@@ -58,6 +58,6 @@ class Solution:
         return res * sign
 
 if __name__ == "__main__":
-    print Solution().atoi("-3434")
-    print Solution().atoi("3")
-    print Solution().atoi(" -0012a42")
+    print(Solution().atoi("-3434"))
+    print(Solution().atoi("3"))
+    print(Solution().atoi(" -0012a42"))

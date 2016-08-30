@@ -66,5 +66,5 @@ class Solution:
             return new_row, new_col, new_cdir
 
 if __name__ == "__main__":
-    print Solution().spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    print Solution().spiralOrder([[2, 3]])
+    print(Solution().spiralOrder([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+    print(Solution().spiralOrder([[2, 3]]))

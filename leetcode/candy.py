@@ -35,10 +35,10 @@ class Solution:
         n = len(ratings)
         if n == 0:
             return 0
-        candy = [1 for i in xrange(n)]
-        length = [0 for i in xrange(n)]  # decreasing length ending here
+        candy = [1 for i in range(n)]
+        length = [0 for i in range(n)]  # decreasing length ending here
         candies = 1
-        for i in xrange(1, n):
+        for i in range(1, n):
             if ratings[i] > ratings[i - 1]:
                 candy[i] = candy[i - 1] + 1
                 candies += candy[i]
@@ -63,5 +63,5 @@ class Solution:
 if __name__ == "__main__":
     # print Solution().candy([1, 1, 1, 1])
     # print Solution().candy([1, 2, 3, 4, 4, 3, 2, 2, 1])
-    print Solution().candy([1, 0, 2])
-    print Solution().candy([4, 2, 3, 4, 1])
+    print(Solution().candy([1, 0, 2]))
+    print(Solution().candy([4, 2, 3, 4, 1]))

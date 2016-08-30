@@ -23,12 +23,12 @@ class Solution:
 
     def lengthOfLongestSubstring(self, s):
         n = len(s)
-        length = [1 for i in xrange(n)]
+        length = [1 for i in range(n)]
         max_len = 1
         end = 0
         if n == 0:
             return 0
-        for i in xrange(1, n):
+        for i in range(1, n):
             for j in range(1, length[i - 1] + 1, 1):
                 if s[i - j] == s[i]:
                     length[i] = j
@@ -43,4 +43,4 @@ class Solution:
         return max_len
 
 if __name__ == "__main__":
-    print Solution().lengthOfLongestSubstring("abcabcbb")
+    print(Solution().lengthOfLongestSubstring("abcabcbb"))

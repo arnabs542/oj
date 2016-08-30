@@ -48,4 +48,4 @@ class Solution:
         return res
 
 if __name__ == "__main__":
-    print Solution().letterCombinations("243")
+    print(Solution().letterCombinations("243"))

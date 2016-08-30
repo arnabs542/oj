@@ -1,6 +1,6 @@
 /*
  * Combinations
- * 
+ *
  * Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
  *
  * For example,
@@ -15,6 +15,13 @@
  *  [1,4],
  * ]
  *
+ * =================================================================================
+ *
+ * The problem of generating permutations and combinations can be transformed into
+ * generating k-DIGITAL NUMBERS from n candidate numbers in a DIGITWISE way. We start with
+ * the lowest one. At each pass, do ADDITION ARITHMETIC by 1 to the right-most digit with carry
+ * added to left, along way to the highest one.
+ * The difference with combination is that the sequence generated at each round must be increasing.
  */
 
 

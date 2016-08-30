@@ -56,6 +56,6 @@ class Solution:
         return -1
 
 if __name__ == "__main__":
-    print Solution().search([4, 5, 6, 7, 0, 1, 2], 2)
-    print Solution().search([5, 1, 2, 3, 4], 1)
-    print Solution().search([5, 6, 7, 8, 9, 1, 2, 3, 4], 2)
+    print(Solution().search([4, 5, 6, 7, 0, 1, 2], 2))
+    print(Solution().search([5, 1, 2, 3, 4], 1))
+    print(Solution().search([5, 6, 7, 8, 9, 1, 2, 3, 4], 2))

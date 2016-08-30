@@ -59,11 +59,12 @@ class Solution(object):
         # transition[i] indicates whether string s ending with ith element
         # can be broken into the dictionary
         transition = [False for i in range(n + 1)]
-        # padding, so that in the case when index is 0 the RECURSION FORMULA still stands
+        # padding, so that in the case when index is 0 the RECURSION FORMULA
+        # still stands
         transition[0] = True
         for j in range(1, n + 1, 1):
             for i in range(1, j + 1):
-                if transition[i -1] and s[i - 1:j] in wordDict:
+                if transition[i - 1] and s[i - 1:j] in wordDict:
                     transition[j] = True
                     break
 
@@ -83,25 +84,8 @@ class Solution(object):
         """
         if not self._canBreak(s, wordDict):
             return []
-        n = len(s)
-        # index to list of string composed of words separated by space
-        tokens = [[] for i in range(n)]
-        # sentence end index
-        for j in range(1, n + 1):
-            # last word break index
-            # i.e. the last breakable sub-string's ending index, starting with 0
-            for i in range(j, 0, -1):
-                if s[i - 1:j] in wordDict:
-                    # no breaking previously
-                    if i == 1:
-                        # store partial solution
-                        tokens[j - 1].append(s[i - 1: j])
-                    # sentence end with (i - 1)th character is breakable
-                    elif tokens[i - 2]:
-                        for sentence in tokens[i - 2]:
-                            tokens[j - 1].append(
-                                '{} {}'.format(sentence, s[i - 1:j]))
-        return tokens[-1]
+        else:
+            return self.wordBreakDPBacktrack(s, wordDict)
 
     def wordBreakDPBacktrack(self, s, wordDict):
         """
@@ -122,8 +106,9 @@ class Solution(object):
             return solutions
         # the maximum word length in the dictionary
         # m = n
-        # XXX: boundary condition 2 - sentence shorter than word's maximum length
-        m = min(n, max(map(lambda word: len(word), wordDict)))
+        # XXX: boundary condition 2 - sentence shorter than word's maximum
+        # length
+        m = min(n, max([len(word) for word in wordDict]))
         # the last breakable sub-string's ending index, starting with 0
         dp = [[] for i in range(n)]
         # sentence's end index, starting with 1
@@ -133,18 +118,20 @@ class Solution(object):
                 if s[i:j + 1] in wordDict and (i == 0 or dp[i - 1]):
                     dp[j].append(i - 1)
 
-        # TODO: backtrack to generate solutions. DONE
+        # TODO: backtrack to generate solutions. DONE. This is actually a DFS search routine
         # TODO: do it iteratively
         def generate(dp, solutions, end, curr=[]):
             for last_index in dp[end]:
+                # if not instantiate a new list, we need to pop from it after
+                # insert into it for DFS backtracking
                 curr_new = list(curr)
                 curr_new.insert(0, s[last_index + 1:end + 1])
                 if last_index >= 0:
                     generate(dp, solutions, last_index, curr_new)
                 else:
-                    breaked_sentence = ' '.join(curr_new)
-                    # print('generated a solution: ', breaked_sentence)
-                    solutions.append(breaked_sentence)
+                    broken_sentence = ' '.join(curr_new)
+                    # print('generated a solution: ', broken_sentence)
+                    solutions.append(broken_sentence)
                 # print(s[last_index + 1:end + 1], '     ')
             pass
         # print(dp)
@@ -163,15 +150,16 @@ class Solution(object):
         # TODO: DFS
         pass
 
-    def wordBreakDFS(self, b, wordDict):
+    def wordBreakDFSIteration(self, b, wordDict):
         """
         :type s: str
         :type wordDict: Set[str]
         :rtype: List[str]
 
-        This is a depth-first searching solution:
+        This is a depth-first searching solution.
+        Iterative depth-first search algorithm.
         """
-        # TODO: DFS
+        # TODO: DFS iteratively
         pass
 
     def wordBreakBFS(self, b, wordDict):
@@ -209,7 +197,7 @@ def test():
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"])  # False
     Solution().wordBreak('a', [])
-    Solution().wordBreak('bb', ["a","b","bbb","bbbb"])
+    Solution().wordBreak('bb', ["a", "b", "bbb", "bbbb"])
     # NOTE: this case's solutions size is astronomical!
     # (6,
     # Solution().wordBreak(
@@ -217,8 +205,8 @@ def test():
     # ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa']))  # True
 
     # Solution().wordBreak(
-        # "aaaaabaaaaaaaaaaaaaaaa",
-        # ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])  # True
+    # "aaaaabaaaaaaaaaaaaaaaa",
+    # ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])  # True
 
 if __name__ == "__main__":
     test()

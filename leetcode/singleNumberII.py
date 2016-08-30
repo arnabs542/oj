@@ -28,4 +28,4 @@ class Solution:
         return ones
 
 if __name__ == "__main__":
-    print Solution().singleNumber([3, 3, 2, 3])
+    print(Solution().singleNumber([3, 3, 2, 3]))

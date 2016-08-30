@@ -27,6 +27,6 @@ class Solution:
                 return k
 
 if __name__ == "__main__":
-    print Solution().sqrt(9)
-    print Solution().sqrt(19)
-    print Solution().sqrt(26)
+    print(Solution().sqrt(9))
+    print(Solution().sqrt(19))
+    print(Solution().sqrt(26))

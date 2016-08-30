@@ -41,4 +41,4 @@ class Solution:
         return A
 
 if __name__ == "__main__":
-    print Solution().merge([1, 3, 5], 3, [2, 4, 6, 8], 4)
+    print(Solution().merge([1, 3, 5], 3, [2, 4, 6, 8], 4))

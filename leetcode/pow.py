@@ -39,4 +39,4 @@ class Solution:
             return result
 
 if __name__ == "__main__":
-    print Solution().pow(-4, -1)
+    print(Solution().pow(-4, -1))

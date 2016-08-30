@@ -81,4 +81,4 @@ class Solution:
 
 if __name__ == "__main__":
     res = Solution().solveNQueen(8)
-    print "%d solutions" % len(res)
+    print("%d solutions" % len(res))

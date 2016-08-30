@@ -27,7 +27,7 @@ class Solution:
         #words = s.split(' ')
         words = s.split()
         j = 0
-        for i in xrange(len(words)-1, j, -1):
+        for i in range(len(words)-1, j, -1):
             #print '%d,words[%d] is %s' % (j,i,words[i])
             #comment out debug outputs,which may cause "Output limit exceeded" error on OJ
             if i <= j:
@@ -50,4 +50,4 @@ class Solution:
 if __name__ == "__main__":
     a = Solution()
     ra = a.reverseWords('hello world    My name is onerhao')
-    print ra
+    print(ra)

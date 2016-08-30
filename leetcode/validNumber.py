@@ -57,7 +57,7 @@ class Solution:
 
     def isNumber(self, s):
         state = 0
-        for i in xrange(0, len(s)):
+        for i in range(0, len(s)):
             state = self.nextState(state, s[i])
             if state == -1:
                 return False
@@ -93,5 +93,5 @@ class Solution:
         return 5
 
 if __name__ == "__main__":
-    print "-.5364764e+3 is %s" % Solution().isNumber("-.5364764e+3")
-    print "-34342.e-3 is %s" % Solution().isNumber("-34342.e-3")
+    print("-.5364764e+3 is %s" % Solution().isNumber("-.5364764e+3"))
+    print("-34342.e-3 is %s" % Solution().isNumber("-34342.e-3"))

@@ -32,9 +32,9 @@ class Solution:
         if n == 0:
             return 0
         # length[i]:length of longest valid parentheses ending with s[i]
-        length = [0 for i in xrange(n + 1)]
+        length = [0 for i in range(n + 1)]
         max_len = 0
-        for i in xrange(1, n + 1, 1):
+        for i in range(1, n + 1, 1):
             l = 0
             j = i
             if s[i - 1] == '(':
@@ -51,10 +51,10 @@ class Solution:
                 else:
                     length[i] = 0
 
-        print length
+        print(length)
         return max_len
 
 if __name__ == "__main__":
-    print Solution().longestValidParentheses(")()())")
-    print Solution().longestValidParentheses("()(())")
-    print Solution().longestValidParentheses("()()((()")
+    print(Solution().longestValidParentheses(")()())"))
+    print(Solution().longestValidParentheses("()(())"))
+    print(Solution().longestValidParentheses("()()((()"))
