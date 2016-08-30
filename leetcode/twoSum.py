@@ -21,29 +21,29 @@ Solution:
 
 class Solution:
     # @return a tuple (index1,index2)
-    def twoSum(self,num,target):
+
+    def twoSum(self, num, target):
         mapping = dict()
         i = 0
-        j = len(num) -1
-        for k,v in enumerate(num):
+        j = len(num) - 1
+        for k, v in enumerate(num):
             if v in mapping:
                 mapping[v].append(k)
             else:
                 mapping[v] = []
                 mapping[v].append(k)
 
-        for k,v in enumerate(num):
+        for k, v in enumerate(num):
             if target - v in mapping:
-                if mapping[target-v][0] == k:
-                    if len(mapping[target-v]) >= 2:
-                        return k+1,mapping[target-v][1] + 1
+                if mapping[target - v][0] == k:
+                    if len(mapping[target - v]) >= 2:
+                        return k + 1, mapping[target - v][1] + 1
                     else:
                         pass
 
                 else:
-                    return k+1,mapping[target-v][0]+1
+                    return k + 1, mapping[target - v][0] + 1
 
 
 if __name__ == "__main__":
-    print(Solution().twoSum([3,2,4],6))
-
+    print(Solution().twoSum([3, 2, 4], 6))

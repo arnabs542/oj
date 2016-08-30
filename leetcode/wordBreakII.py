@@ -119,6 +119,8 @@ class Solution(object):
                     dp[j].append(i - 1)
 
         # TODO: backtrack to generate solutions. DONE. This is actually a DFS search routine
+        # This is tail recursion, constructing solution at the end of the recursion by
+        # passing intermediate solution along down recursive calls as function arguments
         # TODO: do it iteratively
         def generate(dp, solutions, end, curr=[]):
             for last_index in dp[end]:

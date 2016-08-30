@@ -57,10 +57,7 @@ class Solution:
 
     def isValidNumber(self, s):
         if s[0] == '0':
-            if s == '0':
-                return True
-            else:
-                return False
+            return s == '0'
         if int(s) > 255:
             return False
         return True

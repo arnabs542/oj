@@ -39,8 +39,10 @@ class Solution:
                     dup = 1
                     break
             if dup == 0:
+                # swap
                 num[start], num[i] = num[i], num[start]
                 self.permute(num, start + 1, end)
+                # unswap
                 num[start], num[i] = num[i], num[start]
 
 if __name__ == "__main__":

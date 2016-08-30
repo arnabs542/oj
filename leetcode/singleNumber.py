@@ -18,7 +18,8 @@ Solution:
 class Solution:
     # @param A,a list of integer
     # @returns an integer
-    def singleNumber(self,A):
+
+    def singleNumber(self, A):
         x = A[0]
         for i in A[1:]:
             x ^= i

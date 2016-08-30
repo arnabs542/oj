@@ -14,14 +14,15 @@ Solution:
 class Solution:
     # @param x,an integer
     # @return an integer
-    def sqrt(self,x):
+
+    def sqrt(self, x):
         low = 0
         high = x
         while low <= high:
-            k = (low + high)/2
-            if k*k > x:
+            k = (low + high) / 2
+            if k * k > x:
                 high = k - 1
-            elif (k+1)*(k+1) <= x:
+            elif (k + 1) * (k + 1) <= x:
                 low = k + 1
             else:
                 return k

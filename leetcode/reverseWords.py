@@ -21,19 +21,21 @@ Clarification:
 class Solution:
     # @param s, a string
     # @return a string
+
     def reverseWords(self, s):
         if not isinstance(s, str):
             raise TypeError
         #words = s.split(' ')
         words = s.split()
         j = 0
-        for i in range(len(words)-1, j, -1):
-            #print '%d,words[%d] is %s' % (j,i,words[i])
-            #comment out debug outputs,which may cause "Output limit exceeded" error on OJ
+        for i in range(len(words) - 1, j, -1):
+            # print '%d,words[%d] is %s' % (j,i,words[i])
+            # comment out debug outputs,which may cause "Output limit exceeded"
+            # error on OJ
             if i <= j:
                 break
             if words[i] != ' ':
-                if words[j] !=' ':
+                if words[j] != ' ':
                     tmp = words[j]
                     words[j] = words[i]
                     words[i] = tmp

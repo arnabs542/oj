@@ -13,10 +13,11 @@ at the same time (ie, you must sell the stock before you buy again).
 class Solution:
     # @param prices,a list of integer
     # @return an integer
-    def maxProfit(self,prices):
+
+    def maxProfit(self, prices):
         changes = []
-        for i in range(len(prices)-1):
-            changes.append(prices[i+1]-prices[i])
+        for i in range(len(prices) - 1):
+            changes.append(prices[i + 1] - prices[i])
 
         max_sum = 0
         for x in changes:

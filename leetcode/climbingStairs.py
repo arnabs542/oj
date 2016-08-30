@@ -40,7 +40,7 @@ class Solution:
 
         res = [[0 for i in range(p)] for j in range(m)]
 
-         # print res
+        # print res
 
         for i in range(m):
             for j in range(p):

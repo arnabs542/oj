@@ -13,11 +13,12 @@ Some hints:
 
 class Solution:
     # @return a boolean
-    def isPalindrome(self,x):
+
+    def isPalindrome(self, x):
         if x < 0:
             return False
         div = 1
-        while x/div >= 10:
+        while x / div >= 10:
             div *= 10
 
         while x > 0:

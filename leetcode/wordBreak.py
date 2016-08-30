@@ -31,23 +31,26 @@ class Solution:
         # transition[i] indicates whether string s ending with ith element
         # can be broken into the dictionary
         transition = [False for i in range(n + 1)]
-        # padding, so that in the case when index is 0 the RECURSION FORMULA still stands
+        # padding, so that in the case when index is 0 the RECURSION FORMULA
+        # still stands
         transition[0] = True
         for j in range(1, n + 1, 1):
             for i in range(1, j + 1):
-                if transition[i -1] and s[i - 1:j] in dic:
+                if transition[i - 1] and s[i - 1:j] in dic:
                     transition[j] = True
                     break
 
         return transition[n]
 
 def test():
-    assert Solution().wordBreak("leetcode", {"leet", "code", "oj"}) # True
-    assert not Solution().wordBreak("hellohalloworld", {"hello", "worl", "world"}) # False
+    assert Solution().wordBreak("leetcode", {"leet", "code", "oj"})  # True
+    assert not Solution().wordBreak(
+        "hellohalloworld", {
+            "hello", "worl", "world"})  # False
     assert not Solution().wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                              ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"]) # False
+                                    ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"])  # False
     assert Solution().wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                              ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])
+                                ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])
 
 if __name__ == "__main__":
     test()

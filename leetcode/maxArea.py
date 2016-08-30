@@ -23,20 +23,20 @@ Solution:
 class Solution:
     # @param height,integer list
     # @return an integer
-    def maxArea(self,height):
+
+    def maxArea(self, height):
         i = 0
         j = len(height) - 1
         maxa = 0
         while i < j:
-            if height[i] < height [j]:
-                area = height[i]*(j-i)
+            if height[i] < height[j]:
+                area = height[i] * (j - i)
                 i = i + 1
             else:
-                area = height[j]*(j-i)
+                area = height[j] * (j - i)
                 j = j - 1
 
             if area > maxa:
                 maxa = area
 
         return maxa
-

@@ -19,19 +19,20 @@ For the purpose of this problem, we define empty string as valid palindrome.
 class Solution:
     # @param s, a string
     # @return a boolean
+
     def isPalindrome(self, s):
         n = len(s)
         if n == 0:
             return True
         i = 0
-        j = n-1
+        j = n - 1
         for i in range(n):
-            #print "i:%d "%i,s[i].lower(),",",s[j].lower()
+            # print "i:%d "%i,s[i].lower(),",",s[j].lower()
             if i >= j:
                 return True
             if s[i].isalnum():
                 while not s[j].isalnum():
-                    j = j-1
+                    j = j - 1
 
                 if s[i].lower() != s[j].lower():
                     return False
@@ -42,7 +43,7 @@ class Solution:
             else:
                 pass
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print(Solution().isPalindrome("A man, a plan, a canal: Panama"))
     print(Solution().isPalindrome("race a car"))
     print(Solution().isPalindrome(""))

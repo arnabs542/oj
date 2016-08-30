@@ -28,10 +28,11 @@ class Solution:
     # @algorithm optimization: we can also apply dynamic programming technique.
     # @algorithm optimization:use a two-dimension array p[n][n] to indicate whether
     # a substring s[i:j+1] is palindrome
+
     @classmethod
-    def getAnchorPalins(cls,s,index,step):
+    def getAnchorPalins(cls, s, index, step):
         pl = []
-        for i in range(index,index + step*len(s),step):
+        for i in range(index, index + step * len(s), step):
             if index < i:
                 if Solution.isPalindrome(s[index:i]):
                     if s[index:i] != "":
@@ -42,28 +43,28 @@ class Solution:
                     pass
 
             else:
-                if Solution.isPalindrome(s[i:index+1]):
-                    if s[i:index+1] != "":
-                        pl.append(s[i:index+1])
+                if Solution.isPalindrome(s[i:index + 1]):
+                    if s[i:index + 1] != "":
+                        pl.append(s[i:index + 1])
                     else:
                         pass
 
         return pl
 
     @classmethod
-    def isPalindrome(cls,s):
+    def isPalindrome(cls, s):
         n = len(s)
         if n == 0:
             return True
         i = 0
-        j = n-1
+        j = n - 1
         for i in range(n):
-            #print "i:%d "%i,s[i].lower(),",",s[j].lower()
+            # print "i:%d "%i,s[i].lower(),",",s[j].lower()
             if i >= j:
                 return True
             if s[i].isalnum():
                 while not s[j].isalnum():
-                    j = j-1
+                    j = j - 1
 
                 if s[i].lower() != s[j].lower():
                     return False
@@ -76,14 +77,14 @@ class Solution:
 
     # @param, a string
     # @return a list of lists of string
-    def partition(self,s):
+    def partition(self, s):
         pls = []
         pls.append([[s[0]]])
 
-        for i in range(1,len(s),1):
+        for i in range(1, len(s), 1):
             pls.append([])
             #palins = []
-            palins = Solution.getAnchorPalins(s,i,-1)
+            palins = Solution.getAnchorPalins(s, i, -1)
             for palin in palins:
                 j = i - len(palin)
                 if j >= 0:
@@ -95,11 +96,11 @@ class Solution:
                     newPl = [palin]
                     pls[i].append(newPl)
 
-        return pls[len(s)-1]
+        return pls[len(s) - 1]
 
 if __name__ == "__main__":
     print(Solution().partition("aa"))
     print(Solution().partition("aab"))
-    #print Solution
-    print(Solution().getAnchorPalins("aab",2,-1))
-    print(Solution().getAnchorPalins("aa",1,-1))
+    # print Solution
+    print(Solution().getAnchorPalins("aab", 2, -1))
+    print(Solution().getAnchorPalins("aa", 1, -1))
