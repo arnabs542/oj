@@ -16,6 +16,9 @@ A solution is ["cats and dog", "cat sand dog"].
 '''
 class Solution(object):
 
+    def __init__(self):
+        self.memory = {}
+
     def wordBreakDPNaive(self, s, wordDict):
         """
         :type s: str
@@ -85,9 +88,9 @@ class Solution(object):
         if not self._canBreak(s, wordDict):
             return []
         else:
-            return self.wordBreakDPBacktrack(s, wordDict)
+            return self.wordBreakDPNaive(s, wordDict)
 
-    def wordBreakDPBacktrack(self, s, wordDict):
+    def wordBreakDPBacktrack(self, s, wordDict, tailRecursion=False):
         """
         :type s: str
         :type wordDict: Set[str]
@@ -136,23 +139,75 @@ class Solution(object):
                     solutions.append(broken_sentence)
                 # print(s[last_index + 1:end + 1], '     ')
             pass
+
+        def generateNonTail(dp, solutions, end, curr=[]):
+            """
+                DFS backtracking generating solutions with non-tail recursion
+            """
+            for last_index in dp[end]:
+                # if not instantiate a new list, we need to pop from it after
+                # insert into it for DFS backtracking
+                curr.append(s[last_index + 1:end + 1])
+                if last_index >= 0:
+                    generate(dp, solutions, last_index, curr)
+                else:
+                    broken_sentence = ' '.join(curr[::-1])
+                    print('generated a solution: ', broken_sentence)
+                    solutions.append(broken_sentence)
+                # non tail recursion, we need to RESTORE variable STATE or construct the solution
+                # at the top level call
+                curr.pop()
+            pass
+
         # print(dp)
         solutions = []
-        generate(dp, solutions, len(s) - 1, [])
+        tailRecursion and generateNonTail(dp, solutions, len(s) - 1, []) or \
+                generate(dp, solutions, len(s) - 1, [])
         return solutions
 
-    def wordBreakDFS(self, b, wordDict):
+    def wordBreakDFS(self, s, wordDict, start=0, cat=False, memoization=False):
         """
         :type s: str
         :type wordDict: Set[str]
+        :type cat: bool, whether to concatenate list into string
         :rtype: List[str]
 
         This is a depth-first searching solution:
         """
         # TODO: DFS
-        pass
+        if not self._canBreak(s, wordDict):
+            return []
+        n = len(s)
+        m = min(n, max([len(word) for word in wordDict]))
+        # recursive DFS with memoization
+        if memoization and start in self.memory:
+            solutions = self.memory[start]
+        else:
+            solutions = []
+            if s[start:] in wordDict:
+                solutions.append([n - 1])
+            # for i in range(start, n):
+            for i in range(start, start + m):
+                if s[start:i + 1] in wordDict:
+                    subsolutions = self.wordBreakDFS(s, wordDict, start=i + 1)
+                    solutions.extend(map(lambda sub: [i] + sub, subsolutions))
 
-    def wordBreakDFSIteration(self, b, wordDict):
+            if memoization:
+                self.memory[start] = solutions
+
+        # return integer lists or string lists
+        if cat:
+            def combine(solution):
+                segments = map(lambda item:
+                               s[solution[item[0] - 1] + 1 if item[0] else 0:
+                                 solution[item[0]] + 1],
+                               enumerate(solution))
+                return ' '.join(segments)
+            return list(map(combine, solutions))
+        else:
+            return solutions
+
+    def wordBreakDFSIteration(self, s, wordDict):
         """
         :type s: str
         :type wordDict: Set[str]
@@ -162,9 +217,11 @@ class Solution(object):
         Iterative depth-first search algorithm.
         """
         # TODO: DFS iteratively
+        n = len(s)
+        m = min(n, max([len(word) for word in wordDict]))
         pass
 
-    def wordBreakBFS(self, b, wordDict):
+    def wordBreakBFS(self, s, wordDict):
         """
         :type s: str
         :type wordDict: Set[str]
@@ -173,6 +230,8 @@ class Solution(object):
         This is a breadth-first searching solution:
         """
         # TODO: BFS
+        n = len(s)
+        m = min(n, max([len(word) for word in wordDict]))
         pass
 
     def wordBreak(self, s, wordDict):
@@ -182,8 +241,10 @@ class Solution(object):
         :rtype: List[str]
         """
         # solutions =  self.wordBreakDPNaive(s, wordDict)
-        solutions = self.wordBreakDPPrune(s, wordDict)
+        # solutions = self.wordBreakDPPrune(s, wordDict)
         # solutions = self.wordBreakDPBacktrack(s, wordDict)
+        # solutions = self.wordBreakDFS(s, wordDict, cat=True)
+        solutions = self.wordBreakDFS(s, wordDict, cat=True, memoization=True)
         print(solutions)
         return solutions
 
@@ -206,9 +267,9 @@ def test():
     # "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     # ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa']))  # True
 
-    # Solution().wordBreak(
-    # "aaaaabaaaaaaaaaaaaaaaa",
-    # ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])  # True
+    Solution().wordBreak(
+        "aaaaabaaa",
+        ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa", 'b', 'ab', 'aab', 'ba', 'baa'])  # True
 
 if __name__ == "__main__":
     test()
