@@ -13,6 +13,8 @@ A solution is ["cats and dog", "cat sand dog"].
 1. Dynamic Programming solution
     STATE TRANSITION: breakable[j] = 1(exists such i that s[i-1:j] is in dictionary) * breakable[i],
         where i, j indicates the ith, jth character in string s.
+
+2. Search: depth-first search with backtracking and breadth-first search
 '''
 class Solution(object):
 
