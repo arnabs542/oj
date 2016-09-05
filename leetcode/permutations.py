@@ -24,6 +24,8 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
+        if not nums:
+            return []
         # solutions = self.permuteBacktrack(nums)
         solutions = self.permuteDP(nums)
         # solutions = self.permuteDPRollingArray(nums)
@@ -42,18 +44,19 @@ class Solution(object):
         """
         permutations = []
 
-        if nums:
-            permutations.append([[nums[0]]])
-            # the dynamic programming
-            for i in range(1, len(nums)):
-                permutations_i = []
-                permutations.append(permutations_i)
-                #  state transition process
-                for permutation_previous in permutations[i - 1]:
-                    for j in range(i + 1):
-                        permutation = list(permutation_previous)
-                        permutation.insert(j, nums[i])
-                        permutations_i.append(permutation)
+        if not nums:
+            return []
+        permutations.append([[nums[0]]])
+        # the dynamic programming
+        for i in range(1, len(nums)):
+            permutations_i = []
+            permutations.append(permutations_i)
+            #  state transition process
+            for permutation_previous in permutations[i - 1]:
+                for j in range(i + 1):
+                    permutation = list(permutation_previous)
+                    permutation.insert(j, nums[i])
+                    permutations_i.append(permutation)
         return permutations[-1]
 
     def permuteDPRollingArray(self, nums):
@@ -94,6 +97,8 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
+        if not nums:
+            return []
         if not hasattr(self, 'permutations'):
             self.permutations = []
         n = len(nums)
@@ -118,37 +123,57 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        if not hasattr(self, 'permutations'):
-            self.permutations = []
 
+        permutations = []
         n = len(nums)
+
+        if not nums:
+            return []
 
         class StackFrame(object):
 
-            def __init__(self, start=-1, current=-1, candidate=-1):
-                self.start = start
-                # self.end       = end
+            def __init__(self, start=-1, current=-1):
+                self.start   = start
                 self.current = current
-                self.candidate = candidate
 
         stack = []
-        stack.append(StackFrame(0, 0, -1))
+        stack.append(StackFrame(0, 0))
         while stack:
             frame = stack[-1]
             # generate and so on ...
-            # when to pop or push
-            if frame.start == n - 1 or frame.current == n - 1:
+            # when to pop or push, when to swap and unswap
+            if frame.start == n or frame.current == n:
+                if frame.start == n:
+                    # found one solution at the end
+                    permutations.append(list(nums))
                 stack.pop()
-                self.permutations.append(list(nums))
+                # not only to POP from stack, but also to backtrack to
+                # modify the stack's top element's state
+                # In another word, to do the staff that we have to do AFTER
+                # the CORRESPONDING RECURSIVE PROCEDURE
+                if stack:
+                    frame = stack[-1]
+                    # unswap to restore state
+                    self._swap(frame.start, frame.current, nums)
+                    frame.current += 1
             else:
-                stack_new = StackFrame(frame.start + 1, 0, 0)
+                # the PUSH operation is trivial
+                # swap to push down
+                self._swap(frame.start, frame.current, nums)
+                # new stack frame
+                stack_new = StackFrame(frame.start + 1, frame.start + 1)
                 stack.append(stack_new)
         pass
+        return permutations
 
-    def permuteLexicographic(self, nums):
+    def permuteNextLexicographic(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
+
+        Method:
+            Generate next lexicographical increasing arrangement in a iterative way until
+        it reaches the highest(decreasing order) permutation.
         """
         pass
 
@@ -156,10 +181,12 @@ def test():
     for nums in [
         [1, 2, 3],
         [1],
+        [],
     ]:
         print(Solution().permuteBacktrack(nums))
         print(Solution().permuteDP(nums))
         print(Solution().permuteDPRollingArray(nums))
+        print(Solution().permuteBacktrackIterative(nums))
 
 if __name__ == '__main__':
     test()
