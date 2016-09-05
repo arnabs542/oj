@@ -66,8 +66,8 @@ class Solution:
         return state == 8
 
     def nextState(self, state, char):
-        # transition function
-        #               0space,1digit,2sign,3dot,4e,5il
+        # STATE TRANSITION MATRIX FOR THE DETERMINISTIC FINITE AUTOMATA
+        #               0 space, 1 digit, 2 sign, 3 dot, 4 e, 5 il
         transititionTable = [[0, 2, 1, 3, -1, -1],  # 0
                              [-1, 2, -1, 3, -1, -1],  # 1
                              [8, 2, -1, 4, 5, -1],  # 2
