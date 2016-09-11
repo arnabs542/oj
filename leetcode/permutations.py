@@ -11,6 +11,11 @@ For example,
   [3,1,2],
   [3,2,1]
 ]
+
+Variant: with duplicate elements? Like 1,1,2, 2,3,2, ...
+    Solution: while checking validation, count in an element's maximum appearance times
+
+Variant: arrangements of m of n numbers. ( m <= n)
 """
 
 
@@ -157,7 +162,7 @@ class Solution(object):
                     self._swap(frame.start, frame.current, nums)
                     frame.current += 1
             else:
-                # the PUSH operation is trivial
+                # the PUSH operation is trivial, and it's the POP BACKTRACKING that matters
                 # swap to push down
                 self._swap(frame.start, frame.current, nums)
                 # new stack frame
@@ -177,16 +182,55 @@ class Solution(object):
         """
         pass
 
+    # TODO: arrangement of k numbers from n
+    # 1. Dynamic Programming approach: denote number of arrangements of k given n by A[n, k].
+    # The structure of this problem resembles the 0-1 knapsack problem.
+    # then we have:
+    #   A[n, m] = #arrangements containing mth number + #arrangements not with mth number
+    #           = A[n - 1, m - 1] * m + A[n - 1, m],
+    # 2. backtracking with depth-first search
+    def permuteMofNDP(self, m, n):
+        if m < 1 or n < 1 or m > n:
+            return []
+        # initialization
+        perms = [[[] for j in range(m + 1)] for i in range(n + 1)]
+        # bottom of the dynamic programming process
+        for i in range(n + 1):
+            perms[i][0].append([])
+        for j in range(1, m + 1):
+            for i in range(j,n + 1):
+                # A[n - 1, m]
+                perms[i][j].extend(perms[i -1][j])
+
+                # A[n - 1, m - 1] * m
+                for arrangement in perms[i - 1][j - 1]:
+                    for idx in range(len(arrangement) + 1):
+                        arrangement_new = list(arrangement)
+                        arrangement_new.insert(idx, i)
+                        perms[i][j].append(arrangement_new)
+                        pass
+                pass
+            pass
+        pass
+        return sorted(perms[n][m])
+
+
 def test():
     for nums in [
         [1, 2, 3],
         [1],
         [],
     ]:
-        print(Solution().permuteBacktrack(nums))
-        print(Solution().permuteDP(nums))
+        # print(Solution().permuteBacktrack(nums))
+        # print(Solution().permuteDP(nums))
         print(Solution().permuteDPRollingArray(nums))
-        print(Solution().permuteBacktrackIterative(nums))
+        # print(Solution().permuteBacktrackIterative(nums))
+
+    # test permutations of m given n
+    print(Solution().permuteMofNDP(3, 3))
+    print(Solution().permuteMofNDP(2, 3))
+    print(Solution().permuteMofNDP(1, 3))
+    print(Solution().permuteMofNDP(1, 2))
 
 if __name__ == '__main__':
     test()
