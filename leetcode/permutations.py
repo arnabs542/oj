@@ -182,38 +182,56 @@ class Solution(object):
         """
         pass
 
-    # TODO: arrangement of k numbers from n
+    # TODO: k-permutations of n(arrangement of k numbers from n). DONE!
     # 1. Dynamic Programming approach: denote number of arrangements of k given n by A[n, k].
     # The structure of this problem resembles the 0-1 knapsack problem.
     # then we have:
-    #   A[n, m] = #arrangements containing mth number + #arrangements not with mth number
-    #           = A[n - 1, m - 1] * m + A[n - 1, m],
+    #   A[n, k] = #arrangements containing mth number + #arrangements not with mth number
+    #           = A[n - 1, k - 1] * k + A[n - 1, k],
     # 2. backtracking with depth-first search
-    def permuteMofNDP(self, m, n):
-        if m < 1 or n < 1 or m > n:
+    # 3. lexicographical order next permutation.
+    # we add one
+    def permuteKofNDP(self, k, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        if k < 1 or n < 1 or k > n:
             return []
         # initialization
-        perms = [[[] for j in range(m + 1)] for i in range(n + 1)]
+        perms = [[[[]] if not j else []
+                  for j in range(k + 1)]
+                 for i in range(n + 1)]
         # bottom of the dynamic programming process
-        for i in range(n + 1):
-            perms[i][0].append([])
-        for j in range(1, m + 1):
+        # for i in range(n + 1):
+            # perms[i][0].append([])
+        for j in range(1, k + 1):
             for i in range(j,n + 1):
-                # A[n - 1, m]
+                # A[n - 1, k]
                 perms[i][j].extend(perms[i -1][j])
 
-                # A[n - 1, m - 1] * m
+                # A[n - 1, k - 1] * k
                 for arrangement in perms[i - 1][j - 1]:
                     for idx in range(len(arrangement) + 1):
                         arrangement_new = list(arrangement)
                         arrangement_new.insert(idx, i)
                         perms[i][j].append(arrangement_new)
-                        pass
-                pass
-            pass
-        pass
-        return sorted(perms[n][m])
 
+        return sorted(perms[n][k])
+
+    # TODO: how about arrangement of m from n objects, involving duplicate ones?
+    # treat those duplicate objects individually. In another word, assign different index for
+    # all candidates, so that we only use those indices to finish the dynamic programming state
+    # transition process. When it comes to the recursion formula with A[n, k] and A[n -1, k - 1],
+    # be careful while inserting the mth object not to produce duplicate arrangement
+    def permuteMofNWithDup(self, k, iterable):
+        """
+        :type m: int
+        :type iterable: iterable
+        :rtype: List[List[object]]
+        """
+        pass
 
 def test():
     for nums in [
@@ -227,10 +245,9 @@ def test():
         # print(Solution().permuteBacktrackIterative(nums))
 
     # test permutations of m given n
-    print(Solution().permuteMofNDP(3, 3))
-    print(Solution().permuteMofNDP(2, 3))
-    print(Solution().permuteMofNDP(1, 3))
-    print(Solution().permuteMofNDP(1, 2))
+    print(Solution().permuteKofNDP(3, 3))
+    print(Solution().permuteKofNDP(2, 3))
+    print(Solution().permuteKofNDP(1, 3))
 
 if __name__ == '__main__':
     test()
