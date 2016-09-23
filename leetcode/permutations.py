@@ -235,9 +235,9 @@ class Solution(object):
 
 def test():
     for nums in [
-        [1, 2, 3],
-        [1],
-        [],
+            [1, 2, 3],
+            [1],
+            [],
     ]:
         # print(Solution().permuteBacktrack(nums))
         # print(Solution().permuteDP(nums))
