@@ -5,6 +5,7 @@ Note:
 You may assume that all inputs are consist of lowercase letters a-z.
 '''
 
+# @optimization: a raw dictionary class as TrieNode will boost the speed
 
 class TrieNode(object):
 
@@ -12,8 +13,8 @@ class TrieNode(object):
         """
         Initialize your data structure here.
         """
-        self.leaf     = False
         self.children = {}
+        self.leaf     = False
 
 
 class Trie(object):
@@ -27,12 +28,12 @@ class Trie(object):
         :type word: str
         :rtype: void
         """
-        pCrawl = self.root
+        node = self.root
         for ch in word:
-            if not ch in pCrawl.children:
-                pCrawl.children[ch] = TrieNode()
-            pCrawl = pCrawl.children[ch]
-        pCrawl.leaf = True
+            if not ch in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.leaf = True
 
     def search(self, word):
         """
@@ -40,14 +41,14 @@ class Trie(object):
         :type word: str
         :rtype: bool
         """
-        pCrawl = self.root
+        node = self.root
         for ch in word:
-            if ch not in pCrawl.children:
+            if ch not in node.children:
                 return False
             else:
-                pCrawl = pCrawl.children[ch]
+                node = node.children[ch]
             pass
-        return pCrawl.leaf
+        return node.leaf
 
     def startsWith(self, prefix):
         """
@@ -56,15 +57,15 @@ class Trie(object):
         :type prefix: str
         :rtype: bool
         """
-        pCrawl = self.root
+        node = self.root
         for ch in prefix:
-            if ch not in pCrawl.children:
+            if ch not in node.children:
                 return False
             else:
-                pCrawl = pCrawl.children[ch]
+                node = node.children[ch]
             pass
 
-        return pCrawl is not None
+        return node is not None
 
 
 # Your Trie object will be instantiated and called as such:

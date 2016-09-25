@@ -78,12 +78,12 @@ class Trie(object):
         :type word: str
         :rtype: void
         """
-        pCrawl = self.root
+        node = self.root
         for ch in word:
-            if not ch in pCrawl.children:
-                pCrawl.children[ch] = TrieNode()
-            pCrawl = pCrawl.children[ch]
-        pCrawl.leaf = True
+            if not ch in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.leaf = True
 
     def search_node_recursive(self, word, node=None):
         if not node:
@@ -110,14 +110,14 @@ class Trie(object):
         :type word: str
         :rtype: bool
         """
-        pCrawl = self.root
+        node = self.root
         for ch in word:
-            if ch not in pCrawl.children and ch is not '.':
+            if ch not in node.children and ch is not '.':
                 return False
             else:
-                pCrawl = pCrawl.children[ch]
+                node = node.children[ch]
             pass
-        return pCrawl.leaf
+        return node.leaf
 
 # Your WordDictionary object will be instantiated and called as such:
 wordDictionary = WordDictionary()
