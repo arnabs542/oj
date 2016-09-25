@@ -12,7 +12,7 @@ class TrieNode(object):
         """
         Initialize your data structure here.
         """
-        self.isLeaf  = False
+        self.leaf     = False
         self.children = {}
 
 
@@ -32,7 +32,7 @@ class Trie(object):
             if not ch in pCrawl.children:
                 pCrawl.children[ch] = TrieNode()
             pCrawl = pCrawl.children[ch]
-        pCrawl.isLeaf = True
+        pCrawl.leaf = True
 
     def search(self, word):
         """
@@ -47,7 +47,7 @@ class Trie(object):
             else:
                 pCrawl = pCrawl.children[ch]
             pass
-        return pCrawl.isLeaf
+        return pCrawl.leaf
 
     def startsWith(self, prefix):
         """
