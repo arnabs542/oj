@@ -5,17 +5,18 @@ Note:
 You may assume that all inputs are consist of lowercase letters a-z.
 '''
 
-# @optimization: a raw dictionary class as TrieNode will boost the speed
+# @optimization: TrieNode inheriting dictionary class will boost the speed
 
-class TrieNode(object):
+
+class TrieNode(dict):
+
+    LEAF_SYMBOL = '#'
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.children = {}
-        self.leaf     = False
-
+        super(dict, self).__init__()
 
 class Trie(object):
 
@@ -30,10 +31,10 @@ class Trie(object):
         """
         node = self.root
         for ch in word:
-            if not ch in node.children:
-                node.children[ch] = TrieNode()
-            node = node.children[ch]
-        node.leaf = True
+            if not ch in node:
+                node[ch] = TrieNode()
+            node = node[ch]
+        node[node.LEAF_SYMBOL] = True
 
     def search(self, word):
         """
@@ -43,12 +44,12 @@ class Trie(object):
         """
         node = self.root
         for ch in word:
-            if ch not in node.children:
+            if ch not in node:
                 return False
             else:
-                node = node.children[ch]
+                node = node[ch]
             pass
-        return node.leaf
+        return node.LEAF_SYMBOL in node
 
     def startsWith(self, prefix):
         """
@@ -59,10 +60,10 @@ class Trie(object):
         """
         node = self.root
         for ch in prefix:
-            if ch not in node.children:
+            if ch not in node:
                 return False
             else:
-                node = node.children[ch]
+                node = node[ch]
             pass
 
         return node is not None
