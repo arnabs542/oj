@@ -161,7 +161,7 @@ class Solution(object):
         return np.at(board, coordinate)
 
     def DFS(self, board, word, coordinate=None):
-        # TODO: multiple dimensional: 1-d, 2-d, ...
+        # TODO: (DONE) multiple dimensional: 1-d, 2-d, ...
         if not word:
             return True
 

@@ -82,13 +82,13 @@ class Solution:
     def getSymbol(self, char):
         if char == ' ' or char == '\t':
             return 0
-        if char.isdigit():
+        elif char.isdigit():
             return 1
-        if char == '+' or char == '-':
+        elif char == '+' or char == '-':
             return 2
-        if char == '.':
+        elif char == '.':
             return 3
-        if char == 'E' or char == 'e':
+        elif char == 'E' or char == 'e':
             return 4
         return 5
 

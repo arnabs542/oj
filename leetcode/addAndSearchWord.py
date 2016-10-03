@@ -21,11 +21,12 @@ Note:
 You may assume that all words are consist of lowercase letters a-z.
 
 SOLUTION:
-    This is calling for a data structure for text retrieval, which implies that
-Trie tree might be a good choice. But the `search` procedure requires WILDCARD
+    1. This is calling for a data structure for text retrieval, which implies that
+TRIE tree might be a good choice. But the `search` procedure requires WILDCARD
 matching, which means that, in another word, there are MULTIPLE BRANCHES during the
 search process. So this will be a GRAPH SEARCH PROBLEM. A typical solution would
 be DEPTH-FIRST SEARCH with BACKTRACKING.
+    2. Hash Table from word length to word.
 '''
 
 class WordDictionary(object):
@@ -52,19 +53,21 @@ class WordDictionary(object):
         :type word: str
         :rtype: bool
         """
-        exist = self.trie.search_node_recursive(word)
+        exist = self.trie.searchFromRecursive(word)
         # exist = self.trie.search(word)
-        print(word, exist)
+        print('SEARCH', word, exist)
         return exist
 
-class TrieNode(object):
+LEAF_SYMBOL = '#'
+class TrieNode(dict,):
+
+    # LEAF_SYMBOL = '#'
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.leaf     = False
-        self.children = {}
+        super(dict, self).__init__()
 
 
 class Trie(object):
@@ -80,24 +83,26 @@ class Trie(object):
         """
         node = self.root
         for ch in word:
-            if not ch in node.children:
-                node.children[ch] = TrieNode()
-            node = node.children[ch]
-        node.leaf = True
+            if not ch in node:
+                node[ch] = TrieNode()
+            node = node[ch]
+        node[LEAF_SYMBOL] = True
 
-    def search_node_recursive(self, word, node=None):
+    def searchFromRecursive(self, word, node=None):
         if not node:
             node = self.root
         if not word:
             # the recursive call's base case: search word is empty now
-            return node.leaf
+            return LEAF_SYMBOL in node
         ch = word[0]
-        if ch in node.children:
-            return self.search_node_recursive(word[1:], node.children[ch])
+        if ch in node:
+            return self.searchFromRecursive(word[1:], node[ch])
         elif ch == '.':
             # wildcard matching
-            for ch in node.children:
-                if self.search_node_recursive(word[1:], node.children[ch]):
+            for ch in node:
+                if ch == LEAF_SYMBOL:
+                    continue
+                if self.searchFromRecursive(word[1:], node[ch]):
                     return True
 
         return False
@@ -112,18 +117,19 @@ class Trie(object):
         """
         node = self.root
         for ch in word:
-            if ch not in node.children and ch is not '.':
+            if ch not in node and ch is not '.':
                 return False
             else:
-                node = node.children[ch]
+                node = node[ch]
             pass
-        return node.leaf
+        return LEAF_SYMBOL in node
 
 # Your WordDictionary object will be instantiated and called as such:
 wordDictionary = WordDictionary()
 wordDictionary.addWord("word")
 wordDictionary.search("pattern")
 wordDictionary.search("word")
+print()
 
 wordDictionary = WordDictionary()
 wordDictionary.addWord('a')
@@ -136,6 +142,7 @@ wordDictionary.search("bad")
 wordDictionary.search(".ad")
 wordDictionary.search("b..")
 
+print()
 wordDictionary = WordDictionary()
 wordDictionary.addWord("at")
 wordDictionary.addWord("and")
@@ -150,3 +157,4 @@ wordDictionary.search("a.d.")
 wordDictionary.search("b.")
 wordDictionary.search("a.d")
 wordDictionary.search(".")
+print()

@@ -107,6 +107,7 @@ class Solution(object):
         if not hasattr(self, 'permutations'):
             self.permutations = []
         n = len(nums)
+
         if n - 1 <= start:
             self.permutations.append(list(nums))
         else:
@@ -116,6 +117,7 @@ class Solution(object):
                 self._swap(start, i, nums)
 
         if not start:
+            # only return in the top case
             return self.permutations
         return
 
@@ -143,11 +145,19 @@ class Solution(object):
 
         stack = []
         stack.append(StackFrame(0, 0))
+        # when to POP or PUSH, when to swap and unswap
         while stack:
             frame = stack[-1]
             # generate and so on ...
-            # when to pop or push, when to swap and unswap
-            if frame.start == n or frame.current == n:
+            # the STACK POP operation
+            if frame.start < n and frame.current < n:
+                # the STACK PUSH operation is trivial, and it's the POP BACKTRACKING that matters
+                # swap to push down
+                self._swap(frame.start, frame.current, nums)
+                # new stack frame
+                stack_new = StackFrame(frame.start + 1, frame.start + 1)
+                stack.append(stack_new)
+            else:
                 if frame.start == n:
                     # found one solution at the end
                     permutations.append(list(nums))
@@ -161,13 +171,6 @@ class Solution(object):
                     # unswap to restore state
                     self._swap(frame.start, frame.current, nums)
                     frame.current += 1
-            else:
-                # the PUSH operation is trivial, and it's the POP BACKTRACKING that matters
-                # swap to push down
-                self._swap(frame.start, frame.current, nums)
-                # new stack frame
-                stack_new = StackFrame(frame.start + 1, frame.start + 1)
-                stack.append(stack_new)
         pass
         return permutations
 

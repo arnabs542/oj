@@ -13,9 +13,9 @@ Solution:
 
         Recurrence:
             table[i][i] = 1
-            table[i][j] = 1 => table[i+1][j-1] == 1 && s[i] == s[j]
-            @3 Simple method:check from center to
-            @4 Manacher's algorithm
+            table[i][j] = 1 <=> table[i+1][j-1] == 1 && s[i] == s[j]
+    @3 Simple method: check by scanning from center to two sides
+    @4 Manacher's algorithm
 
     '''
 

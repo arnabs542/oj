@@ -119,6 +119,7 @@ class Solution(object):
         # complement set
         exist = False
         for i in range(k - 1, -1, -1):
+            # the minimum index with larger object
             min_index_larger = None
             for j in range(len(complement)):
                 if permutation[i] < complement[j] and (

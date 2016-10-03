@@ -5,9 +5,7 @@ Return the minimum cuts needed for a palindrome partitioning of s.
 
 For example, given s = "aab",
 Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
-  '''
 
-'''
 Solution:
     @1 Dynamic Programming:
         Use DP to check whether a string is palindromic
@@ -21,13 +19,13 @@ Solution:
 
         recurrence:
             1) table[i][j]=(s[i]==s[j] && table[i+1][j-1] == True)
-            2) mincuts[j] = min(mincuts[j],mincuts[i-1]+1) if table[i][j] == True
+            2) mincuts[j] = min(mincuts[j], mincuts[i-1]+1) if table[i][j] == True
                 mincuts[i]:minimum palindrome cuts for s[0:i+1]
             The above recurrence is optimized version for :
                 mincuts[i][j] = min(mincuts[i][k]+mincuts[k+1][j]+1)
             The former recurrence only reassign new mincus when
             palindrome suffix occurs.
-        '''
+'''
 
 
 class Solution:

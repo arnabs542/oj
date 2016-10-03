@@ -73,8 +73,8 @@ class Trie(object):
 def test():
     trie = Trie()
     trie.insert("somestring")
-    print ('somestring' +  (' is in trie' if trie.search("somestring") else ' not in trie'))
-    print ('key' +  (' is in trie' if trie.search("key") else ' not in trie'))
+    print('somestring' +  (' is in trie' if trie.search("somestring") else ' not in trie'))
+    print('key' +  (' is in trie' if trie.search("key") else ' not in trie'))
     trie.search("key")
 
 if __name__ == '__main__':
