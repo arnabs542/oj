@@ -139,26 +139,26 @@ class Solution(object):
 
         class StackFrame(object):
 
-            def __init__(self, start=-1, current=-1):
-                self.start   = start
-                self.current = current
+            def __init__(self, position=-1, target=-1):
+                self.position  = position
+                self.target = target
 
         stack = []
         stack.append(StackFrame(0, 0))
-        # when to POP or PUSH, when to swap and unswap
+        # when to PUSH or POP, when to swap and unswap
         while stack:
             frame = stack[-1]
             # generate and so on ...
-            # the STACK POP operation
-            if frame.start < n and frame.current < n:
+            if frame.position < n and frame.target < n:
                 # the STACK PUSH operation is trivial, and it's the POP BACKTRACKING that matters
-                # swap to push down
-                self._swap(frame.start, frame.current, nums)
+                # pushing down: swap to push the target in position
+                self._swap(frame.position, frame.target, nums)
                 # new stack frame
-                stack_new = StackFrame(frame.start + 1, frame.start + 1)
+                stack_new = StackFrame(frame.position + 1, frame.position + 1)
                 stack.append(stack_new)
             else:
-                if frame.start == n:
+                # the STACK POP operation
+                if frame.position == n:
                     # found one solution at the end
                     permutations.append(list(nums))
                 stack.pop()
@@ -169,8 +169,8 @@ class Solution(object):
                 if stack:
                     frame = stack[-1]
                     # unswap to restore state
-                    self._swap(frame.start, frame.current, nums)
-                    frame.current += 1
+                    self._swap(frame.position, frame.target, nums)
+                    frame.target += 1
         pass
         return permutations
 
@@ -245,7 +245,7 @@ def test():
         # print(Solution().permuteBacktrack(nums))
         # print(Solution().permuteDP(nums))
         print(Solution().permuteDPRollingArray(nums))
-        # print(Solution().permuteBacktrackIterative(nums))
+        print(Solution().permuteBacktrackIterative(nums))
 
     # test permutations of m given n
     print(Solution().permuteKofNDP(3, 3))

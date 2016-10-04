@@ -1,10 +1,12 @@
 '''
 N-Queens
 
-The n-queens puzzle is the problem of placing n queens on an n*n chessboard such that no two queens attack each other.
+The n-queens puzzle is the problem of placing n queens on an n*n chessboard
+such that no two queens attack each other.
 Given an integer n, return all distinct solutions to the n-queens puzzle.
 
-Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+Each solution contains a distinct board configuration of the n-queens' placement,
+where 'Q' and '.' both indicate a queen and an empty space respectively.
 
 For example,
 There exist two distinct solutions to the 4-queens puzzle:
@@ -23,16 +25,34 @@ There exist two distinct solutions to the 4-queens puzzle:
 
 
 Solution:
+    N-Queens problem is a typical application of BACKTRACKING algorithm. For
+backtracking, we need to figure out a way to REPRESENT THE CANDIDATES, a way to
+generate all the possible candidates and ACCEPT those valid and REJECT those
+invalid.
+    In this solution, the representation of the candidate is a column VECTOR
+"queens", where i = queen[j] is the column index of the queen in row j. Under
+this representation, the way to generate all candidates is just like generate
+all the permutation of vector [0...n-1].
+    The key point to optimize is how to handle diagonal coordinates, which we
+can tackle by utilizing ANALYTIC GEOMETRY. For diagonal line like forward slash,
+the equation is y = x + k, where (x, y) is the coordinate and k is an constant.
+For backward slash like diagonal lines, the equation is y = -x + k, (x, y, k)
+are defined the same before. To wrap it up:
+    (1) The constant of a column is its index range from 0 to n-1.
+    (2) The constant of a back slash line "" is "col + row" or "x + y"
+    (3) The constant of a forward slash line "/" is "col - row" or "x - y"
+
     @1: BACKTRACK with recursive depth-first search.
     @2: BACKTRACK with STACK implemented DFS.
     @3: Bit manipulation instead of array representation of queens.
+    @4:
 
 '''
 
 import math
 
 
-class Solution:
+class Solution(object):
 
     @classmethod
     def check(cls, stack, row, col):
@@ -44,20 +64,21 @@ class Solution:
         return True
 
     @classmethod
-    def show(cls, stack, n):
+    def show(cls, queens, n):
         # print stack
-        resl = []
-        for i in range(n):
-            resl.append("")
-            for j in range(n):
-                if stack[i] == j:
-                    resl[i] = resl[i] + 'Q'
-                else:
-                    resl[i] = resl[i] + '.'
+        # resl = []
+        # n = len(queens)
+        # for i in range(n):
+            # resl.append("")
+            # for j in range(n):
+                # if queens[i] == j:
+                    # resl[i] = resl[i] + 'Q'
+                # else:
+                    # resl[i] = resl[i] + '.'
 
-        return resl
+        # return resl
+        return ['.' * q + 'Q' + '.' * (n - q - 1) for q in queens]
 
-    # @return a list of lists of string
     def solveNQueens(self, n):
         """
         :type n: int
@@ -66,31 +87,49 @@ class Solution:
 
         solutions = []
         stack = []
-        stack.append(0)
-        col_candidate_start = 0
+
+        columns = [True] * n # col, range is [0, n - 1]
+        backward = [True] *2 * n # col + row, range is [0, 2n - 2]
+        forward = [True] * 2 * n # col - row, range is [-(n - 1), n - 1]
+
+        # stack.append(0)
+        # columns[0] = False
+        # backward[0] = False
+        # forward[0] = False
+
+        col = 0
+
         while True:
             # TODO(DONE): decouple the STACK's PUSH and POP operation
             row = len(stack)
-            if row < n and col_candidate_start < n:
+            if row < n and col < n:
                 # STACK PUSH: place a new queen
-                while col_candidate_start < n:
-                    if self.check(stack, len(stack), col_candidate_start):
-                        stack.append(col_candidate_start)
-                        col_candidate_start = 0
+                while col < n:
+                    # if self.check(stack, row, col):
+                    if columns[col] and backward[col + row] and forward[col - row]:
+                        stack.append(col)
+                        columns[col] = backward[col + row] = forward[col - row] = False
+                        col = 0
                         break
                     else:
-                        col_candidate_start += 1
+                        col += 1
 
             else:
-                # search has met its dead end
-                if col_candidate_start >= n:
+                if col >= n:
+                    # search has met its dead end, and maybe
+                    # the whole depth-firsts search has ended
                     if not row:
                         return solutions
                 else:
+                    # row gets no less than n: a solution has already been found
                     # stack size is the board width, i.e., a solution has been found
                     solutions.append(Solution.show(stack, n))
                 # STACK POP
-                col_candidate_start = stack.pop() + 1
+                col = stack.pop()
+                row -= 1
+                columns[col] = backward[col + row] = forward[col - row] = True
+                col += 1
+
 
 if __name__ == "__main__":
     result = Solution().solveNQueens(4)
