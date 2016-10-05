@@ -137,11 +137,14 @@ class Solution(object):
         if not nums:
             return []
 
+        # TODO: the stack frame can be reduced to a single number representing
+        # the target, because the it's index in the stack already indicates its
+        # position
         class StackFrame(object):
 
             def __init__(self, position=-1, target=-1):
-                self.position  = position
-                self.target = target
+                self.position = position
+                self.target   = target
 
         stack = []
         stack.append(StackFrame(0, 0))

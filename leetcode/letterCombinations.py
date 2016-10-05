@@ -12,7 +12,7 @@ Note:
 
 '''
 Solution:
-    Similar to N-Queen problem.It can be solved with backtracking with recursion or depth-first search.
+    Similar to N-Queen problem. It can be solved with backtracking with recursion or depth-first search.
     '''
 
 class Solution:

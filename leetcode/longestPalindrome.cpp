@@ -1,3 +1,20 @@
+/*
+ * 5. Longest Palindromic Substring
+ *
+ * Total Accepted: 136906
+ * Total Submissions: 572137
+ * Difficulty: Medium
+ * Given a string S, find the longest palindromic substring in S. You may assume
+ * that the maximum length of S is 1000, and there exists one unique longest
+ * palindromic substring.
+ *
+ * ANALYSIS:
+ *  A typical overlapping substructured problem can be solved by DYNAMIC PROGRAMMING.
+ *  Let table[i][j] denote whether the substring [i, ..., j] is palindromic, then we
+ *  have such state transition relation:
+ *      table[i][j] == table[i + 1][j - 1] && string[i] == string[j]
+ */
+
 #include <iostream>
 #include <string>
 

@@ -34,7 +34,7 @@ Solution:
     B必须是整数，可以带正负号
     有e的话，A,B就必须同时存在
 
-    @2 finite automata
+    @2 FINITE STATE MACHINE (DETERMINISTIC FINITE AUTOMATA)
         (Refer to CLRS for more information about string matching with
         FINITE AUTOMATA)
         To construct a finite automata transition diagram.We classify the
