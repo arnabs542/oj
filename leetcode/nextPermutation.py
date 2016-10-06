@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
 
