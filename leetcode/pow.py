@@ -53,7 +53,7 @@ class Solution(object):
         concept of binary representation. So the order n can be rewritten, and we have relation
         between x^{2^(k+1)} and x^{2^k} given an integer k:
             x^{2^(k+1)} = x^{2^k * 2} = (x^{2^k})^2
-        x ^ n = \prod_{k = 0}^{m-1} x^{a_k 2^k}
+        x ^ n = \prod_{k = 0}^{m-1} x^{a_k \times 2^k}
         """
         if not x:
             return 0
