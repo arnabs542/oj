@@ -40,11 +40,11 @@ class Solution(object):
             nums.sort()
         if n < 2 or len(nums) < n or target < nums[
                 0] * n or target > nums[-1] * n:
-            # XXX: early stop, important for optimization for large data
+            # XXX(done): early stop, important for optimization for large data
             # without solutions
             return
-        if n == 2:
-            # TODO(done): two pointers algorithm when n is 2
+        elif n == 2:
+            # TODO(done): TWO POINTERS algorithm when n is 2
             low, high = 0, len(nums) - 1
             while low < high:
                 curr_sum = nums[low] + nums[high]
@@ -53,6 +53,7 @@ class Solution(object):
                 elif curr_sum == target:
                     yield (nums[low], nums[high])
                     while low < high:
+                        # avoid duplicate tuples
                         if nums[low] == nums[low + 1]:
                             low += 1
                         elif nums[high] == nums[high - 1]:
@@ -68,7 +69,7 @@ class Solution(object):
                 if i and nums[i] == nums[i - 1]:
                     # avoid duplicate tuples
                     continue
-                # XXX: RECURSIVELY reduce n by 1
+                # XXX(done): RECURSIVELY reduce n by 1
                 for t in self.nSum(nums[i + 1:], target - nums[i], n - 1):
                     yield (nums[i],) + t
 
