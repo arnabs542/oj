@@ -34,6 +34,47 @@ SOLUTION:
     3) NFA(nondeterministic finite automata)
 '''
 
+class memoize(dict):
+    '''Decorator. Caches a function's return value each time it is called.
+    If called later with the same arguments, the cached value is returned
+    (not reevaluated).
+    '''
+
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kw):
+        return self[args]
+
+    def __missing__(self, key):
+        ret = self[key] = self.func(*key)
+        return ret
+
+@memoize
+def isMatchDPRecursive(s, p):
+    '''
+      Top-down dynamic programming, actually.
+
+      Regular expressions have no prefix operators, BACKWARD MATCHING may suit better
+      than FORWARD MATCHING.
+    '''
+    # print(s, p)
+    if not p:
+        return not s
+    if not s:
+        return set(p[1::2]) == {'*'} and not (len(p) % 2)
+    char, exp_1, exp_2 = s[-1], p[-1], p[-2] if len(p) >= 2 else None
+    if exp_1 in {'.', char}:
+        return isMatchDPRecursive(s[:-1], p[:-1])
+    elif exp_1 == '*':
+        if exp_2 in {'.', char}:
+            return isMatchDPRecursive(
+                s, p[:-2]) or isMatchDPRecursive(s[:-1], p)
+        else:
+            return isMatchDPRecursive(s, p[:-2])
+    else:
+        return False
+
 class Solution(object):
 
     def isMatch(self, s, p):
@@ -42,7 +83,8 @@ class Solution(object):
         :type p: str, regex pattern
         :rtype: bool
         """
-        return self.isMatchBacktrackRecursive(s, p)
+        # return self.isMatchBacktrackRecursive(s, p)
+        return isMatchDPRecursive(s, p)
 
     def isMatchBacktrackRecursive(self, s, p, cache={('', ''): True}):
         """
@@ -51,6 +93,9 @@ class Solution(object):
         :rtype: bool
 
         Iteration where we can, recursion where we must.
+        This recursive implementation is the slowest, without memoization, its time
+        complexity grows exponentially.
+
         76ms, 90.79%, 2016-10-11 09:06
         """
         i, j = 0, 0
@@ -111,9 +156,16 @@ def test():
     assert solution.isMatch("aab", "c*a*b*")
     assert not solution.isMatch(
         "aaaaaaaaaaaaaaaab",
-        "a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*c")
+        "a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*ac")
+    assert solution.isMatch(
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+        "a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*ab")
     print('self test passed')
     pass
 
 if __name__ == '__main__':
+    import time
+    t0 = time.clock()
     test()
+    t1 = time.clock()
+    print('{} ms'.format(1000 * (t1 - t0)))
