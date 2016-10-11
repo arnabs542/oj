@@ -308,11 +308,18 @@ isMatch(char *s, char *p)
 
 void test()
 {
+	assert(rematch("", ""));
 	assert(rematch("a", "a"));
 	/*assert(rematch("你*好", "好"));*/
 	assert(!rematch("abc", "abx"));
 	assert(rematch(".*", "aa"));
+	assert(rematch(".*", ""));
+	assert(rematch("a*", ""));
 	assert(rematch("a**", "a"));
+	assert(rematch("c*a*b*", "aab"));
+	assert(!rematch("aaaaaaaaaaaaab", "a*a*a*a*a*a*a*a*a*a*c"));
+	assert(!rematch("aaaaaaaaaaaaab", "a*a*a*a*a*a*a*a*a*a*c*b*"));
+	assert(!rematch("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", "a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*a*c"));
 	fprintf(stdout, "self test passed!\n");
 	fflush(stdout);
 }
