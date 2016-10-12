@@ -16,14 +16,58 @@ may assume that each input would have exactly one solution.
 
 class Solution(object):
 
-    def threeSumClosest(self, nums, target):
+    def twoSumClosest(self, nums: list, target):
+        low, high = 0, len(nums) - 1
+
+        closest_diff = None
+        closest_integers = ()
+        # print('target: ', target, nums)
+
+        while low < high:
+            diff = nums[low] + nums[high] - target
+            # print(nums[low], nums[high], diff, closest_diff)
+            if not closest_diff or closest_diff > abs(diff):
+                closest_diff = abs(diff)
+                closest_integers = (nums[low], nums[high],)
+            if diff < 0:
+                low += 1
+            elif diff == 0:
+                closest_diff = 0
+                closest_integers = (nums[low], nums[high],)
+                return closest_diff, closest_integers
+            else:
+                high -= 1
+
+        return closest_diff, closest_integers
+
+    def threeSumClosest(self, nums: list, target):
         """
         :type nums: List[int]
         :type target: int
         :rtype: int
         """
+        nums.sort()
+
+        closest_diff = None
+        closest_integers = ()
+
+        for i in range(len(nums) - 2):
+            diff, integers = self.twoSumClosest(nums[i + 1:], target - nums[i])
+            if not closest_diff or closest_diff > diff:
+                print('integers: ', nums[i], integers)
+                closest_diff = diff
+                closest_integers = (nums[i],) + integers
+                if closest_diff == 0:
+                    return sum(closest_integers)
+
+        return sum(closest_integers)
 
 def test():
+    solution = Solution()
+    assert solution.threeSumClosest([1,1,-1,-1,3], 1) == 1
+    assert solution.threeSumClosest([0, 2, 1, -3], 1) == 0
+    assert solution.threeSumClosest([0, 0, 0], 1) == 0
+    assert solution.threeSumClosest([-1, 2, 1, -4], 1) == 2
     print('self test passed!')
     pass
 
