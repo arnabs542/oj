@@ -15,14 +15,11 @@
  */
 
 
-package longestConsecutive;
-
 import java.util.Hashtable;
 
 public class LongestConsecutive {
 
-    static public int LongestConsecutive(int[] num) {
-        // TODO Auto-generated constructor stub
+    static public int longestConsecutive(int[] num) {
         Hashtable<Integer, Integer> table = new Hashtable<Integer, Integer>();
         int curr = 1, length = 0, left, right;
         for (int i : num) {
@@ -55,6 +52,6 @@ public class LongestConsecutive {
     }
 
     public static void main(String[] args) {
-        System.out.println(LongestConsecutive(new int[] { 100, 4, 200, 1, 3, 2 }));
+        System.out.println(LongestConsecutive.longestConsecutive(new int[] { 100, 4, 200, 1, 3, 2 }));
     }
 }

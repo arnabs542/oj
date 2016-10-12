@@ -21,15 +21,15 @@
  *
  *
  * Algorithm:
- * This is a shortest path problem in Graph theory.If the Edit Distance between two words is the distance 
+ * This is a SHORTEST PATH problem in Graph theory. If the Edit Distance between two words is the distance
  * between two vertices representing them.
- * For shorest path problem, we have breadth-fist search problem.
- *      Naively,we can build the graph with time complexity of O(|V|*|V|),and do a BFS in O(|V|+|E|).This 
- * implementation will fail the big data test.To optimize the code,we can get around the graph building process:
- * We store vertices in a hash table,thus retrieving them in constant time.Initially,we push the start word into 
- * the queueWhile Breadth-first searching,do change one character each time with a word,and check if it's in the 
- * dictionary.If it's in,then we push it into a queue,updating its search depth.Then we can find the shortest path
- * in O(|V| * L * 26).L is the words' length.
+ * For SHORTEST PATH problem, we have BREADTH-FIST SEARCH problem.
+ *      Naively, we can build the graph with time complexity of O(|V|*|V|), and do a BFS in O(|V|+|E|).This
+ * implementation will fail the big data test. To optimize the code,we can get around the graph building process:
+ * We store vertices in a HASH TABLE, thus retrieving them in constant time. Initially,we push the start word into
+ * the queue. While BREADTH-FIRST searching, do change one character each time with a word, and check if it's in the
+ * dictionary.If it's in,then we push it into a queue,updating its search depth. Then we can find the shortest path
+ * in O(|V| * L * 26). L is the words' length.
  */
 
 
@@ -78,7 +78,7 @@ public class WordLadder {
         queue.offer(start);
         dict.add(end);
         ladderLength.put(end, Integer.MAX_VALUE);
-        
+
         // maintenance
         while (!queue.isEmpty()) {
             String word = queue.poll();
@@ -87,7 +87,7 @@ public class WordLadder {
                 length = ladderLength.get(word);
                 return length;
             }
-            
+
             int l = word.length();
             for (int i = 0; i < l; i++) {
                 char[] arr = word.toCharArray();
@@ -102,23 +102,6 @@ public class WordLadder {
                     }
                 }
             }
-            /*
-            for (String adjString : dict) {
-                if (this.isConnected(word, adjString) && ladderLength.get(word) < ladderLength.get(adjString)) {
-                    ladderLength.put(adjString, ladderLength.get(word) + 1);
-                    if (adjString.equals(end)) {
-                        length = ladderLength.get(adjString);
-                        return length;
-                    }
-                    queue.offer(adjString);
-                    // causes java.util.ConcurrentModificationException when calling
-                    // .remove with iterator
-
-                    // dict.removeAll(new LinkedList<String>(Arrays.asList(adjString)));
-                    // dict.remove(adjString);
-                }
-            }
-            */
         }
         return 0;
     }
@@ -128,7 +111,7 @@ public class WordLadder {
         // System.out.println(set);
         WordLadder ll = new WordLadder();
         System.out.println(ll.ladderLength("hit", "cog", set));
-        
+
         set = new HashSet<String>(Arrays.asList("a","b","c"));
         System.out.println(ll.ladderLength("a","c",set));
     }

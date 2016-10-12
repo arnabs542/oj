@@ -83,8 +83,8 @@ class Solution(object):
         :type p: str, regex pattern
         :rtype: bool
         """
-        # return self.isMatchBacktrackRecursive(s, p)
-        return isMatchDPRecursive(s, p)
+        return self.isMatchBacktrackRecursive(s, p)
+        # return isMatchDPRecursive(s, p)
 
     def isMatchBacktrackRecursive(self, s, p, cache={('', ''): True}):
         """
