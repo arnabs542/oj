@@ -8,11 +8,15 @@ Difficulty: Hard
 Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 
 SOLUTION:
-    1. Trivial solution: iterate for number of all elements each
-time. At each time, linearly scan for these k lists. O(k*n)
-    2. A min-heap will reduce the time complexity to O(log(k)*n).
-    3. merge sort two lists at each time. Same asymptotic time complexity, because we have to
-merge for logk times, at each time, the time complexity is O(n): n * logk = nlogk
+    1. Trivial solution: maintain k pointers to k linked lists simultaneously, iterate them to
+find the minimum each time to append into the new list. At each time, linearly scan for these
+k lists, and we need to do for total n elements, in O(k*n).
+    2. Merge these k lists one by one, by merging two of them each time.
+2*n/k + 3*n/k + ... + k*n/k = n/k * (k-1)(k+2)/2 = O(kn).
+    3. A MIN-HEAP will reduce the time complexity to O(log(k)*n).
+    4. DIVIDE AND CONQUER, merge sort two lists at each time. Same asymptotic time complexity,
+because we have to merge for logk times, at each time, the time complexity is
+O(n): n * logk = nlogk
 '''
 
 

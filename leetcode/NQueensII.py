@@ -55,7 +55,7 @@ class Solution(object):
                 # STACK POP
                 col = stack.pop()
                 row -= 1
-                # restore states to BACKTRACK
+                # mark unvisited, restoring states to BACKTRACK
                 columns[col] = backward[col + row] = forward[col - row] = True
             col += 1
 
