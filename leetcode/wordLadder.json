@@ -1,4 +1,24 @@
 [{
+    "beginWord": "",
+    "endWord": "",
+    "wordList": [],
+    "length": 1
+}, {
+    "beginWord": "a",
+    "endWord": "c",
+    "wordList": ["a", "b", "c"],
+    "length": 2
+}, {
+    "beginWord": "hot",
+    "endWord": "dog",
+    "wordList": ["hot", "dog"],
+    "length": 0
+}, {
+    "beginWord": "hot",
+    "endWord": "dog",
+    "wordList": ["hot", "dog", "dot"],
+    "length": 3
+}, {
     "beginWord": "hit",
     "endWord": "cog",
     "wordList": ["hot", "dot", "dog", "lot", "log"],

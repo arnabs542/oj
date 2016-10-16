@@ -97,6 +97,12 @@ class Solution(object):
 
         return s[start:start + maxlen]
 
+    # TODO: expand around the center, O(n^2)
+
+    # TODO: Manacher's linear time complexity solution, O(n)
+
+    # TODO: SUFFIX ARRAY implementation, O(n*logn)
+
     def longestPalindrome(self, s):
         """
         :type s: str

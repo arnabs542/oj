@@ -29,6 +29,13 @@ finished course 0, and to take course 0 you should also have finished course 1. 
 
 Note:
 The input prerequisites is a graph represented by a list of edges, not adjacency matrices.
+
+#1 Topological sorting with depth-first search:
+
+TOPOLOGICAL-SORT(G)
+1 call DFS(G) to compute finishing times v.f for each vertex
+2 as each vertex is finished, insert it onto the front of a linked list(or append)
+3 return the linked list of vertices
 '''
 
 class Solution(object):
@@ -43,6 +50,9 @@ class Solution(object):
         return self.topologicalSort(adj)
 
     def buildGraph(self, numCourses, prerequisites):
+        '''
+        Build a graph with adjacency list representation
+        '''
         adj = [[] for i in range(numCourses)]
         for edge in prerequisites:
             adj[edge[0]].append(edge[1])
@@ -78,6 +88,8 @@ class Solution(object):
         color[v] = 'black'
         vertices_sorted.append(v)
         return True
+
+    # TODO: BFS(breadth-first search) to topologically sort
 
 def test():
     solution = Solution()

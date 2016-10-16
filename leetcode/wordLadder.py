@@ -59,7 +59,7 @@ class Solution(object):
         # return self.ladderLengthBFS(beginWord, endWord, wordList)
         return self.ladderLengthBiBFS(beginWord, endWord, wordList)
 
-    def neighbors(self, word):
+    def neighbors(self, word, wordList):
         l = len(word)
         for i in range(l):
             for c in 'abcdefghijklmnopqrstuvwxyz':
@@ -68,7 +68,7 @@ class Solution(object):
                     # lambda t: chr(ord('a') + j) if t[0] == i else t[1],
                     # enumerate(word)))
                 neighbor = word[:i] + c + word[i + 1:]
-                if neighbor != word:
+                if neighbor != word and neighbor in wordList:
                     yield neighbor
 
     def ladderLengthBFS(self, beginWord, endWord, wordList):
@@ -95,7 +95,7 @@ class Solution(object):
             # print('depth {}, depth: {}'.format(word, depth[word]))
             if word == endWord:
                 return depth[word]
-            for neighbor in self.neighbors(word):
+            for neighbor in self.neighbors(word, wordList):
                 if neighbor in wordList and neighbor not in depth:
                     # print('visiting {}'.format(neighbor))
                     queue.append(neighbor)
@@ -110,6 +110,10 @@ class Solution(object):
         :type wordList: set[str] or list[str]?
         :rtype: int
 
+        For this BFS on this problem, we don't need to track the path, so we don't have to
+        track the PREDECESSORS or the COLOR while traversing the graph. Keeping track of
+        the DISTANCE will do.
+
         Bidirectional breadth-first search.
         Assume branching factor is b, then bidirectional search
         reduces time complexity from O(b^d) to O(b^(d/2)) by reducing the SEARCH DEPTH.
@@ -122,14 +126,14 @@ class Solution(object):
         length = 0
 
         front, back = [beginWord], [endWord]
-        frontVisited, backVisited = dict(), dict()
+        frontDistance, backDistance = dict(), dict()
 
-        frontVisited[beginWord] = 1
-        backVisited[endWord] = 1
+        frontDistance[beginWord] = 1
+        backDistance[endWord] = 1
 
         def explore(queue, visited, visited2):
             word = queue.pop(0)
-            for neighbor in self.neighbors(word):
+            for neighbor in self.neighbors(word, wordList):
                 if neighbor in wordList and neighbor not in visited:
                     if neighbor in visited2:
                         return visited[word] + visited2[neighbor]
@@ -139,9 +143,9 @@ class Solution(object):
             return 0
 
         while front and back:
-            length = explore(front, frontVisited, backVisited)
+            length = explore(front, frontDistance, backDistance)
             if not length:
-                length = explore(back, backVisited, frontVisited)
+                length = explore(back, backDistance, frontDistance)
             if length:
                 break
 
