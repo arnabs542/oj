@@ -73,7 +73,8 @@ class Solution(object):
         color[v] = 'gray'
         for u in adj[v]:
             if color.get(u) == 'gray' or (
-                    u not in color and not self.DFS(u, adj, color, vertices_sorted)):
+                u not in color and \
+                not self.DFS(u, adj, color, vertices_sorted)):
                 return False
         color[v] = 'black'
         vertices_sorted.append(v)
