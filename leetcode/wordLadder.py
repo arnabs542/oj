@@ -25,10 +25,11 @@ All words have the same length.
 All words contain only lowercase alphabetic characters.
 
 
+===================================================================================================
 SOLUTION:
     This is a SHORTEST PATH problem in Graph theory. If the Edit Distance
 between two words is the distance between two vertices representing them.
-    For SHORTEST PATH problem, we have BREADTH-FIST SEARCH problem.
+    For SHORTEST PATH problem, we have BREADTH-FIRST SEARCH problem.
     Naively, we can build the graph with time complexity of O(|V|*|V|),
 and do a BFS in O(|V|+|E|).This implementation will fail the big data test. To
 optimize the code,we can get around the graph building process:

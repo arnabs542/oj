@@ -30,6 +30,7 @@ finished course 0, and to take course 0 you should also have finished course 1. 
 Note:
 The input prerequisites is a graph represented by a list of edges, not adjacency matrices.
 
+===================================================================================================
 #1 Topological sorting with depth-first search:
 
 TOPOLOGICAL-SORT(G)

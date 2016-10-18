@@ -34,6 +34,10 @@ nums = [
 Return 4
 The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 
+===================================================================================================
+SOLUTION:
+    Typical GRAPH traversing problem, depth-first search or breadth-first search can be utilized.
+And this problem have the common structure with topological sort problem.
 '''
 
 class Solution(object):

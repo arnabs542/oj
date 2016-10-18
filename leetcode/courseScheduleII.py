@@ -38,6 +38,8 @@ take all courses.
 the basic concepts of Topological Sort.
   Topological sort could also be done via BFS.
 
+===================================================================================================
+Topological sort with DFS or BFS.
 '''
 
 class Solution(object):
@@ -77,6 +79,7 @@ class Solution(object):
                 not self.DFS(u, adj, color, vertices_sorted)):
                 return False
         color[v] = 'black'
+
         vertices_sorted.append(v)
         return True
 
@@ -87,6 +90,8 @@ def test():
     assert solution.findOrder(2, [[1, 0]]) == [0, 1]
     assert solution.findOrder(
         4, [[1, 0], [2, 0], [3, 1], [3, 2]]) == [0, 1, 2, 3]
+    assert solution.findOrder(
+        5, [[1, 4], [2, 4], [3, 1], [0, 2], [0, 3]]) == [4, 2, 1, 3, 0]
     assert not solution.findOrder(2, [[1, 0], [0, 1]])
     assert not solution.findOrder(4, [[0, 1], [1, 2], [0, 3], [3, 0]])
 

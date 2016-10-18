@@ -28,6 +28,7 @@ Note:
 All words have the same length.
 All words contain only lowercase alphabetic characters.
 
+===================================================================================================
 SOLUTION:
     For SHORTEST PATH, we may consider BFS(breadth-first search).
     Use hash table to store the graph implicitly, instead of explicitly
@@ -116,6 +117,7 @@ class Solution(object):
 
                     # update predecessors list and distance
                     if distance[word] + 1 < distance[neighbor]:
+                        # not used for this graph
                         print('A general graph BFS case, not supposed to occur here')
                         predecessors[neighbor] = [word]
                         distance[neighbor] = distance[word] + 1
@@ -187,6 +189,48 @@ class Solution(object):
                 if color.get(word) == 'black':
                     predecessors.pop()
                 del color[word]
+
+    def findLaddersStorePaths(self, start, end, wordList):
+        res = []
+        path = []
+        if start == end:
+            path.append(end)
+            res.append(path)
+            return res
+        wordList.add(start)
+        wordList.add(end)
+        edge = {}
+        for word in wordList:
+            edge[word] = []
+        for word in wordList:
+            for i in range(len(word)):
+                for c in range(ord(word[i]) + 1, 123):
+                    nw = word[:i] + chr(c) + word[i + 1:]
+                    if nw in wordList:
+                        edge[word].append(nw)
+                        edge[nw].append(word)
+        queue = [[start]]
+        flag = 0
+        delete = set([start])
+        size = 1
+        add = []
+        while len(queue):
+            words = queue.pop(0)
+            if flag and len(words) >= flag:
+                break
+            if len(words) > size:
+                size = len(words)
+                delete |= set(add)
+                add = []
+            word = words[-1]
+            for nw in edge[word]:
+                if nw == end:
+                    flag = len(words) + 1
+                    res.append(words + [nw])
+                if nw not in delete:
+                    queue.append(words + [nw])
+                    add.append(nw)
+        return res
 
     def findLaddersBFSStorePaths(self, beginWord, endWord, wordList):
         # TODO: breadth first search with paths stored
