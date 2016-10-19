@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -*-
 '''
-Permutations II
+47. Permutations II
 
 Given a collection of numbers that might contain duplicates, return all
 possible unique permutations.

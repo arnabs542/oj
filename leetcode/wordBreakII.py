@@ -1,5 +1,6 @@
 '''
-Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a valid dictionary word.
+140. Given a string s and a dictionary of words dict, add spaces in s to construct a sentence
+where each word is a valid dictionary word.
 
 Return all such possible sentences.
 
@@ -14,7 +15,7 @@ A solution is ["cats and dog", "cat sand dog"].
     STATE TRANSITION: breakable[j] = 1(exists such i that s[i-1:j] is in dictionary) * breakable[i],
         where i, j indicates the ith, jth character in string s.
 
-2. Search: depth-first search with backtracking and breadth-first search
+2. Search: depth-first search or breadth-first search with backtracking.
 '''
 class Solution(object):
 
