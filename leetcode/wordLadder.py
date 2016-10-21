@@ -25,7 +25,7 @@ All words have the same length.
 All words contain only lowercase alphabetic characters.
 
 
-===================================================================================================
+=========================================================================================
 SOLUTION:
     This is a SHORTEST PATH problem in Graph theory. If the Edit Distance
 between two words is the distance between two vertices representing them.

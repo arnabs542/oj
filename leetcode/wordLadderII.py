@@ -56,21 +56,33 @@ class Solution(object):
         if not isinstance(wordlist, set):
             print('converting wordlist as a set, size', len(wordlist))
             wordlist = set(wordlist)
-        # length = self.ladderLengthBiBFS(beginWord, endWord, wordlist)
 
         # paths =  self.findLaddersDFS(beginWord, endWord, wordlist, length)
         # paths = self.findLaddersStorePaths(beginWord, endWord, wordlist)
-        paths = self.findLaddersBFS(beginWord, endWord, wordlist)
+        # paths = self.findLaddersBFS(beginWord, endWord, wordlist)
         # paths = self.findLaddersBFSStorePaths(beginWord, endWord, wordlist)
+        paths = self.findLaddersBiBFS(beginWord, endWord, wordlist)
         return list(paths)
 
-    def neighbors(self, word, wordList):
+    def _neighbors(self, word, wordList):
         l = len(word)
         for i in range(l):
             for c in 'abcdefghijklmnopqrstuvwxyz':
                 neighbor = word[:i] + c + word[i + 1:]
                 if neighbor != word and neighbor in wordList:
                     yield neighbor
+
+    def _constructPaths(self, endWord, predecessors, path, paths, beginWord=None, depth=0):
+        # generate paths in DFS approach
+        path.insert(0, endWord)
+        if not predecessors.get(endWord) and path:
+            if (depth and len(path) > depth) or (beginWord and beginWord != path[0]):
+                return
+            paths.append(path)
+        else:
+            for p in predecessors[endWord]:
+                path_new = list(path)
+                self._constructPaths(p, predecessors, path_new, paths, beginWord, depth)
 
     def findLaddersBFS(self, beginWord, endWord, wordList):
         """
@@ -79,6 +91,7 @@ class Solution(object):
         :type wordList: set[str]?
         :rtype: int
 
+        618ms
         """
         # TODO(done): breadth first search with predecessors list
         wordList.add(endWord)
@@ -105,7 +118,7 @@ class Solution(object):
                 # continue
                 break
             # explore neighbors
-            for neighbor in self.neighbors(word, wordList):
+            for neighbor in self._neighbors(word, wordList):
                 # unexplored or only explored by siblings
                 if neighbor not in distance or distance[
                         neighbor] > distance[word]:
@@ -125,25 +138,14 @@ class Solution(object):
                         # XXX(done): keep predecessors list to track all paths
                         predecessors[neighbor].append(word)
 
-        # generate paths
-        def generate(word, predecessors, path, paths):
-            path.insert(0, word)
-            if not predecessors.get(word):
-                if path:
-                    paths.append(path)
-            else:
-                for p in predecessors[word]:
-                    path_new = list(path)
-                    generate(p, predecessors, path_new, paths)
-
         paths = []
         if length:
-            generate(endWord, predecessors, [], paths)
+            self._constructPaths(endWord, predecessors, [], paths)
         print(len(paths), 'paths')
 
         yield from paths
 
-    def ladderLengthBiBFS(self, beginWord: str,
+    def findLaddersBiBFS(self, beginWord: str,
                           endWord: str, wordList: set) -> int:
         """
         :type beginWord: str
@@ -151,12 +153,72 @@ class Solution(object):
         :type wordList: set[str] or list[str]?
         :rtype: int
 
-        Bidirectional breadth-first search.
-        Assume branching factor is b, then bidirectional search
-        reduces time complexity from O(b^d) to O(b^(d/2)) by reducing the SEARCH DEPTH.
+            Bidirectional(two-end) breadth-first search.
+        Assume branching factor is b, then bidirectional search reduces time complexity from
+        O(b^d) to O(b^(d/2)) by reducing the SEARCH DEPTH.
 
+            For bidirectional search, we have to maintain two FRONTIERS. In this scenario, we
+        have to find the shortest paths, which means the depths of nodes in each frontier must
+        keep in consistency. In another word, ndoes in each frontier must be from the same level
+        of the graph.
+            A simple way to tackle this would be to explore all nodes in one frontier at each time
+        and do the same to the other frontier next time. Given that, a trick with set data structure
+        comes in handy. We can use a empty set to contain nodes with new depths and discard those
+        with old depths.
+
+        242ms: Two-end BFS
+        178ms: use logic or instead of set union operation when checking element in sets.
+        162ms: assign object pointers instead of copying objects
         """
-        # TODO: bidirectional breadth-first search
+        # TODO(done): bidirectional breadth-first search
+        # FIXME(fixed): why would this approach give paths besides the shortest ones. And the
+        # solutions are nondeterministic.
+        # The nondeterminacy of solutions results in the `set` data structure's UNORDERED nature
+
+        frontiers = [{beginWord}, {endWord}] # forward, backward frontiers
+        frontier_new = set()
+        predecessors = dict()
+        visited = set()
+        join = False
+        step = 0
+
+        while frontiers[0] and frontiers[1]:
+            # choose a FRONTIER, whether forward or backward
+            backward = True if len(frontiers[1]) < len(frontiers[0]) else False
+            i = 1 if backward else 0
+            frontier, frontier2 = frontiers[i], frontiers[1 - i]
+
+            step += 1
+            frontier_new.clear()
+            # explore one frontier
+            while frontier:
+                # XXX: POP from FRONTIER and EXPLORE
+                node = frontier.pop()
+                if node in frontier2:
+                    print('found solution at step', step, node)
+                    join = True
+                elif not join:
+                    for neighbor in self._neighbors(node, wordList):
+                        # XXX: explore only FORWARD edges not BACK/CROSS edges
+                        if neighbor in visited or neighbor in frontier: continue
+                        frontier_new.add(neighbor)
+                        predecessor_key    = neighbor if not backward else node
+                        predecessors_value = node if not backward else neighbor
+                        predecessors.setdefault(predecessor_key, [])
+                        # XXX: append predecessors list
+                        predecessors[predecessor_key].append(predecessors_value)
+                        pass
+                # XXX: mark state EXPLORED
+                visited.add(node)
+
+            frontiers[i], frontier_new = frontier_new, frontiers[i]
+            if join: break
+            pass
+
+        paths = []
+        if join: self._constructPaths(endWord, predecessors, [], paths,
+                                      beginWord=beginWord, depth=step)
+        return paths
 
     def findLaddersDFS(self, beginWord, endWord, wordlist, max_steps):
         # TODO: time limit exceeded without pruning
@@ -176,7 +238,7 @@ class Solution(object):
                 continue
             if color.get(word) != 'black' and \
                len(predecessors) + 1 < min(max_steps, 10):
-                for neighbor in self.neighbors(word, wordlist):
+                for neighbor in self._neighbors(word, wordlist):
                     # print('neighbor ', neighbor)
                     if neighbor not in color:
                         stack.append(neighbor)
@@ -189,48 +251,6 @@ class Solution(object):
                 if color.get(word) == 'black':
                     predecessors.pop()
                 del color[word]
-
-    def findLaddersStorePaths(self, start, end, wordList):
-        res = []
-        path = []
-        if start == end:
-            path.append(end)
-            res.append(path)
-            return res
-        wordList.add(start)
-        wordList.add(end)
-        edge = {}
-        for word in wordList:
-            edge[word] = []
-        for word in wordList:
-            for i in range(len(word)):
-                for c in range(ord(word[i]) + 1, 123):
-                    nw = word[:i] + chr(c) + word[i + 1:]
-                    if nw in wordList:
-                        edge[word].append(nw)
-                        edge[nw].append(word)
-        queue = [[start]]
-        flag = 0
-        delete = set([start])
-        size = 1
-        add = []
-        while len(queue):
-            words = queue.pop(0)
-            if flag and len(words) >= flag:
-                break
-            if len(words) > size:
-                size = len(words)
-                delete |= set(add)
-                add = []
-            word = words[-1]
-            for nw in edge[word]:
-                if nw == end:
-                    flag = len(words) + 1
-                    res.append(words + [nw])
-                if nw not in delete:
-                    queue.append(words + [nw])
-                    add.append(nw)
-        return res
 
     def findLaddersBFSStorePaths(self, beginWord, endWord, wordList):
         # TODO: breadth first search with paths stored
@@ -261,14 +281,13 @@ class Solution(object):
                 # break
                 continue
             # explore neighbors
-            for neighbor in self.neighbors(word, wordList):
+            for neighbor in self._neighbors(word, wordList):
                 if neighbor not in distance or distance[
                         neighbor] > distance[word]:
                     # PUSH into the Queue
                     queue.append(words + [neighbor])
                     distance[neighbor] = distance[word] + 1
                 pass
-        pass
 
         return paths
 
@@ -278,9 +297,10 @@ def test():
         params = json.load(f)
     solution = Solution()
     for param in params[:]:
-        print(solution.findLadders(
-            param['beginWord'], param['endWord'], set(param['wordList'])
-        ))
+        paths = solution.findLadders(
+            param['beginWord'], param['endWord'], set(param['wordList']))
+        print(paths, '\n')
+        # assert len(paths) == param['length']
     pass
 
 if __name__ == '__main__':

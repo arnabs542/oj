@@ -24,11 +24,13 @@ word = "ABCB", -> returns false.
 
 SOLUTION:
     1. Treat this problem as a graph search problem, then DEPTH-FIRST or
-        BREADTH-FIRST search can be utilized.
+BREADTH-FIRST search can be utilized.
     2. Preprocess the table to build a TRIE tree data structure for text retrieval.
     3. Combine the DFS and TRIE procedure: along with depth-first search routine,
-    we build the partial trie tree
-    simultaneously.
+we build the partial trie tree simultaneously.
+
+Optimization:
+    To save memory, we can use bit manipulation `cell ^= 256` to mark visited cells.
 '''
 
 # the lambda expression to get an array's depth recursively
@@ -160,11 +162,31 @@ class Solution(object):
     def _cellLetter(cls, board, coordinate):
         return np.at(board, coordinate)
 
+    def neighbors2(self, coordinate, size, cycle=False):
+        """
+        :type coordinate: two-tuple (c1, c2)
+        :type size: two-tuple (M, N), the matrix(board) size
+        :cycle: take modulo arithmetic to get remainder, to cycle
+        :rtype: iterator of (c1, c2)
+
+        There is a trade-off between code abstractness and speed.
+        This implementation may be faster, but it doesn't generalize to N-dimension.
+        """
+        if coordinate[0] - 1 >= 0:
+            yield (coordinate[0] - 1, coordinate[1])
+        if coordinate[0] + 1 < size[0]:
+            yield (coordinate[0] + 1, coordinate[1])
+        if coordinate[1] - 1 >= 0:
+            yield (coordinate[0], coordinate[1] - 1)
+        if coordinate[1] + 1 < size[1]:
+            yield (coordinate[0], coordinate[1] + 1)
+
+    @classmethod
+    def _cellLetter2(cls, board, coordinate):
+        return board[coordinate[0]][coordinate[1]]
+
     def DFS(self, board, word, coordinate=None):
         # TODO: (DONE) multiple dimensional: 1-d, 2-d, ...
-        if not word:
-            return True
-
         # start depth-first search
         if not coordinate:
             for index in np.indices(self.size):
@@ -173,24 +195,23 @@ class Solution(object):
 
         result = False
         cellLetter = self._cellLetter(board, coordinate)
-        self.visit.add(coordinate)
-        if word.startswith(cellLetter):
-            if self.verbose: print('visited', cellLetter, word, coordinate)
-            word_remain = word[len(cellLetter):]
-            if not word_remain:
-                result = True
-            else:
-                # the RECURSIVE routine
-                for neighbor in self.neighbors(coordinate, self.size, cycle=self.cycle):
-                    # if self.verbose: print('visiting', self._cellLetter(board, neighbor),
-                                           # word_remain, neighbor, neighbor in self.visit)
-                    if neighbor not in self.visit:
-                        result = self.DFS(board, word[len(cellLetter):], neighbor)
-                        if result:
-                            break
 
-        # BACKTRACKING: revert state
-        self.visit.remove(coordinate)
+        if not word or word == cellLetter:
+            return True
+
+        # check traversal condition
+        if word.startswith(cellLetter):
+            self.visit.add(coordinate)
+            if self.verbose: print('visited', cellLetter, word, coordinate)
+            # the RECURSIVE routine
+            for neighbor in self.neighbors(coordinate, self.size, cycle=self.cycle):
+                if neighbor not in self.visit:
+                    result = self.DFS(board, word[len(cellLetter):], neighbor)
+                    if result:
+                        break
+            # BACKTRACKING: revert state
+            self.visit.remove(coordinate)
+
         return result
 
     def existTrie(self, board, word):
@@ -206,12 +227,13 @@ def test():
     print(list(np.indices([2, 5])))
     print(list(np.indices([1])))
 
-    solution = Solution('cycle', not 'verbose')
+    solution = Solution('cycle', 'verbose')
     assert solution.exist(board, 'ABCCED'), 'ABCCED should be in the board'
     assert solution.exist(board, 'SEE'), 'SEE should be in the board'
     assert solution.exist(board, 'SSFB'), 'SSFB should be in the board'
     assert not solution.exist(board, 'ABCB'), 'ABCB should not be in the board'
     assert solution.exist(['a'], 'a'), 'a should be in the board'
+    assert solution.exist([['a']], 'a'), 'a should be in the board'
     assert not solution.exist([], 'a'), 'a should not be in the board'
     assert not solution.exist(
         ["aaa", "abb", "abb", "bbb", "bbb", "aaa", "bbb", "abb", "aab", "aba"],
