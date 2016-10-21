@@ -28,14 +28,25 @@ Note:
 All words have the same length.
 All words contain only lowercase alphabetic characters.
 
-===================================================================================================
+================================================================================================
 SOLUTION:
-    For SHORTEST PATH, we may consider BFS(breadth-first search).
-    Use hash table to store the graph implicitly, instead of explicitly
-constructing the graph with in O(V*V) time complexity.
+    For SHORTEST PATH, we may consider BFS(BREADTH-FIRST SEARCH). To speed it up, we can use
+BIDIRECTIONAL(two-end) BFS.
+    In order to get all paths, we may consider:
+        1. Store paths in queue
+        2. Keep track of predecessors while traversing the graph, then construct paths by DFS.
+
+    For bidirectional search, we have to keep the nodes' depths with each frontier container
+consistent. So data structures to keep old frontiers and new frontiers are in demand.
+    When BUILDING THE GRAPH, instead of checking connectivity between two vertices v1, v2,
+which gives O(n*n) time complexity, we can do it in O(n*k*26) time complexity, where k is the
+word length, and 26 denotes 26 characters. To achieve this, for each vertex in the graph, we
+iterate all possible candidates by alternating a character each time, and check its existence
+in the dictionary. Thus we can build the graph faster by one magtitude(order).
+    Also, consider build the graph in advance or on the fly according to different scenarios.
 
 Python tips:
-  Us chr, ord to convert character and unicode integer back and forth.
+  Use chr, ord to convert character and unicode integer back and forth.
 '''
 
 class Solution(object):
@@ -63,6 +74,25 @@ class Solution(object):
         # paths = self.findLaddersBFSStorePaths(beginWord, endWord, wordlist)
         paths = self.findLaddersBiBFS(beginWord, endWord, wordlist)
         return list(paths)
+
+    def buildGraph(self, wordList):
+        # TODO(done): build the graph with adjacency list representation
+        adjacency = {}
+        for word in wordList:
+            adjacency[word] = []
+        for word in wordList:
+            for i, _ in enumerate(word):
+                for c in range(ord(word[i]) + 1, 123):
+                    # How about characters smaller than word[i]?
+                    # If they are in the word lists, they shall be taken care of when it's
+                    # their turn. otherwise, we don't have to deal with them after all because
+                    # then don't exist in the word list
+                    nw = word[:i] + chr(c) + word[i + 1:]
+                    if nw in wordList:
+                        adjacency[word].append(nw)
+                        adjacency[nw].append(word)
+
+        return adjacency
 
     def _neighbors(self, word, wordList):
         l = len(word)
@@ -253,13 +283,21 @@ class Solution(object):
                 del color[word]
 
     def findLaddersBFSStorePaths(self, beginWord, endWord, wordList):
-        # TODO: breadth first search with paths stored
+        '''
+        By storing paths, we keep search paths in the queue, and explore those frontier nodes.
+        But different paths are stored as different records in the frontier container, some
+        nodes will be repeatedly calculated. The trick to optimize it is to BUILD THE GRAPH in
+        advance(or on the fly).
+        '''
+        # TODO(done): breadth first search with paths stored
+        wordList.add(beginWord)
         wordList.add(endWord)
+        edge = self.buildGraph(wordList)
 
         distance = {}
         queue = list()
 
-        # store paths instead of nodes in the queue
+        # store paths instead of just nodes in the queue
         queue.append([beginWord])
         distance[beginWord] = 1
         length = 0
@@ -271,19 +309,20 @@ class Solution(object):
             if word == endWord:
                 # new solution found
                 if not length:
-                    length = len(words)
+                    # length = len(words)
+                    length = distance[word]
                     print('Shortest distance is: ', length)
                 paths.append(words)
                 continue
             # search depth limit exceeded
-            if length and distance[word] >= length:
-                print('depth limit exceeded')
-                # break
-                continue
+            if length and distance[word] >= length + 1:
+                print('depth limit exceeded', distance[word], len(words))
+                break
             # explore neighbors
-            for neighbor in self._neighbors(word, wordList):
-                if neighbor not in distance or distance[
-                        neighbor] > distance[word]:
+            # for neighbor in self._neighbors(word, wordList):
+            for neighbor in edge[word]:
+                if neighbor not in distance or (
+                    distance[neighbor] == distance[word] + 1):
                     # PUSH into the Queue
                     queue.append(words + [neighbor])
                     distance[neighbor] = distance[word] + 1
