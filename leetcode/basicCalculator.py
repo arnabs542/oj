@@ -29,15 +29,15 @@ Assume the infix expression is a string of tokens delimited by spaces. The opera
 are *, /, +, and -, along with the left and right parentheses, ( and ). The operand tokens are
 numbers. The following steps will produce a string of tokens in postfix order.
 
-1. Create an empty stack called `opstack` for keeping operators. Create an empty list for output.
+1. Create an empty stack called `OPSTACK` for keeping operators. Create an empty list for output.
 2. Convert the input infix string to a list by splitting.
 3. Scan the token list from left to right.
     If the token is an operand, PUSH(append) it to the end of the output list.
     If the token is a left parenthesis, PUSH it on the `opstack`.
     If the token is a right parenthesis, POP the `opstack` until the corresponding left parenthesis
 is removed. Append each operator to the end of the output list.
-    If the token is an operator, *, /, +, or -, PUSH it on the `opstack`. However, first remove any
-operators already on the `opstack` that have higher or equal `precedence` and append them to the
+    If the token is an operator, *, /, +, or -, PUSH it on the `OPSTACK`. However, first remove ANY
+operators already on the `opstack` that have higher or equal `PRECEDENCE` and append them to the
 output list.
 5. When the input expression has been completely processed, check the `opstack`. Any operators
 still on the stack can be removed and appended to the end of the output list.
@@ -53,7 +53,7 @@ class Solution(object):
         """
         Convert a infix expression into postfix expression with STACK
         """
-        # TODO: implement multiplication and division
+        # TODO(done): implement multiplication and division
         # TODO: support negative number ' 1 ----- 3 = -2'
         post = []
         opstack = []
@@ -64,11 +64,17 @@ class Solution(object):
                 if token:
                     post.append(int(token))
                     token = ''
-                if opstack and opstack[-1] not in ('(', ):
+                # XXX: pop and push all operators preceding over current one
+                while opstack and opstack[-1] not in ('(', ):
                     post.append(opstack.pop())
                 opstack.append(infix[i])
             elif infix[i] in ('*', '/'):
-                pass
+                if token:
+                    post.append(int(token))
+                    token = ''
+                while opstack and opstack[-1] not in ('(', '+', '-'):
+                    post.append(opstack.pop())
+                opstack.append(infix[i])
             elif infix[i] == '(':
                 opstack.append(infix[i])
             elif infix[i] == ')':
@@ -108,8 +114,15 @@ class Solution(object):
                 # operator
                 num2 = output.pop()
                 num1 = output.pop()
-                num2 = num2 if postfix[i] == '+' else -num2
-                output.append(num1 + num2)
+                num3 = 0
+                if postfix[i] in ('+', '-'):
+                    num3 = num1 + num2 if postfix[i] == '+' else num1 - num2
+                elif postfix[i] == '*':
+                    num3 = num1 * num2
+                elif postfix[i] == '/':
+                    num3= num1 // num2
+                output.append(num3)
+        print(output[0])
         return output[0]
 
 
@@ -127,11 +140,13 @@ def test():
     assert solution.infix2postfix('2 -((1 + 2))') == [2, 1, 2, '+', "-"]
     assert solution.infix2postfix("(1+(4+5+2)-3)+(6+8)") == [
         1, 4, 5, '+', 2, '+', '+', 3, '-', 6, 8, '+', '+']
+    assert solution.calculate("1*2-3/4+5*6-7*8+9/10")
     print('infix2postfix test passed')
     assert solution.calculate('1 + 1') == 2
     assert solution.calculate('2 -1 + 2') == 3
     assert solution.calculate('2 -((1 + 2))') == -1
     assert solution.calculate("(1+(4+5+2)-3)+(6+8)") == 23
+    assert solution.calculate("1*2-3/4+5*6-7*8+9/10") == -24
     print('self test passed')
 
 if __name__ == '__main__':

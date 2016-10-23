@@ -43,7 +43,7 @@ which gives O(n*n) time complexity, we can do it in O(n*k*26) time complexity, w
 word length, and 26 denotes 26 characters. To achieve this, for each vertex in the graph, we
 iterate all possible candidates by alternating a character each time, and check its existence
 in the dictionary. Thus we can build the graph faster by one magtitude(order).
-    Also, consider build the graph in advance or on the fly according to different scenarios.
+    Also, build the graph in advance or on the fly according to different scenarios.
 
 Python tips:
   Use chr, ord to convert character and unicode integer back and forth.
