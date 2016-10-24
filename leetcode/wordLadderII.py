@@ -239,6 +239,8 @@ class Solution(object):
                         predecessors[predecessor_key].append(predecessors_value)
                         pass
                 # XXX: mark state EXPLORED
+                # Not marking EXPLORED when discovered because a node may have multiple
+                # predecessors of the same distance/depth
                 visited.add(node)
 
             frontiers[i], frontier_new = frontier_new, frontiers[i]
