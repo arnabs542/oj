@@ -51,7 +51,7 @@ class Solution(object):
         :rtype: List[List[int]]
 
         Fill k slots with n candidates one by one, recursively.
-        Another recursive relation could be C(n,k)=C(n-1,k-1)+C(n-1,k).
+        Another recurrence relation could be C(n,k)=C(n-1,k-1)+C(n-1,k).
         """
         # TODO: top-down recursive solution
         if result is None:

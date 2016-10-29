@@ -56,7 +56,7 @@ class Graph(object):
 
         for group in groups:
             node = getNode(group[0])
-            print(group[0])
+            print('construct', group[0])
             for label in group[1:]:
                 print('\tneighbor', label)
                 neighbor = getNode(label)
