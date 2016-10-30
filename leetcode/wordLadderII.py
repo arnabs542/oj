@@ -229,7 +229,7 @@ class Solution(object):
                     join = True
                 elif not join:
                     for neighbor in self._neighbors(node, wordList):
-                        # XXX: explore only FORWARD edges not BACK/CROSS edges
+                        # XXX: explore only FORWARD/TREE edges not BACK/CROSS edges
                         if neighbor in visited or neighbor in frontier: continue
                         frontier_new.add(neighbor)
                         predecessor_key    = neighbor if not backward else node
