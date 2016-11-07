@@ -35,6 +35,8 @@ Visually, the graph looks like the following:
 ===============================================================================================
 SOLUTION:
     Traverse the original graph with breadth-first search or depth-first search.
+    A graph may consists of not only TREE EDGES, but also FORWARD EDGES, BACKWARD EDGES and
+CROSS EDGES. So it's better to maintain a hash table to avoid duplicate instantiation of vertices.
 '''
 
 # Definition for a undirected graph node

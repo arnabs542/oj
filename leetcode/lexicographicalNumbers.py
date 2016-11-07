@@ -70,12 +70,12 @@ class Solution(object):
                 continue
             elif i + 1 > n:
                 i //= 10
+            pass
             # increase the number by 1
             i += 1
             # until carry occurs, remove trailing zeroes
             while i % 10 == 0:
                 i //= 10
-            pass
 
         return result
 
