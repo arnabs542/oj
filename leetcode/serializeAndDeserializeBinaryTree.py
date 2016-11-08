@@ -98,7 +98,8 @@ class Codec:
         frontier = [root] if root else []
         while frontier and vertices:
             vertex = frontier.pop(0)
-            left, right = vertices.pop(0), vertices.pop(0) if vertices else 'null'
+            left, right = vertices.pop(0), vertices.pop(
+                0) if vertices else 'null'
             if left != 'null':
                 vertex.left = TreeNode(left)
                 frontier.append(vertex.left)
@@ -113,6 +114,13 @@ class Codec:
 
         return root
 
+    def serializeDFS(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        # TODO: depth-first solution
 
 
 # Your Codec object will be instantiated and called as such:
@@ -129,7 +137,6 @@ def test():
 
     root = codec.deserialize("[null,2,3,null,null,4,5]")
     assert codec.serialize(root) == "[]"
-
 
 
 test()
