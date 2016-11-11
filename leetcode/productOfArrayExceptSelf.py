@@ -20,9 +20,12 @@ Could you solve it with constant space complexity? (Note: The output array does 
 extra space for the purpose of space complexity analysis.)
 ===============================================================================================
 SOLUTION:
+    product[i] = left * right = \prod{j=0}^{i-1} * \prod{j=i+1}^{n-1}
+    product[i+1] = left * right = \prod{j=0}^{i} * \prod{j=i+2}^{n-1}
+    ...
+
     Scan the array forward and backward to respectively accumulate the product of elements on
 the left and right of ith element.
-    product[i] = left * right
 '''
 class Solution(object):
 

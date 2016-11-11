@@ -147,7 +147,7 @@ class Solution(object):
             if length and distance[word] >= length:
                 # continue
                 break
-            # explore neighbors
+            # explore neighbors/descendants
             for neighbor in self._neighbors(word, wordList):
                 # unexplored or only explored by siblings
                 if neighbor not in distance or distance[
@@ -189,15 +189,17 @@ class Solution(object):
 
             For bidirectional search, we have to maintain two FRONTIERS. In this scenario, we
         have to find the shortest paths, which means the depths of nodes in each frontier must
-        keep in consistency. In another word, ndoes in each frontier must be from the same level
+        keep in consistency. In another word, nodes in each frontier must be from the same level
         of the graph.
             A simple way to tackle this would be to explore all nodes in one frontier at each time
         and do the same to the other frontier next time. Given that, a trick with set data structure
         comes in handy. We can use a empty set to contain nodes with new depths and discard those
         with old depths.
+            While searching, we keep track (descedant, [predecessors]) pair so that we can construct
+        paths when done.
 
         242ms: Two-end BFS
-        178ms: use logic or instead of set union operation when checking element in sets.
+        178ms: use logic 'or' operation instead of set union operation when checking element in sets.
         162ms: assign object pointers instead of copying objects
         """
         # TODO(done): bidirectional breadth-first search
@@ -235,7 +237,7 @@ class Solution(object):
                         predecessor_key    = neighbor if not backward else node
                         predecessors_value = node if not backward else neighbor
                         predecessors.setdefault(predecessor_key, [])
-                        # XXX: append predecessors list
+                        # XXX: append predecessors list of current descendant
                         predecessors[predecessor_key].append(predecessors_value)
                         pass
                 # XXX: mark state EXPLORED

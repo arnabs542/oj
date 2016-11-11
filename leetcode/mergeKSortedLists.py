@@ -77,13 +77,13 @@ class Solution(object):
         # TODO: Time Limit Exceeded solution, O(k * n)
         k = len(lists)
         nodes = [lists[i] for i in range(k)]
-        list_new = node = ListNode(-1) # use a dummy head
+        list_new = node = ListNode(-1)  # use a dummy head
         while True:
             val_min_index = None
             for i in range(k):
                 if nodes[i] and (
-                    val_min_index is None or
-                    nodes[i].val < nodes[val_min_index].val):
+                        val_min_index is None or
+                        nodes[i].val < nodes[val_min_index].val):
                     # print(nodes[i].val)
                     val_min_index = i
             if val_min_index is not None:
@@ -144,14 +144,14 @@ class Heap(list):
         right = 2 * index + 2
         index_min = index
         if left < len(self) and self.compare(
-            self[left], self[index_min]) < 0:
+                self[left], self[index_min]) < 0:
             index_min = left
         if right < len(self) and self.compare(
-            self[right], self[index_min]) < 0:
+                self[right], self[index_min]) < 0:
             index_min = right
         if index != index_min:
             self[index], self[index_min] = \
-                    self[index_min], self[index]
+                self[index_min], self[index]
             self.heapify(index_min)
 
     def updateMin(self, value):
