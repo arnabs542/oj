@@ -20,9 +20,9 @@ original tree structure.
 For example, you may serialize the following tree
 
     1
-   / \\
+   / \
   2   3
-     / \\
+     / \
     4   5
 as "[1,2,3,null,null,4,5]", just the same as how LeetCode OJ serializes a binary tree. You
 do not necessarily need to follow this format, so please be creative and come up with
