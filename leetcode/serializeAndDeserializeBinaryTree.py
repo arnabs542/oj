@@ -20,9 +20,9 @@ original tree structure.
 For example, you may serialize the following tree
 
     1
-   / \
+   / \\
   2   3
-     / \
+     / \\
     4   5
 as "[1,2,3,null,null,4,5]", just the same as how LeetCode OJ serializes a binary tree. You
 do not necessarily need to follow this format, so please be creative and come up with
@@ -45,23 +45,26 @@ class TreeNode(object):
 
 class Codec:
 
-    def serialize(self, root):
+    @classmethod
+    def serialize(cls, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
         :rtype: str
         """
-        return self.serializeBFS(root)
+        return cls.serializeBFS(root)
 
-    def deserialize(self, data):
+    @classmethod
+    def deserialize(cls, data: str, T=str):
         """Decodes your encoded data to tree.
 
         :type data: str
         :rtype: TreeNode
         """
-        return self.deserializeBFS(data)
+        return cls.deserializeBFS(data, T)
 
-    def serializeBFS(self, root):
+    @classmethod
+    def serializeBFS(cls, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
@@ -79,10 +82,11 @@ class Codec:
 
         while data and data[-1] == 'null':
             data.pop()
-        print('BFS result:', data)
+        # print('BFS result:', data)
         return '[{}]'.format(','.join(data))
 
-    def deserializeBFS(self, data):
+    @classmethod
+    def deserializeBFS(cls, data, T: str):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -94,27 +98,28 @@ class Codec:
         vertices = data.split(',')
 
         val = vertices.pop(0)
-        root = TreeNode(val) if val != 'null' else None
+        root = TreeNode(T(val)) if val != 'null' else None
         frontier = [root] if root else []
         while frontier and vertices:
             vertex = frontier.pop(0)
-            left, right = vertices.pop(0), vertices.pop(
-                0) if vertices else 'null'
+            left, right = vertices.pop(0).strip(), vertices.pop(
+                0).strip() if vertices else 'null'
             if left != 'null':
-                vertex.left = TreeNode(left)
+                vertex.left = TreeNode(T(left))
                 frontier.append(vertex.left)
             else:
                 vertex.left = None
 
             if right != 'null':
-                vertex.right = TreeNode(right)
+                vertex.right = TreeNode(T(right))
                 frontier.append(vertex.right)
             else:
                 vertex.right = None
 
         return root
 
-    def serializeDFS(self, root):
+    @classmethod
+    def serializeDFS(cls, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
@@ -132,7 +137,7 @@ def test():
 
     assert codec.serialize(codec.deserialize("[1,2]")) == "[1,2]"
 
-    root = codec.deserialize("[1,2,3,null,null,4,5]")
+    root = codec.deserialize("[1, 2, 3, null,null,4,5]")
     assert codec.serialize(root) == "[1,2,3,null,null,4,5]"
 
     root = codec.deserialize("[null,2,3,null,null,4,5]")
