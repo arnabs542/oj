@@ -1,49 +1,43 @@
 '''
-Two Sum
+1. Two Sum
 
-Given an array of integers, find two numbers such that they add up to a specific target number.
+Total Accepted: 350333
+Total Submissions: 1228763
+Difficulty: Easy
+Contributors: Admin
 
-The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
 You may assume that each input would have exactly one solution.
 
-Input: numbers={2, 7, 11, 15}, target=9
-Output: index1=1, index2=2
+Example:
+Given nums = [2, 7, 11, 15], target = 9,
 
-'''
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
 
-'''
+===============================================================================================
 Solution:
     @1 hash
     @2 sort,move index from two ends to center
     @3 brute-force
-    '''
+'''
 
-class Solution:
+class Solution(object):
     # @return a tuple (index1,index2)
 
-    def twoSum(self, num, target):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
         mapping = dict()
-        i = 0
-        j = len(num) - 1
-        for k, v in enumerate(num):
-            if v in mapping:
-                mapping[v].append(k)
-            else:
-                mapping[v] = []
-                mapping[v].append(k)
-
-        for k, v in enumerate(num):
-            if target - v in mapping:
-                if mapping[target - v][0] == k:
-                    if len(mapping[target - v]) >= 2:
-                        return k + 1, mapping[target - v][1] + 1
-                    else:
-                        pass
-
-                else:
-                    return k + 1, mapping[target - v][0] + 1
-
+        for k, v in enumerate(nums):
+            if target - v in mapping and mapping[target - v] != k:
+                return sorted([k, mapping[target - v]])
+            mapping[v] = k
 
 if __name__ == "__main__":
     print(Solution().twoSum([3, 2, 4], 6))
+    print(Solution().twoSum([2, 7, 11, 15], 9))
