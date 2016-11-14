@@ -41,31 +41,8 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        # TODO: time limit exceed, because of too many branches
-        frontier = [0]
-        visited = {0}
-        while frontier:
-            pos = frontier.pop(0)
-            if pos >= len(nums) - 1:
-                return True
-            for l in range(nums[pos], 0, -1):
-                pos_new = pos + l
-                if pos_new not in visited:
-                    frontier.append(pos_new)
-                    visited.add(pos_new)
-                else:
-                    # range already covered by previous transition
-                    break
-            pass
-        return False
-
-    def canJumpBFS(self, nums: list) -> bool:
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
-        # TODO: time limit exceed, because it could reduce to O(n^2) because exploring
-	# neighbors could involve lots of branches
+        # FIXME: time limit exceed, because it could reduce to O(n^2) because exploring
+        # neighbors could involve lots of branches
         frontier = [0]
         visited = {0}
         while frontier:
@@ -84,9 +61,18 @@ class Solution(object):
         return False
 
     def canJumpGreedy(self, nums):
+        '''
+        Another form of BREADTH-FIRST SEARCH, with no frontier structure because the graph is
+        presented as a list. A single range variable could work as the indicator of exploration
+        frontier.
+
+        Then we can sweep the list once, step by step, maintaining a BOUNDARY VARIABLE at each step.
+        This boundary variable `furthest` do the trick of SEARCH FRONTIER.
+        '''
         furthest = 0
         for i, num in enumerate(nums):
-            if i > furthest: return False
+            if i > furthest:
+                return False
             if furthest >= len(nums) - 1:
                 return True
             furthest = max(furthest, i + num)

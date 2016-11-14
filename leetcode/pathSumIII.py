@@ -64,7 +64,7 @@ class Solution(object):
 
         Top-down approach.
         """
-        # FIXME: time limit exceeded
+        # FIXME: time limit exceeded, why?
         if not root:
             return 0
 
@@ -100,19 +100,20 @@ class Solution(object):
         """
         def findPath(root, target):
             '''
-            return value in range (0, 1, 2)
+            return value in range (0, 1, 2, ...)
             '''
             result = 0
             if not root:
                 return 0
-            result += (target == root.val) + findPath(root.left, target - root.val) + \
-                findPath(root.right, target - root.val)
+            result += (target == root.val) + \
+                    findPath(root.left, target - root.val) + \
+                    findPath(root.right, target - root.val)
             return result
 
         if not root:
             return 0
-        return findPath(root, target) + self.pathSumRecursion2(root.left,
-                                                               target) + self.pathSumRecursion2(root.right, target)
+        return findPath(root, target) + self.pathSumRecursion2(
+            root.left, target) + self.pathSumRecursion2(root.right, target)
 
     def pathSumPrefixSum(self, root: TreeNode, target: int):
         """

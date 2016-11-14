@@ -44,17 +44,17 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        reach, steps = 0, [0] * len(nums)
+        stepEnd, steps = 0, [0] * len(nums)
         for i, num in enumerate(nums):
-            if i > reach:
+            if i > stepEnd:
                 return -1
-            if reach >= len(nums) - 1:
+            if stepEnd >= len(nums) - 1:
                 break
 
-            if i + num > reach:
-                for j in range(reach + 1, min(i + num + 1, len(nums))):
+            if i + num > stepEnd:
+                for j in range(stepEnd + 1, min(i + num + 1, len(nums))):
                     steps[j] = steps[i] + 1
-                reach = i + num
+                stepEnd = i + num
             pass
         print(steps)
         return steps[-1]

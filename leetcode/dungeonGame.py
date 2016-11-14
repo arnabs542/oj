@@ -49,7 +49,7 @@ steps to take. And each step is either rightward or downward, which means there 
 of path if we exchange two steps towards to the same direction. And if we choose at which time to
 move rightward, then we'll have to move downward at the rest of steps. So the total number of all
 possible paths is a mathematical combination of
-    `\mathcal{C}_n^{m}`, where `n = P`, `m = M - 1`.
+    `\mathcal{C}_n^{m}`, where `n = P`, `m = M - 1`, similar to Catalan Number.
 
 SOLUTION:
     1. Brute force breadth-first or depth-first search on the matrix(graph),
