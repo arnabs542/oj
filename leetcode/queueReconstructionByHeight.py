@@ -23,6 +23,11 @@ Input:
 
 Output:
 [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+
+==============================================================================================
+SOLUTION:
+    brute-force, greedy.
+Hint: sometimes, greedy strategy is closely connected to sort to make local optimal decision.
 '''
 
 class Solution(object):

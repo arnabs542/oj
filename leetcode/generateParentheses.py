@@ -86,11 +86,22 @@ class Solution(object):
 
         return result
 
+    def generateParenthesisDP(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+
+        Harness the recurrence relation:
+            f(n) = f(0,n) + f(1, n - 1) + ... + f(n - 1, 1)
+        e.g. n = 3: f(3) = 1 + 2 + 2 = 5
+        """
+
 def test():
     solution = Solution()
 
     assert solution.generateParenthesis(0) == ['']
     assert solution.generateParenthesis(1) == ['()']
+    assert solution.generateParenthesis(2)
     assert solution.generateParenthesis(3) == [
         "((()))",
         "(()())",
