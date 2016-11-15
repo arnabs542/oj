@@ -1,19 +1,32 @@
 # -*- encoding:utf-8 -*-
 '''
-Longest Substring Without Repeating Characters
+3. Longest Substring Without Repeating Characters
 
-Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring is "b", with the length of 1.
+Given a string, find the length of the longest substring without repeating characters.
 
-'''
+Examples:
 
-'''
-Solution:Dynamic Programming
-    Use length[n] to store the length of longest substring without repeating
-    characters of string[0...i].
-    length[i] = length[i-1] + 1,if string[i] not in
-                                    string[i-length[i-1]...i-1]
-                j,for largest j< length[i-1] such that string[i] not in
-                    string[i-j...i-1]
+Given "abcabcbb", the answer is "abc", which the length is 3.
+
+Given "bbbbb", the answer is "b", with the length of 1.
+
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a
+substring, "pwke" is a subsequence and not a substring.
+
+==============================================================================================
+Solution:
+1. Dynamic Programming
+    Use length[n] to store the length of longest substring without repeating characters of
+string[0...i].
+length[i] = length[i-1] + 1,if string[i] not in string[i-length[i-1]...i-1]
+            j,for largest j < length[i-1] such that string[i] not in string[i-j...i-1]
+O(n^2).
+
+2. dynamic programming and hash table.
+Define the state more wisely: the maximum length of eligible string so far(ending with current
+element). And use hash table to store character's most recent occurrence position to check
+eligibility.
+O(n)
 
 '''
 
@@ -22,6 +35,16 @@ class Solution:
     # @return an integer
 
     def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        return self.lengthOfLongestSubstringDPOpt(s)
+
+    def lengthOfLongestSubstringDP(self, s):
+        '''
+        Time Complexity: O(n^2)
+        '''
         n = len(s)
         length = [1 for i in range(n)]
         max_len = 1
@@ -42,5 +65,34 @@ class Solution:
         # print s[end - max_len + 1:end + 1]
         return max_len
 
+    def lengthOfLongestSubstringDPOpt(self, s):
+        '''
+        Keep a hash table to store the most recent position of characters in s, and maintain
+        a variable `max_so_far` to denote the maximum longest eligible substring length so far
+        (ENDING WITH CURRENT ELEMENT).
+
+        Scan the string from left to right, if we found the current character's previous position j
+        in range of max_so_far, then the new eligible string start with j + 1, ends with current
+        position.
+
+        time complexity: O(n)
+        '''
+        max_len, max_so_far = 0, 0
+        ch2idx = {}
+        for i, _ in enumerate(s):
+            if i - ch2idx.get(s[i], -1) <= max_so_far:
+                max_so_far = i - ch2idx[s[i]]
+            else:
+                max_so_far += 1
+                max_len = max(max_len, max_so_far)
+            ch2idx[s[i]] = i
+
+        return max_len
+
+def test():
+    assert Solution().lengthOfLongestSubstring("abcabcbb") == 3
+    assert Solution().lengthOfLongestSubstring('bbbbb') == 1
+    print('self test passed')
+
 if __name__ == "__main__":
-    print(Solution().lengthOfLongestSubstring("abcabcbb"))
+    test()

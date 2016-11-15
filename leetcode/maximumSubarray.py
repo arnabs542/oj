@@ -20,8 +20,8 @@ and conquer approach, which is more subtle.
 ===============================================================================================
 SOLUTION:
     dynamic programming.
-    Use max_ending_here to denote the sum of maximum subarray ending with current element, then
-        max_ending_here = max(max_ending_here + nums[i], nums[i])
+    Use max_so_far to denote the sum of maximum subarray ending with current element, then
+        max_so_far = max(max_so_far + nums[i], nums[i])
     O(n) time complexity.
 '''
 
@@ -40,10 +40,10 @@ class Solution(object):
         :rtype: int
         """
         n = len(nums)
-        max_sum, max_ending_here = nums[0], nums[0]
+        max_sum, max_so_far = nums[0], nums[0]
         for i in range(1, n):
-            max_ending_here = max(max_ending_here + nums[i], nums[i])
-            max_sum = max(max_ending_here, max_sum)
+            max_so_far = max(max_so_far + nums[i], nums[i])
+            max_sum = max(max_so_far, max_sum)
         return max_sum
 
     # TODO: divide and conquer solution
