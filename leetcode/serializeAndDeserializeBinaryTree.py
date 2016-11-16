@@ -143,5 +143,8 @@ def test():
     root = codec.deserialize("[null,2,3,null,null,4,5]")
     assert codec.serialize(root) == "[]"
 
+    print('self test passed')
 
-test()
+
+if __name__ == '__main__':
+    test()
