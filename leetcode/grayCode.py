@@ -87,6 +87,8 @@ class Solution(object):
         Generate gray code one by one with bit manipulation
         '''
         # TODO: bit manipulation solution
+        # XOR with shifted self?
+        # add power of 2?
 
 def test():
     solution = Solution()
