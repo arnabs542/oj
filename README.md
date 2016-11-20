@@ -1,8 +1,19 @@
-Algorithm Solutions for some Online Judge
-========================================
+# Solutions To Algorithmic Problems on Online Judge
+=================================================
 
-Top Algorithm websites:
-======================
+## LeetCode - Interview algorithm problems
+Focusing on fundamental algorithms to tackle problems with at least interview levels:
+- detailed analysis to formulate the solution
+- time complexity analysis
+- optimizations to speed up
+- one problem with multiple solutions
+- multiple problems with one solution
+- Recursive and iterative procedures are put together to comparision
+- self-contained test cases
+
+## References
+### Top Algorithm websites:
+
     TopCoder:comprehensive
     CodeChef:comprehensive
     CodeForces:comprehensive
@@ -20,9 +31,9 @@ Top Algorithm websites:
     hackerearth
     Geekforgeeks
 
-Algorithm Contests:
-===================
-ACM
-Topcoder
-Google Code Jam
-Codeforces
+### Algorithm Contests:
+    ACM
+    Topcoder
+    Google Code Jam
+    Codeforces
+    LeetCode
