@@ -19,10 +19,11 @@ return 1->2->2->4->3->5.
 
 ==============================================================================================
 SOLUTION:
-    A PARTITIONING procedure is similar with partitioning in QUICK SORT. We need to keep a
-SPLIT POINT `before` that the elements on the left of it are smaller than pivot. Then we scan the
-list, for smaller elements than pivot: append the current node after SPLIT POINT `before` and
-update the SPLIT POINT `before` to this node new position.
+    A PARTITIONING procedure is similar with partitioning in QUICK SORT, which could be done
+with TWO PPOINTERS. We need to keep a PARTITION POINT(SPLIT POINT) `before` that the elements
+on the left of it are smaller than pivot. Then we scan the list, for smaller elements than
+pivot: append the current node after SPLIT POINT `before` and update the SPLIT POINT `before`
+to this node new position.
     While manipulating linked list nodes, one tip is to update pointers BACKWARD its direction.
 '''
 
