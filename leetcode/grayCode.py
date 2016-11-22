@@ -74,7 +74,7 @@ class Solution(object):
             for i in range(n):
                 # mask = 1 << i
                 # neighbor = val ^ mask
-                neighbor = val ^ (i << i)
+                neighbor = val ^ (1 << i)
                 if neighbor not in visited:
                     seq.append(neighbor)
                     visited.add(neighbor)
