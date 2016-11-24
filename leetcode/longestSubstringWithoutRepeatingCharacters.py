@@ -47,7 +47,7 @@ class Solution:
         '''
         n = len(s)
         length = [1 for i in range(n)]
-        max_len = 1
+        max_so_far = 1
         end = 0
         if n == 0:
             return 0
@@ -58,36 +58,36 @@ class Solution:
                     break
             if j == length[i - 1] and s[i - j] != s[i]:
                 length[i] = j + 1
-                if max_len < length[i]:
-                    max_len = length[i]
+                if max_so_far < length[i]:
+                    max_so_far = length[i]
                     end = i
 
-        # print s[end - max_len + 1:end + 1]
-        return max_len
+        # print s[end - max_so_far + 1:end + 1]
+        return max_so_far
 
     def lengthOfLongestSubstringDPOpt(self, s):
         '''
         Keep a hash table to store the most recent position of characters in s, and maintain
-        a variable `max_so_far` to denote the maximum longest eligible substring length so far
+        a variable `max_ending_here` to denote the maximum longest eligible substring length so far
         (ENDING WITH CURRENT ELEMENT).
 
         Scan the string from left to right, if we found the current character's previous position j
-        in range of max_so_far, then the new eligible string start with j + 1, ends with current
+        in range of max_ending_here, then the new eligible string start with j + 1, ends with current
         position.
 
         time complexity: O(n)
         '''
-        max_len, max_so_far = 0, 0
+        max_so_far, max_ending_here = 0, 0
         ch2idx = {}
         for i, _ in enumerate(s):
-            if i - ch2idx.get(s[i], -1) <= max_so_far:
-                max_so_far = i - ch2idx[s[i]]
+            if i - ch2idx.get(s[i], -1) <= max_ending_here:
+                max_ending_here = i - ch2idx[s[i]]
             else:
-                max_so_far += 1
-                max_len = max(max_len, max_so_far)
+                max_ending_here += 1
+                max_so_far = max(max_so_far, max_ending_here)
             ch2idx[s[i]] = i
 
-        return max_len
+        return max_so_far
 
 def test():
     assert Solution().lengthOfLongestSubstring("abcabcbb") == 3

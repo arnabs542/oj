@@ -36,21 +36,22 @@ Check maximum sum of left and right paths takes average O(N). So the overall
 time complexity is O(N^2).
 
 2. Bottom-up state transition.
-A path sum problem shares some similarity with subarray sum problem, which both have
+A path sum problem shares some similarity with maximum subarray problem, which both have
 overlapping subproblems and optimal substructure. Parent vertices depend on its neighbors
 (children). So there is a Dynamic Programming solution.
 
 And the maximum path sum ending here depends on the maximum path sum ending with its direct
 descendants.
 
-DEFINE STATE to contain enough information for recurrence relation.
-State as tuple of (max_so_far, max_overall).
+DEFINE STATE to contain enough information for RECURRENCE RELATION.
+STATE AS TUPLE of (max_ending_here, max_so_far).
 
-For each vertex in the tree, there are two scenarios for max_so_far state transition: it is
-the start or the end of current maximum sum path streak.
+For each vertex in the tree, there are two scenarios for max_ending_here state transition:
+1. the current max path consists only one element at the position
+2. the current maximum path consists of one more element than the previous maximum path.
 
-max_so_far: the maximum sum of path from some distant neighbor(child) up to current node
-max_overall: maximum sum of two paths starting from/ending with current node to some two
+max_ending_here: the maximum sum of path from some distant neighbor(child) up to current node
+max_so_far: maximum sum of two paths starting from/ending with current node to some two
 distant neighbors.
 
 Then we have RECURRENCE RELATION to its neighbors(children). And the STATE contains full
@@ -87,10 +88,10 @@ class Solution(object):
             if not node:
                 return 0, float('-inf')
             left, right = dfs(node.left), dfs(node.right)
-            max_so_far = max(left[0] + node.val, right[0] + node.val, node.val)
-            max_overall = max(left[1], right[1], max_so_far, left[0] + right[0] + node.val,)
-            # print(node, max_so_far, max_overall)
-            return max_so_far, max_overall
+            max_ending_here = max(left[0] + node.val, right[0] + node.val, node.val)
+            max_so_far = max(max_ending_here, left[1], right[1], left[0] + right[0] + node.val,)
+            # print(node, max_ending_here, max_so_far)
+            return max_ending_here, max_so_far
 
         t = dfs(root) if root else (0, 0)
         print(t, '\n')
@@ -108,14 +109,14 @@ class Solution(object):
             if not node:
                 return 0, float('-inf')
             left, right = dfs(node.left), dfs(node.right)
-            max_so_far = max(left[0] + node.val,
-                             right[0] + node.val,
-                             left[0] + right[0] + node.val,
-                             node.val
-                            )
-            max_overall = max(left[1], right[1], max_so_far)
-            print(node, max_so_far, max_overall)
-            return max_so_far, max_overall
+            max_ending_here = max(left[0] + node.val,
+                                  right[0] + node.val,
+                                  left[0] + right[0] + node.val,
+                                  node.val
+                                 )
+            max_so_far = max(left[1], right[1], max_ending_here)
+            print(node, max_ending_here, max_so_far)
+            return max_ending_here, max_so_far
 
 
 

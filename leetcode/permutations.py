@@ -14,10 +14,10 @@ For example,
   [3,2,1]
 ]
 
-Variant: with duplicate elements? Like 1,1,2, 2,3,2, ...
+Follow up: with duplicate elements? Like 1,1,2, 2,3,2, ...
     Solution: while checking validation, count in an element's maximum appearance times
 
-Variant: arrangements of m of n numbers. ( m <= n)
+Follow up: arrangements of m of n numbers. ( m <= n)
 """
 
 
@@ -103,6 +103,8 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
+
+        Dynamic Graph: Backtrack!
         """
         if not nums:
             return []

@@ -16,8 +16,8 @@ the contiguous subarray [2,3] has the largest product = 6.
 ===============================================================================================
 SOLUTION:
     dynamic programming.
-    Use max_end to denote the sum of maximum subarray ending with current element, then
-        max_end = max(max_end + nums[i], nums[i])
+    Use max_ending_here to denote the sum of maximum subarray ending with current element, then
+        max_ending_here = max(max_ending_here + nums[i], nums[i])
     But, two negatives will give positive product, so we need to keep track of a minimum product
 of subarray ending here.
     O(n) time complexity.
@@ -30,15 +30,15 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        min_so_far, max_so_far, max_product = nums[0], nums[0], nums[0]
+        min_ending_here, max_ending_here, max_so_far = nums[0], nums[0], nums[0]
         for i in range(1, len(nums)):
-            t = (max_so_far * nums[i], min_so_far * nums[i], nums[i])
-            max_so_far, min_so_far = max(t), min(t)
-            max_product = max(max_product, max_so_far)
+            t = (max_ending_here * nums[i], min_ending_here * nums[i], nums[i])
+            max_ending_here, min_ending_here = max(t), min(t)
+            max_so_far = max(max_so_far, max_ending_here)
             pass
 
-        print(max_product)
-        return max_product
+        print(max_so_far)
+        return max_so_far
 
 
 def test():

@@ -6,7 +6,7 @@ Follow up for N-Queens problem.
 Now, instead outputting board configurations, return the total number of distinct solutions.
 
 
-===================================================================================================
+================================================================================================
 Solution:
     @1: BACKTRACK with recursive depth-first search.
     @2: BACKTRACK with stack implemented DFS.

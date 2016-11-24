@@ -23,12 +23,13 @@ There exist two distinct solutions to the 4-queens puzzle:
  ".Q.."]
  ]
 
-
+==============================================================================================
 Solution:
-    N-Queens problem is a typical application of BACKTRACKING algorithm. For
-backtracking, we need to figure out a way to REPRESENT THE CANDIDATES, a way to
-generate all the possible candidates and ACCEPT those valid and REJECT those
-invalid.
+    N-Queens is a typical DYNAMIC GRAPH PROBLEM: BACKTRACKING! For backtracking,
+we need to figure out a way to REPRESENT the candidates, to generate all
+the possible candidates and ACCEPT those valid and REJECT those invalid. After
+rejection, we need to backtrack, RESTORING STATE, and continue searching.
+
     In this solution, the representation of the candidate is a column VECTOR
 "queens", where i = queen[j] is the column index of the queen in row j. Under
 this representation, the way to generate all candidates is just like generate

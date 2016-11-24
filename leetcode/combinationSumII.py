@@ -36,11 +36,11 @@ In other word, each PATH can only one EDGE at most once, and there are duplicate
 connection/edge is removed temporarily. When a new path is being followed, the EDGE is
 available again!.
 
-1. One way to tackle the situation is to BACKTRACK using DEPTH-FIRST SEARCH, RESTORING STATES
-WHEN ADJACENT VERTICES ARE FINISHED EXPLORING.
+1. One way to tackle the situation of DYNAMIC GRAPH is to BACKTRACK using DEPTH-FIRST SEARCH,
+RESTORING STATES WHEN ADJACENT VERTICES ARE FINISHED EXPLORING.
 
 2. To implement BREADTH-FIRST SEARCH, it's more feasible(faster) to sort the candidates and
-pass the start INDEX of valid candidates instead of the whole copy of candidates as STATE.
+pass the start INDEX of valid candidates instead of the whole COPY OF STATE.
     To print all paths, we have to STORE PATHS while doing BREADTH-FIRST SEARCH on DYNAMIC
 GRAPH.
 '''
@@ -88,6 +88,8 @@ class Solution(object):
     def combinationSum2BFS(self, candidates: list, target: int) -> list:
         """
         BREADTH-FIRST SEARCH STORING PATHS
+
+        beats 96.93%, 2016-11-23 19:48
         """
         candidates.sort(reverse=True)
 
