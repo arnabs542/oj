@@ -7,6 +7,9 @@ class ListNode(object):
         self.val = x
         self.next = None
 
+    def __repr__(self):
+        return str(self.val)
+
 def linkedList(l):
     if not l:
         return None
@@ -19,11 +22,10 @@ def linkedList(l):
 
     return head
 
-def tolist(head):
+def tolist(head, until=None):
     p = head
     result = []
-    while p:
+    while p not in (None, until):
         result.append(p.val)
         p = p.next
-    print(result)
     return result
