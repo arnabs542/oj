@@ -18,8 +18,8 @@ return [0, 1].
 
 ===============================================================================================
 Solution:
-    @1 hash
-    @2 sort,move index from two ends to center
+    @1 hash: (key=element, value=element's position/index)
+    @2 sort: two pointers, move index from two ends to center
     @3 brute-force
 '''
 
