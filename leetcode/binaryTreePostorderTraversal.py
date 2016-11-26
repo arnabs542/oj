@@ -21,6 +21,12 @@ Given binary tree {1,#,2,3},
 return [3,2,1].
 
 Note: Recursive solution is trivial, could you do it iteratively?
+
+==============================================================================================
+SOLUTION:
+    Stack has the LAST IN FIRST OUT property.
+    PUSH where we can, POP when there is no more to explore or while current explored is a
+descendant of the stack top vertex's.
 '''
 
 # Definition for a  binary tree node
@@ -62,17 +68,19 @@ class Solution:
         while stack:
             vertex = stack[-1]
             # XXX: PUSH frontiers
-            for neighbor in (vertex.right, vertex.left):
-                if neighbor: stack.append(neighbor)
+            # postorder, root is explored last, so it's in the stack before both
+            # left and right children
             if not (vertex.left or vertex.right):
                 vertices.append(vertex.val)
                 stack.pop()
-                # XXX: POP for dead end(no more neighbors), stack top is gray vertex(
-                # neighbors are being explored)
+                # XXX: POP for dead end(no more adjacent vertices) and its parents
+                # stack top is BLACK vertex(adjacent vertices have been explored)
                 while stack and vertex in (stack[-1].left, stack[-1].right):
                     vertex = stack.pop()
                     vertices.append(vertex.val)
-
+            else:
+                for neighbor in (vertex.right, vertex.left):
+                    if neighbor: stack.append(neighbor)
         print(vertices)
         return vertices
 
@@ -90,6 +98,12 @@ def test():
 
     root = Codec.deserialize("[1,null,2,3]", int)
     assert solution.postorderTraversal(root) == [3, 2, 1]
+
+    root = Codec.deserialize("[1,2,null,3,null,4,null,5]", int)
+    assert solution.postorderTraversal(root) == [5, 4, 3, 2, 1]
+
+    root = Codec.deserialize("[1,null,2,null,3,null,4,null,5]", int)
+    assert solution.postorderTraversal(root) == [5, 4, 3, 2, 1]
 
     root = Codec.deserialize('[3,5,1,6,2,0,8,null,null,7,4]', int)
     assert solution.postorderTraversal(root)

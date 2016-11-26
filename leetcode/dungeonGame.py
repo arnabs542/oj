@@ -51,15 +51,19 @@ move rightward, then we'll have to move downward at the rest of steps. So the to
 possible paths is a mathematical combination of
     `\mathcal{C}_n^{m}`, where `n = P`, `m = M - 1`, similar to Catalan Number.
 
+==============================================================================================
 SOLUTION:
     1. Brute force breadth-first or depth-first search on the matrix(graph),
 combination(C_{m+n}^n) time complexity.
+
     2. Dynamic Programming.
+
         1) Try:dp[i][j] denotes a minimal required hp, optimal path to cell[i][j]. Then the
 recursive formula would consider many cases because the current cell may reduce the hp, so the
 minimal requirement would depend on the final hp before the knight arrives at cell[i][j]. If we
 store all these states in dp[i][j], then the time complexity still goes up because different
 scenarios are adding up in a Fibonacci sequence way if we don't filter to prune.
+
         2) BACKWARD INDUCTION
 If we reason backwards in time, from the end of a situation, and let hp[i][j] denote the minimal
 hp requirement to get to matrix[i][j], then the can have straight relation with hp[i+1][j] and
@@ -98,6 +102,8 @@ class Solution(object):
         """
         :type dungeon: List[List[int]]
         :rtype: int
+
+        Optimized with sliding array.
 
         In the recursive formula, current state is just dependent on its neighbors on the
         right and below. So we are just making use of a auxiliary array of length n. So we
