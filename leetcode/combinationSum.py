@@ -36,6 +36,9 @@ Some cases:
 May be we could sort the elements in set, RESTRICT THE ORDER elements in candidate set to AVOID
 DUPLICATES.
     2. All paths. To construct paths, we could do depth-first search on the stored PREDECESSORS.
+    3. BFS storing predecessors or BFS storing paths.
+
+    STATE = (current target value/VERTEX, eligible candidates/CONNECTIONS)
 
 2. Dynamic programming.
 '''
@@ -48,7 +51,8 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
-        return self.combinationSumBFS(candidates, target)
+        # return self.combinationSumBFS(candidates, target)
+        return self.combinationSumDFS(candidates, target)
 
     def combinationSumBFS(self, candidates: list, target: int) -> list:
         '''
@@ -97,18 +101,39 @@ class Solution(object):
 
         return paths
 
+    def combinationSumDFS(self, candidates: list, target: int) -> list:
+        def dfs(target: int, path: list, start: int=0) -> list:
+            if target == 0:
+                paths.append(path)
+            for i in range(start, len(candidates)):
+                if candidates[i] > target:
+                    continue
+                dfs(target - candidates[i], path + [candidates[i]], i)
+
+        paths = []
+        candidates.sort()
+        dfs(target, [])
+        print(paths)
+        return paths
+
+    # TODO: Dynamic Programming
+    def combinationSumDP(self, candidates: list, target: int) -> list:
+        '''
+        state: target value, candidate set size?
+        '''
+
 def test():
     solution = Solution()
 
     assert solution.combinationSum([], 9) == []
     assert solution.combinationSum([1], 1) == [[1]]
     assert solution.combinationSum([1], 0) == [[]]
-    assert solution.combinationSum([2, 3, 6, 7], 7) == [[7], [2, 2, 3]]
-    assert solution.combinationSum([2, 3, 4, 6, 7], 8) == [
+    assert sorted(solution.combinationSum([2, 3, 6, 7], 7)) == sorted([[7], [2, 2, 3]])
+    assert sorted(solution.combinationSum([2, 3, 4, 6, 7], 8)) == sorted([
         [4, 4], [2, 6], [2, 3, 3],
         [2, 2, 4], [2, 2, 2, 2],
-    ]
-    assert solution.combinationSum([10, 1, 2, 7, 6, 5], 8)
+    ])
+    assert sorted(solution.combinationSum([10, 1, 2, 7, 6, 5], 8))
 
     print('self test passed')
 

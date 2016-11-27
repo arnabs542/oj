@@ -30,16 +30,18 @@ class Solution(object):
                 right += 1
             else:
                 # insert into ranges list and reset left, right
-                ranges.append('{}->{}'.format(left, right) if left < right else str(left))
+                ranges.append('{}->{}'.format(left, right)
+                              if left < right else str(left))
                 left = right = nums[i]
 
-        ranges.append('{}->{}'.format(left, right) if left < right else str(left))
+        ranges.append('{}->{}'.format(left, right)
+                      if left < right else str(left))
         print(ranges)
         return ranges
 
 def test():
     solution = Solution()
-    assert solution.summaryRanges([0,1,2,4,5,7]) == ["0->2","4->5","7"]
+    assert solution.summaryRanges([0, 1, 2, 4, 5, 7]) == ["0->2", "4->5", "7"]
 
     print('self test passed')
 

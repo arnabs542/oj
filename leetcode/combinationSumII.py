@@ -43,6 +43,8 @@ RESTORING STATES WHEN ADJACENT VERTICES ARE FINISHED EXPLORING.
 pass the start INDEX of valid candidates instead of the whole COPY OF STATE.
     To print all paths, we have to STORE PATHS while doing BREADTH-FIRST SEARCH on DYNAMIC
 GRAPH.
+
+    STATE = (current target value/VERTEX, eligible candidates/CONNECTIONS)
 '''
 
 class Solution(object):
@@ -54,7 +56,8 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         # return self.combinationSum2DFS(candidates, target)
-        return self.combinationSum2BFS(candidates, target)
+        # return self.combinationSum2BFS(candidates, target)
+        return self.combinationSum2DFSCopyingState(candidates, target)
 
     def combinationSum2DFS(self, candidates: list, target: int) -> list:
         '''
@@ -74,13 +77,37 @@ class Solution(object):
                 candidates.pop(i)
                 dfs(candidates, target - num, path)
                 # XXX: backtracking, restore state. Alternatively, we can pass copies of state
-                # TODO: could be optimized if we sort the candidates list and pass indices instead
-                # of objects itself
+                # TODO: optimize by sort the candidates list and pass indices as
+                # COPY OF STATES instead of objects itself
                 candidates.insert(i, path.pop())
                 seen.add(num)
                 pass
 
         paths = []
+        dfs(candidates, target, [])
+        print(paths)
+        return paths
+
+    def combinationSum2DFSCopyingState(self, candidates: list, target: int) -> list:
+        def dfs(candidates: list, target: int, path: list, start: int=0) -> list:
+            '''
+            @path: list of edges/connections
+            @start: the start index of eligible candidates
+
+            Pass COPY OF STATES instead of RESTORING STATES after recursive procedure in
+            backtracking.
+
+            beats 98.52%, 2016-11-27 15:33
+            '''
+            if target == 0:
+                paths.append(path)
+            for i in range(start, len(candidates)):
+                if candidates[i] > target or (i > start and candidates[i] == candidates[i - 1]):
+                    continue
+                dfs(candidates, target - candidates[i], path + [candidates[i]], i + 1)
+
+        paths = []
+        candidates.sort(reverse=True)
         dfs(candidates, target, [])
         print(paths)
         return paths
@@ -124,7 +151,7 @@ def test():
     assert solution.combinationSum2([1, 1], 2) == [[1, 1]]
     assert solution.combinationSum2([2, 3, 6, 7], 7) == [[7]]
     assert solution.combinationSum2([2, 3, 4, 6, 7], 8) == [[6, 2]]
-    assert solution.combinationSum2([10, 1, 2, 7, 6, 1, 5], 8) == sorted([
+    assert sorted(solution.combinationSum2([10, 1, 2, 7, 6, 1, 5], 8)) == sorted([
         [7, 1], [6, 1, 1], [6, 2], [5, 2, 1]])
 
     print('self test passed')
