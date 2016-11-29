@@ -13,14 +13,19 @@ has the largest product.
 
 For example, given the array [2,3,-2,4],
 the contiguous subarray [2,3] has the largest product = 6.
+
 ===============================================================================================
 SOLUTION:
     dynamic programming.
-    Use max_ending_here to denote the sum of maximum subarray ending with current element, then
-        max_ending_here = max(max_ending_here + nums[i], nums[i])
-    But, two negatives will give positive product, so we need to keep track of a minimum product
-of subarray ending here.
-    O(n) time complexity.
+
+DEFINE STATE:
+    Use max_ending_here to denote the sum of maximum subarray ending with current element.
+
+STATE TRANSITION:
+    max_ending_here = max(max_ending_here + nums[i], nums[i])
+But, two negatives will give positive product, so we need to keep track of a minimum product of
+subarray ending here.
+O(n) time complexity.
 '''
 
 class Solution(object):

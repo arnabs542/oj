@@ -22,11 +22,17 @@ length[i] = length[i-1] + 1,if string[i] not in string[i-length[i-1]...i-1]
             j,for largest j < length[i-1] such that string[i] not in string[i-j...i-1]
 O(n^2).
 
-2. dynamic programming and hash table.
-Define the state more wisely: the maximum length of eligible string so far(ending with current
-element). And use hash table to store character's most recent occurrence position to check
+2. DYNAMIC PROGRAMMING and HASH TABLE.
+
+Define the state more wisely: the maximum length of eligible string ending with current
+position. And use hash table to store character's most recent occurrence position to check
 eligibility.
-O(n)
+
+Time complexity: amortized O(n).
+
+Think in another way, this is a two pointers approach. While we are scanning the array, the
+scanning index is one pointer(end), and the max_length_ending_here acts as the other pointer
+(start),
 
 '''
 
@@ -48,7 +54,6 @@ class Solution:
         n = len(s)
         length = [1 for i in range(n)]
         max_so_far = 1
-        end = 0
         if n == 0:
             return 0
         for i in range(1, n):
@@ -60,7 +65,6 @@ class Solution:
                 length[i] = j + 1
                 if max_so_far < length[i]:
                     max_so_far = length[i]
-                    end = i
 
         # print s[end - max_so_far + 1:end + 1]
         return max_so_far
@@ -68,12 +72,12 @@ class Solution:
     def lengthOfLongestSubstringDPOpt(self, s):
         '''
         Keep a hash table to store the most recent position of characters in s, and maintain
-        a variable `max_ending_here` to denote the maximum longest eligible substring length so far
-        (ENDING WITH CURRENT ELEMENT).
+        a variable `max_ending_here` to denote the maximum longest eligible substring length
+        ENDING WITH CURRENT ELEMENT.
 
         Scan the string from left to right, if we found the current character's previous position j
-        in range of max_ending_here, then the new eligible string start with j + 1, ends with current
-        position.
+        in range of max_ending_here, then the new eligible string start with j + 1, ends with
+        current position.
 
         time complexity: O(n)
         '''
