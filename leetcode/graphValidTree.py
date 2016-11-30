@@ -21,3 +21,5 @@ SOLUTION:
     Do breadth-first or depth-first search from a vertex to detect potential forward/backward/cross
 edges. If there are such edges or not all vertices are explored, then the graph is not a valid tree.
 '''
+
+# TODO: implement the problem

@@ -27,6 +27,7 @@ Implement regular expression matching with support for '.' and '*'.
   isMatch("ab", ".*") → true
   isMatch("aab", "c*a*b") → true
 
+==============================================================================================
 SOLUTION:
     1) backtracking: recursive
     2) backtracking: iterative
@@ -53,10 +54,10 @@ class memoize(dict):
 @memoize
 def isMatchDPRecursive(s, p):
     '''
-      Top-down dynamic programming, actually.
+    Top-down dynamic programming, actually.
 
-      Regular expressions have no prefix operators, BACKWARD MATCHING may suit better
-      than FORWARD MATCHING.
+    Regular expressions have no prefix operators, BACKWARD MATCHING may suit better
+    than FORWARD MATCHING.
     '''
     # print(s, p)
     if not p:
