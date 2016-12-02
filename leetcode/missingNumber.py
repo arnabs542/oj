@@ -22,7 +22,7 @@ only constant extra space complexity?
 SOLUTION:
     1. Hash table to store all distinct numbers from 0, 1, ..., n. Remove one by one while
 scanning the list. Complexity: time O(n), space O(n).
-    2. Since numbers are distinct, and only one is missing. We could find the number by substract
+    2. Since numbers are distinct, and only one is missing. We could find the number by subtract
 the total sum from 0 to n by the sum of given array. Then the difference is the missing number.
     3. Bit manipulation(XOR).
 Taking another sequence of integers from 0 to n, then the missing value is the SINGLE one.

@@ -64,11 +64,23 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        n = len(nums)
-        max_so_far, max_ending_here = nums[0], nums[0]
-        for i in range(1, n):
-            max_ending_here = max(max_ending_here + nums[i], nums[i])
-            max_so_far = max(max_ending_here, max_so_far)
+        max_so_far = max_ending_here = nums[0]
+        for i in range(1, len(nums)):
+            max_ending_here = max(nums[i], max_ending_here + nums[i])
+            max_so_far = max(max_so_far, max_ending_here)
+        return max_so_far
+
+    def maxSubArrayDPAllowZeroLength(self, nums: list) -> int:
+        """
+        :type nums: List[int]
+        :rtype: int
+
+        Allowing zero-length subarray
+        """
+        max_so_far = max_ending_here = 0
+        for i, _ in enumerate(nums):
+            max_ending_here = max(0, max_ending_here + nums[i])
+            max_so_far = max(max_so_far, max_ending_here)
         return max_so_far
 
     def maxSubArrayDP2(self, nums: list) -> list:

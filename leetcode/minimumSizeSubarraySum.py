@@ -35,7 +35,7 @@ If add anding the new element won't make size_ending_here exceed the (minimum si
 found so far, then increase `size_ending_here` by 1. Else, `size_ending_here` stay the
 same, but remove the leftmost element in the current subarray.
 
-While current max_ending_here is not smaller than target value, continue substracting the
+While current max_ending_here is not smaller than target value, continue subtracting the
 leftmost element from max_ending_here and decreasing the current subarray's size by 1.
 
 Time Complexity: Amortized O(n).
