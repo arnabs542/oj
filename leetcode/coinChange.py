@@ -43,15 +43,15 @@ class Solution(object):
         :rtype: int
         """
         m = len(coins)
-        dp = [1 << 31] * (amount + 1)
-        dp[0] = 0
+        f = [1 << 31] * (amount + 1)
+        f[0] = 0
         for i in range(1, amount + 1):
             for j in range(m - 1, -1, -1):
-                if i - coins[j] >= 0 and (dp[i - coins[j]] + 1 < dp[i]):
-                    dp[i] = dp[i - coins[j]] + 1
+                if i - coins[j] >= 0 and (f[i - coins[j]] + 1 < f[i]):
+                    f[i] = f[i - coins[j]] + 1
 
-        print(dp[-1])
-        return dp[-1] if dp[-1] != 1 << 31 else -1
+        print(f[-1])
+        return f[-1] if f[-1] != 1 << 31 else -1
 
     def coinChangeBFS(self, coins, amount):
         """

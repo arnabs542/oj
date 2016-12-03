@@ -29,7 +29,7 @@ nodes by (0, n -1), (1, n - 1), ..., (n - 1, 0), in total n ways. In each way, t
 unique BST is the number of left subtrees times the right tree's.
 
 Dynamic Programming:
-    dp[i] = sum([dp[j] * dp[i - 1 - j] for j in range(i)])
+    f[i] = sum([f[j] * f[i - 1 - j] for j in range(i)])
 '''
 
 class Solution(object):
@@ -39,13 +39,13 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        dp = [0] * (n + 2)
-        dp[0] = dp[1] = 1
+        f = [0] * (n + 2)
+        f[0] = f[1] = 1
         for i in range(2, n + 1):
-            dp[i] = sum([dp[j] * dp[i - 1 - j] for j in range(i)])
+            f[i] = sum([f[j] * f[i - 1 - j] for j in range(i)])
 
-        print(dp)
-        return dp[n]
+        print(f)
+        return f[n]
 
 def test():
     solution = Solution()

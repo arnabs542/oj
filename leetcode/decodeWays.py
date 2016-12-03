@@ -26,8 +26,8 @@ The number of ways decoding "12" is 2.
 SOLUTION:
     1) depth first search: recursive version gives time limit exceeded, maybe a iterative one will do
     2) Dynamic Programming: let i denote the ith character in the string
-        dp[i] = (dp[i - 1] if (s[i-1] in self.num2letter) else 0) +
-                (dp[i - 2] if (s[i-2:i] in self.num2letter) else  0)
+        f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) +
+                (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
 '''
 
 class memoize(dict):
@@ -92,27 +92,27 @@ class Solution(object):
     def numDecodingsDP(self, s):
         if not s:
             return 0
-        dp = [0] * (len(s) + 1)
-        dp[0] = 1
-        dp[1] = s[0] in self.num2letter and 1 or 0
+        f = [0] * (len(s) + 1)
+        f[0] = 1
+        f[1] = s[0] in self.num2letter and 1 or 0
         for i in range(2, len(s) + 1):
-            dp[i] = (dp[i - 1] if (s[i-1] in self.num2letter) else 0) + \
-                    (dp[i - 2] if (s[i-2:i] in self.num2letter) else  0)
+            f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) + \
+                    (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
             pass
         pass
-        print(dp[-1])
-        return dp[-1]
+        print(f[-1])
+        return f[-1]
 
     def numDecodingsDPRolling(self, s):
         if not s:
             return 0
-        dp0, dp1 = 1, s[0] in self.num2letter and 1 or 0
+        f0, f1 = 1, s[0] in self.num2letter and 1 or 0
         for i in range(2, len(s) + 1):
-            dp0, dp1 = dp1, (dp1 if (s[i-1] in self.num2letter) else 0) + \
-                    (dp0 if (s[i-2:i] in self.num2letter) else  0)
+            f0, f1 = f1, (f1 if (s[i-1] in self.num2letter) else 0) + \
+                    (f0 if (s[i-2:i] in self.num2letter) else  0)
         pass
-        print(dp1)
-        return dp1
+        print(f1)
+        return f1
 
 def test():
     solution = Solution()

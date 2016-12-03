@@ -24,11 +24,11 @@ SOLUTION:
     1) sell at here: merge the last transaction
     2) not to sell here: use the previous state's result
 
-  dp[k, j] represents the max profit up till prices[j] using at most k transactions.
-  dp[k, j] = max(dp[k, j-1], prices[j] - prices[jj] + dp[k-1, jj]), jj in range of [0, j-1]
-           = max(dp[k, j-1], prices[j] + max(dp[k-1, jj] - prices[jj]))
-  dp[0, j] = 0; 0 transactions makes 0 profit
-  dp[k, 0] = 0; if there is only one price data point you can't make any transaction.
+  f[k, j] represents the max profit up till prices[j] using at most k transactions.
+  f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), jj in range of [0, j-1]
+           = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
+  f[0, j] = 0; 0 transactions makes 0 profit
+  f[k, 0] = 0; if there is only one price data point you can't make any transaction.
 
 Time complexity: O(nk), space complexity: O(nk).
 
@@ -42,9 +42,10 @@ derivative function between two points. Positive derivatives give positive area,
 versa. And positive derivatives indicates increasing function. Derivatives indicate quantity
 change rate.
 
-Without limited k, to obtain the maximum profit, we just sum up the difference along all
-ascending subsequences/subarrays. And when k decreases, there might be some subsequence merging
-into one larger than any of those two to save number of transactions.
+Without limit on k, to obtain the maximum profit, we just sum up the difference along all
+ascending subsequences/subarrays. And when k decreases, there might be some subsequence
+merging into one larger than any of those two to save number of transactions. And the
+difference of merged subarray is smaller than the sum of two individual differences.
 
 Strategies:
     1. Buy at local minimum(valley) and sell at local maximum(peak) in an ASCENDING
@@ -100,22 +101,22 @@ class Solution(object):
 
     def maxProfitDP2D(self, k, prices: list) -> int:
         '''
-        dp[k, j] represents the max profit up till prices[j] using at most k transactions.
-        dp[k, j] = max(dp[k, j-1], prices[j] - prices[jj] + dp[k-1, jj]), jj = 0, ..., j-1
-                 = max(dp[k, j-1], prices[j] + max(dp[k-1, jj] - prices[jj]))
-        dp[0, j] = 0; 0 transactions makes 0 profit
-        dp[k, 0] = 0; if there is only one price data point you can't make any transaction.
+        f[k, j] represents the max profit up till prices[j] using at most k transactions.
+        f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), jj = 0, ..., j-1
+                 = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
+        f[0, j] = 0; 0 transactions makes 0 profit
+        f[k, 0] = 0; if there is only one price data point you can't make any transaction.
         '''
         # DONE: two dimensional dynamic programming
-        dp = [[0] * (len(prices) + 1) for _ in range(k + 1)]
+        f = [[0] * (len(prices) + 1) for _ in range(k + 1)]
         for i in range(1, k + 1):
             localMax = float('-inf')
             for j in range(1, len(prices) + 1):
-                localMax = max(localMax, dp[i - 1][j] - prices[j - 1])
-                dp[i][j] = max(dp[i][j - 1], prices[j - 1] + localMax)
+                localMax = max(localMax, f[i - 1][j] - prices[j - 1])
+                f[i][j] = max(f[i][j - 1], prices[j - 1] + localMax)
                 pass
-        print(dp[:])
-        return dp[k][len(prices)]
+        print(f[:])
+        return f[k][len(prices)]
 
     def maxProfitDPQuantityChange(self, k, prices: list) -> int:
         '''

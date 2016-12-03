@@ -30,17 +30,17 @@ class Solution(object):
         """
         if not grid or not grid[0]: return 0
         m, n = len(grid), len(grid[0])
-        dp = [[0] * n for _ in range(m)]
+        f = [[0] * n for _ in range(m)]
         for i in range(m):
             for j in range(n):
-                dp[i][j] = grid[i][j] + (min(
-                    dp[i - 1][j] if i else 1 << 31,
-                    dp[i][j - 1] if j else 1 << 31)
+                f[i][j] = grid[i][j] + (min(
+                    f[i - 1][j] if i else 1 << 31,
+                    f[i][j - 1] if j else 1 << 31)
                     if i + j > 0 else 0)
                 pass
 
-        print(dp)
-        return dp[-1][-1]
+        print(f)
+        return f[-1][-1]
 
     # TODO: reduce space complexity to O(n) in dynamic programming
 

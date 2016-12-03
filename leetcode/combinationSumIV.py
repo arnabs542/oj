@@ -138,16 +138,16 @@ class Solution(object):
 
         Beats 99.87%, 2016-11-30 13:40.
         '''
-        dp = [1] + [0] * target
-        for i, n in enumerate(dp):
+        f = [1] + [0] * target
+        for i, n in enumerate(f):
             if n == 0:
                 continue
             for num in nums:
                 if i + num <= target:
-                    dp[i + num] += n
+                    f[i + num] += n
             pass
-        print(dp)
-        return dp[-1]
+        print(f)
+        return f[-1]
 
 
 def test():

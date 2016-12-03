@@ -59,13 +59,13 @@ class Solution(object):
         """
         if not m * n:
             return 0
-        dp = [[0 if i * j else 1 for j in range(n)] for i in range(m)]
+        f = [[0 if i * j else 1 for j in range(n)] for i in range(m)]
         for i in range(1, m):
             for j in range(1, n):
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+                f[i][j] = f[i - 1][j] + f[i][j - 1]
 
-        print(dp)
-        return dp[m - 1][n - 1]
+        print(f)
+        return f[m - 1][n - 1]
 
     def uniquePathsCombinatoric(self, m: int, n: int) -> int:
         return math.factorial(m + n - 2) // \

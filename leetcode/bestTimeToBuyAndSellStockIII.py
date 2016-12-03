@@ -45,7 +45,7 @@ Based on the optimal substructure observation, we can divide and conquer: split 
 into two, take the maximum subarray from left and right, and keep track of the maximum sum.
 
 3. Two dimensional Dynamic Programing.
-State = dp[k, j], indicating maximum profit with at most k transactions till prices[j].
+State = f[k, j], indicating maximum profit with at most k transactions till prices[j].
 
 4. One Dimensional Dynamic Programming, in a QUANTITY CHANGE perspective.
 See 'bestTimeToBuyAndSellStock.py' method 3. Define the STATE as a 4-tuple quantity change:
@@ -79,17 +79,17 @@ class Solution(object):
         '''
         diff = list(map(lambda x: x[1] - prices[x[0] - 1] if x[0] else 0,
                         enumerate(prices)))
-        dp = [[0] * 2 for _ in range(len(prices) + 1)] # max subarray, max profit
+        f = [[0] * 2 for _ in range(len(prices) + 1)] # max subarray, max profit
         max_ending_here = 0
         for i in range(1, len(prices) + 1):
             max_ending_here = max(max_ending_here + diff[i - 1], 0)
-            dp[i][0] = max(dp[i - 1][0], max_ending_here)
-            dp[i][1] = dp[i - 1][1] # don't sell at this time
+            f[i][0] = max(f[i - 1][0], max_ending_here)
+            f[i][1] = f[i - 1][1] # don't sell at this time
             # FIXME(fixed): tackle time limit exceeded by filtering
             if diff[i - 1] <= 0: continue
             for j in range(1, i): # sell at this time
-                dp[i][1] = max(dp[i][1], prices[i - 1] - prices[j - 1] + dp[j - 1][0])
-        return dp[-1][1]
+                f[i][1] = max(f[i][1], prices[i - 1] - prices[j - 1] + f[j - 1][0])
+        return f[-1][1]
 
     def maxProfitDivideAndConquer(self, prices: list) -> int:
         '''

@@ -71,14 +71,14 @@ class Solution(object):
         m, n, l = len(s1), len(s2), len(s3)
         if m + n != l:
             return False
-        dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
+        f = [[0 for j in range(n + 1)] for i in range(m + 1)]
         for i in range(0, m + 1):
             for j in range(0, n + 1):
-                dp[i][j] = s1[:i] + s2[:j] == s3[:i + j] if not i * j else \
-                    s3[i + j - 1] == s1[i - 1] and dp[i - 1][j] or \
-                    s3[i + j - 1] == s2[j - 1] and dp[i][j - 1]
-        # print(dp)
-        return dp[-1][-1]
+                f[i][j] = s1[:i] + s2[:j] == s3[:i + j] if not i * j else \
+                    s3[i + j - 1] == s1[i - 1] and f[i - 1][j] or \
+                    s3[i + j - 1] == s2[j - 1] and f[i][j - 1]
+        # print(f)
+        return f[-1][-1]
 
     def isInterleaveDFS(self, s1, s2, s3):
         """

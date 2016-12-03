@@ -48,18 +48,18 @@ class Solution(object):
         if not obstacleGrid or not obstacleGrid[0]:
             return 0
         m, n = len(obstacleGrid), len(obstacleGrid[0])
-        dp = [[0 for j in range(n)] for i in range(m)]
+        f = [[0 for j in range(n)] for i in range(m)]
         for i in range(m):
             for j in range(n):
                 if obstacleGrid[i][j] == 1:
                     continue
                 if i == j == 0:
-                    dp[i][j] = 1
-                dp[i][j] += dp[i - 1][j] if i else 0
-                dp[i][j] += dp[i][j - 1] if j else 0
+                    f[i][j] = 1
+                f[i][j] += f[i - 1][j] if i else 0
+                f[i][j] += f[i][j - 1] if j else 0
 
-        print(dp)
-        return dp[-1][-1]
+        print(f)
+        return f[-1][-1]
 
 def test():
     solution = Solution()

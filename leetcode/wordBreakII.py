@@ -116,26 +116,26 @@ class Solution(object):
         # length
         m = min(n, max([len(word) for word in wordDict]))
         # the last breakable sub-string's ending index, starting with 0
-        dp = [[] for i in range(n)]
+        f = [[] for i in range(n)]
         # sentence's end index, starting with 1
         for j in range(0, n):
             # last word's begin index, starting with 1, in the sentence
             for i in range(j, j - m, -1):
-                if s[i:j + 1] in wordDict and (i == 0 or dp[i - 1]):
-                    dp[j].append(i - 1)
+                if s[i:j + 1] in wordDict and (i == 0 or f[i - 1]):
+                    f[j].append(i - 1)
 
         # TODO: backtrack to generate solutions. DONE. This is actually a DFS search routine
         # This is tail recursion, constructing solution at the end of the recursion by
         # passing intermediate solution along down recursive calls as function arguments
         # TODO: do it iteratively
-        def generate(dp, solutions, end, curr=[]):
-            for last_index in dp[end]:
+        def generate(f, solutions, end, curr=[]):
+            for last_index in f[end]:
                 # if not instantiate a new list, we need to pop from it after
                 # insert into it for DFS backtracking
                 curr_new = list(curr)
                 curr_new.insert(0, s[last_index + 1:end + 1])
                 if last_index >= 0:
-                    generate(dp, solutions, last_index, curr_new)
+                    generate(f, solutions, last_index, curr_new)
                 else:
                     broken_sentence = ' '.join(curr_new)
                     # print('generated a solution: ', broken_sentence)
@@ -143,16 +143,16 @@ class Solution(object):
                 # print(s[last_index + 1:end + 1], '     ')
             pass
 
-        def generateNonTail(dp, solutions, end, curr=[]):
+        def generateNonTail(f, solutions, end, curr=[]):
             """
                 DFS backtracking generating solutions with non-tail recursion
             """
-            for last_index in dp[end]:
+            for last_index in f[end]:
                 # if not instantiate a new list, we need to pop from it after
                 # insert into it for DFS backtracking
                 curr.append(s[last_index + 1:end + 1])
                 if last_index >= 0:
-                    generate(dp, solutions, last_index, curr)
+                    generate(f, solutions, last_index, curr)
                 else:
                     broken_sentence = ' '.join(curr[::-1])
                     print('generated a solution: ', broken_sentence)
@@ -162,10 +162,10 @@ class Solution(object):
                 curr.pop()
             pass
 
-        # print(dp)
+        # print(f)
         solutions = []
-        tailRecursion and generateNonTail(dp, solutions, len(s) - 1, []) or \
-                generate(dp, solutions, len(s) - 1, [])
+        tailRecursion and generateNonTail(f, solutions, len(s) - 1, []) or \
+                generate(f, solutions, len(s) - 1, [])
         return solutions
 
     def wordBreakDFS(self, s, wordDict, start=0, cat=False, memoization=False):
