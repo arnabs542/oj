@@ -99,31 +99,25 @@ class Solution(object):
                     permutations_curr.append(permutation)
         return permutations_curr
 
-    def permuteBacktrack(self, nums, start=0):
+    def permuteBacktrack(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
 
-        Dynamic Graph: Backtrack!
+        Dynamic Graph: Backtrack with DEPTH-FIRST SEARCH!
         """
-        if not nums:
-            return []
-        if not hasattr(self, 'permutations'):
-            self.permutations = []
-        n = len(nums)
-
-        if n - 1 <= start:
-            self.permutations.append(list(nums))
-        else:
-            for i in range(start, n):
+        permutations = []
+        def dfs(start):
+            if start == len(nums) - 1:
+                permutations.append(list(nums))
+                return
+            for i in range(start, len(nums)):
+                # state transition by placing different elements in a slot
                 self._swap(start, i, nums)
-                self.permuteBacktrack(nums, start + 1)
+                dfs(start + 1)
                 self._swap(start, i, nums)
-
-        if not start:
-            # only return in the top case
-            return self.permutations
-        return
+        dfs(0)
+        return permutations
 
     @classmethod
     def _swap(cls, i, j, nums):
@@ -192,7 +186,7 @@ class Solution(object):
         """
         pass
 
-    # TODO: k-permutations of n(arrangement of k numbers from n). DONE!
+    # TODO: (partial permutation) k-permutations of n(arrangement of k numbers from n). DONE!
     # 1. Dynamic Programming approach: denote number of arrangements of k given n by A[n, k].
     # The structure of this problem resembles the 0-1 knapsack problem.
     # then we have:
@@ -249,12 +243,13 @@ def test():
             [1],
             [],
     ]:
-        # print(Solution().permuteBacktrack(nums))
+        print(Solution().permuteBacktrack(nums))
         # print(Solution().permuteDP(nums))
         print(Solution().permuteDPRollingArray(nums))
-        print(Solution().permuteBacktrackIterative(nums))
+        # print(Solution().permuteBacktrackIterative(nums))
 
     # test permutations of m given n
+    print('partial permutations')
     print(Solution().permuteKofNDP(3, 3))
     print(Solution().permuteKofNDP(2, 3))
     print(Solution().permuteKofNDP(1, 3))

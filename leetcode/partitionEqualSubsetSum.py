@@ -31,8 +31,8 @@ Example 2:
 
 ==============================================================================================
 SOLUTION:
-    Get the total sum of the array, if it's even, then reduce the problem to the 'Combination Sum'
-problem with target value as half the sum.
+    Get the total sum of the array, if it's even, then reduce the problem to the 'Combination
+Sum' problem with target value as half the sum.
 
 '''
 
@@ -71,7 +71,7 @@ class Solution(object):
 
         def combinationSumDP(target):
             ''' Similar to knapsack problem. '''
-            # TODO: optimize space complexity to one dimension
+            # TODO: reduce the dimension to one optimize space complexity
             if not nums: return target == 0
             m, n = len(nums) + 1, target + 1
             f = [[1 if j == 0 else 0 for j in range(n)] for _ in range(m)]

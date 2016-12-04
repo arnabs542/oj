@@ -33,29 +33,26 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
+
 class Solution(object):
 
-    def isValidBST(self, root, low=None, high=None):
+    def isValidBST(self, root, low=float('-inf'), high=float('inf')):
         """
         :type root: TreeNode
         :rtype: bool
         """
-        if not root:
-            return True
+        return not root or (low < root.val < high and
+                            self.isValidBST(root.left, low=low, high=root.val) and
+                            self.isValidBST(root.right, low=root.val, high=high))
 
-        if root.left:
-            if root.left.val >= root.val or (
-                high is not None and root.left.val >= high) or (
-                low is not None and root.left.val <= low
-            ):
-                return False
+from serializeAndDeserializeBinaryTree import Codec, TreeNode
 
-        if root.right:
-            if root.right.val <= root.val or (
-                high is not None and root.right.val >= high) or (
-                low is not None and root.right.val <= low
-            ):
-                return False
+def test():
+    solution = Solution()
 
-        return self.isValidBST(root.left, low=low, high=root.val) and \
-            self.isValidBST(root.right, low=root.val, high=high)
+    assert solution.isValidBST(Codec.deserialize('[2,1,3]', int))
+
+    print('self test passed')
+
+if __name__ == '__main__':
+    test()
