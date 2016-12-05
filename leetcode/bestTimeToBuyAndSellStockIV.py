@@ -20,36 +20,51 @@ before you buy again).
 SOLUTION:
     Dynamic Programming.
 
-1. TWO DIMENSIONAL. Then at each point, there are two scenarios:
+1. TWO DIMENSIONAL STATE.
+
+f[k, j] represents the max profit up till prices[j] using at most k transactions.
+
+At each point, there are two scenarios:
     1) sell at here: merge the last transaction
     2) not to sell here: use the previous state's result
 
-  f[k, j] represents the max profit up till prices[j] using at most k transactions.
-  f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), jj in range of [0, j-1]
-           = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
-  f[0, j] = 0; 0 transactions makes 0 profit
-  f[k, 0] = 0; if there is only one price data point you can't make any transaction.
+f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), where jj = 0, ..., j - 1
+        = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
+
+f[0, j] = 0; 0 transactions makes 0 profit
+f[k, 0] = 0; if there is only one price data point you can't make any transaction.
 
 Time complexity: O(nk), space complexity: O(nk).
 
 But we can reduce the space complexity in a quantity change perspective.
 
-2. ONE DIMENSIONAL dynamic programming in QUANTITY CHANGE perspective.
-
-In a perspective of DERIVATIVES in calculus:
-    The function's difference between two points, is the AREA under curve of its first-order
-derivative function between two points. Positive derivatives give positive area, and vice
-versa. And positive derivatives indicates increasing function. Derivatives indicate quantity
-change rate.
+2. ONE DIMENSIONAL dynamic programming in QUANTITY CHANGE/ STATE MACHINE perspective.
 
 Without limit on k, to obtain the maximum profit, we just sum up the difference along all
 ascending subsequences/subarrays. And when k decreases, there might be some subsequence
 merging into one larger than any of those two to save number of transactions. And the
 difference of merged subarray is smaller than the sum of two individual differences.
-
 Strategies:
     1. Buy at local minimum(valley) and sell at local maximum(peak) in an ASCENDING
 subsequence.
+
+In a perspective of DERIVATIVES in calculus:
+
+    The function's difference between two points, is the AREA under curve of its first-order
+derivative function between two points. Positive derivatives give positive area, and vice
+versa. And positive derivatives indicates increasing function. Derivatives indicate quantity
+change rate. In discrete domain, derivatives can be viewed as difference(quantity change).
+
+    The total profit can be defined as a function f(X), where X is a sequence of actions,
+each of which is one of buy and sell. And we want to find the max(f). Then we follow a
+path with positive derivatives(differences) to get the maximum value.
+
+----------------------------------------------------------------------------------------------
+In a perspective of STATE MACHINE:
+
+At each day, we have two possible ACTIONS giving two scenarios with STATES:
+    maximum profit ending with last action of buy
+    maximum profit ending with last action of sell
 
 Define the STATE as a 2k-tuple profit quantity change:
     (
@@ -62,17 +77,18 @@ Define the STATE as a 2k-tuple profit quantity change:
         quantity change after kth hold,
     )
 
-Recurrence relation:
+Recurrence relation/state transition through action:
+
     release[i] = max(release[i], hold[i] + prices[j])
-    hold[i] = max(hold[i], release[i - 1] - prices[j])
+    hold[i]    = max(hold[i], release[i - 1] - prices[j])
     ...
     release[0] = max(release[0], hold[0] + prices[j])
-    hold[0] = max(hold[0], -prices[j])
+    hold[0]    = max(hold[0], -prices[j])
 
 Time complexity: O(nk), reduced space complexity: O(k).
 
 Update the 2k-tuple in reverse order while scanning the array, because we have to sell before
-buying again.
+buy again.
 
 NOTE:
     When k > len(prices) // 2, the problem is reduced to max profit without limit on number of
@@ -145,7 +161,7 @@ class Solution(object):
         '''
         More readable version of maxProfitDPQuantityChange
         '''
-        hold = [float('-inf')] * (k + 1)
+        hold = [float('-inf')] * (k + 1) # pad leading zero to neutralize empty list case
         release = [0] * (k + 1)
         for p in prices:
             for i in range(k, 0, -1):

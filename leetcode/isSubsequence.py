@@ -31,6 +31,15 @@ Follow up:
 If there are lots of incoming S, say S1, S2, ... , Sk where k >= 1B, and you want to check
 one by one to see if T has its subsequence. In this scenario, how would you change your
 code?
+
+==============================================================================================
+SOLUTION:
+1. Two pointers scanning.
+
+2. For large list of incoming S, we may preprocess the string T to obtain a HASH TABLE of which
+value = (key=char, value=list of ascending occurrence indices).
+
+Then we can reduce the time complexity while querying whether a character in S exists in T.
 '''
 
 class Solution(object):
@@ -40,9 +49,14 @@ class Solution(object):
         :type s: str
         :type t: str
         :rtype: bool
-
-        Greedy algorithm.
         """
+        # return self.isSubsequenceTwoPointers(s, t)
+        return self.isSubsequenceHash(s, t)
+
+    def isSubsequenceTwoPointers(self, s, t):
+        '''
+        Greedy algorithm.
+        '''
         i, j = 0, 0
         while i < len(s):
             while j < len(t) and t[j] != s[i]:
@@ -54,15 +68,30 @@ class Solution(object):
                 j += 1
         return True
 
-    def isSubsequenceFollowUp(self, ss: list, t):
+    def isSubsequenceHash(self, s: str, t) -> bool:
         """
         :type s: str
         :type t: str
         :rtype: bool
 
-        Greedy algorithm.
+        Use hashing for the follow-up problem.
         """
-        # TODO: follow up problem
+        occurrence = {}
+        for i, c in enumerate(t):
+            occurrence.setdefault(c, [])
+            occurrence[c].append(i)
+
+        start = 0
+        for i, c in enumerate(s):
+            found = False
+            for j in occurrence.get(c, []):
+                if j >= start:
+                    start = j + 1
+                    found = True
+                    break
+            if not found: return False
+        return True
+
 
 def test():
     """TODO: Docstring for test.
