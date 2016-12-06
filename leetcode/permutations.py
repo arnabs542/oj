@@ -18,6 +18,36 @@ Follow up: with duplicate elements? Like 1,1,2, 2,3,2, ...
     Solution: while checking validation, count in an element's maximum appearance times
 
 Follow up: arrangements of m of n numbers. ( m <= n)
+
+==============================================================================================
+SOLUTION:
+
+For a general partial permutation problem, we have several ways to define STATES, thus giving
+several approaches.
+
+1. Dynamic Programming(breadth-first search):
+
+Define the state f[n, k] as number of partial arrangements of k given n.
+
+The structure of this problem resembles the 0-1 knapsack problem.
+then we have:
+  f[n, k] = #arrangements containing mth number + #arrangements not with mth number
+          = f[n - 1, k - 1] * k + f[n - 1, k],
+
+2. Treated as a dynamic graph, use backtracking with depth-first search:
+   Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
+
+Then there always exists such transition from f(k - 1) that
+    f(k) = f(k - 1) + [available/non-duplicate number].
+
+In another word, f(k -1) is of the first k - 1 elements in f(k).
+
+Which means, we can fill the K places one by one, at each step, we have multiple
+choices/branches. Then we can use DFS(backtrack) or BFS.
+
+3. Lexicographical order next permutation:
+Define the state as one possible partial permutation of K numbers. Then at each time we find
+the next Lexicographically larger permutation.
 """
 
 
@@ -186,15 +216,7 @@ class Solution(object):
         """
         pass
 
-    # TODO: (partial permutation) k-permutations of n(arrangement of k numbers from n). DONE!
-    # 1. Dynamic Programming approach: denote number of arrangements of k given n by A[n, k].
-    # The structure of this problem resembles the 0-1 knapsack problem.
-    # then we have:
-    #   A[n, k] = #arrangements containing mth number + #arrangements not with mth number
-    #           = A[n - 1, k - 1] * k + A[n - 1, k],
-    # 2. backtracking with depth-first search
-    # 3. lexicographical order next permutation.
-    # we add one
+    # DONE: (partial permutation) K-permutations of N(arrangement of K numbers from N).
     def permuteKofNDP(self, k, n):
         """
         :type m: int
@@ -212,10 +234,10 @@ class Solution(object):
             # perms[i][0].append([])
         for j in range(1, k + 1):
             for i in range(j,n + 1):
-                # A[n - 1, k]
+                # f[n - 1, k]
                 perms[i][j].extend(perms[i -1][j])
 
-                # A[n - 1, k - 1] * k
+                # f[n - 1, k - 1] * k
                 for arrangement in perms[i - 1][j - 1]:
                     for idx in range(len(arrangement) + 1):
                         arrangement_new = list(arrangement)
@@ -227,7 +249,7 @@ class Solution(object):
     # TODO: how about arrangement of m from n objects, involving duplicate ones?
     # treat those duplicate objects individually. In another word, assign different index for
     # all candidates, so that we only use those indices to finish the dynamic programming state
-    # transition process. When it comes to the recursion formula with A[n, k] and A[n -1, k - 1],
+    # transition process. When it comes to the recursion formula with f[n, k] and f[n -1, k - 1],
     # be careful while inserting the mth object not to produce duplicate arrangement
     def permuteMofNWithDup(self, k, iterable):
         """

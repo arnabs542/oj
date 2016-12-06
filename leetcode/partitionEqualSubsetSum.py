@@ -32,7 +32,9 @@ Example 2:
 ==============================================================================================
 SOLUTION:
     Get the total sum of the array, if it's even, then reduce the problem to the 'Combination
-Sum' problem with target value as half the sum.
+Sum' problem with target value as half the sum. The recursive depth-first search solution
+exceeds time limit. To do this iteratively, we can use Dynamic Programming, which is similar
+to 0-1 Knapsack problem.
 
 '''
 
@@ -57,11 +59,11 @@ class Solution(object):
         """
         # FIXME: maximum recursion depth exceeded
         @memoize
-        def combinationSum(target, start=0) -> bool:
+        def combinationSumDFS(target, start=0) -> bool:
             if target == 0: return True
             for i in range(start, len(nums)):
                 if nums[i] > target: continue
-                ret = combinationSum(target - nums[i], i + 1)
+                ret = combinationSumDFS(target - nums[i], i + 1)
                 if ret: return True
             return False
 
@@ -71,7 +73,6 @@ class Solution(object):
 
         def combinationSumDP(target):
             ''' Similar to knapsack problem. '''
-            # TODO: reduce the dimension to one optimize space complexity
             if not nums: return target == 0
             m, n = len(nums) + 1, target + 1
             f = [[1 if j == 0 else 0 for j in range(n)] for _ in range(m)]
@@ -81,8 +82,23 @@ class Solution(object):
                         j >= nums[i - 1] and f[i - 1][j - nums[i - 1]])
             return bool(f[-1][-1])
 
+        def combinationSumDP1D(target):
+            ''' Similar to knapsack problem. '''
+            # DONE: reduce the dimension to one optimize space complexity
+            f = [1] + [0] * target
+            for i, _ in enumerate(nums):
+                for j in range(target, 0, - 1):
+                    # XXX: reversed order because the same element in collection can not
+                    # be used more than once!
+                    f[j] = f[j] or (j >= nums[i] and f[j - nums[i]])
+            print(f)
+            return bool(f[target])
+
+        # combinationSum = combinationSumDP
+        combinationSum = combinationSumDP1D
+
         total = sum(nums)
-        return total % 2 == 0 and combinationSumDP(total // 2)
+        return total % 2 == 0 and combinationSum(total // 2)
 
     # TODO: bitset ?
 

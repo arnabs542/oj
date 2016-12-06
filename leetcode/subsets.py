@@ -43,13 +43,13 @@ f(k, n) = {s + [num]| for s in f(k - 1, n), num in nums, if num > max(s)}
 
 All subsets is just the superset of all combinations of k given n, k = 0, ..., n.
 
-2. Recursion version dynamic programming
+2. Define 1-dimensional state
 
-Pass STATES of subsets as function return value
+Denote all subsets of k from n by f(k, n), where n is constant, then we also have:
+    f(0) = {}
+    f(k) = {s + [num]| s in f(k - 1), num in nums}
 
-Denote subsets of k given by n by f(k, n), then we also have:
-    f(0, n) = {}
-    f(k, n) = {s + [num]| for s in f(k - 1, n), num in nums, if num > max(s)}
+We can use recursion by passing STATES of subsets as function return value.
 
 3. Graph finding all vertices
 
@@ -85,7 +85,8 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         # return self.subsetsDP(nums)
-        return self.subsetsBit(nums)
+        return self.subsetsDP1D(nums)
+        # return self.subsetsBit(nums)
         # return self.subsetsDFS(nums)
 
     def subsetsDP(self, nums):
@@ -104,6 +105,15 @@ class Solution(object):
         for s in subsets: output.extend(s)
         print(output)
         return output
+
+    def subsetsDP1D(self, nums: list) -> list:
+        subsets, new = [[]], []
+        for n in nums:
+            for s in subsets:
+                new.append(s + [n])
+            subsets.extend(new)
+            new.clear()
+        return subsets
 
     def subsetsDFS(self, nums):
         """

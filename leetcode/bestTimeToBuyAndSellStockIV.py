@@ -152,6 +152,8 @@ class Solution(object):
         state = [0 if i % 2 else float('-inf') for i in range(2 * (k + 1))]
         for p in prices:
             for i in range(2 * k - 1, -1, -1):
+                # XXX: reverse/decreasing order to ensure number in prices is used only
+                # once to make sure we sell before buy
                 state[i] = max(state[i], (i and state[i - 1]) + p * -pow(-1, i % 2))
 
         print(state)
