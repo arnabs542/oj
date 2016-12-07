@@ -26,7 +26,7 @@ Return the array [2, 1, 1, 0].
 SOLUTION:
     The count of smaller numbers after self is exactly the number of elements move to its left
 in a STABLE SORT.
-    1. brute force. for each element, count the smaller numbers after self. O(n^2)
+    1. brute force. for each element, count the smaller numbers after self. O(N²)
     2. insert sort with binary search. Inserting SORT from right to left with binary search,
 then the inserting index of current element is the smaller numbers after self.
     3. segment tree.

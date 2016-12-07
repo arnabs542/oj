@@ -37,9 +37,9 @@ Square number can be written as first n odd numbers.
 Refer to https://en.wikipedia.org/wiki/Square_number#Properties
 
 Proof:
-    n ^ 2 = (n − 1) ^ 2 + (n − 1) + n = (n − 1) ^ 2 + (2n − 1) = ...
+    n² = (n − 1)² + (n − 1) + n = (n − 1)² + (2n − 1) = ...
 
-Time complexity: O(sqrt(N))
+Time complexity: O(√N)
 '''
 
 class Solution(object):

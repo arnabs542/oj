@@ -33,7 +33,7 @@ each of which is a path from v to its some distant child(neighbor).
 there. This procedure involves lots of repeated computation.
 
 Check maximum sum of left and right paths takes average O(N). So the overall
-time complexity is O(N^2).
+time complexity is O(N²).
 
 2. Bottom-up state transition.
 A path sum problem shares some similarity with maximum subarray problem, which both have

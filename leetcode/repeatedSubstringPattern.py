@@ -31,7 +31,7 @@ Explanation: It's the substring "abc" four times. (And the substring "abcabc" tw
 
 ==============================================================================================
 SOLUTION:
-    1. Naive solution: take possible substrings, check eligibility. O(n^2)
+    1. Naive solution: take possible substrings, check eligibility. O(N²)
     2. KMP: Build the Longest Prefix Suffix array, then text length - LPS[-1] would possibly
 be the length of substring. O(n). LPS construction procedure takes amortized O(N) time
 complexity.

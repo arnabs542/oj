@@ -45,7 +45,7 @@ used.
     Define the state f(i) = (wiggle sequence length ending here, last difference sign),
 then do the scanning:
     f(i)[0] = max(f(j)[0] + 1) if nums[i] - f[j] and f(j)[1] are of difference signs.
-Time complexity is O(N^2).
+Time complexity is O(N²).
 
 2. Linear Dynamic Programming
 

@@ -95,7 +95,7 @@ class Solution(object):
 
         Each time find all the path start from current node, O(logN) or O(N)
         Then move start node to the child and repeat the above procedure. (N nodes).
-        Time Complexity should be O(N^2) for the worst case and O(NlogN) for
+        Time Complexity should be O(N²) for the worst case and O(NlogN) for
         balanced binary Tree.
         """
         def findPath(root, target):

@@ -8,19 +8,19 @@ Compute and return the square root of x.
 ==============================================================================================
 Solution:
 
-1. Binary search for k ,for which k * k <= x < (k + 1) * (k + 1).
+1. Binary search for k ,for which k² <= x < (k + 1)².
 2. Newton's method (root/zeros finding method for real-valued function).
 Find square root of a number `a` is to find the root for function:
-    f(x) = x ^ 2 - a = 0
+    f(x) = x² - a = 0
 and:
     f'(x) = 2 * x
 The iterative update:
     x[n + 1] = x[n] - f(x[n]) / f'(f[n])
-             = x[n] - 1/2 * (x[n] - a/x[n])
+             = x[n] - ½ * (x[n] - a/x[n])
              = (x[n] + a / x[n]) / 2
 The vanilla stopping criterion is:
     (x[n + 1] - x[n]) <= 1
-But for this problem, we want find root ^ 2 <= x <= (root + 1) ^2
+But for this problem, we want find root² <= x <= (root + 1)²
 '''
 
 class Solution(object):

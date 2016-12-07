@@ -23,7 +23,7 @@ The palindromes are ["dcbaabcd", "abcddcba", "slls", "llssssll"]
 ==============================================================================================
 SOLUTION:
     Hash table to store (string, index).
-    Then, work to reduce the time complexity of O(n^2) in a trivial solution.
+    Then, work to reduce the time complexity of O(N²) in a trivial solution.
 
     There is concatenation operation to get the palindrome string. Then there would be a
 PALINDROME PREFIX/SUFFIX problem involved, which is similar to 'Shortest Palindrome' problem.

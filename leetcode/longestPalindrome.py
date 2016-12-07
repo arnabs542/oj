@@ -6,7 +6,7 @@ substring
 
 Solution:
     @1 brute-force.Time complexiyy: O(n^3)
-    @2 dynamic programming.Time: O(n^2),space: O(n^2)
+    @2 dynamic programming.Time: O(N²),space: O(N²)
     Notation: table[i][j] == 1: s[i:j+1] is palindrome,0: not
 
         Recurrence:
@@ -23,7 +23,7 @@ class Solution(object):
             return ''
         n = len(s)
 
-        # TODO: this is a O(N^2) solution, always Time limit exceed with Python
+        # TODO: this is a O(N²) solution, always Time limit exceed with Python
 
         # optimization for two dimensional array initialization
         longestPalin = ""
@@ -97,7 +97,7 @@ class Solution(object):
 
         return s[start:start + maxlen]
 
-    # TODO: expand around the center, O(n^2)
+    # TODO: expand around the center, O(N²)
 
     # TODO: Manacher's linear time complexity solution, O(n)
 

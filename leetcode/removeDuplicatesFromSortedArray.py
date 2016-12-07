@@ -21,7 +21,7 @@ respectively. It doesn't matter what you leave beyond the new length.
 
 ==============================================================================================
 SOLUTION:
-    1. Naive solution: scan the array, pop element when we find duplicates. Worst O(n^2)
+    1. Naive solution: scan the array, pop element when we find duplicates. Worst O(N²)
     2. TWO POINTERS PARTITION algorithm like quick sort. Keep a PARTITION POINT(SPLIT POINT)
 that all elements not on the right of it are definitely unique. Initialize it to be -1, then
 scan the array, when we found a non-duplicate element, put the value after PARTITION POINT,

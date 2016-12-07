@@ -47,20 +47,19 @@ So we will stop when we have 1 as factors.
 
 Let's say n is sufficiently large, then we can break n into x * (n/x). Define the product function
 
-    f(x) = (n/x) ^ x,
+    f(x) = (n/x)ˣ,
     lnf(x) = xln(n/x)
 
 Take the derivatives:
 
-    1/f * f' = ln(n/x) + x * (x/n * (-n / x^2)) = ln(n/x) - 1
+    1/f * f' = ln(n/x) + x * (x/n * (-n / x²)) = ln(n/x) - 1
 
 Let f' = 0:
 
-    f' = f(ln(n/x) - 1) = 0,
-    ln(n/x) = 1
+    f' = f * (ln(n/x) - 1) = 0,
+    ∴ ln(n/x) = 1
 
-then
-    n / x = e = 2.71828...
+    ∴ n / x = e = 2.71828...
 
 This indicates that we want break n into natural logarithm constant.
 

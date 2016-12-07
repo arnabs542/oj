@@ -37,8 +37,8 @@ and second part's maximum subarray ending with current position.
     2) Not to sell stock here: reduced to case where length is l - 1
 
 Maximum subarray: O(N * 1) = O(N).
-Deciding where to split: worst O(N * N) = O(N^2).
-Overall time Complexity: worst O(N^2).
+Deciding where to split: worst O(N * N) = O(N²).
+Overall time Complexity: worst O(N²).
 
 2. Divide and Conquer
 Based on the optimal substructure observation, we can divide and conquer: split the array
@@ -75,7 +75,7 @@ class Solution(object):
         '''
         STATE = (max subarray, max profit, max_ending_here)
 
-        time complexity: O(N^2)
+        time complexity: O(N²)
         '''
         diff = list(map(lambda x: x[1] - prices[x[0] - 1] if x[0] else 0,
                         enumerate(prices)))

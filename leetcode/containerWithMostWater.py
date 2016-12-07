@@ -18,7 +18,7 @@ Note: You may not slant the container.
 ==============================================================================================
 SOLUTION:
     1. A brute-force solution would be compute all pair-wise container volume, time complexity
-O(N*N) = O(N^2).
+O(N*N) = O(N²).
 
     2. Two pointers Harnessing the (short plate theory)bucket effect:
 the SHORT PLATE is the limiting factor of VOLUME of a bucket rather than the longer ones.

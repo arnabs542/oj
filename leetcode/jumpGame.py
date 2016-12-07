@@ -41,7 +41,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        # FIXME: time limit exceed, because it could reduce to O(n^2) because exploring
+        # FIXME: time limit exceed, because it could reduce to O(N²) because exploring
         # neighbors could involve lots of branches
         frontier = [0]
         visited = {0}

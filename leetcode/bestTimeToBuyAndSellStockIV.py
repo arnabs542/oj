@@ -24,10 +24,10 @@ SOLUTION:
 
 f[k, j] represents the max profit up till prices[j] using at most k transactions.
 
-At each point, there are two scenarios:
+∵ At each point, there are two scenarios:
     1) sell at here: merge the last transaction
     2) not to sell here: use the previous state's result
-
+∴
 f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), where jj = 0, ..., j - 1
         = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
 

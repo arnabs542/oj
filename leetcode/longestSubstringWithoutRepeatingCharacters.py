@@ -20,7 +20,7 @@ Solution:
 string[0...i].
 length[i] = length[i-1] + 1,if string[i] not in string[i-length[i-1]...i-1]
             j,for largest j < length[i-1] such that string[i] not in string[i-j...i-1]
-O(n^2).
+O(N²).
 
 2. DYNAMIC PROGRAMMING and HASH TABLE.
 
@@ -49,7 +49,7 @@ class Solution:
 
     def lengthOfLongestSubstringDP(self, s):
         '''
-        Time Complexity: O(n^2)
+        Time Complexity: O(N²)
         '''
         n = len(s)
         length = [1 for i in range(n)]

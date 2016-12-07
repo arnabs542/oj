@@ -47,7 +47,7 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        # This is a brute force O(n^2) solution, get Time Limit Exceeded
+        # This is a brute force O(N²) solution, get Time Limit Exceeded
         mid = (len(s) - 1) // 2
         if s[:mid + 1] == s[mid + 1:][::-1]:
             # even length string, already palindrome
@@ -76,7 +76,7 @@ class Solution(object):
             if s.startswith(s_reversed[m - i - 1:]):
                 idx = i
                 break
-        # O(n^2)
+        # O(N²)
 
         # longest paindrome prefix
         s = s[idx + 1:][::-1] + s

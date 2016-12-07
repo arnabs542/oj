@@ -24,7 +24,7 @@ class Solution:
         P = []
         for _ in range(n):
             P.append([False]*n)
-            # Compute P[][], T(n) = O(n^2) and S(n) = O(n^2)
+            # Compute P[][], T(n) = O(N²) and S(n) = O(N²)
             for mid in range(n):
                 P[mid][mid] = True
                 # Check strings with the mid of s[mid]

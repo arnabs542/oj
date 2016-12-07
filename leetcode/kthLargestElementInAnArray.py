@@ -56,7 +56,7 @@ Time Complexity:
         T(n) = 2T(n/2) + O(n)
     and the complexity will be O(nlogn).
     Of course, O(n) is the average time complexity. In the worst case, the recursion may become
-        T(n) = T(n - 1) + O(n) and the complexity will be O(n^2).
+        T(n) = T(n - 1) + O(n) and the complexity will be O(N²).
 '''
 
 from heapq import heappush, heappop
