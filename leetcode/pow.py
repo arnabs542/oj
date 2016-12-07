@@ -1,10 +1,18 @@
-'''
-Pow(x,n)
-    Implement pow(x,n)
-'''
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 '''
-Solution:
+50. Pow(x, n)
+
+Total Accepted: 122876
+Total Submissions: 452328
+Difficulty: Medium
+Contributors: Admin
+
+Implement pow(x, n).
+
+==============================================================================================
+SOLUTION:
     Naive method:
         Simply multiply x n times
     O(logN) method:
@@ -16,6 +24,7 @@ class Solution(object):
     # 1.1 using built in pow function
     myPow = pow
     # 1.2
+
     def myPowBuiltin(self, x, n):
         return x ** n
 
@@ -42,7 +51,7 @@ class Solution(object):
             # XXX: this is actually binary search
             return self.myPowRecursive(x * x, n / 2)
 
-    #3 iterative
+    # 3 iterative
     def myPowIterative(self, x, n):
         """
         :type x: float
@@ -65,12 +74,11 @@ class Solution(object):
 
         result = 1
         while n:
-            if  n & 1:
+            if n & 1:
                 result *= x
             x *= x
             n = n >> 1
         return result
-
 
     def myPow(self, x, n):
         """
@@ -83,7 +91,6 @@ class Solution(object):
         # return self.myPowRecursive(x, n)
         return self.myPowIterative(x, n)
         pass
-
 
 
 def test():
