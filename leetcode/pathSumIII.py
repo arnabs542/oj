@@ -132,20 +132,20 @@ class Solution(object):
         Time Complexity is O(N), where N is the number of nodes in the tree.
         """
         # XXX: prefix sum solution
-        def backtrack(root, sum_so_far, target, prefix):
+        def dfs(root, sum_so_far, target, prefix):
             if not root:
                 return 0
             # print('target', target, root, prefix)
             sum_so_far += root.val
             res = prefix.get(sum_so_far - target, 0) # check subarray sum equivalence to target
             prefix[sum_so_far] = prefix.get(sum_so_far, 0) + 1
-            res += backtrack(root.left, sum_so_far, target, prefix) + \
-                backtrack(root.right, sum_so_far, target, prefix)
+            res += dfs(root.left, sum_so_far, target, prefix) + \
+                dfs(root.right, sum_so_far, target, prefix)
             prefix[sum_so_far] -= 1  # restore state to backtrack
             return res
 
         prefix = {0: 1}
-        return backtrack(root, 0, target, prefix)
+        return dfs(root, 0, target, prefix)
 
 def test():
 

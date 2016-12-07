@@ -46,10 +46,11 @@ one dimension.
     A naive solution would be to find the maximum number in window each time the window
 slides. The time complexity is O(NK), space complexity is O(1).
 
+    And again, this problems involves value COMPARISON, which is naturally related to value
+ORDERING, EXTREMUM.
+
     The sliding window demonstrate characteristics of First In First Out, so QUEUE data
 structure could be used.
-    And again, this problems involves value COMPARISON, which is naturally related to value
-ORDERING or SORTING.
 
 1. Linear time complexity solution: MAX QUEUE using dequeue(double-ended queue) to do this.
 A similar data structure is MIN STACK.

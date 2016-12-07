@@ -27,7 +27,8 @@ Output:
 ==============================================================================================
 SOLUTION:
     brute-force, greedy.
-Hint: sometimes, greedy strategy is closely connected to sort to make local optimal decision.
+
+VALUE COMPARISON involved, consider the ORDERING / MONOTONICITY and EXTREMUM.
 '''
 
 class Solution(object):

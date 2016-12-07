@@ -22,18 +22,38 @@ contributing this image!
 ==============================================================================================
 SOLUTION:
     A interval container's height is determined by the short slab.
-    By analysis, we can see the key points are the increasing subsequence's end.
+    By analysis of the MONOTONICITY property, we can see the key points are the increasing
+subsequence's local EXTREMA, i.e., the LOCAL MAXIMUM.
+
+1. Find all local maxima, and remove the strictly local minimum of those local maxima
 
 Array:                    [0, 1, 0, 2, 1, 0, 1, 3, 2,  1, 2, 1]
 Difference(derivatives) : [0, 1,-1, 2,-1, 0, 1, 2,-1, -1, 1,-1]
 Increasing ends:  [1, 3, 7, 10] (with positive derivatives)
 
 1. Find local maxima with FIRST-ORDER DERIVATIVES or some linear scanning algorithm.
-2. Remove local minima of local maxima.
+2. Remove local minima of previously found local maxima. So that we will only have at most
+one increasing and one decreasing major bins sequence.
 3. Compute the AREA UNDER CURVE between two points.
 
 The interval between two consecutive local maximum points are valid container for trapping
 water.
+
+2. Two pointers
+Compute the are in a cumulative way with two pointers.
+
+Observation: if a container composed of two bins can't hold that much water, then there will
+be overflow. And water will flow from inside the container to outside. And the outside most
+container is deterministic: the boundary!
+
+So we could start with two pointers from two ends to meet at middle.
+
+Search from left to right and maintain a max height of left and right separately, which
+act like an actually valid outside container's walls to prevent overflow.
+
+Fix the higher one and flow water to the lower barrier. For example, if current height
+of left is lower, we fill water in the left bin. Until left meets right, we fill the
+whole container.
 
 '''
 
@@ -44,9 +64,10 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        return self.trapDerivative(height)
+        # return self.trapMonotonicity(height)
+        return self.trapTwoPointers(height)
 
-    def trapDerivative(self, height: list) -> int:
+    def trapMonotonicity(self, height: list) -> int:
         """
         :type height: List[int]
         :rtype: int
@@ -63,7 +84,7 @@ class Solution(object):
             if (i == len(derivatives) or derivatives[i] <= 0) and derivatives[i - 1] > 0:
                 ends.append((i - 1, height[i - 1]))
 
-        # remove local minimum
+        # remove local minimum of maxima
         i = 1
         print(ends)
         while 0 < i < len(ends) - 1:
@@ -88,8 +109,21 @@ class Solution(object):
         '''
         Two pointers algorithm.
         '''
-        # TODO: two pointers
-        return 0
+        left, right = 0, len(height) - 1
+        left_max, right_max = 0, 0
+        area = 0
+        while left < right:
+            if height[left] <= height[right]:
+                left_max = max(left_max, height[left])
+                area += left_max - height[left]
+                left += 1
+            else:
+                right_max = max(right_max, height[right])
+                area += right_max - height[right]
+                right -= 1
+                pass
+            pass
+        return area
 
 
 def test():

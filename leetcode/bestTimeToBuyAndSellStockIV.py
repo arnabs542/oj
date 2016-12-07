@@ -38,7 +38,7 @@ Time complexity: O(nk), space complexity: O(nk).
 
 But we can reduce the space complexity in a quantity change perspective.
 
-2. ONE DIMENSIONAL dynamic programming in QUANTITY CHANGE/ STATE MACHINE perspective.
+2. Linear dynamic programming in QUANTITY CHANGE/ STATE MACHINE perspective.
 
 Without limit on k, to obtain the maximum profit, we just sum up the difference along all
 ascending subsequences/subarrays. And when k decreases, there might be some subsequence

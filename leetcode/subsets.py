@@ -32,14 +32,14 @@ SOLUTION:
 1. Dynamic Programming. Denote number of combinations of k given n by f(k, n), we have
 combinatorial recurrence relation:
     f(k, n)
-    = n!/(k!(n-k)!) = (n - k + 1) / k * n!/((k - 1)!(n - k + 1)!)
+    = n!/(k!(n-k)!) = (n - k + 1) / k * n! / ((k - 1)!(n - k + 1)!)
     = (n - k + 1) / k * f(k - 1, n)
     = f(k, n - 1) + f(k - 1, n - 1)
 
 To generate all the subsets, denote combinations of k given by n by f(k, n), then we have
 
 f(0, n) = {}
-f(k, n) = {s + [num]| for s in f(k - 1, n), num in nums, if num > max(s)}
+f(k, n) = {s + [num]| s ∈ f(k - 1, n), num ∈ nums, num > max(s)}
 
 All subsets is just the superset of all combinations of k given n, k = 0, ..., n.
 
@@ -47,7 +47,7 @@ All subsets is just the superset of all combinations of k given n, k = 0, ..., n
 
 Denote all subsets of k from n by f(k, n), where n is constant, then we also have:
     f(0) = {}
-    f(k) = {s + [num]| s in f(k - 1), num in nums}
+    f(k) = {s + [num]| s ∈ f(k - 1), num ∈ nums}
 
 We can use recursion by passing STATES of subsets as function return value.
 
