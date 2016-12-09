@@ -30,6 +30,7 @@ SOLUTION:
 
 import math
 
+# TODO: representation of segment tree to make the interface simpler
 class SegmentTree(object):
 
     def __init__(self, nums):
@@ -38,12 +39,16 @@ class SegmentTree(object):
             self.height = 0
         else:
             self.height = math.ceil(math.log(len(nums), 2))
-            # XXX: full binary tree, using array representation
+            # full binary tree, using array representation
             self.tree = [0] * int(pow(2, self.height + 1) - 1)
             self.construct(0, 0, len(nums) - 1)
         pass
 
-    def construct(self, idx, left, right):
+    def construct(self, idx: int, left: int, right: int):
+        '''
+        idx: tree node index in array representation
+        left, right: segment range
+        '''
         if left == right:
             self.tree[idx] = self.nums[left]
         else:
@@ -53,6 +58,9 @@ class SegmentTree(object):
         return self.tree[idx]
 
     def update(self, i, val):
+        '''
+        update element at index i to value val
+        '''
         if not 0 <= i <= len(self.nums) - 1:
             return
         diff = val - self.nums[i]
@@ -61,6 +69,12 @@ class SegmentTree(object):
             i, diff, 0, left=0, right=len(self.nums) - 1)
 
     def updateUtil(self, i, diff, idx, left, right):
+        '''
+        idx: tree node index in array representation
+        left, right: segment range
+
+        Add difference to update instead of pure set operation.
+        '''
         if left <= i <= right:
             self.tree[idx] += diff
             mid = (left + right) >> 1
@@ -70,23 +84,27 @@ class SegmentTree(object):
         pass
 
     def query(self, i, j, idx=0, left=0, right=-1):
-        if not 0 <= i <= j <= len(self.nums) - 1:
-            return 0
+        '''
+        idx: tree node index in array representation
+        left, right: segment range
+        '''
         if not idx:
             left, right = 0, len(self.nums) - 1
-        # print(idx, left, right)
-        if (i > j) or j < left or i > right:
+        if not 0 <= i <= j <= len(self.nums) - 1:
+            # invalid query
             return 0
-        if i <= left and j >= right:
+        if (i > j) or j < left or i > right:
+            # out of range
+            return 0
+        elif i <= left and right <= j: # return the full range
             return self.tree[idx]
         else:
             mid = (left + right) >> 1
             return self.query(i, j, 2 * idx + 1, left=left, right=mid) + \
                 self.query(i, j, 2 * idx + 2, left=mid + 1, right=right)
 
-# TODO: binary indexed tree
-
 class BinaryIndexedTree(object):
+    # TODO: binary indexed tree
 
     def __init__(self, nums):
         pass

@@ -45,23 +45,30 @@ class TreeNode(object):
 
 class Codec:
 
+    debug = False
+
     @classmethod
-    def serialize(cls, root):
+    def serialize(cls, root, debug=False):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
         :rtype: str
         """
+        cls.debug = debug
         return cls.serializeBFS(root)
 
     @classmethod
-    def deserialize(cls, data: str, T=str):
+    def deserialize(cls, data: str, T: type=str, debug=False):
         """Decodes your encoded data to tree.
 
         :type data: str
         :rtype: TreeNode
         """
-        return cls.deserializeBFS(data, T)
+        cls.debug = debug
+        root = cls.deserializeBFS(data, T)
+        if debug:
+            cls.drawtree(root)
+        return root
 
     @classmethod
     def serializeBFS(cls, root):
@@ -69,6 +76,8 @@ class Codec:
 
         :type root: TreeNode
         :rtype: str
+
+        Breadth-first search.
         """
         data = []
         frontier = [root]
@@ -80,41 +89,31 @@ class Codec:
                 frontier.append(vertex.right)
             pass
 
-        while data and data[-1] == 'null':
-            data.pop()
+        while data and data[-1] == 'null': data.pop()
         # print('BFS result:', data)
         return '[{}]'.format(','.join(data))
 
     @classmethod
-    def deserializeBFS(cls, data, T: str):
+    def deserializeBFS(cls, data, T: type=str):
         """Decodes your encoded data to tree.
 
         :type data: str
         :rtype: TreeNode
-        """
-        if len(data) <= 2:
-            return None
-        data = data[1:-1]
-        vertices = data.split(',')
 
-        val = vertices.pop(0)
-        root = TreeNode(T(val)) if val != 'null' else None
+        Breadth-first search.
+        """
+        # strip the parentheses
+        vertices = [TreeNode(T(x.strip())) if x not in ('', 'null') else None
+                    for x in data.strip("[]").split(',')]
+
+        root = vertices.pop(0) if vertices else None
         frontier = [root] if root else []
         while frontier and vertices:
             vertex = frontier.pop(0)
-            left, right = vertices.pop(0).strip(), vertices.pop(
-                0).strip() if vertices else 'null'
-            if left != 'null':
-                vertex.left = TreeNode(T(left))
-                frontier.append(vertex.left)
-            else:
-                vertex.left = None
-
-            if right != 'null':
-                vertex.right = TreeNode(T(right))
-                frontier.append(vertex.right)
-            else:
-                vertex.right = None
+            vertex.left, vertex.right = (vertices.pop(0) if vertices else None,
+                                         vertices.pop(0) if vertices else None)
+            for child in (vertex.left, vertex.right):
+                if child: frontier.append(child)
 
         return root
 
@@ -127,6 +126,19 @@ class Codec:
         """
         # TODO: depth-first solution
 
+    @classmethod
+    def deserializeInorder(cls, root: TreeNode) -> TreeNode:
+        # guess at least another traversal sequence is necessary
+        pass
+
+    @classmethod
+    def serializeInorder(cls, root):
+        pass
+
+    @staticmethod
+    def drawtree(root):
+        # TODO: visualize tree
+        pass
 
 # Your Codec object will be instantiated and called as such:
 def test():
@@ -136,11 +148,12 @@ def test():
     assert codec.serialize(root) == "[]"
 
     assert codec.serialize(codec.deserialize("[1,2]")) == "[1,2]"
+    assert codec.serialize(codec.deserialize("[1,2,3]")) == "[1,2,3]"
 
-    root = codec.deserialize("[1, 2, 3, null,null,4,5]")
+    root = codec.deserialize("[1, 2, 3, null,null,4,5]", debug=True)
     assert codec.serialize(root) == "[1,2,3,null,null,4,5]"
 
-    root = codec.deserialize("[null,2,3,null,null,4,5]")
+    root = codec.deserialize("[null,2,3,null,null,4,5]", debug=True)
     assert codec.serialize(root) == "[]"
 
     print('self test passed')
