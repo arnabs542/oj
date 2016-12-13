@@ -89,6 +89,35 @@ class Solution(object):
         :type n: int
         :rtype: List[List[str]]
         """
+        return self.solveNQueensIterative(n)
+
+    def solveNQueensIterative(self, n: int) -> list:
+        """
+        :type n: int
+        :rtype: List[List[str]]
+
+        RECURSIVE CALL TO ITERATIVE
+
+        To convert recursive depth-first search call to iterative, we have two
+        difference implementations.
+
+        The first is to adapt breadth-first search process.
+        Change the search FRONTIER behaviour from QUEUE to STACK, and the rest
+        is the same with BREADTH-FIRST SEARCH. We PUSH states into the search
+        frontier, and pop them out, then explore adjacent vertices(states). In
+        this way, we are pushing all adjacent vertices at the same time.
+
+        The second way is to emulate the recursive call mechanism. We gather
+        the state composed of function input parameter, variables used after
+        recursive call, recursive call return value and store them as STACK
+        FRAME. Then for each frame, we determine whether to PUSH or POP.
+
+        Note that the variables used after recursive call contain necessary
+        information to backtrack(restore states).
+
+        The only difference between two version is whether to push adjacent
+        vertices(states) at one time or one by one.
+        """
 
         solutions = []
         stack = []
