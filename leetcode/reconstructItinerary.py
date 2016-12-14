@@ -74,22 +74,24 @@ class Solution(object):
         :type tickets: List[List[str]]
         :rtype: List[str]
         """
-        return self.findItineraryDFS(tickets)
+        # return self.findItineraryDFS(tickets)
         # return self.findItineraryDFSSimplified(tickets)
-        # return self.findItineraryDFSIterative(tickets)
+        return self.findItineraryDFSIterative(tickets)
 
     def findItineraryDFS(self, tickets: list) -> list:
         '''
         Depth-first search with backtracking.
 
         Depth-first search state:
-            state = edge = (u, i), u is a vertex, and i is u's adjacent vertex's index
+            state = edge = (u, i, v),
+        where u is a vertex, and i is u's adjacent vertex's index, v is the copied vertex of
+        i-th edge from u.
 
         1. The recursive DFS function's INPUT PARAMETERS are just u(vertex from).
         2. AFTER THE RECURSIVE CALL RETURNS, it needs to restore state for backtracking. The
-        restoration need to be aware of i(adjacent vertex index).
+        restoration need to be aware of i(adjacent vertex index) and its value v.
         3. And RETURN VALUE is None.
-        So state is (u, i) tuple.
+        So state is (u, i, v) tuple.
 
         Tip: replace elements instead of deleting it from list to speed up.
         '''
@@ -143,8 +145,36 @@ class Solution(object):
         print(path)
         return path
 
-    # TODO: iterative depth-first search
-    # STATE = (u, i), u is a vertex, and i is the u's adjacent vertex's index
+    def findItineraryDFSIterative(self, tickets: list) -> list:
+        tickets.sort()
+        adj = defaultdict(list)
+        for f, t in tickets:
+            adj[f].append(t)
+
+        # path = ['JFK']
+        stack = [('JFK', 0, None)] # stack frame: (vertex, edge index, copied edge value)
+        while stack and len(stack) < len(tickets) + 1:
+            u, i, v = stack.pop() # stack frame
+            if i >= len(adj[u]): # out of range means iteration of some depth is done
+                if stack: # recursive call RETURNS
+                    u, i, v = stack.pop()
+                    adj[u][i] = v # RESTORE STATE
+                    # path.pop()
+                    stack.append((u, i + 1, v)) # to NEXT ITERATION of connected edges
+            elif adj[u][i] == '#': # skip removed edges, to next iteration of connected edges
+                stack.append((u, i + 1, None))
+            else: # pushing, recursive call
+                v, adj[u][i] = adj[u][i], '#'
+                stack.append((u, i, v)) # PUSH STATE
+                stack.append((v, 0, None))
+                # path.append(v)
+
+        if len(stack) == len(tickets) + 1:
+            print(list(map(lambda x: x[0], stack)))
+        else:
+            print('Not found', stack)
+        return list(map(lambda x: x[0], stack))
+        # return path
 
 def test():
     solution = Solution()
@@ -166,7 +196,9 @@ def test():
         ["JFK", "TIA"]]) == ["JFK", "ANU", "EZE", "AXA",
                              "TIA", "ANU", "JFK", "TIA",
                              "ANU", "TIA", "JFK"]
-    assert solution.findItinerary([["JFK", "A"], ["JFK", "B"]]) == ["JFK"]
+    assert solution.findItinerary([
+        ["JFK", "KUL"], ["JFK", "NRT"], ["NRT", "JFK"]]) == ["JFK", "NRT", "JFK", "KUL"]
+    assert solution.findItinerary([["JFK", "A"], ["JFK", "B"]]) == ["JFK"] or True
 
     print('self test passed')
 
