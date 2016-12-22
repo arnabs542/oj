@@ -11,15 +11,17 @@ Contributors: Admin
 Given an array of integers, find out whether there are two distinct indices i and j
 in the array such that the difference between nums[i] and nums[j] is at most t and
 the difference between i and j is at most k.
+
+
 ===============================================================================================
 SOLUTION:
     The naive solution would be scan the list, at the same time, check elements within range k
 to see if their difference is at most t. And this is a O(nk) time complexity.
     To reduce the time complexity we can reduce O(k) to O(logk) or O(1).
 
-    Utilizing buckets of size k, we can put the elements whose difference is at most t in the
-same or adjacent buckets if they share same sign. Thus, querying the existence of the target number
-can be done in O(1) time complexity.
+    Utilizing buckets of size k, we can put the elements whose difference is at most t, the
+SCALE FACTOR, in the same or adjacent buckets if they share same sign. Thus, querying the
+existence of the target number can be done in O(1) time complexity.
 '''
 
 class Solution(object):

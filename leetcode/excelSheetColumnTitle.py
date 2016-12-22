@@ -21,14 +21,17 @@ For example:
     28 -> AB
 ===============================================================================================
 SOLUTION:
-    base 26 number system.
+
+Base 26 number system. The difference is that the valid symbol ranges from [1, 26], not [0, 25]
+
+Generate the title from the least significant place.
 '''
 
 class Solution(object):
 
-    idx2char = {}
+    int2symbol = {}
     for i in range(26):
-        idx2char[i + 1] = chr(ord('A') + i)
+        int2symbol[i + 1] = chr(ord('A') + i)
 
     def convertToTitle(self, n):
         """
@@ -38,10 +41,10 @@ class Solution(object):
         title = ''
         while n:
             n, r = divmod(n, 26)
-            if r == 0:
+            if r == 0: # there is no symbol representing zero
                 r = 26
                 n -= 1
-            title = self.idx2char[r] + title
+            title = self.int2symbol[r] + title
 
         print(title)
         return title
@@ -50,10 +53,10 @@ def test():
     solution = Solution()
 
     assert solution.convertToTitle(26) == 'Z'
-    assert solution.convertToTitle(27) == 'AA'
-    assert solution.convertToTitle(28) == 'AB'
-    assert solution.convertToTitle(26 * 2) == 'AZ'
-    assert solution.convertToTitle(26 * 26) == 'YZ'
+    assert solution.convertToTitle(1 * 26 + 1) == 'AA'
+    assert solution.convertToTitle(1 * 26 + 2) == 'AB'
+    assert solution.convertToTitle(1 * 26 + 26) == 'AZ'
+    assert solution.convertToTitle(25 * 26 + 26) == 'YZ'
     print('self test passed')
 
 if __name__ == '__main__':

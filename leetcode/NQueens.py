@@ -74,6 +74,12 @@ information to backtrack(restore states).
 
 The only difference between two version is whether to push adjacent
 vertices(states) at one time or one by one.
+
+For DYNAMIC GRAPH, where the edges or vertexes are dynamic, if we want to backtrack (
+restoring states after descendants have been visited), we adopt Stack Emulated Recursion
+approach.
+Otherwise, we need to pass copies of states to avoid backtrack, in order to do
+it with the first manner.
 '''
 
 import math

@@ -63,6 +63,11 @@ and end vertices.
 
 In this problem, we can assume the graph has Euler Path, so we don't have to do the
 verification.
+
+==============================================================================================
+RECURSIVE CALL TO ITERATIVE
+Refer to 'N Queens' document.
+
 '''
 
 from collections import defaultdict
