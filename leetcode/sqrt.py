@@ -15,7 +15,7 @@ Find square root of a number `a` is to find the root for function:
 and:
     f'(x) = 2 * x
 The iterative update:
-    x[n + 1] = x[n] - f(x[n]) / f'(f[n])
+    x[n + 1] = x[n] - f(x[n]) / f'(x[n])
              = x[n] - ½ * (x[n] - a/x[n])
              = (x[n] + a / x[n]) / 2
 The vanilla stopping criterion is:
