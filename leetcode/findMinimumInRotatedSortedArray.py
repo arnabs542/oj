@@ -18,12 +18,8 @@ You may assume no duplicate exists in the array.
 
 ==============================================================================================
 SOLUTION:
-    In the rotated array, the minimum is indicated by such feature:
-        It is smaller than its left value.
 
-Special case: the array is rotated by 0 offset. This is easily verified by checking the whether
-the first value is smaller than the last value.
-
+We always divide the array by 2, and take the range with smaller values.
 '''
 
 class Solution(object):
@@ -59,6 +55,8 @@ class Solution(object):
         is always biased towards to the low end, because of the math floor operation's
         nature:
             floor(n.x) = n, n is integer, and x is in [0, 9]
+        If mid = low, then the comparison between low and mid doesn't make sense. To
+        avoid that, we compare mid with higher end.
         '''
         low, high = 0, len(nums) - 1
         while low < high:

@@ -25,8 +25,13 @@ SOLUTION:
     Treated as a GRAPH problem, it can be solved with BREADTH-FIRST SEARCH or DEPTH-FIRST SEARCH.
 
 The well-formed combination is a string of length 2n. Then we can generate a character for 2n times.
+
 At each time, there are two BRANCHES: generate open parenthese '(' or close parenthese ')'. And the
 number of ')' can not be more than #'(' in any substring starting from 0.
+
+So the VERTEX(STATE) is defined as a three-tuple:
+    STATE = (#'(', #')', current output string),
+where '#' denotes number of
 
 Time Complexity: Catalan number.
 '''
@@ -49,7 +54,7 @@ class Solution(object):
         :rtype: List[str]
         """
         result = []
-        state = (n, n, '')
+        state = (n, n, '')  # state = (#'(', #')', current output string)
         frontier = [state]
         while frontier:
             state = frontier.pop(0)
@@ -58,7 +63,8 @@ class Solution(object):
             else:
                 for neighbor in ((state[0] - 1, state[1], state[-1] + '('),
                                  (state[0], state[1] - 1, state[-1] + ')')):
-                    if neighbor[1] < neighbor[0] or neighbor[0] < 0 or neighbor[1] < 0:
+                    if neighbor[1] < neighbor[0] or \
+                       neighbor[0] < 0 or neighbor[1] < 0:
                         continue
                     frontier.append(neighbor)
                     pass
@@ -73,12 +79,14 @@ class Solution(object):
         :rtype: List[str]
         """
         result = []
+
         def dfs(state):
             if state[0] == state[1] == 0:
                 result.append(state[-1])
             for neighbor in ((state[0] - 1, state[1], state[-1] + '('),
                              (state[0], state[1] - 1, state[-1] + ')')):
-                if neighbor[1] < neighbor[0] or neighbor[0] < 0 or neighbor[1] < 0:
+                if neighbor[1] < neighbor[0] or \
+                   neighbor[0] < 0 or neighbor[1] < 0:
                     continue
                 dfs(neighbor)
         state = (n, n, '')
@@ -94,7 +102,14 @@ class Solution(object):
         Harness the recurrence relation:
             f(n) = f(0,n) + f(1, n - 1) + ... + f(n - 1, 1)
         e.g. n = 3: f(3) = 1 + 2 + 2 = 5
+
+        But a single variable state won't suffice to build up the transition
+        process.
+
+        We need two variables to form a tuple state:
+          (number of open parenthesis, # close parentheses)
         """
+        # TODO: dynamic programming
 
 def test():
     solution = Solution()

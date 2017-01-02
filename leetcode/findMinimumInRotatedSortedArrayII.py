@@ -25,6 +25,9 @@ SOLUTION:
 
 Adaptation on the pruning condition of BINARY SEARCH.
 
+But, with duplicates, if middle is equal to high end, the mid could be in both larger range
+and the smaller range. However, the higher end value must not be the target we are seeking.
+
 '''
 
 class Solution(object):

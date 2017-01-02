@@ -57,7 +57,7 @@ class Solution(object):
 
         return p
 
-    # TODO: use dummy variable
+    # TODO: use dummy variable and keep inserting new nodes directly after the dummy head
 
     def reverseListRecursive(self, head):
         """
