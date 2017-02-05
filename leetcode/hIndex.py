@@ -36,7 +36,11 @@ Sorting takes O(NlogN), and linear search takes O(N) or O(logN), so overall is O
 
 2. Possible values are in range [1, n], UNIFORMLY DISTRIBUTED over a range: BUCKETS!.
 
-Maintain THE NUMBER OF LARGER VALUES with BUCKETS and PREFIX SUM.
+Maintain THE NUMBER OF LARGER VALUES with BUCKETS and PREFIX SUM (CUMULATIVE DISTRIBUTION
+FUNCTION).
+
+Prefix sum(similar to cumulative distribution function) is equivalent to integral in
+continuous domain, gives P(t < x).
 
 We maintain a list of n + 1 buckets, each value represents the number of papers with citation
 no less than its index.
@@ -49,7 +53,7 @@ The special case is when value is larger than n, where we will increase buckets[
 
 For each value c in citation list:
     if c >= n: buckets[n] += 1
-    else: buckets[n] += 1
+    else: buckets[c] += 1
 
 count(values larger than i) = ∑ count(values equal j) + count(values larger than n),
 j in [i, n - 1]

@@ -66,7 +66,7 @@ verification.
 
 ==============================================================================================
 RECURSIVE CALL TO ITERATIVE
-Refer to 'N Queens' document.
+Refer to 'permutations' document.
 
 '''
 

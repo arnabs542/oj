@@ -25,7 +25,7 @@ SOLUTION:
 For a general partial permutation problem, we have several ways to define STATES, thus giving
 several approaches.
 
-1. Dynamic Programming(breadth-first search):
+1. Dynamic Programming(BREADTH-FIRST SEARCH)
 
 Define the state f[n, k] as number of partial arrangements of k given n.
 
@@ -34,9 +34,12 @@ then we have:
   f[n, k] = #arrangements containing mth number + #arrangements not with mth number
           = f[n - 1, k - 1] * k + f[n - 1, k],
 
-2. Treated as a dynamic graph, use backtracking with depth-first search:
-   Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
+2. Treated as a dynamic graph, use BACKTRACKING with DEPTH-FIRST SEARCH
 
+The vertices are partial permutations, and the edges are distinct number. We generate the
+permutations by adding numbers one by one.
+
+Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
 Then there always exists such transition from f(k - 1) that
     f(k) = f(k - 1) + [available/non-duplicate number].
 
@@ -48,6 +51,37 @@ choices/branches. Then we can use DFS(backtrack) or BFS.
 3. Lexicographical order next permutation:
 Define the state as one possible partial permutation of K numbers. Then at each time we find
 the next Lexicographically larger permutation.
+
+==============================================================================================
+RECURSIVE CALL TO ITERATIVE
+
+To convert recursive depth-first search call to iterative, we have two
+difference implementations.
+
+1. ADAPT BREADTH-FIRST SEARCH process.
+
+Change the search FRONTIER behaviour from QUEUE to STACK, and the rest
+is the same with BREADTH-FIRST SEARCH. We PUSH states into the search
+frontier, and pop them out, then explore adjacent vertices(states). In
+this way, we are pushing all adjacent vertices at the same time.
+
+2. EMULATE THE RECURSIVE CALL mechanism with STACK.
+
+We gather the state composed of function INPUT PARAMETER, VARIABLES USED
+AFTER RECURSIVE CALL, recursive call RETURN VALUE and store them as STACK
+FRAME. Then for each frame, we determine whether to PUSH or POP.
+
+Note that the variables used after recursive call contain necessary
+information to backtrack(restore states).
+
+The only difference between two version is whether to push adjacent
+vertices(states) at one time or one by one.
+
+For DYNAMIC GRAPH, where the edges or vertexes are dynamic, if we want to backtrack (
+restoring states after descendants have been visited), we adopt Stack Emulated Recursion
+approach.
+Otherwise, we need to pass copies of states to avoid backtrack, in order to do
+it with the first manner.
 """
 
 
@@ -62,11 +96,14 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         if not nums:
-            return []
-        # solutions = self.permuteBacktrack(nums)
-        solutions = self.permuteDP(nums)
-        # solutions = self.permuteDPRollingArray(nums)
-        return solutions
+            result = []
+        else:
+            # result = self.permuteBacktrack(nums)
+            result = self.permuteBacktrackIterativeSimplified(nums)
+            # result = self.permuteDP(nums)
+            # result = self.permuteDPRollingArray(nums)
+        print(result)
+        return result
 
     def permuteDP(self, nums):
         """
@@ -160,7 +197,6 @@ class Solution(object):
         """
 
         permutations = []
-        n = len(nums)
 
         if not nums:
             return []
@@ -180,7 +216,7 @@ class Solution(object):
         while stack:
             frame = stack[-1]
             # generate and so on ...
-            if frame.position < n and frame.target < n:
+            if frame.position < len(nums) and frame.target < len(nums):
                 # the STACK PUSH operation is trivial, and it's the POP BACKTRACKING that matters
                 # pushing down: swap to push the target in position
                 self._swap(frame.position, frame.target, nums)
@@ -189,7 +225,7 @@ class Solution(object):
                 stack.append(stack_new)
             else:
                 # the STACK POP operation
-                if frame.position == n:
+                if frame.position == len(nums):
                     # found one solution at the end
                     permutations.append(list(nums))
                 stack.pop()
@@ -205,6 +241,24 @@ class Solution(object):
         pass
         return permutations
 
+    def permuteBacktrackIterativeSimplified(self, nums):
+        result = []
+        stack = [(0, 0)]
+        while stack:
+            start, i = stack[-1]
+            if len(stack) == len(nums) or i > len(nums) - 1:
+                # pop to emulate recursive call returning
+                if len(stack) == len(nums): result.append(list(nums))
+                stack.pop()
+                if stack:
+                    start, i = stack.pop()
+                    nums[start], nums[i] = nums[i], nums[start] # restore state
+                    stack.append((start, i + 1))
+            else: # push stack to emulate recursive call
+                nums[start], nums[i] = nums[i], nums[start] # mutate state
+                stack.append((start + 1, start + 1))
+        return result
+
     def permuteNextLexicographic(self, nums):
         """
         :type nums: List[int]
@@ -215,6 +269,12 @@ class Solution(object):
         it reaches the highest(decreasing order) permutation.
         """
         pass
+
+    def permuteKofN(self, k, n):
+        # result = self.permuteKofNDP(k, n)
+        result = self.permuteKofNDFS(k, n)
+        print(result)
+        return result
 
     # DONE: (partial permutation) K-permutations of N(arrangement of K numbers from N).
     def permuteKofNDP(self, k, n):
@@ -246,6 +306,31 @@ class Solution(object):
 
         return sorted(perms[n][k])
 
+    def permuteKofNDFS(self, k, n):
+        '''
+        Iterative depth-first search solution
+        '''
+        result = []
+        nums = list(range(1, n + 1))
+        stack = [(0, 0)]
+        while stack:
+            start, i = stack[-1]
+            if len(stack) == k or i >= n:
+                if i >= n:
+                    stack.pop() # recursive call returns
+                    if not stack: break
+                else:
+                    nums[start], nums[i] = nums[i], nums[start]
+                    result.append(list(nums[:k]))
+                start, i = stack.pop() # recursive call returns
+                nums[start], nums[i] = nums[i], nums[start] # restore state
+                # print('pushing', (start, i + 1), stack)
+                stack.append((start, i + 1))
+            else:
+                nums[start], nums[i] = nums[i], nums[start] # mutate state
+                stack.append((start + 1, start + 1)) # recursive call
+        return result
+
     # TODO: how about arrangement of m from n objects, involving duplicate ones?
     # treat those duplicate objects individually. In another word, assign different index for
     # all candidates, so that we only use those indices to finish the dynamic programming state
@@ -260,21 +345,18 @@ class Solution(object):
         pass
 
 def test():
-    for nums in [
-            [1, 2, 3],
-            [1],
-            [],
-    ]:
-        print(Solution().permuteBacktrack(nums))
-        # print(Solution().permuteDP(nums))
-        print(Solution().permuteDPRollingArray(nums))
-        # print(Solution().permuteBacktrackIterative(nums))
+    print('all permutations')
+    assert sorted(Solution().permute([1, 2, 3])) == [
+        [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+    assert sorted(Solution().permute([1])) == [[1]]
+    assert sorted(Solution().permute([])) == []
 
     # test permutations of m given n
     print('partial permutations')
-    print(Solution().permuteKofNDP(3, 3))
-    print(Solution().permuteKofNDP(2, 3))
-    print(Solution().permuteKofNDP(1, 3))
+    assert sorted(Solution().permuteKofN(1, 3)) == [[1], [2], [3]]
+    assert sorted(Solution().permuteKofN(3, 3)) == [
+        [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+    assert sorted(Solution().permuteKofN(2, 3)) == [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
 
 if __name__ == '__main__':
     test()

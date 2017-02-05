@@ -54,32 +54,7 @@ Takeaway:
 
 ==============================================================================================
 RECURSIVE CALL TO ITERATIVE
-
-To convert recursive depth-first search call to iterative, we have two
-difference implementations.
-
-The first is to adapt breadth-first search process.
-Change the search FRONTIER behaviour from QUEUE to STACK, and the rest
-is the same with BREADTH-FIRST SEARCH. We PUSH states into the search
-frontier, and pop them out, then explore adjacent vertices(states). In
-this way, we are pushing all adjacent vertices at the same time.
-
-The second way is to emulate the recursive call mechanism with STACK. We
-gather the state composed of function input parameter, variables used
-after recursive call, recursive call return value and store them as STACK
-FRAME. Then for each frame, we determine whether to PUSH or POP.
-
-Note that the variables used after recursive call contain necessary
-information to backtrack(restore states).
-
-The only difference between two version is whether to push adjacent
-vertices(states) at one time or one by one.
-
-For DYNAMIC GRAPH, where the edges or vertexes are dynamic, if we want to backtrack (
-restoring states after descendants have been visited), we adopt Stack Emulated Recursion
-approach.
-Otherwise, we need to pass copies of states to avoid backtrack, in order to do
-it with the first manner.
+Refer to 'permutations' document.
 '''
 
 import math
