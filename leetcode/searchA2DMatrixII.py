@@ -38,7 +38,12 @@ SOLUTION
 
 3. Binary Search in O(MlogN)
 
-4. Treat this special matrix as a variant of BINARY SEARCH TREE with two roots:
+4. Binary search by shrinking the search space by two, O(log(mn)) or O(Log(max(m, n)))
+such anchor point (x0, y0), instead of the middle point, that we divide the search space evenly,
+x0 * y0 = ½ mn, x0 / y0 = m / n = r.
+So, y0^2 * r = ½ n^2 r, => y0 = f(n).
+
+5. Linear solution. Treat this special matrix as a variant of BINARY SEARCH TREE with two roots:
 bottom left and top right.
 
 Then we can search the binary search tree from a very root and eliminate a row

@@ -24,20 +24,26 @@ unique minimum window in S.
 
 ==============================================================================================
 SOLUTION:
-    This is apparently a MAXIMUM SUBARRAY SUM' variant, which can be solved with Dynamic
-Programming with STATE defined as:
 
-    THE NUMBER OF CHARACTERS TO MATCH with current subarray(substring) ending with current
-position. And use TWO POINTERS representing the subarray's start and end position to keep
-track of the minimum window(subarray).
+1. Brute force.
+Enumerate all windows, and check existence. Time complexity: > O(N²).
+
+2. State transition - Dynamic programming way
+
+This is apparently a MAXIMUM SUBARRAY SUM' variant.
+    STATE = (The NUMBER OF CHARACTERS TO MATCH compared to current window(subarray), which
+    ends with current position).
+And use TWO POINTERS representing the subarray's start and end position to keep track of
+the minimum window(subarray).
 
 But how to CHECK that the TARGET STRING T IS already MATCHED EFFICIENTLY?
 
-    Use a COUNTER RECORDING THE TARGET'S CHARACTERS' OCCURRENCES COUNT. And the number of
+    Use a COUNTER recording the target characters' OCCURRENCES COUNT. And the number of
 characters that need to be matched is the length of target string, denoted by `missing`.
     Scan the source string. Encountering a character, decrease its Counter value. And if its
 Counter value was positive, decrease `missing` by 1. When missing is zero, we have a match.
-To find the minimum substring, we need to pop out the leftmost that won't make the match
+
+We need to make the window as small as possible. Pop out the leftmost that won't make the match
 invalid. Such characters are those with negative value in Counter.
 '''
 

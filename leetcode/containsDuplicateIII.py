@@ -15,9 +15,14 @@ the difference between i and j is at most k.
 
 ===============================================================================================
 SOLUTION:
-    The naive solution would be scan the list, at the same time, check elements within range k
+
+1. The naive solution would be scan the list, at the same time, check elements within range k
 to see if their difference is at most t. And this is a O(nk) time complexity.
-    To reduce the time complexity we can reduce O(k) to O(logk) or O(1).
+
+To reduce the time complexity we can reduce complexity of checking duplicates within range
+from O(k) to O(logk) or O(1).
+
+2. Bucket
 
     Utilizing buckets of size k, we can put the elements whose difference is at most t, the
 SCALE FACTOR, in the same or adjacent buckets if they share same sign. Thus, querying the
@@ -74,8 +79,8 @@ class Solution(object):
 
         O(n) time complexity.
         """
-        # TODO: bucket
-        buckets = {}  # maintain k buckets
+        # TODO(done): bucket
+        buckets = {}  # maintain buckets of size k
         if t < 0:
             return False
         for i, num in enumerate(nums):

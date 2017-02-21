@@ -58,28 +58,9 @@ class Solution(object):
 
         return dummy.next
 
-def linkedList(l):
-        if not l:
-            return None
-        head = ListNode(l[0])
-        p = head
-        for i in range(1, len(l)):
-            node = ListNode(l[i])
-            p.next = node
-            p = node
-
-        return head
-
-def tolist(head):
-    p = head
-    result = []
-    while p:
-        result.append(p.val)
-        p = p.next
-    print(result)
-    return result
 
 def test():
+    from utils import linkedList, tolist
     solution = Solution()
     l = [1, 2, 3, 4, 5]
     head = linkedList(l)

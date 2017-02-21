@@ -17,8 +17,16 @@ You should NOT use internal library such as BigInteger.
 
 ================================================================================================
 SOLUTION:
+
+Reference: https://en.wikipedia.org/wiki/Multiplication_algorithm
+
+1. Pairwise calculation of each digits in a slot filling approach. O(mn)
     Start from right to left, perform multiplication on every pair of digits, and add them together.
  `num1[i] * num2[j]` will be placed at indices `[i + j`, `i + j + 1]`
+
+2. Divide and Conquer?
+
+3. Fast Fourier Transform?
 
 '''
 class Solution(object):
@@ -29,6 +37,9 @@ class Solution(object):
         :type num2: str
         :rtype: str
         """
+        return self.multiplyPairwise(num1, num2)
+
+    def multiplyPairwise(self, num1: str, num2: str):
         m, n = len(num1), len(num2)
         result = [0 for i in range(m + n + 1)]
         # i, j the index counting from the end of string, and starting with 0
@@ -46,6 +57,14 @@ class Solution(object):
         if not result_str:
             result_str = '0'
         return result_str
+
+    def multiplyDivideAndConquer(self, num1: str, num2: str):
+        # TODO: divide and conquer solution
+        pass
+
+    def multiplyFFT(self, num1: str, num2: str):
+        # TODO: Fast Fourier Transform solution
+        pass
 
 def test():
     solution = Solution()
