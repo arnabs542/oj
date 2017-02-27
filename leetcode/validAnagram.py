@@ -22,8 +22,27 @@ What if the inputs contain unicode characters? How would you adapt your solution
 
 ==============================================================================================
 SOLUTION:
-    1. hash table to record occurrence count
-    2. sort and two pointers
+1. hash table to record occurrence count, O(n)
+
+2. sort and compare, O(nlogn + n)
+
+3. Hashing.
+prime factors = [
+2, 3, 5, 7, 11,
+13, 17, 19, 23, 29,
+31, 37, 41, 43, 47,
+53, 59, 61, 67, 71,
+73, 79, 83, 89, 97,
+101, 107]
+
+    1) Use product of prime factors to as the hash code.
+    But there is a potential risk of overflowing. Taking logarithm of the hash code will
+reduce the precision.
+    2) Use occurrence count weighted (co)prime numbers as hash code.
+    Wrong! Because the coefficient may not be coprime with those prime numbers. Their might
+be hash collision.
+
+3. Optimized counting sort to reduce the sorting complexity to O(n).
 '''
 
 class Solution(object):

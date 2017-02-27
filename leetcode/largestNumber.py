@@ -15,10 +15,13 @@ For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
 Note: The result may be very large, so you need to return a string instead of
 an integer.
 
+==============================================================================================
 SOLUTION:
-    Lexicographical order.
-    The Lexicographical order of two number x, y is considered with respect to
-their catenations' order:
+1. Greedy and Sorting.
+Sort according to a specific Lexicographical order.
+
+The Lexicographical order of two number x, y is considered with respect to their catenation's
+lexicographical order:
     def cmp(x, y):
         return str(x) + str(y) > str(y) + str(x)
 '''

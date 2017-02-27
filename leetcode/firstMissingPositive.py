@@ -18,16 +18,17 @@ Your algorithm should run in O(n) time and uses constant space.
 
 ==============================================================================================
 SOLUTION:
-    O(n) time and O(1) space, indicating something like ASSOCIATIVE ARRAY/HASHING/BUCKET.
-
 What does first in 'first missing positive' mean? It means the SMALLEST.
 
+O(n) time and O(1) space, indicating something like ASSOCIATIVE ARRAY/HASHING/BUCKET.
+
+1. Bucket
 Because we are finding the SMALLEST, then we can literally start from the smallest number 1,
 and increase the index to check whether the number exists. The array can contain at most n
 numbers, so the smallest would be in range [1, n] inclusive.
 
 So an approach would be:
-    Scan the array, put the elements in their right position: nums[i] = i + 1. Then find the
+    Scan the array, put the elements in their right bucket/position: nums[i] = i + 1. Then find the
 first element in the array whose value is not equal to its index plus 1.
 '''
 

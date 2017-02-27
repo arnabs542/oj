@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 '''
 91. Decode Ways
 
@@ -24,10 +23,10 @@ Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 The number of ways decoding "12" is 2.
 
 SOLUTION:
-    1) depth first search: recursive version gives time limit exceeded, maybe a iterative one will do
-    2) Dynamic Programming: let i denote the ith character in the string
-        f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) +
-                (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
+1. Depth first search: recursive version gives time limit exceeded, maybe a iterative one
+2. Dynamic Programming: let i denote the ith character in the string
+    f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) +
+            (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
 '''
 
 class memoize(dict):
@@ -64,10 +63,11 @@ class Solution(object):
 
         Time Limit Exceeded or  maximum recursion depth error
         """
+        # return self.numDecodingsDFS(s)
         # return self.numDecodingsDP(s)
         return self.numDecodingsDPRolling(s)
 
-    def numDecodingsRecursion(self, s):
+    def numDecodingsDFS(self, s):
         """
         :type s: str
         :rtype: int
@@ -98,8 +98,6 @@ class Solution(object):
         for i in range(2, len(s) + 1):
             f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) + \
                     (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
-            pass
-        pass
         print(f[-1])
         return f[-1]
 
@@ -110,7 +108,6 @@ class Solution(object):
         for i in range(2, len(s) + 1):
             f0, f1 = f1, (f1 if (s[i-1] in self.num2letter) else 0) + \
                     (f0 if (s[i-2:i] in self.num2letter) else  0)
-        pass
         print(f1)
         return f1
 

@@ -30,7 +30,17 @@ different approaches yourself.
 
 Note: Do not use class member/global/static variables to store states. Your serialize and
 deserialize algorithms should be stateless.
+
+==============================================================================================
+SOLUTION
+
+1. Breadth-first search traversal
+
+2. Depth-first search traversal
+
 '''
+
+import re
 
 # Definition for a binary tree node.
 class TreeNode(object):
@@ -58,14 +68,14 @@ class Codec:
         return cls.serializeBFS(root)
 
     @classmethod
-    def deserialize(cls, data: str, T: type=str, debug=False):
+    def deserialize(cls, data: str, T: type=str, NodeType: type=TreeNode, debug=False):
         """Decodes your encoded data to tree.
 
         :type data: str
         :rtype: TreeNode
         """
         cls.debug = debug
-        root = cls.deserializeBFS(data, T)
+        root = cls.deserializeBFS(data, T, NodeType)
         if debug:
             cls.drawtree(root)
         return root
@@ -94,7 +104,7 @@ class Codec:
         return '[{}]'.format(','.join(data))
 
     @classmethod
-    def deserializeBFS(cls, data, T: type=str):
+    def deserializeBFS(cls, data, T: type=str, NodeType: type=TreeNode):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -103,7 +113,7 @@ class Codec:
         Breadth-first search.
         """
         # strip the parentheses
-        vertices = [TreeNode(T(x.strip())) if x not in ('', 'null') else None
+        vertices = [NodeType(T(x.strip())) if x not in ('', 'null', ' null', '#', ' #') else None
                     for x in data.strip("[]").split(',')]
 
         root = vertices.pop(0) if vertices else None
