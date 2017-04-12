@@ -31,7 +31,10 @@ Input: num = "10", k = 2
 Output: "0"
 Explanation: Remove all the digits from the number and it is left with nothing which is 0.
 ===============================================================================================
-SOLUTION:
+SOLUTION
+
+MONOTONICITY analysis!
+
     Greedy strategy: find first two descending numbers in a row from most to least significant
 places until at the end of string.
 
@@ -48,18 +51,42 @@ class Solution(object):
         :type k: int
         :rtype: str
         """
+        # return self.removeKdigitsGreedy(num, k)
+        return self.removeKdigitsStack(num, k)
+
+    def removeKdigitsGreedy(self, num, k):
+        '''
+        Greedy strategy utilizing monotonic property
+        '''
         l = list(num)
         i = 0
         while k:
             while i < len(l) - 1 and l[i] <= l[i + 1]:
                 i += 1
+            # TODO(done): deleting an element in list is of high complexity
+            # see stack implementation
             l.pop(i)
             i = max(0, i - 1)
             k -= 1
-            pass
 
         print(l)
         return ''.join(l).lstrip('0') or '0'
+
+    def removeKdigitsStack(self, num, k):
+        '''
+        Monotonic stack: Stack with monotonic property
+        '''
+        stack = []
+        for n in num:
+            while stack and k and stack[-1] > n:
+                stack.pop()
+                k -= 1
+            stack.append(n)
+        while k:
+            stack.pop()
+            k -= 1
+        # print(stack)
+        return ''.join(stack).lstrip('0') or '0'
 
 def test():
     solution = Solution()

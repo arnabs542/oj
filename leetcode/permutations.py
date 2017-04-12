@@ -25,7 +25,7 @@ SOLUTION:
 For a general partial permutation problem, we have several ways to define STATES, thus giving
 several approaches.
 
-1. Dynamic Programming(BREADTH-FIRST SEARCH)
+1. Dynamic Programming
 
 Define the state f[n, k] as number of partial arrangements of k given n.
 
@@ -34,10 +34,18 @@ then we have:
   f[n, k] = #arrangements containing mth number + #arrangements not with mth number
           = f[n - 1, k - 1] * k + f[n - 1, k],
 
-2. Treated as a dynamic graph, use BACKTRACKING with DEPTH-FIRST SEARCH
+2. Dynamic GRAPH: dfs/bfs
+Use BACKTRACKING with DEPTH-FIRST SEARCH or Breadth First Search.
 
-The vertices are partial permutations, and the edges are distinct number. We generate the
-permutations by adding numbers one by one.
+A Dynamic Graph is a graph with dynamic connectivity. Connectivity is represented with the
+edges set. In a dynamic graph, its vertices or edges are dynamic. One connection/edge may
+be cut during the graph construction, thus forming a backtracking scenario: we need to
+restore those states after a dfs subroutine returns. Also, we can pass copies of states/
+edges so that we have separate sets of edges at each vertex of the dynamic graph.
+
+In this dynamic graph, the VERTICES are partial permutations, and the EDGES are distinct
+numbers. We generate the permutations by adding numbers one by one to transit from one
+vertex to another through an edge.
 
 Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
 Then there always exists such transition from f(k - 1) that
@@ -45,10 +53,17 @@ Then there always exists such transition from f(k - 1) that
 
 In another word, f(k -1) is of the first k - 1 elements in f(k).
 
-Which means, we can fill the K places one by one, at each step, we have multiple
-choices/branches. Then we can use DFS(backtrack) or BFS.
+Then the graph traversal process is like this:
+    Fill the K slots one by one, at each step, we have multiple edges/branches. Each partial
+permutation is a VERTEX state, and each available candidate number forms an EDGE connection.
+Both dfs/bfs will do the job.
 
-3. Lexicographical order next permutation:
+To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
+    1) Pass copies of states
+    2) Pass indices, for states represented with large objects
+    2) Backtrack: mutate state in place, do dfs, restore when dfs subroutine returns.
+
+3. Generative method: Lexicographical order next permutation
 Define the state as one possible partial permutation of K numbers. Then at each time we find
 the next Lexicographically larger permutation.
 
@@ -71,6 +86,12 @@ We gather the state composed of function INPUT PARAMETER, VARIABLES USED
 AFTER RECURSIVE CALL, recursive call RETURN VALUE and store them as STACK
 FRAME. Then for each frame, we determine whether to PUSH or POP.
 
+Then general algorithm procedure skeleton for this would be
+1) PUSH state until some condition(STOP CRITERION)
+2) POP state until another CONDITION, maybe RESTORING states meanwhile
+3) Repeat 1) and 2)
+
+----------------------------------------------------------------------------------------------
 Note that the variables used after recursive call contain necessary
 information to backtrack(restore states).
 
@@ -98,8 +119,10 @@ class Solution(object):
         if not nums:
             result = []
         else:
-            # result = self.permuteBacktrack(nums)
-            result = self.permuteBacktrackIterativeSimplified(nums)
+            # result = self.permuteDFSCopyState(nums)
+            result = self.permuteDFSBacktrack(nums)
+            # result = self.permuteDFSBacktrackOpt(nums)
+            # result = self.permuteDFSBacktrackIterativeOpt(nums)
             # result = self.permuteDP(nums)
             # result = self.permuteDPRollingArray(nums)
         print(result)
@@ -166,12 +189,63 @@ class Solution(object):
                     permutations_curr.append(permutation)
         return permutations_curr
 
-    def permuteBacktrack(self, nums):
+    def permuteDFSCopyState(self, nums):
+        '''
+        Pass copies of states
+        '''
+        def dfs(p, l):
+            '''
+            Inputs:
+            - p: current permutation, vertex state
+            - l: available numbers, edge connection
+
+            Outputs:
+                None
+            '''
+            if len(p) == len(nums):
+                result.append(p)
+                return
+            for i in range(len(l)):
+                # copy states
+                l1 = list(l)
+                p1 = list(p)
+                p1.append(l[i])
+                l1.pop(i)
+
+                dfs(p1, l1)
+        result = []
+        dfs([], list(nums))
+        return result
+
+    def permuteDFSBacktrack(self, nums):
+        '''
+        Mutate state inplace by marking edges availability, then backtrack to restore states.
+        Optimizing with respect to space complexity: modify inplace, and restore state later
+        '''
+        def dfs(permutation):
+            if len(permutation) == len(nums):
+                result.append(list(permutation))
+                return
+            for i, n in enumerate(nums):
+                if n == '#': continue
+                nums[i] = '#'
+                permutation.append(n)
+                dfs(permutation)
+                nums[i] = n
+                permutation.pop()
+
+        result = []
+        dfs([])
+        return result
+
+    def permuteDFSBacktrackOpt(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
 
         Dynamic Graph: Backtrack with DEPTH-FIRST SEARCH!
+        Not modifying states, partition the edges set by swapping to separate unavailable
+        edges/candidates from available ones.
         """
         permutations = []
         def dfs(start):
@@ -190,7 +264,7 @@ class Solution(object):
     def _swap(cls, i, j, nums):
         nums[i], nums[j] = nums[j], nums[i]
 
-    def permuteBacktrackIterative(self, nums):
+    def permuteDFSBacktrackIterative(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -241,7 +315,7 @@ class Solution(object):
         pass
         return permutations
 
-    def permuteBacktrackIterativeSimplified(self, nums):
+    def permuteDFSBacktrackIterativeOpt(self, nums):
         result = []
         stack = [(0, 0)]
         while stack:
@@ -258,6 +332,10 @@ class Solution(object):
                 nums[start], nums[i] = nums[i], nums[start] # mutate state
                 stack.append((start + 1, start + 1))
         return result
+
+    def permuteBFS(self, nums):
+        # TODO: breadth-first search approach
+        pass
 
     def permuteNextLexicographic(self, nums):
         """
@@ -345,11 +423,12 @@ class Solution(object):
         pass
 
 def test():
-    print('all permutations')
+    print('permutations')
+    assert sorted(Solution().permute([])) == []
+    assert sorted(Solution().permute([1])) == [[1]]
+    assert sorted(Solution().permute([1, 2])) == [[1, 2], [2, 1]]
     assert sorted(Solution().permute([1, 2, 3])) == [
         [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
-    assert sorted(Solution().permute([1])) == [[1]]
-    assert sorted(Solution().permute([])) == []
 
     # test permutations of m given n
     print('partial permutations')

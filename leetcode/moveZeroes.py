@@ -21,12 +21,14 @@ Minimize the total number of operations.
 ==============================================================================================
 SOLUTION
 
-1. Brute force method. Use the bubble sort procedure. O(N²).
+1. Brute force method.
+Move zeroes to the end one by one like in bubble sort procedure. O(N²).
 
-2. TWO POINTERS solution.
+2. TWO POINTERS(quick sort method, Dutch National Flag problem).
 
 One pointer p points to the BOUNDARY(DIVISION POINT) where the left part are non-zero
 elements, and the other pointer q keeps track of the first non-zero element after p.
+Then swap the element at p and q, and update p = p + 1, q = q + 1.
 
 The core idea is to move all non-zero elements in the front of the array.
 

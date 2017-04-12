@@ -47,7 +47,7 @@ class Solution(object):
                 num3 = num1 // num2
             numstack.append(num3)
 
-        for i in range(len(s)):
+        for i, _ in enumerate(s):
             if '0' <= s[i] <= '9':
                 token += s[i]
             elif s[i] in ('+', '-'):

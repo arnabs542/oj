@@ -26,19 +26,20 @@ A solution set is:
 
 ==============================================================================================
 SOLUTION:
-1. GRAPH finding paths problem, DEPTH-FIRST SEARCH or BREADTH-FIRST SEARCH.
+1. GRAPH traversal problem: finding paths
+Depth-first search or breadth-first search.
 
 Graph CONNECTIONS/EDGES correspond to the elements in the candidates set, and target number
 TRANSITION STATES play the role of VERTICES.
 
-Some cases:
+Some issues:
     1. Duplicate state. Choosing different candidates with different order may give same state.
 May be we could sort the elements in set, RESTRICT THE ORDER elements in candidate set to AVOID
 DUPLICATES.
     2. All paths. To construct paths, we could do depth-first search on the stored PREDECESSORS.
     3. BFS storing predecessors or BFS storing paths.
 
-    STATE = (current target value/VERTEX, eligible candidates/CONNECTIONS)
+STATE = (current target value/VERTEX, eligible candidates/CONNECTIONS)
 
 2. Dynamic programming.
 '''

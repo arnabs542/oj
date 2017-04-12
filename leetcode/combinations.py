@@ -53,7 +53,7 @@ class Solution(object):
         Fill k slots with n candidates one by one, recursively.
         Another recurrence relation could be C(n,k)=C(n-1,k-1)+C(n-1,k).
         """
-        # TODO: top-down recursive solution
+        # DONE: top-down recursive solution
         if result is None:
             result = []
 
@@ -92,12 +92,12 @@ class Solution(object):
         # FIXME: actually, DP solution is even slower than recursive one
         # combinations = [[]]
         # for _ in range(1, k + 1):
-            # combinations_new = []
-            # for combination in combinations:
-                # for j in range(combination[-1] +
-                               # 1 if combination else 1, n + 1):
-                    # combinations_new.append(combination + [j])
-            # combinations = combinations_new
+        # combinations_new = []
+        # for combination in combinations:
+        # for j in range(combination[-1] +
+        # 1 if combination else 1, n + 1):
+        # combinations_new.append(combination + [j])
+        # combinations = combinations_new
 
         combinations = [[]]
         for _ in range(k):

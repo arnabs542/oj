@@ -126,31 +126,10 @@ class Solution(object):
         if not dfs("JFK"): print("Not Found")
         return path
 
-    def findItineraryDFSSimplified(self, tickets: list) -> list:
-        '''
-        Depth-first search assuming definitely Eulerian to avoid BACKTRACKING.
-
-        Similar procedure with Topological Sort: construct result after adjacent vertices
-        have been visited(the current vertex is black).
-
-        But this implementation won't be able to determine whether the input is valid.
-        '''
-        tickets.sort(reverse=True) # use reversed order to pop out smallest value in O(1)
-        adj = defaultdict(list)
-        for f, t in tickets:
-            adj[f].append(t)
-        def dfs(v):
-            while adj[v]:
-                dfs(adj[v].pop()) # prune edges
-            # path.insert(0, v)
-            path.append(v)
-        path = []
-        dfs('JFK')
-        path.reverse()
-        print(path)
-        return path
-
     def findItineraryDFSIterative(self, tickets: list) -> list:
+        '''
+        Iterative backtracking.
+        '''
         tickets.sort()
         adj = defaultdict(list)
         for f, t in tickets:
@@ -180,6 +159,30 @@ class Solution(object):
             print('Not found', stack)
         return list(map(lambda x: x[0], stack))
         # return path
+
+    def findItineraryDFSSimplified(self, tickets: list) -> list:
+        '''
+        Depth-first search assuming definitely Eulerian to avoid BACKTRACKING.
+
+        Similar procedure with Topological Sort: construct result after adjacent vertices
+        have been visited(the current vertex is black).
+
+        But this implementation won't be able to determine whether the input is valid.
+        '''
+        tickets.sort(reverse=True) # use reversed order to pop out smallest value in O(1)
+        adj = defaultdict(list)
+        for f, t in tickets:
+            adj[f].append(t)
+        def dfs(v):
+            while adj[v]:
+                dfs(adj[v].pop()) # prune edges
+            # path.insert(0, v)
+            path.append(v)
+        path = []
+        dfs('JFK')
+        path.reverse()
+        print(path)
+        return path
 
 def test():
     solution = Solution()

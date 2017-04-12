@@ -21,8 +21,14 @@ Given m, n satisfy the following condition:
 
 ==============================================================================================
 SOLUTION:
-    1. reverse with First In Last Out order. Also, make use of dummy variables
-    2. tip: update pointers in a backward manner
+1. Reverse with First In Last Out order. Also, make use of dummy variables
+2. Tips: update pointers in a backward manner
+
+
+----------------------------------------------------------------------------------------------
+If one pointer isn't enough, add another one!
+If one state isn't enough, add another one!
+
 '''
 
 # Definition for singly-linked list.
@@ -41,19 +47,31 @@ class Solution(object):
         :type n: int
         :rtype: ListNode
         """
+        return self.reverseBetweenLIFO(head, m, n)
+
+    def reverseBetweenLIFO(self, head, m, n):
+        '''
+        In the simplest situation, we want to reverse a whole linked list, then
+        we construct a dummy head, and append nodes in FILO manner.
+        But in this scenario, there are trailing nodes after, which we have to keep
+        track of. Then we can add another pointer, the rear pointer to keep track of
+        those nodes behind the desired segment.
+
+        Reverse with both front and rear pointers.
+        '''
         dummy = ListNode(0)
         dummy.next = head
 
-        before = dummy
+        front = dummy
         for _ in range(m - 1):
-            before = before.next
+            front = front.next
 
-        rear = before.next
+        rear = front.next
         p = rear.next
         for _ in range(n - m):
             rear.next = p.next
-            p.next = before.next
-            before.next = p
+            p.next = front.next
+            front.next = p
             p = rear.next
 
         return dummy.next

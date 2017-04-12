@@ -10,8 +10,6 @@ Contributors: Admin
 
 Reverse a singly linked list.
 
-click to show more hints.
-
 Hint:
 A linked list can be reversed either iteratively or recursively. Could you implement both?
 
@@ -21,8 +19,8 @@ SOLUTION:
     2. Recursive: bottom up return states
 
 Approaches:
-    1. reverse by swapping adjacent pointers
-    2. reverse with First In Last Out order
+    1. Reverse by swapping adjacent pointers, with three pointers
+    2. Reverse with First In Last Out order
 '''
 
 # Definition for singly-linked list.
@@ -39,12 +37,15 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-        return self.reverseListIterative(head)
+        # return self.reverseListIterative(head)
+        return self.reverseListFILO(head)
 
     def reverseListIterative(self, head: ListNode):
         """
         :type head: ListNode
         :rtype: ListNode
+
+        Three pointers
         """
         if not head:
             return head
@@ -57,7 +58,21 @@ class Solution(object):
 
         return p
 
-    # TODO: use dummy variable and keep inserting new nodes directly after the dummy head
+    def reverseListFILO(self, head: ListNode):
+        '''
+        Reverse with head pointer, FILO order
+        '''
+        # DONE: FILO appending with dummy head
+        dummy = ListNode(0)
+        dummy.next = None
+
+        p = head
+        while p:
+            q = p.next
+            p.next = dummy.next
+            dummy.next = p
+            p = q
+        return dummy.next
 
     def reverseListRecursive(self, head):
         """

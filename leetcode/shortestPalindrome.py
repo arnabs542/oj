@@ -22,12 +22,17 @@ Given "abcd", return "dcbabcd".
 SOLUTION:
     Find the longest palindrome prefix. Then insert the reverse part of substring
 after such palindrome prefix before the original one.
-    1. KMP Longest prefix that is also suffix look up table
-    If we reverse the string, then the palindrome prefix becomes palindrome postfix,
-and they are equal to each other by palindrome's definition. So the problem is now
-transformed to find the LPS of `s + reversed(s)`. But the posefix should only be composed substring
-of s itself, not any part of the reversed one, so we can add a out of vocabulary symbol between
-s and reversed(s). Time Complexity is O(n).
+
+1. Brute force, enumerate all prefices, and check whether it's palindrome
+
+2. Slightly optimized, by using built-in string comparison between string and its reverse.
+
+3. KMP to find Longest Prefix that is also a suffix
+1) If we reverse the string, then the palindrome prefix becomes a palindrome postfix,
+and they are equal to each other by palindrome's definition.
+2) So the problem is now transformed to find the LPS of `s + reversed(s)`. But the LPS
+should only be composed substring of s itself, not any part of the reversed one, so we
+can add a out of vocabulary symbol between s and reversed(s). Time Complexity is O(n).
 
 '''
 

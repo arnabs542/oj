@@ -48,13 +48,15 @@ SOLUTION
 reduced to O(k), But time complexity remains the same, maybe because the monotonicity
 property is not utilized.
 
-3. BREADTH-FIRST SEARCH with HEAP(min-heap) as search frontier. Time complexity is O(KLogK),
-and space complexity is O(K). At each step of iteration, we pop out the smallest tuple from
+3. BREADTH-FIRST SEARCH with HEAP(min-heap) as search frontier.
+At each step of iteration, we pop out the smallest tuple from
 the heap into the result list, and push in its adjacent neighbor vertices(states).
 
 However it needs auxiliary data structure to maintain visited vertices to avoid duplicate.
+Time complexity is O(KLogK), and space complexity is O(K).
 
-4. To avoid duplication, we can modify the breadth-first search process to a greedy way:
+4. The above BFS process can be optimized by narrowing the search frontier.
+The candidates can be generated in a greedy way. Maintain a HEAP SEARCH FRONTIER as follows.
     First, we take nums1[0] paired with the first k elements of nums2 as the initial
 search frontier, so that we have (0,0), (0,1), (0,2),.....(0,k-1) in the heap. Each time
 after we pick the pair with min sum, we put the new pair with the second index +1. ie,
@@ -75,12 +77,12 @@ class Solution(object):
         :type k: int
         :rtype: List[List[int]]
         """
-        # return self.kSmallestPairsSort(nums1, nums2, k)
+        # return self.kSmallestPairsBruteForce(nums1, nums2, k)
         # return self.kSmallestPairsHeap(nums1, nums2, k)
         # return self.kSmallestPairsBFSHeap(nums1, nums2, k)
         return self.kSmallestPairsBFSHeapOpt(nums1, nums2, k)
 
-    def kSmallestPairsSort(self, nums1: list, nums2: list, k: int) -> List[List[int]]:
+    def kSmallestPairsBruteForce(self, nums1: list, nums2: list, k: int) -> List[List[int]]:
         # FIXME: memory limit exceeded
         cartesian = [[u, v] for v in nums2 for u in nums1]
         cartesian.sort(key=sum)
@@ -123,7 +125,7 @@ class Solution(object):
 
     def kSmallestPairsBFSHeapOpt(self, nums1: list, nums2: list, k: int) -> List[List[int]]:
         '''
-        Breadth-first search heap search frontier optimized.
+        Breadth-first search HEAP SEARCH FRONTIER optimized.
         '''
         # TODO: optimized greedy searching frontier
         if not (nums1 and nums2):

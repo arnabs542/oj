@@ -39,3 +39,12 @@ class Solution(object):
             if fast == slow != None:
                 return True
         return False
+
+
+def test():
+    solution = Solution()
+
+    print("self test passed")
+
+if __name__ == '__main__':
+    test()

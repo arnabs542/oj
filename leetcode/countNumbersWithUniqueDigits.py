@@ -30,19 +30,22 @@ cannot start with 0].
 ==============================================================================================
 SOLUTION:
 
-1. Dynamic Programming
+1. Brute force counting every number within range .
+O(N).
+
+2. Dynamic Programming
 
 Dynamic Programming recurrence relation:
-
 f(0) = 1, f(1) = 9, ..., f(k) = 9 * 9 * 8 * ... (9 - k + 2) [The first factor is 9 because
 a number cannot start with 0]
 
 O(n). (could be reduced to O(1) with pigeonhole principle).
 
-2. Backtracking
+3. Graph model - backtracking
 Append a digit at each time?
+Vertex = number, edge = appending a digit to keep the number still in range
 
-3. Lookup table
+4. Lookup table
 Dirichlet's DRAWER PRINCIPLE (pigeonhole principle):
     For n > 10(10 digits), there would always be duplicate digits in a n-digits number.
 So we can build a lookup table. O(1).

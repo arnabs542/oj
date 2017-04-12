@@ -33,9 +33,13 @@ class Solution(object):
         """
         for f in (2, 3, 5):
             while num % f == 0 < num:
-                num /= f
+                num //= f
 
         return num == 1
+
+    def isUglyModulo(self, num):
+        # TODO: modulo operation
+        pass
 
     def getPrimes(self, num):
         prime = [True] * num

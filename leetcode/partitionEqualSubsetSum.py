@@ -30,11 +30,17 @@ Example 2:
     Explanation: The array cannot be partitioned into equal sum subsets.
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
+
+1. Reduce it to Subset Sum problem
     Get the total sum of the array, if it's even, then reduce the problem to the 'Combination
-Sum' problem with target value as half the sum. The recursive depth-first search solution
-exceeds time limit. To do this iteratively, we can use Dynamic Programming, which is similar
-to 0-1 Knapsack problem.
+Sum' problem with target value as half the sum.
+1) Recursive depth-first search solution
+exceeds time limit.
+2) Dynamic Programming
+Similar to 0-1 Knapsack problem.
+
+3) Graph traversal(dfs/bfs)
 
 '''
 
@@ -68,7 +74,7 @@ class Solution(object):
             return False
 
         def combinationSumIterative(target, start=0) -> bool:
-            # TODO: maybe bottom-up DFS/BFS
+            # TODO: iteratively dfs, maybe bottom-up
             pass
 
         def combinationSumDP(target):
@@ -83,7 +89,10 @@ class Solution(object):
             return bool(f[-1][-1])
 
         def combinationSumDP1D(target):
-            ''' Similar to knapsack problem. '''
+            '''
+            1D dynamic programming.
+            Similar to knapsack problem.
+            '''
             # DONE: reduce the dimension to one optimize space complexity
             f = [1] + [0] * target
             for i, _ in enumerate(nums):

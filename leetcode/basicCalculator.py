@@ -92,7 +92,6 @@ class Solution(object):
             else:
                 print('conversion to postfix expression failed')
                 return ''
-        pass
 
         if token:
             post.append(int(token))

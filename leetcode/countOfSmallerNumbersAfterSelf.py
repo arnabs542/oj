@@ -26,15 +26,15 @@ Return the array [2, 1, 1, 0].
 SOLUTION:
     The count of smaller numbers after self is exactly the number of elements move to its left
 in a STABLE SORT.
-    1. brute force. for each element, count the smaller numbers after self. O(N²)
-    2. insert sort with binary search. Inserting SORT from right to left with binary search,
+1. Brute force. for each element, count the smaller numbers after self. O(N²)
+2. Insert sort with binary search. Inserting SORT from right to left with binary search,
 then the inserting index of current element is the smaller numbers after self.
-    3. segment tree.
-    4. binary indexed tree.
-    5. merge sort.
+3. Segment tree.
+4. Binary indexed tree.
+5. Merge sort.
 
 WRAP-UP:
-    Problems involved with COMPARING VALUES are naturally connected to SORTING algorithms.
+    Problems involved with COMPARING VALUES are naturally connected to SORTING process.
 
 '''
 

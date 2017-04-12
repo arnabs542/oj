@@ -23,6 +23,13 @@ If nums = [1,2,2], a solution is:
   [1,2],
   []
 ]
+
+==============================================================================================
+SOLUTION
+
+1. Graph traversal with dfs
+Keep the neighbors sorted while searching to filter duplicates.
+
 '''
 
 class Solution(object):

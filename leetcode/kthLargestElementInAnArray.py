@@ -18,17 +18,17 @@ Note:
 You may assume k is always valid, 1 ≤ k ≤ array's length.
 
 ===============================================================================================
-SOLUTION:
-    1. sort. O(NlogN)
-    2. Maintain a MIN HEAP of size k, scan the array, take the heap top element when
-    finished. O(NlogK)
-    3. maintain a sorted list of size k, do insert with BINARY SEARCH. O(NlogK)
-    4. PARTITION to divide and conquer (quick select).
+SOLUTION
+
+1. sort. O(NlogN)
+2. Maintain a MIN HEAP of size k, scan the array, take the heap top element when
+finished. O(NlogK)
+3. Maintain a sorted list of size k, do insert with BINARY SEARCH. O(NlogK)
+4. PARTITION to divide and conquer (quick select).
 
 With a MIN HEAP, we can maintain such heap of size k, while scanning the list, if the current number
 is bigger then the heap top element, then replace the heap top with the current element, and then
 maintain the heap structure. Time Complexity is average O(n logk).
-
 
 In quicksort, in each iteration, we need to select a pivot and then PARTITION the array into
 three parts:
@@ -46,16 +46,16 @@ the pivot;
 
 Time Complexity:
     So, in the average sense, the problem is reduced to approximately half of its original size,
-    giving the recursion
+giving the recursion
         T(n) = T(n/2) + O(n)
-    in which O(n) is the time for partition. This recursion, once solved, gives
+in which O(n) is the time for partition. This recursion, once solved, gives
         T(n) = O(n)
-    and thus we have a linear time solution. Note that since we only need to consider one half
-    of the array, the time complexity is O(n). If we need to consider both the two halves of the
-    array, like quicksort, then the recursion will be
+and thus we have a linear time solution. Note that since we only need to consider one half
+of the array, the time complexity is O(n). If we need to consider both the two halves of the
+array, like quicksort, then the recursion will be
         T(n) = 2T(n/2) + O(n)
-    and the complexity will be O(nlogn).
-    Of course, O(n) is the average time complexity. In the worst case, the recursion may become
+and the complexity will be O(nlogn).
+Of course, O(n) is the average time complexity. In the worst case, the recursion may become
         T(n) = T(n - 1) + O(n) and the complexity will be O(N²).
 '''
 
@@ -88,7 +88,7 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        # TODO: binary search insert
+        # TODO: binary search insertion sort
 
     def findKthLargestHeap(self, nums, k):
         """
@@ -96,7 +96,7 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        # TODO: min heap
+        # DONE: min heap
         heap = []
         for num in nums:
             if len(heap) < k:
@@ -118,11 +118,12 @@ class Solution(object):
         # print(low, high, i, arr)
         return i
 
-    def partitionRandomized(self, arr, low, high):
-        # TODO(done): randomized partition
+    def partitionRandomized(self, arr, low, high, randomize=True):
+        # DONE: randomized partition
         # randomly CHOOSE THE PIVOT
-        rand = random.randint(low, high)
-        arr[rand], arr[high] = arr[high], arr[rand]
+        if randomize:
+            rand = random.randint(low, high)
+            arr[rand], arr[high] = arr[high], arr[rand]
         pivot = arr[high]
 
         i = low
@@ -134,13 +135,8 @@ class Solution(object):
         arr[i], arr[high] = arr[high], arr[i]
         return i
 
-    def findKthLargestPartition(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        # DONE: partition to divide and conquer
+    def findKthLargestPartition(self, nums: list, k: int) -> int:
+        # DONE: quick select, partition to divide and conquer
         k = len(nums) - k
         p, r = 0, len(nums) - 1
         while p <= r:
