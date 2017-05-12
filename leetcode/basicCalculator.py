@@ -53,7 +53,7 @@ class Solution(object):
         """
         Convert a infix expression into postfix expression with STACK
         """
-        # TODO(done): implement multiplication and division
+        # done: implement multiplication and division
         # TODO: support negative number ' 1 ----- 3 = -2'
         post = []
         opstack = []

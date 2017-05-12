@@ -6,3 +6,5 @@ wordBreakII: wordBreakII.cpp
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 minimumWindowString: minimumWindowString.cpp
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+totalHammingDistance: totalHammingDistance.cpp
+	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)

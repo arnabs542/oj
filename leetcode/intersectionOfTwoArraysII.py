@@ -103,9 +103,9 @@ class Solution(object):
         # FIXME: binary search with removing elements?
 
 
-    solution = Solution()
 
 def test():
+    solution = Solution()
     assert solution.intersect([1, 2, 1, 1], [2, 2]) == [2]
     assert solution.intersect([1, 2, 2, 1], [2, 2, 2]) == [2, 2]
 

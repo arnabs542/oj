@@ -29,6 +29,12 @@ class Interval(object):
         self.start = s
         self.end = e
 
+    def __repr__(self):
+        return "[{}, {}]".format(self.start, self.end)
+
+    def __eq__(self, other):
+        return self.start == other.start and self.end == other.end
+
 class Solution(object):
 
     def insert(self, intervals, newInterval):
@@ -52,12 +58,12 @@ class Solution(object):
             else:
                 newInterval.start = min(interval.start, newInterval.start)
                 newInterval.end = max(interval.end, newInterval.end)
-                print(newInterval.start, newInterval.end)
             pass
 
         if newInterval:
             merged_intervals.append(newInterval)
 
+        print(merged_intervals)
         return merged_intervals
 
 def test():

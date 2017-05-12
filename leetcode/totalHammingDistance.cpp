@@ -56,6 +56,7 @@ In this bit-wise approach, we can do this in O(N * #(integer bits)) = O(N).
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include <memory>
 
 using namespace std;
 
@@ -64,12 +65,13 @@ public:
     int totalHammingDistance(vector<int>& nums)
     {
         int count = this->totalHammingDistanceBitwise(nums);
-        cout << count << std::endl;
+        cout << "distance: " << count << endl;
         return count;
     }
 
     int totalHammingDistanceBitwise(vector<int> &nums)
     {
+        cout << nums.size() << " numbers: " << nums[0] << ", " << nums[1] << ", " << nums[2] << endl;
         int count = 0, mask = 0x1;
         for (int i = 0; i < 30; i++){
             int c0 = 0, c1 = 0; // count of zeros and ones on this bit
@@ -77,7 +79,7 @@ public:
                 c1 += (nums[j] & mask) >> i;
             }
             c0 = nums.size() - c1;
-            cout << "zeros: "<< c0 << ", ones: "<< c1 << endl;
+            //cout << "zeros: "<< c0 << ", ones: "<< c1 << endl;
             count += c0 * c1;
             mask <<= 1;
         }
@@ -89,12 +91,22 @@ void test()
 {
 
     Solution solution;
-    int arr[] = {4, 14, 2};
-    vector<int> nums(arr, arr + sizeof(arr)/sizeof(arr[0]));
+    vector<int> nums;
+    shared_ptr<int> arr_ptr;
+    int *arr;
+
+    arr_ptr = shared_ptr<int>(new int[3]{1, 2, 3}, [](int*p){delete[] p;});
+
+    arr = new int[3]{4, 14, 2};
+    arr_ptr = shared_ptr<int>(arr);
+    nums = vector<int>(arr, arr + 3);
     assert (solution.totalHammingDistance(nums) == 6);
     //nums.clear();
-    //nums.~__vector_base_common
-    //assert (solution.totalHammingDistance(vector<int>({ 4, 10, 5 })) == 8);
+
+    arr = new int[3]{4, 10, 5};
+    arr_ptr = shared_ptr<int>(arr);
+    nums = vector<int>(arr, arr + 3);
+    assert (solution.totalHammingDistance(nums) == 8);
     //assert (solution.totalHammingDistance({ -1, 2, 3 }) == 60);
 
     std::cout << "self test passed" << std::endl;

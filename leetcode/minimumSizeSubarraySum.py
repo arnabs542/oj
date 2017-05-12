@@ -22,12 +22,21 @@ the time complexity is O(n log n).
 ==============================================================================================
 SOLUTION:
 
-1. Dynamic Programing
-STATE:
+1. Brute force. Enumerate all possible subarrays, check where the requirements are satisfied,
+and keep track of the minimal size.
+O(N²) time complexity and O(1) space complexity.
+
+Vast amount of duplicate calculations involved, we can eliminate them by reusing previous
+result, i.e, with state transition/recurrence relation.
+
+2. Dynamic Programing
+This problem contains a subproblem 'maximum subarray'.
+Define STATE=
     (
     max_ending_here: eligible MAXIMUM SUBARRAY SUM ENDING WITH CURRENT POSITION,
     size_ending_here: the subarray's size,
     ).
+And keep track of a global state minimal_size_so_far.
 
 Scan the array from left to right, at each time, compute for current subarray
 `max_ending_here`.
@@ -42,7 +51,8 @@ Time Complexity: Amortized O(n).
 
 By the way, we can define the STATE to be the begin and end of the current subarray.
 
-2. Prefix sum with Binary Search?
+3. Prefix sum with Binary Search?
+
 '''
 
 class Solution(object):
@@ -53,7 +63,9 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        return self.minSubArrayLenDP(s, nums)
+        size_min = self.minSubArrayLenDP(s, nums)
+        print(size_min)
+        return size_min
 
     def minSubArrayLenDP(self, s: int, nums: list) -> int:
         '''
@@ -81,10 +93,11 @@ class Solution(object):
                 size_ending_here -= 1
                 max_ending_here -= nums[i - size_ending_here]
             pass
-        print(size_min)
         return size_min if size_min <= len(nums) else 0
 
     # TODO: O(NlogN) solution
+    def minSubArrayLenPrefixSum(self, s: int, nums: list) -> int:
+        pass
 
 def test():
     solution = Solution()

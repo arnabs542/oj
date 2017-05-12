@@ -52,6 +52,8 @@ Similar problem to Top K Frequent Elements.
 1. HASH and HEAP
 
 2. Bucket
+Since there are only 26 letters, which is a finite set, then we can use buckets to store
+corresponding value.
 
 '''
 

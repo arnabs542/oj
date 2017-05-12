@@ -26,8 +26,9 @@ from three sorted lists: L1, L2, and L3.
 
 ==============================================================================================
 SOLUTION:
-    Generate one by one.
-1. Priority queue solution
+
+1. Naive solution
+    Generate one by one breadth-first search with a priority queue search frontier.
 Time complexity: O(NlogN).
 Space complexity: more than O(N).
 
