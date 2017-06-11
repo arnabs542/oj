@@ -44,11 +44,17 @@ expected loss, instead of the worst-case loss?
 ==============================================================================================
 SOLUTION
 
-1. Naive brute force method - minimize the worst case loss - recursive minimax
+1. Naive brute force search
+
 This is a discrete combinatorial problem, thus it can be solved by enumerating all possible
 arrangements and inspect those case one by one.
 
-Given an interval, we iterate through all possible first division/guess, to divide the problem
+Minimize the worst case loss with recursive minimax search.
+
+Search goal: payoff function or loss function
+Search space: unpruned search interval
+
+Given an interval, we iterate through all possible first division/guess, to DIVIDE the problem
 into two subproblems. There is a worst case that the target number lies between some
 sub-interval, which has the highest cost to solve among all the search spaces of sub-problems.
 Then we seek to minimize the worst case loss.
@@ -80,8 +86,9 @@ class Solution(object):
         '''
         Minimax search algorithm as best strategy.
 
-        The search state is the candidate interval that the target number might lie in.
+        The search STATE is the candidate INTERVAL, which the target number might lie in.
         Obviously, the states are overlapping.
+        And the loss function(negative payoff function), is the amount needed to pay.
         '''
         # loss function: min amount in interval [i, j], adding 0 and n+1 as padding
         f = [[0 if j-i <= 0 else float('inf') for j in range(n+2)] for i in range(n+2)]
