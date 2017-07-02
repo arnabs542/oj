@@ -26,14 +26,20 @@ All words contain only lowercase alphabetic characters.
 
 
 =========================================================================================
-SOLUTION:
-    This is a SHORTEST PATH problem in Graph theory. If the Edit Distance
-between two words is the distance between two vertices representing them.
-    For SHORTEST PATH problem, we have BREADTH-FIRST SEARCH problem.
-    Naively, we can build the graph with time complexity of O(|V|*|V|),
-and do a BFS in O(|V|+|E|).This implementation will fail the big data test. To
-optimize the code,we can get around the graph building process:
-    We IMPLICITLY REPRESENT the graph by storing vertices in a HASH TABLE(set), thus
+SOLUTION
+
+This is a SHORTEST PATH problem in Graph theory.
+
+The Edit Distance between two words is the edge distance between two vertices, which represent
+words.
+
+For SHORTEST PATH problem, we have BREADTH-FIRST SEARCH problem.
+
+Naively, we can build the graph with time complexity of O(|V|*|V|), and do a BFS
+in O(|V|+|E|).This implementation will fail the big data test. To optimize it, we can
+get around the graph building process:
+
+    IMPLICITLY REPRESENT the graph by storing vertices in a HASH TABLE(set), thus
 retrieving them in constant time. Initially,we push the start word into the queue.
 While BREADTH-FIRST searching, do change one character each time with a word, and
 check if it's in the dictionary.If it's in,then we push it into a queue, updating
@@ -121,7 +127,7 @@ class Solution(object):
 
         159ms, 83.67%
         """
-        # TODO: bidirectional breadth-first search
+        # DONE: bidirectional breadth-first search
         if beginWord == endWord:
             return 1
         length = 0

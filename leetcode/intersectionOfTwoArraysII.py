@@ -7,7 +7,6 @@ Total Accepted: 42994
 Total Submissions: 99666
 Difficulty: Easy
 Contributors: Admin
-
 Given two arrays, write a function to compute their intersection.
 
 Example:
@@ -24,17 +23,28 @@ Follow up:
 cannot load all elements into the memory at once?
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
 
-    Follow up 1: binary search?
-    Follow up 2: hash/sort the smaller.
+1. Brute force solution
+For each element in nums1, check existence in nums2, and remove if it does exist, and update the
+intersection list.
+
+2. Hash table
+
+3. Sort, two pointers
+
+----------------------------------------------------------------------------------------------
+Follow up 1: binary search?
+Follow up 2: hash/sort the smaller.
         traverse the larger and binary search, two pointers on two arrays respectively.
-    Follow up 3: load the smaller one?
+
+Follow up 3: one is large, doesn't fit into the memory
         If only nums2 cannot fit in memory, put all elements of nums1 into a hash table,
 read chunks of array that fit into the memory, and record the intersections.
 
-        If both nums1 and nums2 are so huge that neither fit into the memory, sort
-them individually (external sort), then read 2 elements from each array at a time in
+Follow up 4: both large, neither fit into the memory
+        If both nums1 and nums2 are so huge that neither fit into the memory, SORT
+them individually (EXTERNAL SORT), then read 2 elements from each array at a time in
 memory, record intersections.
     Or MapReduce paradigm could be used?
 '''
