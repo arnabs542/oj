@@ -100,13 +100,13 @@ class Solution(object):
             print('converting wordlist as a set, size', len(wordlist))
             wordlist = set(wordlist)
 
-        # paths = self.findLaddersDFS(beginWord, endWord, wordlist, length)
-        # paths = self.findLaddersBFS(beginWord, endWord, wordlist)
-        paths = self.findLaddersBFSStorePaths(beginWord, endWord, wordlist)
-        # paths = self.findLaddersBiBFS(beginWord, endWord, wordlist)
+        # paths = self._findLaddersDFS(beginWord, endWord, wordlist, length)
+        # paths = self._findLaddersBFS(beginWord, endWord, wordlist)
+        paths = self._findLaddersBFSStorePaths(beginWord, endWord, wordlist)
+        # paths = self._findLaddersBiBFS(beginWord, endWord, wordlist)
         return list(paths)
 
-    def buildGraph(self, wordList):
+    def _buildGraph(self, wordList):
         # DONE: build the graph with adjacency list representation
         adjacency = {}
         for word in wordList:
@@ -148,7 +148,7 @@ class Solution(object):
                 self._constructPaths(
                     p, predecessors, path_new, paths, beginWord, depth)
 
-    def findLaddersDFS(self, beginWord, endWord, wordlist, max_steps):
+    def _findLaddersDFS(self, beginWord, endWord, wordlist, max_steps):
         # FIXME: (TLE)time limit exceeded without pruning
         # TODO: dfs, backtrack, prune
         stack = [beginWord]
@@ -181,7 +181,7 @@ class Solution(object):
                     predecessors.pop()
                 del color[word]
 
-    def findLaddersBFS(self, beginWord, endWord, wordList):
+    def _findLaddersBFS(self, beginWord, endWord, wordList):
         """
         :type beginWord: str
         :type endWord: str
@@ -242,7 +242,7 @@ class Solution(object):
 
         yield from paths
 
-    def findLaddersBFSStorePaths(self, beginWord, endWord, wordList):
+    def _findLaddersBFSStorePaths(self, beginWord, endWord, wordList):
         '''
         By storing paths, we keep search paths in the queue, and explore those frontier nodes.
         But different paths are stored as different records in the frontier container, some
@@ -252,7 +252,7 @@ class Solution(object):
         # DONE: breadth first search with paths stored
         wordList.add(beginWord)
         wordList.add(endWord)
-        edge = self.buildGraph(wordList)
+        edge = self._buildGraph(wordList)
 
         distance = {}
         queue = list()
@@ -290,7 +290,7 @@ class Solution(object):
 
         return paths
 
-    def findLaddersBiBFS(self, beginWord: str,
+    def _findLaddersBiBFS(self, beginWord: str,
                          endWord: str, wordList: set) -> int:
         """
         :type beginWord: str

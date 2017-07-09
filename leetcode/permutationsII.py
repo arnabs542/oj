@@ -17,11 +17,11 @@ class Solution(object):
     # @return a list of lists of integers
 
     def permuteUnique(self, nums):
-        solutions = self.permute(nums)
+        solutions = self._permute(nums)
         print(solutions)
         return solutions
 
-    def permute(self, nums):
+    def _permute(self, nums):
         '''
         Method 1: Treat the problem as a DYNAMIC GRAPH
 

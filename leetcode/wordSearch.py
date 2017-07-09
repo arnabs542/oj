@@ -22,15 +22,20 @@ word = "ABCCED", -> returns true,
 word = "SEE", -> returns true,
 word = "ABCB", -> returns false.
 
+==============================================================================================
 SOLUTION:
+
     1. Treat this problem as a graph search problem, then DEPTH-FIRST or
 BREADTH-FIRST search can be utilized.
     2. Preprocess the table to build a TRIE tree data structure for text retrieval.
     3. Combine the DFS and TRIE procedure: along with depth-first search routine,
 we build the partial trie tree simultaneously.
 
-Optimization:
-    To save memory, we can use bit manipulation `cell ^= 256` to mark visited cells.
+----------------------------------------------------------------------------------------------
+Optimization
+
+    To save memory, we can use encode with bit representation: `cell ^= 255` to
+mark visited cells.
 '''
 
 # the lambda expression to get an array's depth recursively

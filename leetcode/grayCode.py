@@ -61,9 +61,9 @@ class Solution(object):
         :type n: int
         :rtype: List[int]
         """
-        return self.grayCodeDFS(n)
+        return self._grayCodeDFS(n)
 
-    def grayCodeDFS(self, n: int) -> int:
+    def _grayCodeDFS(self, n: int) -> int:
         '''
         depth-first search solution
         '''
@@ -86,7 +86,7 @@ class Solution(object):
         '''
         Generate gray code one by one with bit manipulation
         '''
-        # TODO: bit manipulation solution
+        # TODO: encode with bit representation solution
         # XOR with shifted self?
         # add power of 2?
 

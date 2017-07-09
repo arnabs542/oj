@@ -50,7 +50,7 @@ or three boolean arrays as the dynamic sets we need.
 Takeaway:
     @1: BACKTRACK with recursive depth-first search.
     @2: BACKTRACK with STACK implemented DFS.
-    @3: Bit manipulation instead of array representation of queens.
+    @3: Encode queens' positions with bit representation instead of array.
 
 ==============================================================================================
 RECURSIVE CALL TO ITERATIVE

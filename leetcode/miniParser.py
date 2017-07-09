@@ -120,7 +120,7 @@ class Solution(object):
         return result
 
     def deserializeStack(self, s: str):
-        # TODO: simplify
+        # DONE: simplify
         stack = []
         result = None
 
@@ -136,14 +136,7 @@ class Solution(object):
                 if stack:
                     stack[-1].add(newInt)
                 stack.append(newInt)
-            # elif c == ']': # stack POP, collect value
-                # if buf:
-                    # newInt = NestedInteger(int(buf))
-                    # if stack:
-                        # stack[-1].add(newInt)
-                    # buf = ''
-                # result = stack and stack.pop()
-            elif c in (',', ']', EOF): # collect value
+            elif c in (',', ']', EOF): # stack POP, collect value
                 if buf:
                     newInt = NestedInteger(int(buf))
                     if stack:
@@ -161,6 +154,8 @@ class Solution(object):
                 return result
             # print(stack, ' <- ', c)
         return result
+
+# TODO: parse the number part of string in an inner loop
 
 # TODO: recursive solution
 

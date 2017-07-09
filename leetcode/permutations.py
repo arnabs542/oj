@@ -27,7 +27,7 @@ several approaches.
 
 1. Dynamic Programming
 
-Define the state f[n, k] as number of partial arrangements of k given n.
+Define the state f[n, k] as number of PARTIAL ARRANGEMENTS of k given n.
 
 The structure of this problem resembles the 0-1 knapsack problem.
 then we have:
@@ -43,19 +43,22 @@ be cut during the graph construction, thus forming a backtracking scenario: we n
 restore those states after a dfs subroutine returns. Also, we can pass copies of states/
 edges so that we have separate sets of edges at each vertex of the dynamic graph.
 
-In this dynamic graph, the VERTICES are partial permutations, and the EDGES are distinct
+In this dynamic graph, the VERTICES are PARTIAL PERMUTATIONS, and the EDGES are distinct
 numbers. We generate the permutations by adding numbers one by one to transit from one
 vertex to another through an edge.
 
 Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
 Then there always exists such transition from f(k - 1) that
+
     f(k) = f(k - 1) + [available/non-duplicate number].
 
 In another word, f(k -1) is of the first k - 1 elements in f(k).
 
 Then the graph traversal process is like this:
-    Fill the K slots one by one, at each step, we have multiple edges/branches. Each partial
-permutation is a VERTEX state, and each available candidate number forms an EDGE connection.
+    Fill the K slots/positions one by one, at each step/depth, we have multiple edges/branches.
+Each partial permutation is a VERTEX state, and each available candidate number forms
+an EDGE connection.
+
 Both dfs/bfs will do the job.
 
 To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
@@ -119,16 +122,16 @@ class Solution(object):
         if not nums:
             result = []
         else:
-            # result = self.permuteDFSCopyState(nums)
-            result = self.permuteDFSBacktrack(nums)
-            # result = self.permuteDFSBacktrackOpt(nums)
-            # result = self.permuteDFSBacktrackIterativeOpt(nums)
-            # result = self.permuteDP(nums)
-            # result = self.permuteDPRollingArray(nums)
+            # result = self._permuteDFSCopyState(nums)
+            result = self._permuteDFSBacktrack(nums)
+            # result = self._permuteDFSBacktrackOpt(nums)
+            # result = self._permuteDFSBacktrackIterativeOpt(nums)
+            # result = self._permuteDP(nums)
+            # result = self._permuteDPRollingArray(nums)
         print(result)
         return result
 
-    def permuteDP(self, nums):
+    def _permuteDP(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -156,7 +159,7 @@ class Solution(object):
                     permutations_i.append(permutation)
         return permutations[-1]
 
-    def permuteDPRollingArray(self, nums):
+    def _permuteDPRollingArray(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -189,7 +192,7 @@ class Solution(object):
                     permutations_curr.append(permutation)
         return permutations_curr
 
-    def permuteDFSCopyState(self, nums):
+    def _permuteDFSCopyState(self, nums):
         '''
         Pass copies of states
         '''
@@ -217,7 +220,7 @@ class Solution(object):
         dfs([], list(nums))
         return result
 
-    def permuteDFSBacktrack(self, nums):
+    def _permuteDFSBacktrack(self, nums):
         '''
         Mutate state inplace by marking edges availability, then backtrack to restore states.
         Optimizing with respect to space complexity: modify inplace, and restore state later
@@ -238,14 +241,26 @@ class Solution(object):
         dfs([])
         return result
 
-    def permuteDFSBacktrackOpt(self, nums):
+    def _permuteDFSBacktrackOpt(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
 
         Dynamic Graph: Backtrack with DEPTH-FIRST SEARCH!
-        Not modifying states, partition the edges set by swapping to separate unavailable
+
+        Optimized backtracking solution by inplace representation.
+
+        The key idea is to partition the edges set by swapping to separate unavailable
         edges/candidates from available ones.
+
+        This is a similar idea to partititoning in quick sort: partition the list into
+        two parts of different classes.
+
+        Grow the permutation inplace, position by position. At ith step, we find fill
+        this position with an element. And unavailable elements are already placed before
+        this position, so current index i serves as a partition point by which available
+        elements are separated. Then we can eliminate the extra auxiliary space.
+
         """
         permutations = []
         def dfs(start):
@@ -264,7 +279,7 @@ class Solution(object):
     def _swap(cls, i, j, nums):
         nums[i], nums[j] = nums[j], nums[i]
 
-    def permuteDFSBacktrackIterative(self, nums):
+    def _permuteDFSBacktrackIterative(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -315,7 +330,7 @@ class Solution(object):
         pass
         return permutations
 
-    def permuteDFSBacktrackIterativeOpt(self, nums):
+    def _permuteDFSBacktrackIterativeOpt(self, nums):
         result = []
         stack = [(0, 0)]
         while stack:
@@ -333,11 +348,11 @@ class Solution(object):
                 stack.append((start + 1, start + 1))
         return result
 
-    def permuteBFS(self, nums):
+    def _permuteBFS(self, nums):
         # TODO: breadth-first search approach
         pass
 
-    def permuteNextLexicographic(self, nums):
+    def _permuteNextLexicographic(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -348,14 +363,14 @@ class Solution(object):
         """
         pass
 
-    def permuteKofN(self, k, n):
+    def _permuteKofN(self, k, n):
         # result = self.permuteKofNDP(k, n)
         result = self.permuteKofNDFS(k, n)
         print(result)
         return result
 
     # DONE: (partial permutation) K-permutations of N(arrangement of K numbers from N).
-    def permuteKofNDP(self, k, n):
+    def _permuteKofNDP(self, k, n):
         """
         :type m: int
         :type n: int
@@ -384,7 +399,7 @@ class Solution(object):
 
         return sorted(perms[n][k])
 
-    def permuteKofNDFS(self, k, n):
+    def _permuteKofNDFS(self, k, n):
         '''
         Iterative depth-first search solution
         '''
@@ -414,7 +429,7 @@ class Solution(object):
     # all candidates, so that we only use those indices to finish the dynamic programming state
     # transition process. When it comes to the recursion formula with f[n, k] and f[n -1, k - 1],
     # be careful while inserting the mth object not to produce duplicate arrangement
-    def permuteMofNWithDup(self, k, iterable):
+    def _permuteMofNWithDup(self, k, iterable):
         """
         :type m: int
         :type iterable: iterable
@@ -432,10 +447,10 @@ def test():
 
     # test permutations of m given n
     print('partial permutations')
-    assert sorted(Solution().permuteKofN(1, 3)) == [[1], [2], [3]]
-    assert sorted(Solution().permuteKofN(3, 3)) == [
+    assert sorted(Solution()._permuteKofN(1, 3)) == [[1], [2], [3]]
+    assert sorted(Solution()._permuteKofN(3, 3)) == [
         [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
-    assert sorted(Solution().permuteKofN(2, 3)) == [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    assert sorted(Solution()._permuteKofN(2, 3)) == [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
 
 if __name__ == '__main__':
     test()

@@ -35,7 +35,7 @@ SOLUTION
 1. Naive solution
 Use an auxiliary matrix to represent the next states. Complexity: O(mn), O(mn)
 
-2. State with BIT REPRESENTATION
+2. State encoded with BIT REPRESENTATION
 A cell has two states, live or dead. And the state transition is bidirectional, forming
 4 different transitions: 0->0, 0->1, 1->0, 1->0. The tuple (current state, next state) has
 only 4 values: (0, 0), (0, 1), (1, 0), (1, 1). Then we can represent the tuple with 2 bits!

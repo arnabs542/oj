@@ -31,9 +31,17 @@ Example:
     minStack.getMin();   --> Returns -2.
 
 ==============================================================================================
-SOLUTION:
-    Use TWO STACKS. One stack `dataStack` for the raw data, another one `minStack` maintaining
-the minimum data (index) so far.
+SOLUTION
+
+1. Use TWO STACKS.
+
+This data structure supports all operations of stack, as well as getMin.
+To meet the first requirement, we need a stack to store raw data.
+
+The second requirement still needs the stack's behavior. Meanwhile, it have keep track of
+the minimum element in the current frame.
+
+Then we can use another stack, minStack, maintaining the minimum data (index) so far.
 
     If minStack stores the minimum data itself instead of indices, `minStack` must push the
 new element as long as the new one is not smaller than the current minimum. While storing

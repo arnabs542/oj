@@ -63,7 +63,7 @@ Then state transition happens given some edge.
 The traversal can be implemented with both dfs and bfs. In recursive dfs, we can pass STATES
 as function parameters.
 
-4. Bit representation
+4. Encode with bit representation
 
 A set with n elements has 2ⁿ subsets, which is related to number 2, of course, binary number
 system.
@@ -88,14 +88,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        # subsets = self.subsetsDP(nums)
-        # subsets = self.subsetsDP1D(nums)
-        # subsets = self.subsetsBit(nums)
-        subsets = self.subsetsDFS(nums)
+        # subsets = self._subsetsDP(nums)
+        # subsets = self._subsetsDP1D(nums)
+        # subsets = self._subsetsBit(nums)
+        subsets = self._subsetsDFS(nums)
         print(subsets)
         return subsets
 
-    def subsetsDP(self, nums):
+    def _subsetsDP(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -111,7 +111,7 @@ class Solution(object):
         for s in subsets: output.extend(s)
         return output
 
-    def subsetsDP1D(self, nums: list) -> list:
+    def _subsetsDP1D(self, nums: list) -> list:
         subsets, new = [[]], []
         for n in nums:
             for s in subsets:
@@ -120,7 +120,7 @@ class Solution(object):
             new.clear()
         return subsets
 
-    def subsetsDFS(self, nums):
+    def _subsetsDFS(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
@@ -135,8 +135,8 @@ class Solution(object):
 
     # TODO: dfs iteratively
 
-    def subsetsBit(self, nums) -> list:
-        # DONE: bit manipulation?
+    def _subsetsBit(self, nums) -> list:
+        # DONE: encode with bit representation?
         subsets = [[] for _ in range(1 << len(nums))]
         for i, _ in enumerate(subsets):
             for j, _ in enumerate(nums):

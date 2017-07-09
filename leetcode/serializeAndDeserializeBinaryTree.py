@@ -65,23 +65,27 @@ class Codec:
         :rtype: str
         """
         cls.debug = debug
-        return cls.serializeBFS(root)
+        serializedTree = cls._serializeBFS(root)
+        if cls.debug:
+            print(serializedTree)
+        return serializedTree
 
     @classmethod
-    def deserialize(cls, data: str, T: type=str, NodeType: type=TreeNode, debug=False):
+    def deserialize(cls, data: str,
+                    T: type=str, NodeType: type=TreeNode, debug=False):
         """Decodes your encoded data to tree.
 
         :type data: str
         :rtype: TreeNode
         """
         cls.debug = debug
-        root = cls.deserializeBFS(data, T, NodeType)
+        root = cls._deserializeBFS(data, T, NodeType)
         if debug:
             cls.drawtree(root)
         return root
 
     @classmethod
-    def serializeBFS(cls, root):
+    def _serializeBFS(cls, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
@@ -104,7 +108,7 @@ class Codec:
         return '[{}]'.format(','.join(data))
 
     @classmethod
-    def deserializeBFS(cls, data, T: type=str, NodeType: type=TreeNode):
+    def _deserializeBFS(cls, data, T: type=str, NodeType: type=TreeNode):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -128,7 +132,7 @@ class Codec:
         return root
 
     @classmethod
-    def serializeDFS(cls, root):
+    def _serializeDFS(cls, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
@@ -137,12 +141,12 @@ class Codec:
         # TODO: depth-first solution
 
     @classmethod
-    def deserializeInorder(cls, root: TreeNode) -> TreeNode:
+    def _deserializeInorder(cls, root: TreeNode) -> TreeNode:
         # guess at least another traversal sequence is necessary
         pass
 
     @classmethod
-    def serializeInorder(cls, root):
+    def _serializeInorder(cls, root):
         pass
 
     @staticmethod
@@ -155,16 +159,16 @@ def test():
     codec = Codec()
 
     root = codec.deserialize("[]")
-    assert codec.serialize(root) == "[]"
+    assert codec.serialize(root, debug=True) == "[]"
 
-    assert codec.serialize(codec.deserialize("[1,2]")) == "[1,2]"
-    assert codec.serialize(codec.deserialize("[1,2,3]")) == "[1,2,3]"
+    assert codec.serialize(codec.deserialize("[1,2]"), debug=True) == "[1,2]"
+    assert codec.serialize(codec.deserialize("[1,2,3]"), debug=True) == "[1,2,3]"
 
     root = codec.deserialize("[1, 2, 3, null,null,4,5]", debug=True)
-    assert codec.serialize(root) == "[1,2,3,null,null,4,5]"
+    assert codec.serialize(root, debug=True) == "[1,2,3,null,null,4,5]"
 
     root = codec.deserialize("[null,2,3,null,null,4,5]", debug=True)
-    assert codec.serialize(root) == "[]"
+    assert codec.serialize(root, debug=True) == "[]"
 
     print('self test passed')
 

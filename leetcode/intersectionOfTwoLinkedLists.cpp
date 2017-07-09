@@ -38,8 +38,11 @@
  * Traverse A, till end, start with B. Simultaneously, traverse B, till end, start with A. Then
  * the two pointers traversing share same length of path. The two paths illustrated:
  *
- * A...C...B...C
- * B...C...A...C
+ * ACBC
+ * BCAC
+ *
+ * A..CB...C
+ * B...CA..C
  *
  * where len(A) != len(B), but len(A + C + B) == len(B + C + A), so we will find the intersection
  * at the beginning of last C segment. This is a complement situation where we complement one with
