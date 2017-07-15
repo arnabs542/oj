@@ -34,6 +34,9 @@ Space complexity: more than O(N).
 
 2.Three pointers?
 
+In this graph search process, the search frontiers are ordered. Then we keep track of
+the frontiers of size 3(corresponding to 1, 3, 5), to avoid duplicate multiplications.
+
 '''
 
 from queue import PriorityQueue
@@ -47,10 +50,10 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        # return self.nthUglyNumberGenerate(n)
+        # return self.nthUglyNumberHeap(n)
         return self.nthUglyNumberGenerateThreePointers(n)
 
-    def nthUglyNumberGenerate(self, n):
+    def nthUglyNumberHeap(self, n):
         pq = PriorityQueue()
         pq.put(1)
         prev = ugly = None
@@ -64,7 +67,7 @@ class Solution(object):
         print('ugly number:', ugly)
         return ugly
 
-    def nthUglyNumberGenerate2(self, n):
+    def nthUglyNumberHeap2(self, n):
         pq = []
         heappush(pq, 1)
         prev = ugly = None

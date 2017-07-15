@@ -39,9 +39,16 @@ randomSet.getRandom();
 ==============================================================================================
 SOLUTION
 
+1) Inverted index
+
 To insert and delete in O(1) time complexity, a hash table will do. But, to achieve random
 access in O(1) time, a linear array is best. So, maybe there is a way to combine these two
 data structures together, just like 'minStack.py' problem.
+
+Use a list to store the actual data, and use a hash table to store the inverted indices --
+mapping from content to its locations.
+
+This idea is similar to inverted index(https://en.wikipedia.org/wiki/Inverted_index)
 
 '''
 

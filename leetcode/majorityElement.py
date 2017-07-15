@@ -13,6 +13,21 @@ Given an array of size n, find the majority element. The majority element is the
 element that appears more than ⌊ n/2 ⌋ times.
 
 You may assume that the array is non-empty and the majority element always exist in the array.
+
+==============================================================================================
+SOLUTION
+
+1. Count with hash table
+Complexity: O(N), O(N)
+
+2. Reduced top K problem: find the kth element, where k is n/2.
+1) Sort: O(nlogn)
+2) Heap( top K ): O(nlogk)
+3) Quick select
+
+3. Voting algorithm
+Complexity: O(N), O(1)
+
 '''
 
 import random
@@ -24,19 +39,19 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        # return self.majorityElementHash(nums)
-        # return self.majorityElementSort(nums)
-        return self.majorityElementDivideAndConquer(nums)
-        # return self.majorityElementVote(nums)
+        # return self._majorityElementHashTableCount(nums)
+        # return self._majorityElementSort(nums)
+        return self._majorityElementDivideAndConquer(nums)
+        # return self._majorityElementVote(nums)
 
-    def majorityElementSort(self, nums):
+    def _majorityElementSort(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
         return sorted(nums)[len(nums) // 2]
 
-    def majorityElementHash(self, nums):
+    def _majorityElementHashTableCount(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -50,7 +65,7 @@ class Solution(object):
 
         return -1
 
-    def majorityElementVote(self, nums):
+    def _majorityElementVote(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -83,16 +98,19 @@ class Solution(object):
         # print(candidate)
         return candidate
 
-    def majorityElementRandomization(self, nums):
+    def _majorityElementRandomization(self, nums):
         # TODO: randomized solution
         # randomly sample an element, check whether its occurrence is above
         # ⌊n/2⌋
         pass
 
-    def majorityElementDivideAndConquer(self, nums):
+    def _majorityElementDivideAndConquer(self, nums):
         """
         :type nums: List[int]
         :rtype: int
+
+        This problem is a degraded special case of the kth largest element, where
+        k is equal to the middle of nums.
 
         Divide and conquer with partition
         Keep partitioning the list, until the pivot is at the middle position.
@@ -136,7 +154,7 @@ class Solution(object):
 
         return nums[mid]
 
-    def majorityElementBit(self, nums):
+    def _majorityElementBit(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -149,7 +167,7 @@ class Solution(object):
 def test():
     solution = Solution()
     assert solution.majorityElement([1]) == 1
-    assert solution.majorityElementVote([3, 2, 3]) == 3
+    assert solution.majorityElement([3, 2, 3]) == 3
     assert solution.majorityElement([1024] * 500 + [2048] * 501) == 2048
     assert solution.majorityElement([2048] * 501 + [1024] * 500) == 2048
     nums = [1] * 24999 + [2] * 25001

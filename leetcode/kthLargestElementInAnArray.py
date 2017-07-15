@@ -20,17 +20,23 @@ You may assume k is always valid, 1 ≤ k ≤ array's length.
 ===============================================================================================
 SOLUTION
 
-1. sort. O(NlogN)
-2. Maintain a MIN HEAP of size k, scan the array, take the heap top element when
-finished. O(NlogK)
-3. Maintain a sorted list of size k, do insert with BINARY SEARCH. O(NlogK)
-4. PARTITION to divide and conquer (quick select).
+1. Sort.
+Complexity: O(NlogN)
 
-With a MIN HEAP, we can maintain such heap of size k, while scanning the list, if the current number
-is bigger then the heap top element, then replace the heap top with the current element, and then
-maintain the heap structure. Time Complexity is average O(n logk).
+2. Min heap
 
-In quicksort, in each iteration, we need to select a pivot and then PARTITION the array into
+Maintain a MIN HEAP of size k, and scan the list, if the current number is bigger then the
+heap top element, then replace the heap top with the current element, and then maintain the
+heap structure. The heap top element is the kth largest element.
+
+Complexity: O(NlogK)
+
+3. Maintain a sorted list of size k, do insert with BINARY SEARCH.
+Complexity: O(NlogK)
+
+4. Quick select: divide and conquer by PARTITIONING
+
+In quick sort, in each iteration, we need to select a pivot and then PARTITION the array into
 three parts:
     1. Elements smaller than the pivot;
     2. Elements equal to the pivot;(for three-way partition)
