@@ -20,10 +20,20 @@ and conquer approach, which is more subtle.
 
 ===============================================================================================
 SOLUTION:
-    Dynamic Programming.
+
+1) Dynamic Programming.
+
+A subarray window must end somewhere, assuming position i.
+Kadane's algorithm begins with a simple INDUCTIVE question:
+  If we know the maximum subarray sum ENDING AT POSITION i, what is the maximum subarray
+sum ending at position  i+1? The answer turns out to be relatively straightforward:
+either the maximum subarray sum ending at position  i+1 includes the maximum subarray sum
+ending at position i as a prefix, or it doesn't. Thus, we can compute the maximum subarray
+sum ending at position  i for all positions i by iterating once over the array. As we go,
+we simply keep track of the maximum sum we've ever seen.
 
 DEFINE STATE:
-    max_ending_here: Maximum subarray sum ending here(with current position)
+    max_ending_here: Maximum subarray sum ending at position i.
 
 STATE TRANSITION:
     Scan through the array values, computing at each position the MAXIMUM (positive sum)

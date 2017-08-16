@@ -52,8 +52,10 @@ ORDERING, EXTREMUM.
     The sliding window demonstrate characteristics of First In First Out, so QUEUE data
 structure could be used.
 
-1. Linear time complexity solution: MAX QUEUE using dequeue(double-ended queue) to do this.
-A similar data structure is MIN STACK.
+1. MAX QUEUE using dequeue(double-ended queue).
+
+A Max queue is a queue that can give maximal value at O(1) time, which is a descending
+queue. A similar data structure is MIN STACK.
 
 The double-ended queue stores the possible maximum candidates while the window slides. And the
 queue's front element points to the maximum element in the window. When the window slides, the
@@ -74,14 +76,17 @@ front of it must be all popped out.
 Time Complexity Analysis:
 
 1) The QUERY operation to get the maximum is of O(1)
-2) The UPDATE operation to maintain the maximum dequeue is amortized to be O(1). Because the
-worst case is when we need to pop all elements in the queue out when an large element is
-pushed. But this won't happen all the time. Even if the list if composed of average m
-descending subsequences with a maximum at last, like 213,546,768, the time complexity would be
-O(complexity to update for each subsequence * number of such subsequences) = O(N/m * m) = O(N).
+2) The UPDATE operation to maintain the maximum dequeue is amortized to be O(1).
+Because the worst case is when we need to pop all elements in the queue out when an large
+element is pushed. But this won't happen all the time. Even if the list if composed of average
+m descending subsequences with a maximum at last, like 213,546,768, the time complexity would
+be O(complexity to update for each subsequence * number of such subsequences)
+= O(N/m * m) = O(N).
 3) The DELETE operation is of O(1).
 4) the CREATE operation is of O(k).
 So the overall time complexity is O(k) + O(n - k) = O(n).
+
+Complexity: O(n), O(k)
 
 '''
 

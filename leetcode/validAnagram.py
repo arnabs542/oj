@@ -24,6 +24,9 @@ What if the inputs contain unicode characters? How would you adapt your solution
 SOLUTION:
 1. hash table to record occurrence count, O(n)
 
+Adversarial approach:
+    In one pass increase the count, in the other one pass decrease the count.
+
 2. sort and compare, O(nlogn + n)
 
 3. Hashing.

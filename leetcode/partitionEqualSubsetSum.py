@@ -35,8 +35,10 @@ SOLUTION
 1. Reduce it to Subset Sum problem
     Get the total sum of the array, if it's even, then reduce the problem to the 'Combination
 Sum' problem with target value as half the sum.
+
 1) Recursive depth-first search solution
-exceeds time limit.
+Exceeds time limit.
+
 2) Dynamic Programming
 Similar to 0-1 Knapsack problem.
 

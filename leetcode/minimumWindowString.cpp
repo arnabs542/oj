@@ -1,0 +1,58 @@
+#include <vector>
+#include <unordered_map>
+#include <assert.h>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    string minWindow(string s, string t)
+    {
+        unordered_map<char, int> m;
+        // Statistic for count of char in t
+        for (char c : t) m[c]++;
+        // counter represents the number of chars of t to be found in s.
+        size_t start = 0, end = 0, counter = t.size(), minStart = 0, minLen = INT_MAX;
+        size_t size = s.size();
+
+        // Move end to find a valid window.
+        while (end < size) {
+            // If char in s exists in t, decrease counter
+            if (m[s[end]] > 0) counter--;
+            // Decrease m[s[end]]. If char does not exist in t, m[s[end]] will be negative.
+            m[s[end]]--;
+            end++;
+            // When we found a valid window, move start to find smaller window.
+            while (counter == 0) {
+                cout << "start: " << start << s[start] << s[100] << "counter" << m[s[start]] << endl;
+                if (end - start < minLen) {
+                    minStart = start;
+                    minLen = end - start;
+                }
+                m[s[start]]++;
+                // When char exists in t, increase counter.
+                if (m[s[start]] > 0)
+                    counter++;
+                start++;
+            }
+        }
+        if (minLen != INT_MAX)
+            return s.substr(minStart, minLen);
+        return "";
+    }
+};
+
+int main(int argc, char **argv) {
+    Solution *solution = new Solution();
+    assert(solution->minWindow("A", "") == "");
+    assert(solution->minWindow("", "") == "");
+    assert(solution->minWindow("", "A") == "");
+    assert(solution->minWindow("A", "") == "");
+    assert(solution->minWindow("ABC", "") == "");
+    assert(solution->minWindow("ADOBECODEBANC", "ABC") == "BANC");
+
+    cout << solution->minWindow("A", "") << endl;
+    cout << "self test passed" << endl;
+    return 0;
+}

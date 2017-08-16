@@ -22,11 +22,14 @@ length[i] = length[i-1] + 1,if string[i] not in string[i-length[i-1]...i-1]
             j,for largest j < length[i-1] such that string[i] not in string[i-j...i-1]
 O(N²).
 
-2. DYNAMIC PROGRAMMING and HASH TABLE.
+2. Sliding window
+Slide the window and carry out state transition in DYNAMIC PROGRAMMING way.
 
 Define the state more wisely: the maximum length of eligible string ending with current
-position. And use hash table to store character's most recent occurrence position to check
+position. Use a hash table to store character's most recent occurrence position to check
 eligibility.
+
+In linear structure, the method is also known as sliding window.
 
 Time complexity: amortized O(n).
 

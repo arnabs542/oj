@@ -75,6 +75,11 @@ that may produce the next super ugly number with ith prime factor.
 
 Complexity: O(kn)
 
+4. Space time trade-off
+Avoid duplicate multiplication.
+
+5. Further optimization: heap for getting minimal candidate
+
 '''
 
 class Solution(object):
@@ -85,9 +90,10 @@ class Solution(object):
         :type primes: List[int]
         :rtype: int
         """
-        return self._nthSuperUglyNumberLinear(n, primes)
+        # return self._nthSuperUglyNumberNPointers(n, primes)
+        return self._nthSuperUglyNumberNPointersOpt(n, primes)
 
-    def _nthSuperUglyNumberLinear(self, n, primes):
+    def _nthSuperUglyNumberNPointers(self, n, primes):
         '''
         Linear search frontier
         '''
@@ -106,7 +112,32 @@ class Solution(object):
         print(ugly)
         return ugly[n - 1]
 
+    def _nthSuperUglyNumberNPointersOpt(self, n, primes):
+        indices = [0 for _ in enumerate(primes)]
+        # cache = [1 for _ in enumerate(primes)]
+        cache = list(primes)
+        ugly = [1]
+        while len(ugly) < n:
+            min_ugly = float('inf')
+            for i, _ in enumerate(primes):
+                if cache[i] == ugly[-1]:
+                    indices[i] += 1
+                    cache[i] = ugly[indices[i]] * primes[i]
+                min_ugly = min(min_ugly, cache[i])
+
+            ugly.append(min_ugly)
+
+        print(ugly)
+        return ugly[n - 1]
+
+    def _nthSuperUglyNumberNPointersHeap(self, n, primes):
+        # TODO: heap to get minimal in O(logK) time complexity
+        pass
+
 def test():
+    import time
+
+    start = time.time()
     solution = Solution()
 
     assert solution.nthSuperUglyNumber(12, [2, 7, 13, 19]) == 32
@@ -114,7 +145,8 @@ def test():
     assert solution.nthSuperUglyNumber(4, [2]) == 8
     # assert solution.nthSuperUglyNumber(9, [1]) == 1
 
-    print("self test passed")
+    end = time.time()
+    print("self test passed in %f seconds" % (end - start))
 
 if __name__ == '__main__':
     test()

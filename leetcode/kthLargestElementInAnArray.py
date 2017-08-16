@@ -23,6 +23,9 @@ SOLUTION
 1. Sort.
 Complexity: O(NlogN)
 
+----------------------------------------------------------------------------------------------
+SELECTION ALGORITHM to find the kth ORDER STATISTICS.
+
 2. Min heap
 
 Maintain a MIN HEAP of size k, and scan the list, if the current number is bigger then the

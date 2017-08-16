@@ -26,25 +26,58 @@ unique minimum window in S.
 SOLUTION:
 
 1. Brute force.
-Enumerate all windows, and check existence. Time complexity: > O(N²).
+Enumerate all windows, and check existence.
 
-2. State transition - Dynamic programming way
+Complexity: O(N²).
 
-This is apparently a MAXIMUM SUBARRAY SUM' variant.
-    STATE = (The NUMBER OF CHARACTERS TO MATCH compared to current window(subarray), which
-    ends with current position).
-And use TWO POINTERS representing the subarray's start and end position to keep track of
-the minimum window(subarray).
+2. Sliding window
 
-But how to CHECK that the TARGET STRING T IS already MATCHED EFFICIENTLY?
+Slide the window, maintain the state transition in dynamic programming approach.
 
-    Use a COUNTER recording the target characters' OCCURRENCES COUNT. And the number of
-characters that need to be matched is the length of target string, denoted by `missing`.
-    Scan the source string. Encountering a character, decrease its Counter value. And if its
-Counter value was positive, decrease `missing` by 1. When missing is zero, we have a match.
+We want find a window/substring that contains target string as a substring.
 
-We need to make the window as small as possible. Pop out the leftmost that won't make the match
-invalid. Such characters are those with negative value in Counter.
+This is a variant MAXIMUM SUBARRAY SUM problem, which is about to find a required window
+along a linear structure.
+
+STATE = (The NUMBER OF CHARACTERS TO MATCH in current window/subarray).
+
+And use TWO POINTERS representing start and end position of the window.
+
+But how to CHECK whether target string t is already matched efficiently?
+
+The technique is sliding window counter.
+
+Maintain a HASH TABLE counter storing how many occurrences each character should be
+matched yet, together with a INTEGER `missing` indicating how many characters are
+matched against the target string.
+
+Extend the window from right. Encountering a character, decrease its counter value.
+And if its Counter value was positive, decrease `missing` by 1. When missing is zero,
+we have a match. Once the current window is a match, update the optimal solution so far,
+and try to find a better one by shrinking the window from left side.
+
+To shrink the sliding window, we pop out the unnecessary left most characters which have
+more occurrences than required. Unnecessary characters are those with negative value in Counter.
+Then repeat the extending process.
+
+Complexity: amortized O(N)
+
+----------------------------------------------------------------------------------------------
+Similar substring problems:
+
+https://leetcode.com/problems/minimum-window-substring/
+https://leetcode.com/problems/longest-substring-without-repeating-characters/
+https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
+https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+Sliding window technique is the one to rule them all!
+
+Slide a window over the data structure, and apply state transition recurrence relation.
+
+In substring problem, we can maintain a HASH TABLE to store information within the window.
+Maybe together with an integer state indicating how many characters need to be matched yet.
+
 '''
 
 from collections import Counter
@@ -80,10 +113,13 @@ class Solution(object):
         return s[begin: end]
 
     def minWindowDP2(self, s: str, t: str) -> str:
+        '''
+        Rewrite the solution
+        '''
         counter = Counter(t)
         i, begin, end = 0, 0, 0
 
-        missing = len(t) # This is our very core STATE: number of chars to match yet
+        missing = len(t) # STATE: number of chars to match yet
 
         for j, c in enumerate(s):
             missing -= counter[c] > 0 # state transition
