@@ -49,6 +49,8 @@ Complexity: O(N²)
 3. Optimize with greedy strategy
 For two words with same encoding, the longer one is preferred, apparently!
 
+Complexity: O(N²)
+
 '''
 
 class Solution(object):

@@ -27,21 +27,36 @@ several approaches.
 
 1. Dynamic Programming
 
-Define the state f[n, k] as number of PARTIAL ARRANGEMENTS of k given n.
+Define the state f[n, k] as number of PARTIAL ARRANGEMENTS of k given n, then explore the
+RECURRENCE RELATION.
 
 The structure of this problem resembles the 0-1 knapsack problem.
-then we have:
+We have recurrence relation state transition:
   f[n, k] = #arrangements containing mth number + #arrangements not with mth number
           = f[n - 1, k - 1] * k + f[n - 1, k],
+
+For a special case, full permutation, we have
+  f[n, n] = n * f[n - 1, n - 1] + 0 = n * f[n - 1, n - 1]
 
 2. Dynamic GRAPH: dfs/bfs
 Use BACKTRACKING with DEPTH-FIRST SEARCH or Breadth First Search.
 
-A Dynamic Graph is a graph with dynamic connectivity. Connectivity is represented with the
-edges set. In a dynamic graph, its vertices or edges are dynamic. One connection/edge may
-be cut during the graph construction, thus forming a backtracking scenario: we need to
-restore those states after a dfs subroutine returns. Also, we can pass copies of states/
-edges so that we have separate sets of edges at each vertex of the dynamic graph.
+A Dynamic Graph is a graph with dynamic vertices or edges/connectivity.
+
+Vertices are partial states, representing the partial permutations. And connectivity is
+represented by edges, which correspond to state transition/recurrence relation.
+
+For each vertex, there are many different branches to follow, leading to another
+vertex/state/permutation. To find all eligible permutations, traverse the graph from
+vertices of shorter permutations to longer ones. This is actually growing the partial
+permutations
+
+With dfs, one connection/edge will be cut when following this edge so that isn't available.
+But we are done searching the subgraph, it will be available to other paths. Thus it's a
+backtracking scenario: we need to restore those states after a dfs subroutine returns.
+Also, we can pass copies of states/edges, instead of modifying 1 copy of states/edges,
+so that we have separate sets of edges at each vertex of the dynamic graph, thus avoiding
+backtracking.
 
 In this dynamic graph, the VERTICES are PARTIAL PERMUTATIONS, and the EDGES are distinct
 numbers. We generate the permutations by adding numbers one by one to transit from one
@@ -67,8 +82,14 @@ To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
     2) Backtrack: mutate state in place, do dfs, restore when dfs subroutine returns.
 
 3. Generative method: Lexicographical order next permutation
-Define the state as one possible partial permutation of K numbers. Then at each time we find
+Define the state as one possible partial permutation of K numbers. At each step, find
 the next Lexicographically larger permutation.
+
+The algorithm minimizes movement:
+  generates each permutation from the previous one by interchanging a single pair of elements;
+the other n−0 elements are not disturbed
+
+Reference: https://en.wikipedia.org/wiki/Heap%27s_algorithm
 
 ==============================================================================================
 RECURSIVE CALL TO ITERATIVE
@@ -85,14 +106,40 @@ this way, we are pushing all adjacent vertices at the same time.
 
 2. EMULATE THE RECURSIVE CALL mechanism with STACK.
 
-We gather the state composed of function INPUT PARAMETER, VARIABLES USED
-AFTER RECURSIVE CALL, recursive call RETURN VALUE and store them as STACK
-FRAME. Then for each frame, we determine whether to PUSH or POP.
+We gather the state composed of:
+    function INPUT PARAMETER, LOCAL VARIABLES, RETURN VALUE
+in the RECURSIVE PROCEDURE and store them as STACK FRAME.
+
+Operate on the stack, at each frame, we determine whether to PUSH a new frame or POP out
+an existing frame that has already been finished exploring.
 
 Then general algorithm procedure skeleton for this would be
 1) PUSH state until some condition(STOP CRITERION)
-2) POP state until another CONDITION, maybe RESTORING states meanwhile
+2) POP state for CONDITION of STOP CRITERION, RESTORING states to backtrack. Those
+STOP CRITERIA correspond to the regions where the recursive dfs procedure function returns.
 3) Repeat 1) and 2)
+
+Psuedocode to emulate recursion with stack in iterative manner:
+```
+stack = [(state0)]# Initialize stack with initial state
+while stack is not empty:
+    frame = top element of the stack
+    if condition pop is satisfied:
+        # pop to emulate recursive procedure returns
+        if condition a solution is satisfied:
+            collect current solution
+        stack.pop()
+        if stack: # there exists a higher level stack frame
+            frame = stack.pop()
+            backtrack: restore state of the frame
+            new_frame = T(frame) # state transition from old to new state
+            stack.append(new_frame) # push new state
+    else: # push stack to emulate recursive call
+        mutate state of the frame
+        new_frame = T(frame) # state transition from old to new state
+        stack.append(new_frame) # push new state/frame
+return result
+```
 
 ----------------------------------------------------------------------------------------------
 Note that the variables used after recursive call contain necessary
@@ -123,12 +170,14 @@ class Solution(object):
             result = []
         else:
             # result = self._permuteDFSCopyState(nums)
-            result = self._permuteDFSBacktrack(nums)
+            # result = self._permuteDFSBacktrack(nums)
             # result = self._permuteDFSBacktrackOpt(nums)
-            # result = self._permuteDFSBacktrackIterativeOpt(nums)
+            # result = self._permuteDFSBacktrackIterative(nums)
+            result = self._permuteDFSBacktrackIterativeOpt(nums)
+            # result = self._permuteDFSIterative(nums)
             # result = self._permuteDP(nums)
             # result = self._permuteDPRollingArray(nums)
-        print(result)
+        print(len(nums), len(nums), '=>', result)
         return result
 
     def _permuteDP(self, nums):
@@ -199,7 +248,7 @@ class Solution(object):
         def dfs(p, l):
             '''
             Inputs:
-            - p: current permutation, vertex state
+            - p: current partial permutation, vertex state
             - l: available numbers, edge connection
 
             Outputs:
@@ -208,7 +257,7 @@ class Solution(object):
             if len(p) == len(nums):
                 result.append(p)
                 return
-            for i in range(len(l)):
+            for i, _ in enumerate(l):
                 # copy states
                 l1 = list(l)
                 p1 = list(p)
@@ -248,12 +297,12 @@ class Solution(object):
 
         Dynamic Graph: Backtrack with DEPTH-FIRST SEARCH!
 
-        Optimized backtracking solution by inplace representation.
+        Optimized backtracking solution by inplace REPRESENTATION.
 
-        The key idea is to partition the edges set by swapping to separate unavailable
+        The key idea is to partition the edges set by swapping to SEPARATE unavailable
         edges/candidates from available ones.
 
-        This is a similar idea to partititoning in quick sort: partition the list into
+        This is a similar idea to partitioning in quick sort: partition the list into
         two parts of different classes.
 
         Grow the permutation inplace, position by position. At ith step, we find fill
@@ -267,11 +316,11 @@ class Solution(object):
             if start == len(nums) - 1:
                 permutations.append(list(nums))
                 return
-            for i in range(start, len(nums)):
+            for j in range(start, len(nums)):
                 # state transition by placing different elements in a slot
-                self._swap(start, i, nums)
+                self._swap(start, j, nums)
                 dfs(start + 1)
-                self._swap(start, i, nums)
+                self._swap(start, j, nums)
         dfs(0)
         return permutations
 
@@ -327,29 +376,38 @@ class Solution(object):
                     # unswap to restore state
                     self._swap(frame.position, frame.target, nums)
                     frame.target += 1
-        pass
+
         return permutations
 
     def _permuteDFSBacktrackIterativeOpt(self, nums):
+        '''
+        The recursive dfs solution converted to iterative version.
+
+        Aggregate INPUT PARAMETERS, VARIABLES, RETURN VALUES, which are in the recursive procedure
+        previously, into a TUPLE of STATE, stored as the STACK FRAME.
+
+        Then we can do dfs or backtracking whereby pushing into and popping from the stack!
+        '''
         result = []
         stack = [(0, 0)]
         while stack:
-            start, i = stack[-1]
-            if len(stack) == len(nums) or i > len(nums) - 1:
+            i, j = stack[-1] # fill `i` position by elements with index starting from `j`
+            if i == len(nums) or j > len(nums) - 1:
+                if i == len(nums): result.append(list(nums))
                 # pop to emulate recursive call returning
-                if len(stack) == len(nums): result.append(list(nums))
                 stack.pop()
-                if stack:
-                    start, i = stack.pop()
-                    nums[start], nums[i] = nums[i], nums[start] # restore state
-                    stack.append((start, i + 1))
+                if not stack: break
+                i, j = stack.pop()
+                nums[i], nums[j] = nums[j], nums[i] # restore state
+                stack.append((i, j + 1))
             else: # push stack to emulate recursive call
-                nums[start], nums[i] = nums[i], nums[start] # mutate state
-                stack.append((start + 1, start + 1))
+                nums[i], nums[j] = nums[j], nums[i] # mutate state
+                stack.append((i + 1, i + 1))
         return result
 
     def _permuteBFS(self, nums):
-        # TODO: breadth-first search approach
+        # TODO: breadth-first search approach. Need to copy states instead of modifying
+        # the global state
         pass
 
     def _permuteNextLexicographic(self, nums):
@@ -363,10 +421,11 @@ class Solution(object):
         """
         pass
 
-    def _permuteKofN(self, k, n):
-        # result = self.permuteKofNDP(k, n)
-        result = self.permuteKofNDFS(k, n)
-        print(result)
+    def permuteKofN(self, k, n):
+        # result = self._permuteKofNDfs(k, n)
+        # result = self._permuteKofNDP(k, n)
+        result = self._permuteKofNDfsIterative(k, n)
+        print(k, n, '=>', result)
         return result
 
     # DONE: (partial permutation) K-permutations of N(arrangement of K numbers from N).
@@ -386,7 +445,7 @@ class Solution(object):
         # for i in range(n + 1):
             # perms[i][0].append([])
         for j in range(1, k + 1):
-            for i in range(j,n + 1):
+            for i in range(j, n + 1):
                 # f[n - 1, k]
                 perms[i][j].extend(perms[i -1][j])
 
@@ -399,30 +458,66 @@ class Solution(object):
 
         return sorted(perms[n][k])
 
-    def _permuteKofNDFS(self, k, n):
+    def _permuteKofNDfs(self, k, n):
+        '''
+        Depth First Search to solve permutations of K elements given N.
+        '''
+        # DONE: depth first search, recursive solution
+        result = []
+        nums = list(range(1, n + 1))
+        def dfs(start):
+            '''
+            Input
+              - start: partial permutation length. Available elements starts here
+            '''
+            if start >= k:
+                result.append(list(nums[:k]))
+                return
+            for j in range(start, n):
+                nums[start], nums[j] = nums[j], nums[start] # modify global state
+                dfs(start + 1)
+                nums[start], nums[j] = nums[j], nums[start] # restore global state
+        dfs(0)
+
+        return result
+
+    def _permuteKofNDfsIterative(self, k, n):
         '''
         Iterative depth-first search solution
+
+        How to convert above recursive solution into iterative one?
+
+        Inspect the recursive procedure, dfs() first. There are only two variables as
+        state: `i` from the input parameters, and `j` of local variables and
+        no return values.
+        So a tuple state of (i, j) will suffice to serve as stack frame.
+
         '''
         result = []
         nums = list(range(1, n + 1))
         stack = [(0, 0)]
         while stack:
-            start, i = stack[-1]
-            if len(stack) == k or i >= n:
-                if i >= n:
-                    stack.pop() # recursive call returns
-                    if not stack: break
-                else:
-                    nums[start], nums[i] = nums[i], nums[start]
-                    result.append(list(nums[:k]))
-                start, i = stack.pop() # recursive call returns
-                nums[start], nums[i] = nums[i], nums[start] # restore state
-                # print('pushing', (start, i + 1), stack)
-                stack.append((start, i + 1))
+            start, j = stack[-1]
+            # stop criteria, recursive procedure returns: out of bound, sentinel
+            # if len(stack) > k or j >= n:
+            if start >= k or j >= n:
+                if start == k: result.append(list(nums[:k]))
+                stack.pop() # pop and push
+                if not stack: break
+                start, j = stack.pop() # recursive call returns
+                nums[start], nums[j] = nums[j], nums[start] # restore state
+                stack.append((start, j + 1))
             else:
-                nums[start], nums[i] = nums[i], nums[start] # mutate state
+                nums[start], nums[j] = nums[j], nums[start] # mutate state
                 stack.append((start + 1, start + 1)) # recursive call
         return result
+            # if len(stack) == k or i >= n:
+                # if i >= n:
+                    # stack.pop() # recursive call returns
+                    # if not stack: break
+                # else:
+                    # nums[start], nums[i] = nums[i], nums[start]
+                    # result.append(list(nums[:k]))
 
     # TODO: how about arrangement of m from n objects, involving duplicate ones?
     # treat those duplicate objects individually. In another word, assign different index for
@@ -447,10 +542,13 @@ def test():
 
     # test permutations of m given n
     print('partial permutations')
-    assert sorted(Solution()._permuteKofN(1, 3)) == [[1], [2], [3]]
-    assert sorted(Solution()._permuteKofN(3, 3)) == [
+    assert sorted(Solution().permuteKofN(1, 3)) == [[1], [2], [3]]
+    assert sorted(Solution().permuteKofN(3, 3)) == [
         [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
-    assert sorted(Solution()._permuteKofN(2, 3)) == [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    assert sorted(Solution().permuteKofN(2, 3)) == [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+    assert sorted(Solution().permuteKofN(3, 3)) == [
+        [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]
+    ]
 
 if __name__ == '__main__':
     test()

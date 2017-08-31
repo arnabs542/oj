@@ -61,9 +61,10 @@ Then we seek to minimize the worst case loss.
 
 Time complexity: O(exponential or factorial).
 
-2. Iterative MINIMAX
+2. MINIMAX: minimize the maximum loss(minimize worst case loss)
+
 The problem is to search in an intervals. And apparently, the states are overlapping.
-So there would be large amount of duplicate computations.
+So there would be large amount of duplicate computations. So we utilize dynamic programming.
 
 3. Minimize the expected loss
 Mathematical expectation is is obtained by computing the integral of the product of a

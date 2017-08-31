@@ -39,13 +39,13 @@ SOLUTION
 1. Naive method
 The target longest substring may be located in any interval [i, j], i.e., in O(N²) possible
 positions.
-Then we can traverse the string, for each substring s[i...j], check validity by draw statistics
-with respect to the letter distribution within that substring. The major letter is the letter
-with most occurrence count, which other k letters will be replaced with.
+Then we can traverse the string, for each substring s[i...j], check validity by drawing
+statistics with respect to the letter distribution within that substring. The major letter
+is the letter with most occurrence count, which other k letters will be replaced with.
 
 Complexity: O(N³).
 
-2. Sliding window?
+2. Sliding window
 Of course, the substrings are overlapping with each other, giving result of duplicate calculation.
 Can we eliminate that by maintaining some running state, such as occurrence statistics?
 
@@ -53,7 +53,10 @@ Use a letter counter hash table, sum of number of letters all letter occurrences
 difference between the sum and the major letter's occurrence count is the number of letters
 that need to be replaced with the major letter.
 
+To slide the window means to extend and reduce the window when some condition is met.
+
 Complexity: O(26N) = O(N)
+
 '''
 
 from collections import defaultdict
