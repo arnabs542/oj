@@ -29,6 +29,8 @@ solution.pick(1);
 ==============================================================================================
 SOLUTION
 
+This is a stochastic process.
+
 1. Reservoir sampling, refer to '382. Linked List Random Node'.
 
 2. Preprocess the input numbers into a list of tuples (value, index). O(nlogn)

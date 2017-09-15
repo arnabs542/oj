@@ -22,10 +22,14 @@ Follow up: arrangements of m of n numbers. ( m <= n)
 ==============================================================================================
 SOLUTION:
 
-For a general partial permutation problem, we have several ways to define STATES, thus giving
-several approaches.
+For a general partial permutation can be obtained in a slot filling manner: fill one slot,
+or position, at one time, and then reach the final stage where we have an eligible solution.
+This process can be treated as growing a graph,
 
-1. Dynamic Programming
+For the recurrence relation, we have several difference state transition, depending on the
+definition of STATE.
+
+1. Dynamic Programming: mathematical recurrence relation
 
 Define the state f[n, k] as number of PARTIAL ARRANGEMENTS of k given n, then explore the
 RECURRENCE RELATION.
@@ -38,8 +42,7 @@ We have recurrence relation state transition:
 For a special case, full permutation, we have
   f[n, n] = n * f[n - 1, n - 1] + 0 = n * f[n - 1, n - 1]
 
-2. Dynamic GRAPH: dfs/bfs
-Use BACKTRACKING with DEPTH-FIRST SEARCH or Breadth First Search.
+2. Treat it as GRAPH problem: dfs/bfs
 
 A Dynamic Graph is a graph with dynamic vertices or edges/connectivity.
 
@@ -74,7 +77,7 @@ Then the graph traversal process is like this:
 Each partial permutation is a VERTEX state, and each available candidate number forms
 an EDGE connection.
 
-Both dfs/bfs will do the job.
+Use BACKTRACKING with DEPTH-FIRST SEARCH(dfs) or Breadth First Search(bfs).
 
 To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
     1) Pass copies of states

@@ -46,17 +46,7 @@ Similar to 0-1 Knapsack problem.
 
 '''
 
-class memoize(dict):
-
-    def __init__(self, func):
-        self.func = func
-
-    def __call__(self, *args, **kw):
-        return self[args]
-
-    def __missing__(self, key):
-        ret = self[key] = self.func(*key)
-        return ret
+from _decorators import memoize
 
 class Solution(object):
 

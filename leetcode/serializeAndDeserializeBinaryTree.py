@@ -41,17 +41,8 @@ SOLUTION
 '''
 
 import re
-
-# Definition for a binary tree node.
-class TreeNode(object):
-
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
-    def __repr__(self):
-        return 'val = {}'.format(self.val)
+from _visualize import prettyPrintTree
+from _dataStructure import TreeNode
 
 class Codec:
 
@@ -72,7 +63,7 @@ class Codec:
 
     @classmethod
     def deserialize(cls, data: str,
-                    T: type=str, NodeType: type=TreeNode, debug=False):
+                    T: type = str, NodeType: type = TreeNode, debug=False):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -151,24 +142,34 @@ class Codec:
 
     @staticmethod
     def drawtree(root):
-        # TODO: visualize tree
-        pass
+        # DONE: visualize tree
+        print("visualize tree:")
+        # prettyPrintTree(root, "🌲   ")
+        prettyPrintTree(root, "")
 
 # Your Codec object will be instantiated and called as such:
 def test():
     codec = Codec()
 
-    root = codec.deserialize("[]")
+    root = codec.deserialize("[]", debug=True)
     assert codec.serialize(root, debug=True) == "[]"
 
-    assert codec.serialize(codec.deserialize("[1,2]"), debug=True) == "[1,2]"
-    assert codec.serialize(codec.deserialize("[1,2,3]"), debug=True) == "[1,2,3]"
+    assert codec.serialize(codec.deserialize("[1,2]", debug=True), debug=True) == "[1,2]"
+    assert codec.serialize(codec.deserialize("[1,2,3]", debug=True), debug=True) == "[1,2,3]"
 
     root = codec.deserialize("[1, 2, 3, null,null,4,5]", debug=True)
     assert codec.serialize(root, debug=True) == "[1,2,3,null,null,4,5]"
 
     root = codec.deserialize("[null,2,3,null,null,4,5]", debug=True)
     assert codec.serialize(root, debug=True) == "[]"
+
+    print('\ntest tree visualization:\n')
+    root = Codec.deserialize("[1]", int, debug=True)
+    root = Codec.deserialize("[1,null,2,null,3,null,4,null,5]", int, debug=True)
+    root = Codec.deserialize("[1,6,2,7,null,null,3,null,null,null,4,null,5]", int, debug=True)
+    root = Codec.deserialize("[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]", int, debug=True)
+    root = codec.deserialize("[1,null,2,3,null,null,4,5]", debug=True)
+    root = Codec.deserialize('[3,5,1,6,2,0,8,null,null,7,4]', int, debug=True)
 
     print('self test passed')
 

@@ -127,7 +127,7 @@ class Solution(object):
         '''
         Dynamic programming solution of logarithmic time complexity.
         '''
-        # TODO(done): optimized dynamic programming solution
+        # DONE: optimized dynamic programming solution
         f = [-1] * (len(nums) + 1)
         size = 0
         for i, _ in enumerate(nums):

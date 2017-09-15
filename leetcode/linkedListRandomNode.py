@@ -30,7 +30,7 @@ solution.getRandom();
 ==============================================================================================
 SOLUTION
 
-Reservoir sampling.
+Reservoir sampling stochastic process.
 
 Problem:
     Choose k entries from n numbers. Make sure each number is selected with the probability of k/n
