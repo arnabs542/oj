@@ -87,7 +87,7 @@ class Solution(object):
     # rewrite with c++, got accepted. TAT
 def test():
 
-    from utils import linkedList, tolist
+    from _utils import linkedList, tolist
     solution = Solution()
 
     l = []

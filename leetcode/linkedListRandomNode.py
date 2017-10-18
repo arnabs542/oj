@@ -104,7 +104,7 @@ class Solution(object):
 # param_1 = obj.getRandom()
 
 def test():
-    from utils import linkedList, tolist
+    from _utils import linkedList, tolist
 
     solution = Solution(linkedList([1, 2, 3]))
 

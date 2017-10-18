@@ -59,7 +59,7 @@ class Solution(object):
         return dummy.next
 
 def test():
-    from utils import tolist, linkedList
+    from _utils import tolist, linkedList
 
     solution = Solution()
 

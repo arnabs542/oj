@@ -92,10 +92,10 @@ void test()
 
     Solution solution;
     vector<int> nums;
-    shared_ptr<int> arr_ptr;
+    shared_ptr<int> arr_ptr; // manage memory release automatically
     int *arr;
 
-    arr_ptr = shared_ptr<int>(new int[3]{1, 2, 3}, [](int*p){delete[] p;});
+    //arr_ptr = shared_ptr<int>(new int[3]{1, 2, 3}, [](int*p){delete[] p;});
 
     arr = new int[3]{4, 14, 2};
     arr_ptr = shared_ptr<int>(arr);

@@ -114,7 +114,7 @@ class Solution:
 
 def test():
     from serializeAndDeserializeBinaryTree import Codec
-    from utils import levelOrder
+    from _utils import levelOrder
 
     solution = Solution()
 

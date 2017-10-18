@@ -145,7 +145,7 @@ class Solution(object):
         return dummy.next
 
 def test():
-    from utils import linkedList, tolist
+    from _utils import linkedList, tolist
 
     solution = Solution()
     # the first part is the linked list, the second part is the random pointers

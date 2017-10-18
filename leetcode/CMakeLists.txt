@@ -30,10 +30,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -std=c++11")
  
 # configure a header file to pass some of the CMake settings
 # to the source code
-configure_file (
-	"${PROJECT_SOURCE_DIR}/LeetcodeConfig.h.in"
-	"${PROJECT_BINARY_DIR}/LeetcodeConfig.h"
-  )
+#configure_file (
+	#"${PROJECT_SOURCE_DIR}/LeetcodeConfig.h.in"
+	#"${PROJECT_BINARY_DIR}/LeetcodeConfig.h"
+  #)
  
 # add the binary tree to the search path for include files
 # so that we will find LeetcodeConfig.h

@@ -71,7 +71,7 @@ class Solution(object):
         return dummy.next
 
 def test():
-    from utils import linkedList, tolist
+    from _utils import linkedList, tolist
     solution = Solution()
 
     l = []

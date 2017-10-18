@@ -7,14 +7,24 @@ Difficulty: Hard
 
 Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 
-SOLUTION:
-    1. Trivial solution: maintain k pointers to k linked lists simultaneously, iterate them to
+==============================================================================================
+SOLUTION
+
+1. Trivial solution
+    Maintain k pointers to k linked lists simultaneously, iterate them to
 find the minimum each time to append into the new list. At each time, linearly scan for these
-k lists, and we need to do for total n elements, in O(k*n).
-    2. Merge these k lists one by one, by merging two of them each time.
-2*n/k + 3*n/k + ... + k*n/k = n/k * (k-1)(k+2)/2 = O(kn).
-    3. A MIN-HEAP will reduce the time complexity to O(log(k)*n).
-    4. DIVIDE AND CONQUER, merge sort two lists at each time. Same asymptotic time complexity,
+k lists, and we need to do for total n elements.
+Complexity: O(k*n).
+
+2. Merge these k lists one by one, by merging two of them each time.
+Complexity: O(2*n/k + 3*n/k + ... + k*n/k) = O(n/k * (k-1)(k+2)/2) = O(kn).
+Actually, this is the same as the brute force solution above.
+
+3. A MIN-HEAP
+Use a min heap to achieve efficient get minimal operation.
+Complexity: O(log(k)*n).
+
+4. DIVIDE AND CONQUER, merge sort two lists at each time. Same asymptotic time complexity,
 because we have to merge for logk times, at each time, the time complexity is
 O(n): n * logk = nlogk
 '''
@@ -122,7 +132,7 @@ class Solution(object):
                 # node.next = ListNode(val_min)
                 # to avoid instaniation
                 node.next = heap[0]
-                # XXX: mistake made multiples times, set to its next
+                # XXX: point to its next node
                 node = node.next
             heap[0] = heap[0].next
             heap.heapify()

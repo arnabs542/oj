@@ -16,7 +16,7 @@ SOLUTION:
     2. heap sort: auxiliary space, not qualified
     3. quick sort: partition by two pointers!
 '''
-from utils import linkedList, tolist, ListNode
+from _utils import linkedList, tolist, ListNode
 
 # Definition for singly-linked list.
 # class ListNode(object):

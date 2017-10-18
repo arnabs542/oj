@@ -163,11 +163,15 @@ def test():
     root = codec.deserialize("[null,2,3,null,null,4,5]", debug=True)
     assert codec.serialize(root, debug=True) == "[]"
 
+    print('================================================================================')
     print('\ntest tree visualization:\n')
+    root = Codec.deserialize("[]", int, debug=True)
     root = Codec.deserialize("[1]", int, debug=True)
     root = Codec.deserialize("[1,null,2,null,3,null,4,null,5]", int, debug=True)
-    root = Codec.deserialize("[1,6,2,7,null,null,3,null,null,null,4,null,5]", int, debug=True)
-    root = Codec.deserialize("[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]", int, debug=True)
+    root = Codec.deserialize("[1,6,2,7,null,null,3,null,null,null,4,6,5]", int, debug=True)
+    # root = Codec.deserialize("[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]", int, debug=True)
+    root = Codec.deserialize(
+        "[{}]".format(','.join(str(x) for x in range(1,50))), int, debug=True)
     root = codec.deserialize("[1,null,2,3,null,null,4,5]", debug=True)
     root = Codec.deserialize('[3,5,1,6,2,0,8,null,null,7,4]', int, debug=True)
 

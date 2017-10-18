@@ -56,7 +56,7 @@ class Solution(object):
         return dummy.next
 
 
-from utils import ListNode, linkedList, tolist
+from _utils import ListNode, linkedList, tolist
 
 def test():
     solution = Solution()
