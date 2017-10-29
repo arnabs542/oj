@@ -10,6 +10,10 @@ Most of crash bugs are caused by referencing a destructed object.
 2. Pass smart pointers instead of raw pointers
 3. For asynchronous/multi-threaded programs, pass smart pointers consistently.
 
+Reference:
+[shared_ptr](http://en.cppreference.com/w/cpp/memory/shared_ptr)
+[weak_ptr](http://en.cppreference.com/w/cpp/memory/weak_ptr)
+
 # Architecture
 
 ## Architecture as a collection of Data Structures
@@ -95,3 +99,23 @@ int main () {
 #define new DEBUG_NEW
 
 ```
+
+### Performance
+
+#### Notation & Terminology
+- QPS: query per second
+- TPS (transactions per second): the number of transactions executed per second. In other words, it can be calculated based on how many transactions are executed over a certain duration of the test and then calculate it for a second. It's a rate of transactions w.r.t. time, it is also called as throughput
+- RT: response time
+-
+
+#### TPS, concurrency, RT
+Little's Law:
+
+$$
+Average number of users in the system = average response time * throughput
+N  =  T  *  X
+$$
+
+where, $N = Number of users, T = RT (average response time), X = TPS$
+
+

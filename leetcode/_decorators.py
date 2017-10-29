@@ -77,7 +77,7 @@ def timeit(method):
 
         # print('%2.2f milliseconds elapsed, function: %r params: (%r, %r) ' %
               # ((te - ts) * 1000, method.__name__, args, kw))
-        print('function: %r finished in %2.2fms' %
+        print('function: %r returned in %2.2fms' %
               (method.__name__, (te - ts) * 1000))
         return result
 

@@ -106,12 +106,14 @@ class Solution(object):
 
         And there are branch control statements:
             dfs(n - 1, s - nums[n - 1]) + dfs(n - 1, s + nums[n - 1])
-        which can be controlled with a integer index.
+        which indicates an implicit LOCAL VARIABLE: branch index. This branch index
+        controls the recursive procedure call order.
 
-        Then, we have our four-tuple state:
+        Then, we have our four-tuple state, composed of INPUT, OUTPUT, LOCAL VARIABLES,
+        corresponding to the recursive call:
             (array size, target sum, branch index, return value)
 
-        Also notice that return values from search sub-branches need to be accumulated.
+        OUTPUT is the return values from search sub-branches which need calculation.
         '''
         # DONE: do it iteratively. A problem is that we need to compute values
         # from return values of recursive function calls. How to emulate that?

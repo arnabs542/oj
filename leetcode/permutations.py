@@ -95,7 +95,7 @@ the other n−0 elements are not disturbed
 Reference: https://en.wikipedia.org/wiki/Heap%27s_algorithm
 
 ==============================================================================================
-RECURSIVE CALL TO ITERATIVE
+CONVERT RECURSIVE CALL TO ITERATIVE
 
 To convert recursive depth-first search call to iterative, we have two
 difference implementations.
@@ -109,8 +109,11 @@ this way, we are pushing all adjacent vertices at the same time.
 
 2. EMULATE THE RECURSIVE CALL mechanism with STACK.
 
-We gather the state composed of:
-    function INPUT PARAMETER, LOCAL VARIABLES, RETURN VALUE
+First, define the STATE.
+We define the state as a tuple of:
+    function INPUT PARAMETER,
+    LOCAL VARIABLES,
+    OUTPUT(RETURN VALUE)
 in the RECURSIVE PROCEDURE and store them as STACK FRAME.
 
 Operate on the stack, at each frame, we determine whether to PUSH a new frame or POP out
