@@ -18,36 +18,49 @@ Some examples:
 
 Note: It is intended for the problem statement to be ambiguous. You
 should gather all requirements up front before implementing one.
-'''
 
-'''
-Solution:
-    @1:
-        1.Beginning and trailing white spaces can be left out
-        2.The most complex situation is when a number is in scientific
-        notation:
-            <float number>e<integer>
 
-    AeB or AEB代表A * 10 ^ B
-    A可以是小数也可以是整数，可以带正负号
-    .35, 00.等的都算valid小数；就'.'单独一个不算
-    B必须是整数，可以带正负号
-    有e的话，A,B就必须同时存在
+==============================================================================================
+SOLUTION
 
-    @2 FINITE STATE MACHINE (DETERMINISTIC FINITE AUTOMATA)
-        (Refer to CLRS for more information about string matching with
-        FINITE AUTOMATA)
-        To construct a finite automata transition diagram.We classify the
-        states:
-            0:initial state
-            1:sign
-            2:digit
-            3:point
-            4:point and digit
-            5:'e' or 'E'
-            6:sign after 'e' or 'E'
-            7:digit after 5
-            8:space after 7
+1. Naive solution
+Case by case analysis.
+
+1) Beginning and trailing white spaces can be left out
+2) The most complex situation is when a number is in scientific
+notation:
+    <float number>e<integer>
+
+AeB or AEB represents A * 10 ^ B
+A can be a decimal or integer，maybe with sign(+-)
+.35, 00. are valid decimal
+'.' is invalid number
+
+B must be an integer，with or without sign
+If there is 'e', both A and B must exist.
+
+@2 FINITE STATE MACHINE (DETERMINISTIC FINITE AUTOMATA)
+
+Hard-code the rules can be error prune prone, because this problem comprises many
+states, and a state can move to another state, following the rule. And it reveals
+a GRAPH structure, more precisely, FINITE STATE MACHINE.
+
+Refer to CLRS for more information about string matching with FINITE AUTOMATA.
+
+To construct a finite automata transition diagram. States can be classified into:
+    0:initial state
+    1:sign
+    2:digit
+    3:point
+    4:point and digit
+    5:'e' or 'E'
+    6:sign after 'e' or 'E'
+    7:digit after 5
+    8:space after 7
+
+Construct the state transition function/table. Process the characters one by one,
+moving state according to the state transition function.
+
 '''
 
 

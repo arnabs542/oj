@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-21. Merge Two Sorted Lists Add to List
+21. Merge Two Sorted Lists
 
 Total Accepted: 199353
 Total Submissions: 520026
@@ -32,7 +32,9 @@ class Solution(object):
         :type l2: ListNode
         :rtype: ListNode
         """
-        return self.mergeTwoLists1(l1, l2)
+        # l3 = self.mergeTwoLists1(l1, l2)
+        l3 = self.mergeTwoLists2(l1, l2)
+        return l3
 
     def mergeTwoLists1(self, l1, l2):
         tail = dummy = ListNode(0)
@@ -50,6 +52,19 @@ class Solution(object):
 
             tail = tail.next
 
+        return dummy.next
+
+    def mergeTwoLists2(self, l1, l2):
+        dummy = tail = ListNode(0)
+        while l1 and l2:
+            if l1.val <= l2.val:
+                tail.next = l1
+                l1 = l1.next
+            else:
+                tail.next = l2
+                l2 = l2.next
+            tail = tail.next
+        tail.next = l1 if l1 else l2
         return dummy.next
 
 

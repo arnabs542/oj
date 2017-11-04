@@ -17,8 +17,6 @@ if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "DEBUG")
 endif (NOT CMAKE_BUILD_TYPE)
 
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-
 # compiler FLAGS
 #set(CMAKE_CXX_FLAGS_DEBUG "put your flags")
 #set(CMAKE_CXX_FLAGS_MINSIZEREL "put your flags")
@@ -27,6 +25,15 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -std=c++11")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11")
+
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+if (${CMAKE_BUILD_TYPE} MATCHES "DEBUG")
+	message(STATUS "Build flags for debug: ${CMAKE_CXX_FLAGS_DEBUG}")
+else ()
+	message(STATUS "Build flags for release: ${CMAKE_CXX_FLAGS_RELEASE}")
+endif ()
+
+
  
 # configure a header file to pass some of the CMake settings
 # to the source code
@@ -52,6 +59,8 @@ add_executable(longestPalindrome longestPalindrome.cpp)
 add_executable(sortslist sortslist.cpp)
 add_executable(searchRotatedSortedArray searchRotatedSortedArray.cpp)
 add_executable(insertionSortList insertionSortList.cpp)
+add_executable(magicalString magicalString.cpp)
+add_executable(serializeAndDeserializeBinaryTree serializeAndDeserializeBinaryTree.cpp)
 
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
 add_library(maxPoints-anchor-hash SHARED maxPoints-anchor-hash.cpp)

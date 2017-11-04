@@ -28,6 +28,28 @@ Hint:
 ==============================================================================================
 SOLUTION
 
+1 => 1
+2 => 2
+3 => 3
+4 => 4
+5 => 5
+6 => 6
+7 => 7
+...
+9 = > 9
+
+10 => 1
+11 => 2
+...
+18 => 9
+
+19 => 1
+20 => 2
+...
+27 => 9
+
+28 => 1
+
 By writing the cases down, we can easily find the pattern behind this:
     The result occurs periodically with 9.
 

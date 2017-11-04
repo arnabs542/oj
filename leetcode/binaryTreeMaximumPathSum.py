@@ -65,7 +65,7 @@ Then we have RECURRENCE RELATION to its neighbors(children). And the STATE conta
 information for different scenarios in the recurrence relation, so repeated calculations
 can be spared.
 
-Transit STATE via RETURN VALUE to solve the overlapping optimal substructure in a BOTTOM-UP/
+Move STATE via RETURN VALUE to solve the overlapping optimal substructure in a BOTTOM-UP/
 BACKWARD manner.
 
 '''

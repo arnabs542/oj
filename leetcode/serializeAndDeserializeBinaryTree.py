@@ -163,6 +163,15 @@ def test():
     root = codec.deserialize("[null,2,3,null,null,4,5]", debug=True)
     assert codec.serialize(root, debug=True) == "[]"
 
+    testCases = [
+        "[]",
+        "[1]",
+        "[1,null,2,null,3,null,4,null,5]",
+        "[1,6,2,7,null,null,3,null,null,null,4,6,5]",
+        "[1,null,2,3,null,null,4,5]",
+        '[3,5,1,6,2,0,8,null,null,7,4]',
+    ]
+
     print('================================================================================')
     print('\ntest tree visualization:\n')
     root = Codec.deserialize("[]", int, debug=True)
