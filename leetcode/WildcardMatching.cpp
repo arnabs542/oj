@@ -110,6 +110,7 @@ Deterministic Finite Automata:
 
 #include <assert.h>
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 class Solution {

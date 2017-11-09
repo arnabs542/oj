@@ -1,3 +1,10 @@
+#include <vector>
+#include <unordered_map>
+#include <limits>
+
+using namespace std;
+
+
 //Definition for a point.
 struct Point
 {
