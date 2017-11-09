@@ -35,8 +35,11 @@ deserialize algorithms should be stateless.
 SOLUTION
 
 1. Breadth-first search traversal
+Complexity: O(n), O(N)
 
 2. Depth-first search traversal
+It can be done in both iterative and recursive approach.
+Complexity: O(n), O(N)
 
 '''
 

@@ -177,9 +177,9 @@ class Solution(object):
         else:
             # result = self._permuteDFSCopyState(nums)
             # result = self._permuteDFSBacktrack(nums)
-            # result = self._permuteDFSBacktrackOpt(nums)
+            result = self._permuteDFSBacktrackOpt(nums)
             # result = self._permuteDFSBacktrackIterative(nums)
-            result = self._permuteDFSBacktrackIterativeOpt(nums)
+            # result = self._permuteDFSBacktrackIterativeOpt(nums)
             # result = self._permuteDFSIterative(nums)
             # result = self._permuteDP(nums)
             # result = self._permuteDPRollingArray(nums)
@@ -251,27 +251,26 @@ class Solution(object):
         '''
         Pass copies of states
         '''
-        def dfs(p, l):
+        result = []
+        def dfs(permutation, available):
             '''
             Inputs:
-            - p: current partial permutation, vertex state
-            - l: available numbers, edge connection
+            - permutation: current partial permutation, vertex state
+            - available: available numbers, edge connection
 
             Outputs:
                 None
             '''
-            if len(p) == len(nums):
-                result.append(p)
+            if len(permutation) == len(nums):
+                result.append(permutation)
                 return
-            for i, _ in enumerate(l):
+            for i, _ in enumerate(available):
                 # copy states
-                l1 = list(l)
-                p1 = list(p)
-                p1.append(l[i])
-                l1.pop(i)
+                available1 = list(available)
+                available1.pop(i)
 
-                dfs(p1, l1)
-        result = []
+                dfs(permutation + [available[i]], available1)
+
         dfs([], list(nums))
         return result
 

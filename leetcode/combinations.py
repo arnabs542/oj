@@ -46,6 +46,17 @@ Denote the combination of k elements given n as C(n, k).
 
 C(n, k) = {B + x | B∈C(n, k-1) and x > max(B)}
 
+Note:
+    Of course, this problem contains elements and positions/points, and we need to fill the positions
+with some elements. The state can be viewed in both element-wise or pointwise. This gives
+two different kinds of states transition.
+
+    state = (position/point index, partial combination size)
+    2) state = (element index, partial combination size)
+At each position, we can:
+    1) choose one available element from m unused set(one of many), or
+    2) decide whether to use the one specific element(zero or one)
+
 '''
 class Solution(object):
 
@@ -56,7 +67,9 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         # result = self._combineDfs(n, k)
-        result = self._combineDfsOpt(n, k)
+        result = self._combineDfsBinary(n, k)
+        # result = self._combineDfsOpt(n, k)
+        # result = self._combineDfsBacktrack(n, k)
         # result = self._combineDP(n, k)
         # result = self._combineDfsIterative(n, k)
         print(n, k, '=>', result)
@@ -116,6 +129,53 @@ class Solution(object):
         dfs([], 0)
 
         return result
+
+    def _combineDfsBacktrack(self, n, k):
+        '''
+        depth first search solution, while backtracking instead of passing copies of objects
+        to recursive calls.
+
+        At each step, we have multiple choices: choose one from many available elements.
+
+        215ms, beats 89.5%
+        '''
+        result = []
+        combination = []
+        def dfs(start):
+            if len(combination) == k:
+                result.append(list(combination))
+                return
+            for j in range(start, n - k + len(combination) + 1):
+                # XXX: pass new object seems faster than restore state later
+                combination.append(j + 1)
+                dfs(j + 1)
+                combination.pop()
+
+        dfs(0)
+        return result
+
+    def _combineDfsBinary(self, n, k):
+        '''
+        Another kind of state transition function.
+
+        At each step, we have two choices: use this element or not, giving two search branches.
+        '''
+        result = []
+        combination = []
+        def dfs(start):
+            if len(combination) == k:
+                result.append(list(combination))
+                return
+            if start >= n: return
+            combination.append(start + 1)
+            dfs(start + 1)
+            combination.pop()
+            if start <= n - k + len(combination): # XXX: PRUNE, otherwise time limit exceeded
+              dfs(start + 1)
+
+        dfs(0)
+        return result
+
 
     def _combineDfsIterative(self, n, k):
         """
@@ -190,7 +250,7 @@ def test():
     assert solution.combine(3, 0) == [[]]
     assert solution.combine(5, 1) == [[1], [2], [3], [4], [5]]
     assert solution.combine(3, 2) == [[1, 2], [1, 3], [2, 3]]
-    # assert solution.combine(20, 16)
+    assert solution.combine(20, 16)
 
     print('self test passed')
 

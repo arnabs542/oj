@@ -76,6 +76,8 @@ class Solution(object):
             f = [[1 if j == 0 else 0 for j in range(n)] for _ in range(m)]
             for i in range(1, m):
                 for j in range(1, n):
+                    # space dimension can be reduced since the transition function
+                    # only operates on the previous dimension.
                     f[i][j] = f[i - 1][j] or (
                         j >= nums[i - 1] and f[i - 1][j - nums[i - 1]])
             return bool(f[-1][-1])
@@ -89,8 +91,10 @@ class Solution(object):
             f = [1] + [0] * target
             for i, _ in enumerate(nums):
                 for j in range(target, 0, - 1):
-                    # XXX: reversed order because the same element in collection can not
-                    # be used more than once!
+                    # XXX: reversed order: reversed topological order
+                    # if the inner loop in ascending order, then the current update of value f[j]
+                    # will override the previous value f[j], which may be used for later case (i + p, j + q)
+                    # and the transition function has no dependency on the same dimension i;
                     f[j] = f[j] or (j >= nums[i] and f[j - nums[i]])
             print(f)
             return bool(f[target])
