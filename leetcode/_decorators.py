@@ -5,7 +5,8 @@ from functools import partial
 import time
 
 class memoize(object):
-    """cache the return value of a function, including a class method
+    """
+    Cache the return value of a function, including a class method.
 
     This class is meant to be used as a decorator of methods. The return value
     from a given method invocation will be cached on the instance whose method

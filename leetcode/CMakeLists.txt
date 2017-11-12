@@ -50,7 +50,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # add the executable target
 add_executable(WildcardMatching WildcardMatching.cpp)
-add_executable(wordBreakII wordBreakII.cpp)
+#add_executable(wordBreakII wordBreakII.cpp)
 add_executable(minimumWindowString minimumWindowString.cpp)
 add_executable(totalHammingDistance totalHammingDistance.cpp)
 add_executable(sumOfTwoIntegers sumOfTwoIntegers.cpp)
@@ -63,6 +63,8 @@ add_executable(magicalString magicalString.cpp)
 add_executable(serializeAndDeserializeBinaryTree serializeAndDeserializeBinaryTree.cpp)
 add_executable(onesAndZeroes onesAndZeroes.cpp)
 add_executable(matchsticksToSquare matchsticksToSquare.cpp)
+add_executable(minimumHeightTrees minimumHeightTrees.cpp)
+add_executable(verifyPreorderSerializationOfABinaryTree verifyPreorderSerializationOfABinaryTree.cpp)
 
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
 add_library(maxPoints-anchor-hash SHARED maxPoints-anchor-hash.cpp)
