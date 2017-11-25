@@ -36,11 +36,12 @@ Special thanks to @Louis1992 for adding this problem and creating all test cases
 void assert(bool){}
 
 #include "_type.hpp"
-#include <assert.h>
-#include <iostream>
-#include <queue>
-#include <sstream>
-#include <string>
+#include "debug.hpp"
+//#include <assert.h>
+//#include <iostream>
+//#include <queue>
+//#include <sstream>
+//#include <string>
 
 using namespace std;
 class Codec {
@@ -74,13 +75,13 @@ public:
                 q.push(treeNode->left); // add connected nodes(children) to search frontier
                 q.push(treeNode->right);
             }
-            out << (treeNode ? to_string(treeNode->val):"#") << " ";
+            out << (treeNode ? to_string(treeNode->val):"#") << ",";
         }
         string result = out.str();
 
         // TODO: trim trailing "#"
         string::iterator it = result.end() - 1;
-        while (it >= result.begin() && ( *it == ' ' || *it == '#')) --it;
+        while (it >= result.begin() && ( *it == ',' || *it == '#')) --it;
         result.erase(it + 1, result.end());
 
         cout << "serialized tree: " << result << endl;
@@ -121,7 +122,8 @@ public:
         if (s.eof()) { return NULL; } // empty stream
 
         string sval;
-        s >> sval;
+        //s >> sval;
+        getline(s, sval, ',');
 
         if (sval.compare("") && sval.compare("#") && sval.compare("null") && sval.compare("NULL")) {
             return new TreeNode(stoi(sval));
