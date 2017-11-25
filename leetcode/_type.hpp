@@ -51,4 +51,6 @@ struct TreeNode {
           , right(NULL)
     {
     }
+
+    void print();
 };

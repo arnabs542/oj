@@ -14,6 +14,39 @@ def prettyPrintTree(node: TreeNode, prefix="", isLeft=None):
 
     A vertical '|' should be placed where the drawing expands from inside to outside:
         right child of left parent, or left child right parent.
+
+    Used symbols: "┌", "─", "└", "│"
+    ------------------------------------------------------------------------------------------
+    SOLUTION
+    The basic idea is tree traversal. Different traversal methods can produce different
+    ASCII visualization of tree structure.
+
+    And the only varying variables are: horizontal and vertical indentation.
+    This method will traverse the tree in a preorder approach. So, we need to expand space for
+    in-going nodes: right child of left parent or vice versa.
+
+
+    -----------------------------------------------------------------------------------------
+    Example
+
+                ┌── 31
+            ┌── 15
+            │   └── 30
+        ┌── 7
+        │   │   ┌── 29
+        │   └── 14
+        │       └── 28
+    ┌── 3
+        │       ┌── 27
+        │   ┌── 13
+        │   │   └── 26
+        └── 6
+            │   ┌── 25
+            └── 12
+                │   ┌── 49
+                └── 24
+                    └── 48
+
     '''
     if not node:
         print("<Empty tree>")

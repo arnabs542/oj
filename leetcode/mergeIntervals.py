@@ -37,7 +37,8 @@ class Solution(object):
             return intervals
 
         intervals = sorted(intervals, key=lambda x: (x.start, x.end))
-        self.mergeTrivial(intervals)
+        # intervals = self.mergeTrivial(intervals)
+        intervals = self.mergeStack(intervals)
         print(intervals)
         return intervals
 
@@ -50,6 +51,22 @@ class Solution(object):
                 intervals.pop(i + 1)
             else:
                 i += 1
+
+    def mergeStack(self, intervals):
+        stack = []
+        for interval in intervals:
+            if not stack:
+                stack.append(interval)
+                continue
+            intervalPre = stack.pop()
+            if intervalPre.end >= interval.start:
+                intervalNew = Interval(intervalPre.start, max(intervalPre.end, interval.end))
+                stack.append(intervalNew)
+            else:
+                stack.append(intervalPre)
+                stack.append(interval)
+
+        return stack
 
 def test():
     solution = Solution()
