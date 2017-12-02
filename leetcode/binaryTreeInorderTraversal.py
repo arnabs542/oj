@@ -22,9 +22,25 @@ return [1,3,2].
 ==============================================================================================
 SOLUTION:
     INORDER is different than PREORDER and POSTORDER in a way how we deal with GRAY VERTICES.
-For inorder or postorder, just visit them before or after its descedants. The real trouble with
-implementation is when to PUSH the right child. Immediately when the root is discovered or when
-the POPPING and visiting the root vertex? Both will do, just difference ways.
+For inorder or postorder, just visit them before or after its descendants.
+
+The real trouble with implementation is when to PUSH the right child.
+Immediately when the root is discovered or when the POPPING and visiting the root vertex?
+Both will do, just difference details.
+
+1. Recursive solution
+
+Complexity Analysis
+
+Time complexity : O(n)O(n). The time complexity is O(n)O(n) because the recursive function is T(n) = 2*T(n/2)+1T(n)=2∗T(n/2)+1.
+
+Space complexity : The worst case space required is O(n)O(n), and in the average case it's O(log(n))O(log(n)) where nn is number of nodes.
+
+2. Iterative solution with STACK
+Same complexity.
+
+3. Morris Traversal
+
 '''
 
 # Definition for a  binary tree node

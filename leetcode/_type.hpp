@@ -1,6 +1,8 @@
 #include <memory>
 #include <vector>
 
+using namespace std;
+
 // linked list node data structure
 struct ListNode {
     int val;
@@ -53,4 +55,5 @@ struct TreeNode {
     }
 
     void print();
+    vector<int> inorderTraversal(bool iterative=true);
 };

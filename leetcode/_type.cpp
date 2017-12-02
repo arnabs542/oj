@@ -1,3 +1,4 @@
+#include <debug.hpp>
 #include "./_type.hpp"
 #include <iostream>
 
@@ -11,8 +12,8 @@ using namespace std;
  * - pos: 0 for root node, 1 for left child , 2 for right child
  */
 
-const string leftMark     = "┌───"; // box drawings light Down and Right
-const string rightMark    = "└───"; // box drawings light Up and Right
+const string leftMark     = "└───"; // box drawings light Up and Right
+const string rightMark    = "┌───"; // box drawings light Down and Right
 const string innerPadding = "│   "; // vertical line
 const string outerPadding = "    "; // outer padding
 
@@ -29,26 +30,26 @@ void printTree(TreeNode* root, string prefix, NodeIdx pos)
         return;
     }
     string padding;
-    if (root->left) {
-        //padding = pos == RIGHT ? innerPadding : (pos == LEFT ? outerPadding : "");
-        if (pos == ROOT) {
-            padding = "";
-        } else {
-            padding = pos == RIGHT ? innerPadding : outerPadding;
-        }
-        printTree(root->left, prefix + padding, LEFT);
-    }
-    cout << prefix << (pos == LEFT ? leftMark : (pos == RIGHT ? rightMark : ""))
-         << root->val << endl;
-
     if (root->right) {
-        //padding = pos == LEFT?innerPadding:(pos == RIGHT?outerPadding:"");
+        //padding = pos == RIGHT ? innerPadding : (pos == LEFT ? outerPadding : "");
         if (pos == ROOT) {
             padding = "";
         } else {
             padding = pos == LEFT ? innerPadding : outerPadding;
         }
         printTree(root->right, prefix + padding, RIGHT);
+    }
+    cout << prefix << (pos == LEFT ? leftMark : (pos == RIGHT ? rightMark : ""))
+         << root->val << endl;
+
+    if (root->left) {
+        //padding = pos == LEFT?innerPadding:(pos == RIGHT?outerPadding:"");
+        if (pos == ROOT) {
+            padding = "";
+        } else {
+            padding = pos == RIGHT ? innerPadding : outerPadding;
+        }
+        printTree(root->left, prefix + padding, LEFT);
     }
 }
 
@@ -80,4 +81,48 @@ example visualized tree:
     cout << "visualize tree: " << this << endl;
     printTree(this, "", ROOT);
     cout << endl;
+}
+
+void inorderTraversalDfs(TreeNode *root, vector<int>& result) {
+    if (!root) {
+        return;
+    }
+    inorderTraversalDfs(root->left, result);
+    result.push_back(root->val);
+    inorderTraversalDfs(root->right, result);
+}
+
+/*
+ * state:
+ *
+ */
+void inorderTraversalIterative(TreeNode *root, vector<int>& result) {
+    stack<TreeNode*> nodeStack;
+    TreeNode *p;
+
+    if (root) nodeStack.push(root);
+    while (!nodeStack.empty()) { // while the stack is not empty
+        p = nodeStack.top(); // for each stack frame in the stack
+        if (p) { // recursive call:  push
+            nodeStack.push(p->left);
+        } else {   // recursive call returns: base case
+            nodeStack.pop();
+            if(nodeStack.empty()) break;
+            p = nodeStack.top();
+            nodeStack.pop();
+            result.push_back(p->val);
+            nodeStack.push(p->right); // recursive call returns and BACKTRACK: push
+        }
+    }
+
+}
+
+vector<int> TreeNode::inorderTraversal(bool iterative) {
+    vector<int> result;
+
+    if (iterative) {
+        inorderTraversalIterative(this, result);
+    } else inorderTraversalDfs(this, result);
+
+    return result;
 }
