@@ -33,7 +33,7 @@ Special thanks to @Louis1992 for adding this problem and creating all test cases
  * };
  */
 
-void assert(bool){}
+#pragma once
 
 #include "_type.hpp"
 #include "debug.hpp"

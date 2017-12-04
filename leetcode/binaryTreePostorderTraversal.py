@@ -27,6 +27,15 @@ SOLUTION:
     Stack has the LAST IN FIRST OUT property.
     PUSH where we can, POP when there is no more to explore or while current explored is a
 descendant of the stack top vertex's.
+
+1. Recursion
+
+2. Stack emulated recursion
+----------------------------------------------------------------------------------------------
+Universal method to convert recursion routines to iterative one:
+   Aggregate function INPUT PARAMETERS, LOCAL VARIABLES, RETURN VALUE into a stack frame as
+the state that's moving from one to another.
+
 '''
 
 # Definition for a  binary tree node

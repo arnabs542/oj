@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include "_tree.hpp"
 
 using namespace std;
 
@@ -42,18 +43,4 @@ bool vectorsAreEqual(std::vector<T> v1, std::vector<T> v2)
     return v1.size() == v2.size() && std::equal(v1.begin(), v1.end(), v2.begin());
 }
 
-// binary tree node data structure
-struct TreeNode {
-    int val;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(int x)
-        : val(x)
-          , left(NULL)
-          , right(NULL)
-    {
-    }
 
-    void print();
-    vector<int> inorderTraversal(bool iterative=true);
-};

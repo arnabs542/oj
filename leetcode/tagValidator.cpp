@@ -277,7 +277,7 @@ public:
             state = f(state, c);
             if (state == ILLEGAL) {
                 cout << "ILLEGAL: " << code.substr(i, j - i + 1) << endl;
-                //cout << "tokens: " << to_string(tokens) << endl;
+                //cout << "tokens: " << tokens << endl;
                 return false;
             }
             if (state == START_TAG_END || state == END_TAG_END || state == CDATA_TAG_END) {
@@ -298,7 +298,7 @@ public:
         }
         state = f(state, EOF); // feed end of file
 
-        //cout << "tokens: " << to_string(tokens) << endl;
+        //cout << "tokens: " << tokens << endl;
 
         return state == SUCCESS;
     }

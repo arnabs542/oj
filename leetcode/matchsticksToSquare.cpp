@@ -106,7 +106,7 @@ public:
         result = _makesquareDfsElementwiseWithoutClosure(nums);
         //result = makesquare2(nums);
 
-        cout << "result: " << result << ", nums: " << to_string(nums) << endl;
+        cout << "result: " << result << ", nums: " << nums << endl;
         return result;
     }
 

@@ -66,13 +66,16 @@ add_executable(matchsticksToSquare matchsticksToSquare.cpp)
 add_executable(minimumHeightTrees minimumHeightTrees.cpp)
 add_executable(verifyPreorderSerializationOfABinaryTree verifyPreorderSerializationOfABinaryTree.cpp)
 add_executable(tagValidator tagValidator.cpp)
+add_executable(deleteNodeInABst deleteNodeInABst.cpp)
+add_executable(stringCompression stringCompression.cpp)
 
-add_library(_type SHARED _type.cpp)
+add_library(_type SHARED _type.cpp _tree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
 add_library(maxPoints-anchor-hash SHARED maxPoints-anchor-hash.cpp)
 
 add_executable(testTree tests/test_tree.cpp)
 target_link_libraries(testTree _type)
+target_link_libraries(deleteNodeInABst _type)
 
 message(STATUS "leetcode WITH_TESTS: ${WITH_TESTS}")
 if (WITH_TESTS)

@@ -32,9 +32,9 @@ Both will do, just difference details.
 
 Complexity Analysis
 
-Time complexity : O(n)O(n). The time complexity is O(n)O(n) because the recursive function is T(n) = 2*T(n/2)+1T(n)=2∗T(n/2)+1.
+Time complexity : O(n). The time complexity is O(n) because the recursive function is T(n) = 2*T(n/2)+1.
 
-Space complexity : The worst case space required is O(n)O(n), and in the average case it's O(log(n))O(log(n)) where nn is number of nodes.
+Space complexity : The worst case space required is O(n), and in the average case it's O(log(n)) where n is number of nodes.
 
 2. Iterative solution with STACK
 Same complexity.
