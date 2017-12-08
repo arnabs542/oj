@@ -68,6 +68,8 @@ add_executable(verifyPreorderSerializationOfABinaryTree verifyPreorderSerializat
 add_executable(tagValidator tagValidator.cpp)
 add_executable(deleteNodeInABst deleteNodeInABst.cpp)
 add_executable(stringCompression stringCompression.cpp)
+add_executable(findMedianFromDataStream findMedianFromDataStream.cpp)
+add_executable(slidingWindowMedian slidingWindowMedian.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
