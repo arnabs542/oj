@@ -34,9 +34,36 @@ Visually, the graph looks like the following:
 
 ===============================================================================================
 SOLUTION:
-    Traverse the original graph with breadth-first search or depth-first search.
+    TRAVERSE the original graph with breadth-first search or depth-first search.
     A graph may consists of not only TREE EDGES, but also FORWARD EDGES, BACKWARD EDGES and
-CROSS EDGES. So it's better to maintain a hash table to avoid duplicate instantiation of vertices.
+CROSS EDGES. So use a HASH TABLE to maintain association from old node(label) to new node,
+thus avoiding duplicate instantiation of vertices.
+
+1. Depth first search the old graph, in the meanwhile construct copied graph vertices and its
+neighbors.
+
+Avoid duplicate copies of vertices of same value by using a hash table, mapping from vertex
+label to copied vertex.
+
+Avoid infinite search in cycle of the graph by checking whether a copied vertex has already
+been visited. This can be done without extra space: check whether its neighbors has been
+assigned or not.
+
+##############################################################################################
+FOLLOW UP
+
+1. Can we do it without hash table?
+2. What if the graph is very big?
+
+==============================================================================================
+SOLUTION
+1. Without hash table, not without extra space.
+If the graph is represented as matrix, or adjacency list, or edges, it would be easily done.
+
+2. Open ended question, talk to the interviewer!
+Big, how?
+
+
 '''
 
 # Definition for a undirected graph node

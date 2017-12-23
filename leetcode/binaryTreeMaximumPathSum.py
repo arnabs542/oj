@@ -21,8 +21,9 @@ Given the below binary tree,
       / \
      2   3
 Return 6.
+
 ==============================================================================================
-SOLUTION:
+SOLUTION
 
 In this problem, a path is actually composed of two branches starting with some node v,
 each of which is a path from v to its some distant child(neighbor).
@@ -68,6 +69,18 @@ can be spared.
 Move STATE via RETURN VALUE to solve the overlapping optimal substructure in a BOTTOM-UP/
 BACKWARD manner.
 
+##############################################################################################
+FOLLOW UP
+
+1. Find the maximum path distance
+Define state: (max_distance_ending_here, max_distance_so_far)
+
+Note that if a node's child is empty, the distance increase from the child subtree should be 0!
+
+2. Find the maximum distance paths
+Define state: (max_distance_path_ending_here, max_distance_path_so_far)
+State is a tuple of list, representing path sequence.
+
 '''
 
 # Definition for a binary tree node.
@@ -91,6 +104,10 @@ class Solution(object):
         """
         :type root: TreeNode
         :rtype: int
+
+        Returns
+        -------
+        A state of tuple: (max_ending_here, max_so_far)
         """
         def dfs(node):
             if not node:

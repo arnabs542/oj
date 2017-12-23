@@ -58,12 +58,14 @@ Time Complexity:
 giving the recursion
         T(n) = T(n/2) + O(n)
 in which O(n) is the time for partition. This recursion, once solved, gives
-        T(n) = O(n)
+        T(n) = O(logn) + O(n) = O(n)
 and thus we have a linear time solution. Note that since we only need to consider one half
-of the array, the time complexity is O(n). If we need to consider both the two halves of the
-array, like quicksort, then the recursion will be
+of the array, the time complexity is O(n).
+
+If we need to consider both the two halves of the array, like quicksort, then the recursion will be
         T(n) = 2T(n/2) + O(n)
 and the complexity will be O(nlogn).
+
 Of course, O(n) is the average time complexity. In the worst case, the recursion may become
         T(n) = T(n - 1) + O(n) and the complexity will be O(N²).
 '''
@@ -79,11 +81,11 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        # return self.findKthLargestSort(nums, k)
-        # return self.findKthLargestHeap(nums, k)
-        return self.findKthLargestPartition(nums, k)
+        # return self._findKthLargestSort(nums, k)
+        # return self._findKthLargestHeap(nums, k)
+        return self._findKthLargestPartition(nums, k)
 
-    def findKthLargestSort(self, nums, k):
+    def _findKthLargestSort(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -91,7 +93,7 @@ class Solution(object):
         """
         return sorted(nums, reverse=True)[k - 1]
 
-    def findKthLargestBinarySearch(self, nums, k):
+    def _findKthLargestBinarySearch(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -99,7 +101,7 @@ class Solution(object):
         """
         # TODO: binary search insertion sort
 
-    def findKthLargestHeap(self, nums, k):
+    def _findKthLargestHeap(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -116,41 +118,13 @@ class Solution(object):
 
         return heap[0]
 
-    def partition(self, arr, low, high):
-        pivot = arr[high]
-        i = low
-        for j in range(low, high):
-            if arr[j] <= pivot:
-                arr[i], arr[j] = arr[j], arr[i]
-                i += 1
-        arr[i], arr[high] = arr[high], arr[i]
-        # print(low, high, i, arr)
-        return i
-
-    def partitionRandomized(self, arr, low, high, randomize=True):
-        # DONE: randomized partition
-        # randomly CHOOSE THE PIVOT
-        if randomize:
-            rand = random.randint(low, high)
-            arr[rand], arr[high] = arr[high], arr[rand]
-        pivot = arr[high]
-
-        i = low
-        # SWEEP the sequence
-        for j in range(low, high):
-            if arr[j] <= pivot:
-                arr[j], arr[i] = arr[i], arr[j]
-                i += 1
-        arr[i], arr[high] = arr[high], arr[i]
-        return i
-
-    def findKthLargestPartition(self, nums: list, k: int) -> int:
+    def _findKthLargestPartition(self, nums: list, k: int) -> int:
         # DONE: quick select, partition to divide and conquer
         k = len(nums) - k
         p, r = 0, len(nums) - 1
         while p <= r:
-            # q = self.partition(nums, p, r)
-            q = self.partitionRandomized(nums, p, r)
+            # q = partition(nums, p, r)
+            q = partitionRandomized(nums, p, r)
             if q < k:
                 p = q + 1
             elif q > k:
@@ -158,14 +132,42 @@ class Solution(object):
             else:
                 return nums[q]
 
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    # print(low, high, i, arr)
+    return i
+
+def partitionRandomized(arr, low, high, randomize=True):
+    # DONE: randomized partition
+    # randomly CHOOSE THE PIVOT
+    if randomize:
+        rand = random.randint(low, high)
+        arr[rand], arr[high] = arr[high], arr[rand]
+
+    pivot = arr[high]
+    i = low
+    # SWEEP the sequence
+    # for j in range(low, high):
+        # if arr[j] <= pivot:
+            # arr[j], arr[i] = arr[i], arr[j]
+            # i += 1
+    i = partition(arr, low, high)
+    arr[i - 1], arr[high] = arr[high], arr[i - 1]
+    return i
 
 def test():
     solution = Solution()
     arr = [2, 8, 7, 1, 8, 3, 5, 6, 4, 2]
-    solution.partition(arr, 0, len(arr) - 1)
+    partition(arr, 0, len(arr) - 1)
     assert arr == [2, 1, 2, 8, 8, 3, 5, 6, 4, 7]
     arr = [6, 5]
-    solution.partition(arr, 0, 1)
+    partition(arr, 0, 1)
     assert arr == [5, 6]
 
     assert solution.findKthLargest([1], 1) == 1

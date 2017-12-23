@@ -25,9 +25,10 @@ To differentiate the single bits, we only need to store the bit occurrence count
 
 Then jth bit appears in the single number if and only if count[j] = 1, j starting with 0.
 
-Bit count: space O(32) = O(1).
+Time complexity: O(N)
+Space complexity: 32 integers corresponding to 32 bits' occurrence count. O(32) = O(1).
 
-3. Bit representing hierarchical states to optimize space
+3. Space optimization with multiple bit representation of state of count modulo
 
 The idea is similar to circuit design where we manipulate bits to represent numbers, and
 design a Finite State Machine to transit states.
@@ -66,14 +67,17 @@ As for counting bit occurrence, we can use XOR operation to simplify that. Since
 1^1 = 0, count[i] = 1 indicates that the bit occurrence's modulo by 2 is 1.
 So, the state transition function can be formulated by XOR operation.
 
-Complexity: O(N), O(1)
+Time complexity: O(N)
+Space complexity: Only ceil(log₂3)=2 integers, O(1)
 
 ==============================================================================================
 Follow up
 1. When every one occurs K times except one occurs M times, where M is a multiple of K.
 
-Answer: we can't simplify out state by taking modulo operation with K. The divisor can be
-chosen in range [k + 1, ∞]. And the number of hierarchical bits we need is ceil(log₂(K+1)).
+Answer:
+    we can't take modulo operation with K, because M % K = 0 = K % K, not differentiable.
+The divisor P can be chosen in range [k + 1, ∞].
+And the number of hierarchical bits we need is ceil(log₂(P)).
 
 '''
 

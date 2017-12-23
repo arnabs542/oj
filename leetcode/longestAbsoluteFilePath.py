@@ -54,8 +54,12 @@ Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another
 aaaaaaaaaaaaaaaaaaaaa/sth.png.
 
 ==============================================================================================
-SOLUTION:
-    STACK: compute indentation level, if deeper than stack top element, push; else keep poping.
+SOLUTION
+
+1. STACK
+
+Maintain a stack of nodes.
+Compute indentation level, if deeper than stack top element, push; else keep poping.
 '''
 
 class Solution(object):

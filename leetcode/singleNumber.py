@@ -15,18 +15,27 @@ extra memory?
 ==============================================================================================
 SOLUTION
 
-1. Naive counting method. Use a hash table storing each number' occurrence count.
+1. Naive counting method.
+Use a hash table storing each number' occurrence count.
+
+Complexity: O(N), O(N)
 
 2. Counting in a BITWISE PERSPECTIVE.
-Count with respect to bits.
+Count with respect to bits, and check which bits of 1 have occurred odd times.
+
 Set up an array count[] of size equal to integer bits length, assuming 32.
 Let count[i] denote the occurrence count of 1 on ith bit, i starting with 0.
 Then count[j] is odd if the single number's jth bit is 1. And the rest count[k] are all even.
 
-Space Complexity: O(32N).
+Time complexity: O(N),
+Space Complexity: O(32) = O(1).
 
-3. Bit representing hierarchical states
-Because the occurrence count will never exceed 2, we can just use 1 bit to record such
+3. Space optimization with one BIT REPRESENTATION of state as count modulo
+
+Instead of use occurrence count as the state, we can keep track of the count modulo by 2.
+And implement a state machine with respect to state transition of count modulo by 2.
+
+Taking occurrence count modulo by 2(2 bit integer state), we can just use 1 bit to record such
 state. And there are 32 bits in an integer, so the auxiliary space is bit[32], i.e. int32,
 to record the bit occurrence count.
 
@@ -46,11 +55,14 @@ state' = ~state & input + state & ~input = state ^ input.
 
 So, the state transition function can be formulated by XOR operation.
 
-4. Final version: XOR bit manipulation.
+Complexity: O(N), O(32)=O(1)
+
+4. XOR bit manipulation.
 Time complexity: O(n)
     x XOR x == 0
 
-Space complexity: O(N).
+Complexity: O(N), O(1).
+
 '''
 
 class Solution(object):

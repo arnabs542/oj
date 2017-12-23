@@ -97,6 +97,69 @@ found a new largest LIS.
 Because S is sorted at any time, the element can be found using binary search in log(N).
 Total runtime - N integers and a binary search for each of them - N * log(N) = O(N log N)
 
+
+##############################################################################################
+FOLLOW UP
+
+Longest arithmetic sequence.
+
+Given a set of numbers, find the Length of the Longest Arithmetic Progression (LLAP) in it.
+
+==============================================================================================
+SOLUTION
+
+The problem illustrate the same structure ad longest increasing subsequence.
+The only difference is the extra restraint of arithmetic progression, which means the
+transition state has to incorporate the common difference.
+
+Note that the required sequence can be restrained to be or not be in original order, it needs
+to be disambiguated with the interviewer.
+
+----------------------------------------------------------------------------------------------
+Maintain original order of sequence
+
+1. Dynamic programing with hash table state
+
+Define state as a hash table:
+    common difference of the arithmetic progression -> maximum length ending here
+dp[i][d] = l indicates the subsequence ending at nums[i] has arithmetic progression
+of common different of d.
+
+Time complexity:
+    O(N²D), Worst case is O(N³), where D is maximum number of common differences of subsequence
+ending at nums[i]. Worst case is where we can't find at least 3 numbers forming arithmetic
+progression, which means O(D) is O(N).
+
+FORGET ABOUT THE ABOVE COMPLEXITY CONCLUSION!
+
+Time complexity is O(N²)! This is because hash table supports O(1) query operation!
+Space complexity: O(N²).
+
+2. Add dimension - two dimensional state - two end state
+
+Define such state that dp[i][j] indicates the arithmetic subsequence starting with nums[i],
+ending with nums[j], has length dp[i][j]. Then it contains two information: length, and common
+difference. The common difference is: d = (nums[j] - nums[i]) / dp[i][j].
+
+TODO:
+How's the recurrence relation?
+
+3. Hash table
+Compute the difference between any two elements, and store the result in a hash table. In the
+hash table, key is the difference, and value is a sorted list of pair of indices producing the
+same difference from corresponding value in the array.
+
+For example, given {5,4,3,4,7,8}, hash table is like:
+-1=>(0,1),(1,2)
+1=>(2,3),(4,5)
+3=>(3,4)
+4=>(1,5)
+
+----------------------------------------------------------------------------------------------
+Doesn't require original order of sequence
+Then sort it fist!
+
+
 '''
 
 class Solution(object):

@@ -44,6 +44,9 @@ expected loss, instead of the worst-case loss?
 ==============================================================================================
 SOLUTION
 
+This is a zero-sum game, and involves adversarial search, can be solved with MINIMAX.
+MINIMAX: minimize the maximum loss(minimize worst case loss).
+
 1. Naive brute force search
 
 This is a discrete combinatorial problem, thus it can be solved by enumerating all possible
@@ -61,7 +64,7 @@ Then we seek to minimize the worst case loss.
 
 Time complexity: O(exponential or factorial).
 
-2. MINIMAX: minimize the maximum loss(minimize worst case loss)
+2. Minimax in Dynamic programming
 
 The problem is to search in an intervals. And apparently, the states are overlapping.
 So there would be large amount of duplicate computations. So we utilize dynamic programming.
@@ -69,6 +72,9 @@ So there would be large amount of duplicate computations. So we utilize dynamic 
 3. Minimize the expected loss
 Mathematical expectation is is obtained by computing the integral of the product of a
 variable and its probability density function: E(x) = ∫x p(x) dx.
+
+In discrete case, the integral is replaced with computing mean.
+
 
 '''
 

@@ -42,17 +42,21 @@ Basic idea:
 the generated random number is j.
     b) If j is in range 0 to k-1, replace reservoir[j] with arr[i]
 
+An intuitive for this algorithm is to use BACKWARD INDUCTION.
+
 Proof:
 
 For i+1th, the probability that it is selected and will replace a number in the reservoir is
-Pr(i+1th item is accepted) = k/(i + 1)
+Pr(i+1th item is accepted) = P(j is in range 0 to k-1) = k/(i + 1)
 
 For a number in the reservoir before (let's say X), the probability that it keeps staying in the
 reservoir is Pr(accepted item is not replaced) = i / (i + 1).
 
 Then, for any ith item, where i > k, the probability that is selected is a joint probability
 Pr(ith is selected)
-  = Pr(ith is first selected and never replaced)
+  = Pr(ith is first selected, ith is never replaced)
+  = Pr(ith is first selected) * P(ith element is never replaced)
+  = Pr(ith is first selected) * P(ith element is never replaced by i+1th) * P(ith element is never replaced by i+2th) * ...
   = (k / i) * (i/(i + 1)) * ((i + 1)/(i + 2)) *....* ((n - 1)/n) = k / n
 
 For any ith item, where i <= k, the joint probability is:

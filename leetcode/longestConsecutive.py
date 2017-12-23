@@ -16,6 +16,19 @@ Given [100, 4, 200, 1, 3, 2],
 The longest consecutive elements sequence is [1, 2, 3, 4]. Return its length: 4.
 
 Your algorithm should run in O(n) complexity.
+
+==============================================================================================
+SOLUTION
+
+1. Sort
+
+Complexity: O(NlogN), O(N)
+
+2. Depth first search with hash table
+
+Complexity: O(N), O(N)
+
+
 '''
 
 class Solution(object):

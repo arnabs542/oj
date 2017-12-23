@@ -44,7 +44,7 @@ Complexity: O(1) query, O(M²N²) initialization, O(M²N²) space
 Use 1D prefix sum and accumulate row by row for query.
 Complexity: O(m) query, O(mn) initialization, O(mn) space
 
-4. 2D prefix sum(integation)
+4. 2D prefix sum(like INTEGRAL in calculus)
 
 Like the 1D case, we can still build the prefix sum. And the only difference is that now it's
 2D.
@@ -57,6 +57,8 @@ So we have such equation:
 
 sumRegion(row1, col1, row2, col2)
 = f[row2][col2] - f[row2][col2 - 1] - f[row1][col + 1] + f[row1][col1]
+
+Complexity: O(1), O(mn).
 
 '''
 

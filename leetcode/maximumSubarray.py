@@ -58,6 +58,27 @@ AT EACH POSITION is calculated in a simple way from a related but smaller and ov
 subproblem: the maximum subarray ending at the previous position) this algorithm can be
 viewed as a simple example of DYNAMIC PROGRAMMING.
 
+##############################################################################################
+VARIANT
+
+红绿灯数目问题
+Q: 给出一个Char Array, 里面只有 R, G. 现在要选择一个范围，使得 R 变成G，G变成R，并使得G的个数－ R的个数最大。输出这个范围并且输出最大结果.
+
+==============================================================================================
+SOLUTION:
+
+Maximum subarray problem
+
+要求的的是一个范围，就是一个subarray。这个subarray的#R - #G 要足够大。
+
+如果令:
+R = 1,
+G = 0,
+那么这个subarray需要满足的条件就是： maximum sum of elements within range.
+
+然后，用DP一遍就可以解决了
+
+
 '''
 
 class Solution(object):

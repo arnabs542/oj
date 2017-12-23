@@ -12,24 +12,25 @@ Contributors: Admin
 Implement pow(x, n).
 
 ==============================================================================================
-SOLUTION:
-    Naive method:
+SOLUTION
+
+1. Naive method:
         Simply multiply x n times
-    O(logN) method:
+2. O(logN) method:
         Binary method
 '''
 
 
 class Solution(object):
     # 1.1 using built in pow function
-    myPow = pow
+    # myPow = pow
     # 1.2
 
-    def myPowBuiltin(self, x, n):
+    def _myPowBuiltin(self, x, n):
         return x ** n
 
     # 2 recursive
-    def myPowRecursive(self, x, n):
+    def _myPowRecursive(self, x, n):
         """
         :type x: float
         :type n: int
@@ -42,17 +43,17 @@ class Solution(object):
         if n == 0:
             return 1
         if n < 0:
-            return 1.0 / self.myPowRecursive(x, -n)
+            return 1.0 / self._myPowRecursive(x, -n)
 
         if n % 2 == 1:
-            return x * self.myPowRecursive(x, n - 1)
+            return x * self._myPowRecursive(x, n - 1)
         else:
             # n % 2 == 0
             # XXX: this is actually binary search
-            return self.myPowRecursive(x * x, n / 2)
+            return self._myPowRecursive(x * x, n / 2)
 
     # 3 iterative
-    def myPowIterative(self, x, n):
+    def _myPowIterative(self, x, n):
         """
         :type x: float
         :type n: int
@@ -88,8 +89,8 @@ class Solution(object):
 
         pow(0, 0) == 1?
         """
-        # return self.myPowRecursive(x, n)
-        return self.myPowIterative(x, n)
+        # return self._myPowRecursive(x, n)
+        return self._myPowIterative(x, n)
         pass
 
 

@@ -1,10 +1,12 @@
 '''
 
-210. Course Schedule II   QuestionEditorial Solution  My Submissions
+210. Course Schedule II
+
 Total Accepted: 39742
 Total Submissions: 166532
 Difficulty: Medium
 Contributors: Admin
+
 There are a total of n courses you have to take, labeled from 0 to n - 1.
 
 Some courses may have prerequisites, for example to take course 0 you have to
@@ -39,7 +41,10 @@ the basic concepts of Topological Sort.
   Topological sort could also be done via BFS.
 
 ===================================================================================================
-Topological sort with DFS or BFS.
+SOLUTION
+
+A typical GRAPH problem, topological sort with DFS or BFS.
+
 '''
 
 class Solution(object):

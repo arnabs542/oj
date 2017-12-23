@@ -5,17 +5,17 @@
 using namespace std;
 
 /**
- *
+ * TreeNode methods
  * Inputs
  * - root: root node
  * - prefix: prefix
  * - pos: 0 for root node, 1 for left child , 2 for right child
  */
 
-const string leftMark     = "└───"; // box drawings light Up and Right
-const string rightMark    = "┌───"; // box drawings light Down and Right
-const string innerPadding = "│   "; // vertical line
-const string outerPadding = "    "; // outer padding
+static const string leftMark     = "└───"; // box drawings light Up and Right
+static const string rightMark    = "┌───"; // box drawings light Down and Right
+static const string innerPadding = "│   "; // vertical line
+static const string outerPadding = "    "; // outer padding
 
 enum NodeIdx {
     ROOT = 0,
@@ -170,3 +170,9 @@ vector<int> TreeNode::postorderTraversal(bool iterative) {
     postorderTraversalDfs(this, result);
     return result;
 }
+
+/**
+ *
+ * Segment tree methods
+ *
+ */

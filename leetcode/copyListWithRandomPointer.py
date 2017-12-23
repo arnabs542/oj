@@ -21,24 +21,82 @@ SOLUTION
 the random pointer in each node of the new list to the target new node.
 Time complexity: O(N), Space complexity: O(N).
 
-2. Reduce the space complexity by MODIFYING the original linked list in place!
-We we first construct the new linked list, store the random pointer in the corresponding
-copied linked list node. And set the random pointer of the old node to the new node.
+2. Reduce the space complexity by ASSOCIATING old and new nodes with pointers in place!
+
+For the simplest case, where linked list nodes don't have a random pointer. Then we can
+just copy the linked list with one pass scanning.
+
+Now we have an additional random pointer, we may want to associate the old nodes to copied
+nodes, with an mapping relation, so that we can assign random pointers of copied nodes:
+    newNode.random = mapping(oldNode.random)
+
+So the whole space optimization is towards use ASSOCIATIVE MAPPING from old linked list nodes to
+new linked list nodes. And hash table is a little bit expensive.
+
+The associative mapping can also be represented with pointers, not just hash table.
+And the trick is to choose the right pointer, and decide how to assign those pointers.
+
+----------------------------------------------------------------------------------------------
+For each new linked list nodes, set the RANDOM pointer of the old node to the new node
+And set the RANDOM pointer of new node to the corresponding old linked list node's random.
 Then, we iterate through the linked list again. Meanwhile, we restore the tangled random
 pointers of two linked lists.
 
-But this solution WON'T work because q.random might have been restored to point to the
-original list before. And this is a Directed Cyclic Graph, not feasible!
+But this solution WON'T deal with the case when a random pointer from old node points to a
+prior node in the linked list, because old node's random pointer is changed during the iteration
+and the association is lost.
 
-3. Duplicate the new nodes IN PLACE, so that they all closely follow the corresponding
-original node. Then modify the random pointers of copied nodes. At last, extract copied
-nodes from the original linked list:
+For this Directed Cyclic Graph, not working, not feasible!
 
-1. Iterate the original list and duplicate each node. The duplicate
-of each node follows its original directly.
-2. Iterate the new list and assign the random pointer for each
-duplicated node.
-3. Restore the original list and extract the duplicated nodes.
+----------------------------------------------------------------------------------------------
+3. Associate the old and copied nodes with NEXT pointer, instead of random pointer.
+
+To ASSOCIATE old nodes and copied nodes, we have two choices: use NEXT pointer or RANDOM pointer.
+And we need to associate some old nodes with copied nodes, to restore the list structure later.
+
+The above idea can't deal with the case where multiple random pointers point to the same node.
+
+This is because we want to associate original nodes and copied nodes using node pointers while
+trying to recover the list structure back again.
+
+The random pointer is random, chaos, and it's not associated with the linked list structure.
+But the next pointer is DETERMINISTIC, it corresponds to the list structure.
+Given the list structure, the next pointers' distribution is determined, the
+conditional entropy is zero!
+Then, the next pointer is easy to tangle and easy to restore.
+
+----------------------------------------------------------------------------------------------
+1st pass.
+When copying nodes,
+1) assign the next pointer of old node to the replicate node,
+2) assign the next pointer of the replicate node to the old node's next node.
+
+We can associate the new nodes with old nodes without losing the linked list structure,
+by tangling the next pointers. And the difference between old random pointer's value and
+new random pointer's value is just a reference of NEXT pointer!
+
+2nd pass
+And update the new nodes' random pointer, then restore next pointer.
+
+3rd pass
+Resolved the tanged next pointer, and extract the copied list.
+
+Set old node's next pointer to copied node, and copied node's next pointer to old node's next.
+Update the copied pointer's random pointer.
+
+
+Original list:
+1->2->3->4->5
+
+Copied new linked list:
+1->2->3->4->5
+
+Tangled pointer:
+1   2   3   4   5
+|                   next pointer
+1'- 2'- 3'- 4'- 5'
+
+1 - 1' - 2 - 2' - 3 - 3' - 4 - 4' - 5 - 5'
 
 '''
 
@@ -106,18 +164,19 @@ class Solution(object):
             # NOTE: multiple assignment should avoid nested left variables
             # FIXME: q.random might have been restored to point to the original list before
             # And this is a Directed Cyclic Graph, not feasible!
+            # won't deal with the case where multiple random pointers point to the same node
             p.random, q.random = q.random, q.random and q.random.random
             p = p.next
 
         return head1
 
-    def copyRandomListDupInPlace(self, head: RandomListNode) -> RandomListNode:
-        # TODO: copy in place and extract.
+    def copyRandomListAssociateWithNextPointer(self, head: RandomListNode) -> RandomListNode:
+        # DONE: copy in place and extract.
         p = head
         # round 1, copy in place
         while p:
             q = RandomListNode(p.label)
-            q.random = p.random
+            # q.random = p.random
             q.next = p.next
             p.next = q
             p = q.next

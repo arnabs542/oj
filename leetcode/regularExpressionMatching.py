@@ -37,31 +37,6 @@ SOLUTION:
 
 from _decorators import memoize
 
-@memoize
-def isMatchDPRecursive(s, p):
-    '''
-    Top-down dynamic programming, actually.
-
-    Regular expressions have no prefix operators, BACKWARD MATCHING may suit better
-    than FORWARD MATCHING.
-    '''
-    # print(s, p)
-    if not p:
-        return not s
-    if not s:
-        return set(p[1::2]) == {'*'} and not (len(p) % 2)
-    char, exp_1, exp_2 = s[-1], p[-1], p[-2] if len(p) >= 2 else None
-    if exp_1 in {'.', char}:
-        return isMatchDPRecursive(s[:-1], p[:-1])
-    elif exp_1 == '*':
-        if exp_2 in {'.', char}:
-            return isMatchDPRecursive(
-                s, p[:-2]) or isMatchDPRecursive(s[:-1], p)
-        else:
-            return isMatchDPRecursive(s, p[:-2])
-    else:
-        return False
-
 class Solution(object):
 
     def isMatch(self, s, p):
@@ -70,8 +45,35 @@ class Solution(object):
         :type p: str, regex pattern
         :rtype: bool
         """
-        return self.isMatchBacktrackRecursive(s, p)
-        return isMatchDPRecursive(s, p)
+        # return self.isMatchBacktrackRecursive(s, p)
+        return self.isMatchDPRecursive(s, p)
+
+    @memoize
+    def isMatchDPRecursive(self, s, p):
+        '''
+        Top-down dynamic programming, actually.
+
+        Regular expressions have no prefix operators, BACKWARD MATCHING may suit better
+        than FORWARD MATCHING.
+        '''
+        # print(s, p)
+        def dfs(s, p):
+
+            if not p:
+                return not s
+            if not s:
+                return set(p[1::2]) == {'*'} and not (len(p) % 2)
+            char, exp_1, exp_2 = s[-1], p[-1], p[-2] if len(p) >= 2 else None
+            if exp_1 in {'.', char}:
+                return dfs(s[:-1], p[:-1])
+            elif exp_1 == '*':
+                if exp_2 in {'.', char}:
+                    return dfs(s, p[:-2]) or dfs(s[:-1], p)
+                else:
+                    return dfs(s, p[:-2])
+            else:
+                return False
+        return dfs(s, p)
 
     def isMatchBacktrackRecursive(self, s, p, cache={('', ''): True}):
         """

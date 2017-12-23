@@ -22,9 +22,14 @@ Some examples:
 Note: Do not use the eval built-in library function.
 
 ===================================================================================================
-SOLUTION:
-    STACK data structure.
+SOLUTION
 
+A STACK structure is associated with two characteristics of problems:
+    1) nested structure
+    2)
+STACK data structure.
+
+1. Two STACKS: operators and operands, compute on the fly
 Assume the infix expression is a string of tokens delimited by spaces. The operator tokens
 are *, /, +, and -, along with the left and right parentheses, ( and ). The operand tokens are
 numbers. The following steps will produce a string of tokens in postfix order.
@@ -34,13 +39,93 @@ numbers. The following steps will produce a string of tokens in postfix order.
 3. Scan the token list from left to right.
     If the token is an operand, PUSH(append) it to the end of the output list.
     If the token is a left parenthesis, PUSH it on the `opstack`.
-    If the token is a right parenthesis, POP the `opstack` until the corresponding left parenthesis
-is removed. Append each operator to the end of the output list.
     If the token is an operator, *, /, +, or -, PUSH it on the `OPSTACK`. However, first remove ANY
 operators already on the `opstack` that have higher or equal `PRECEDENCE` and append them to the
 output list.
+    If the token is a right parenthesis, meaning all operation after corresponding left parenthesis
+can be carried out now, POP the `opstack` until the corresponding left parenthesis. Append each
+operator to the end of the output list.
 5. When the input expression has been completely processed, check the `opstack`. Any operators
 still on the stack can be removed and appended to the end of the output list.
+
+2. Tokenize and Convert to POSTFIX expression first
+POSTFIX expression are much easier to evaluate in program, and it's essentially STACK structure.
+So, b.t.w, it can be easily used to construct binary tree of expression.
+
+The only difference from above method is for each operation that can be carried out, we don't
+calculate it yet, and instead, pushing operators after its operands.
+
+##############################################################################################
+FOLLOW UP
+
+Solve linear equation with one unknown(一元一次方程).
+e.g. given a string: 3 + 4 * 5 / 6 = 7 + 8 * x / 5 - 6, solve the equation and return the x.
+
+==============================================================================================
+SOLUTION
+
+The most simple linear equation takes form like: x = 0, x - 0 = 0.
+To solve a linear equation by hand, is to extract the unknown variable from the expression.
+Then it's all about SEPARATING constant terms and variables terms.
+To separate operands of variables and constants, we construct the inverse operation to the
+other side.
+
+So, first of all, we compute the constant terms wherever we can.
+Converting it to postfix expression may make it easier to illustrate the idea.
+
+Build two POSTFIX STACK: left hand side and right hand side. And both of them have
+already been reduced, meaning the constant terms are replaced with a scalar.
+The reduced form may look like:
+    infix = 1 + 2 * x + 3, postfix = 1 2 x * + 3 +
+
+Then we take the outmost operation, and construct the inverse of it, push it into the
+other POSTFIX STACK, and compute to reduce the equation.
+
+left hand side = right hand side
+3 + 4 * 5 / 6 = 7 + 8 * x / 5 - 6
+To postfix,
+3 4 5 * 6 / + = 7 8 x * 5 / + '6' -  # swap left
+3 4 5 * 6 / + 6 + = 7 8 x * 5 / +  swap right
+3 4 5 * 6 / + 6 + = '7' 8x 5 / +
+3 4 5 * 6 / + 6 + 7 - = 8x '5' /
+3 4 5 * 6 / + 6 + 7 - 5 * = '8'x
+3 4 5 * 6 / + 6 + 7 - 5 * 7 / = x
+
+1) A problem of infinite loop: the swap operation keeps spinning, swap to left and right,
+back and forth. This is the case where both sides have variables.
+Example:
+    1 + x = 2 * x + 3 => 1 + x - 3 = 2 * x => 1 + x = 2 * x + 3 => ...
+To solve this problem, we need to make use of COMMUTATIVE property of multiplication and add:
+interchange the positions of variable and constant, let the variable be the second operand.
+    1 + x = 2 * x + 3 => 1 + x = 3 + 2 * x => 1 = 3 + 2 * x - x = > 1 = 3 + x
+
+2) Another problem :
+    3 * x - 2 * x should be reduced! Make use of Object Oriented Design, encapsulating operators
+and operands into Token objects.
+class Token:
+    def __init__(self):
+        self.constant = 0
+        self.variable = 'x'
+And tokens containing variable terms may have both `constant` and `variable`. And define
+custom arithmetic for Token objects.
+
+3) How to inverse an outmost operation?
+3 * 4 - 5 * 6 => 3 4 * 5 6 * -
+In this case, the root operation's operands needs to be calculated, not a single number.
+Could this be a problem for variables?
+No! Because  we have already reduced the expression before. And the most complex expression
+containing variable x would be like: 3 + 8x - 7 => 3 8x + 7 -
+So we can always extract the outmost operation from expression containing x.
+
+
+----------------------------------------------------------------------------------------------
+To sum it up, we convert the left hand side and right hand side to two POSTFIX STACKS of
+expression.
+And there are several operations: CHANGE positions of operands, SWAP the inverse of
+outmost operation to the other stack, COMPUTE.
+
+Some thoughts: maybe a postfix tree to make it easier to extract hierarchical operation?
+
 '''
 
 class Solution(object):

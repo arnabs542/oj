@@ -54,7 +54,7 @@ so far, we shall have to traverse almost all paths. Thus, this may
 
 With dfs, we can record current stack
 
-3. Naive bfs
+3. Naive breadth first search
 To construct all paths, we may do following when traversing:
     1) STORE PATH, instead of single vertex in search frontier queue.
     2) Keep track of PREDECESSORS list, then construct paths by DFS.

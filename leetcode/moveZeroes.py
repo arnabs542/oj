@@ -15,22 +15,32 @@ For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums
 should be [1, 3, 12, 0, 0].
 
 Note:
-You must do this in-place without making a copy of the array.
-Minimize the total number of operations.
+- You must do this in-place without making a copy of the array.
+- Minimize the total number of operations.
 
 ==============================================================================================
 SOLUTION
 
+Minimizing the total number of operations is actually minimizing the time complexity.
+
 1. Brute force method.
-Move zeroes to the end one by one like in bubble sort procedure. O(N²).
+Move zeroes to the end one by one like in bubble sort procedure.
 
-2. TWO POINTERS(quick sort method, Dutch National Flag problem).
+Time complexity: O(N²).
 
-One pointer p points to the BOUNDARY(DIVISION POINT) where the left part are non-zero
+2. TWO POINTERS(quick sort partition, Dutch National Flag problem).
+
+This partition situation resembles what's used in the quick sort: use a division point to
+divide the data. But quick sort partition uses swap, which will violate the original order.
+
+Use two pointers p and q.
+Pointer p indicating the BOUNDARY(DIVISION POINT) where the left part are non-zero
 elements, and the other pointer q keeps track of the first non-zero element after p.
 Then swap the element at p and q, and update p = p + 1, q = q + 1.
 
 The core idea is to move all non-zero elements in the front of the array.
+
+To minimize the total number of operations, avoid swapping if p == q.
 
 '''
 

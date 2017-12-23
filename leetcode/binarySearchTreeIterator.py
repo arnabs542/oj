@@ -37,9 +37,9 @@ class BSTIterator(object):
         """
         self.root = root
         self.stack = []
-        self._inorder(self.root)
+        self._nextLeftLeaf(self.root)
 
-    def _inorder(self, root):
+    def _nextLeftLeaf(self, root):
         while root:
             self.stack.append(root)
             root = root.left
@@ -56,7 +56,7 @@ class BSTIterator(object):
         """
         vertex = self.stack.pop()
         val = vertex.val
-        self._inorder(vertex.right)
+        self._nextLeftLeaf(vertex.right)
 
         return val
 

@@ -23,11 +23,15 @@
     isMatch("ab", "?*") → true
     isMatch("aab", "c*a*b") → false
 
+==============================================================================================
+SOLUTION
+
 ANALYSIS:
     1) Backtracking, for problems with substructures
     2) Dynamic Programming, for problems with (overlapping) substructures
     3) Finite State Machine (finite automata)
 
+----------------------------------------------------------------------------------------------
 Backtracking:
     For pattern `*p` and text `*text`, there may exist such cases:
     if `*text == *pattern` or `*pattern == '?'`: this is a match for now, then go to `text++`, `pattern++`.
@@ -39,7 +43,7 @@ to match as `pText` and go on:
     match could be ignored, because we can do any sequence match with a single
     star. So this is where we need to update the `star` and matched `pText`.
 
-
+----------------------------------------------------------------------------------------------
 Dynamic Programming:
 
 Case 1: The character is ‘*’
@@ -75,7 +79,7 @@ T[i][0] = false;
 T[0][j] = T[0][j - 1] if pattern[j – 1] is '*'
 ```
 
-DP relation :
+DP recurrence relation :
 
 ```
 // If current characters match, result is same as

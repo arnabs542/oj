@@ -37,9 +37,31 @@ Similar problem to 'Find Median from Data Stream', except that removing element 
 
 Complexity: O(NKlogK)
 
-2. Weak Ordering data structure
+2. Balanced binary search tree, updating middle pointer
+Weak Ordering data structure
+
 Median is an order statistics.
 Ordering related data structures are sorted list, (balanced)binary search tree.
+
+
+Using a binary search tree with a pointer pointing to the middle of the dataset should
+keep track of the median easily.
+
+Cases to consider
+
+Data size length
+- Data set size is odd.
+- Data set size is even.
+
+Insert element into the sliding window
+- insert before middle pointer
+- insert after the middle pointer
+
+Delete an element from the sliding window
+- delete before the middle pointer
+- delete the middle pointer
+- delete after the middle pointer
+
 
 Balanced binary search tree?
 - Search: O(logK)
@@ -53,6 +75,7 @@ Heaps
 - Insert: O(logK)
 - Remove: O(logK)
 Complexity: O(NlogK)
+
 
  */
 
@@ -69,50 +92,40 @@ public:
     }
 
     vector<double> _medianSlidingWindowTree(vector<int>& nums, int k) {
-        vector<double> result;
-        multiset<int> mset;
+        vector<double>          result;
+        multiset<int>           mset;
         multiset<int>::iterator median;
+        multiset<int>::iterator it;
         int n = 0;
         if (k <= 0) { return result; }
 
         for (int i = 0; i < (int)nums.size(); ++i) {
             n = mset.size();
             // INSERT AND UPDATE median pointer
-            //cout << "insert: " << nums[i] << endl;
             mset.insert(nums[i]);
             if (!n) { median = mset.begin(); }
-            else if (n & 1 && nums[i] < *median) {
-                --median;
-            } else if (!(n&1) && nums[i] >= *median) {
-                ++median;
-            }
+            else if (n & 1 && nums[i] < *median) { --median; }
+            else if (!(n&1) && nums[i] >= *median) { ++median; }
 
             ++n;
             // DELETE AND UPDATE median pointer
             if (n > k) {
                 // update median pointers because of inserting element
-                multiset<int>::iterator it = mset.lower_bound(nums[i - k]);
+                it = mset.lower_bound(nums[i - k]);
                 if (nums[i - k] <= *median) {
-                    if (n & 1) { // odd size
-                        if (it == median) {
-                            --median;
-                        }
-                    }
-                    else { // even size, go right
-                        ++median;
-                    }
-                } else { // element to erase is greater than
-                    if (n & 1) {
-                        --median;
-                    }
+                    if (n & 1) { if (it == median) --median; } // odd size
+                    else { ++median; } // even size, go right
+                } else if (n & 1){ // element to erase is greater than
+                    --median;
                 }
                 mset.erase(it);
                 --n;
             }
+
+            // append median
             if (n < k) { continue; }
-            if (n & 1) {
-                result.push_back(*median);
-            } else {
+            if (n & 1) { result.push_back(*median); }
+            else {
                 //result.push_back(0.5 * *median + 0.5 * *next(median, 1));
                 result.push_back(0.5 * (0.0 + *median + *next(median, 1)));
             }

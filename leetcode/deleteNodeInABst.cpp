@@ -49,9 +49,9 @@ than the target.
 1. Iterative solution
 Find the target node.
 Find the successor node
-Update properties of parent node of target node
-Update properties of successor node
-Update successor's previous parent node
+Update children pointers of parent node of target node
+Update children pointers of successor node
+Update children pointers of successor's previous parent node
 
 2. Recursive solution
 

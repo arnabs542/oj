@@ -70,14 +70,23 @@ add_executable(deleteNodeInABst deleteNodeInABst.cpp)
 add_executable(stringCompression stringCompression.cpp)
 add_executable(findMedianFromDataStream findMedianFromDataStream.cpp)
 add_executable(slidingWindowMedian slidingWindowMedian.cpp)
+add_executable(largestPalindromeProduct largestPalindromeProduct.cpp)
+add_executable(copyListWithRandomPointer copyListWithRandomPointer.cpp)
+add_executable(replaceWords replaceWords.cpp)
+add_executable(implementMagicDictionary implementMagicDictionary.cpp)
 
-add_library(_type SHARED _type.cpp _tree.cpp)
+add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
 add_library(maxPoints-anchor-hash SHARED maxPoints-anchor-hash.cpp)
 
+
+# TEST
 add_executable(testTree tests/test_tree.cpp)
+add_executable(testTrie tests/test_trie.cpp)
 target_link_libraries(testTree _type)
+target_link_libraries(testTrie _type)
 target_link_libraries(deleteNodeInABst _type)
+target_link_libraries(replaceWords _type)
 
 message(STATUS "leetcode WITH_TESTS: ${WITH_TESTS}")
 if (WITH_TESTS)

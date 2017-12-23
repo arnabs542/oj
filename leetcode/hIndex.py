@@ -34,7 +34,8 @@ SOLUTION:
 1. Sort and do linear search
 Sorting takes O(NlogN), and linear search takes O(N) or O(logN), so overall is O(NlogN).
 
-2. Possible values are in range [1, n], UNIFORMLY DISTRIBUTED over a range: BUCKETS!.
+2. Bucket and prefix sum
+Possible values are in range [1, n], UNIFORMLY DISTRIBUTED over a range: BUCKETS!.
 
 Maintain THE NUMBER OF LARGER VALUES with BUCKETS and PREFIX SUM (CUMULATIVE DISTRIBUTION
 FUNCTION).

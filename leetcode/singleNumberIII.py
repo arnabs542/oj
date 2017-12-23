@@ -25,11 +25,20 @@ SOLUTION
 
 1. Naive occurrence count with hash table. Complexity: O(n), O(n).
 
-2. Separate the two single numbers with their XOR result.
-XOR result is composed of bits where two single numbers differ. Then we take any bit with 1
-in the XOR result as the AND mask. Use this AND mask to separate the list into two groups,
-one of which contains numbers with the mask indicated bit set, and the other one of which with
-the bit unset(0). Since the two single numbers differ at this bit, they must be located into
+2. Reduce to the case with only one single number
+
+REDUCE to the problem where all number appear twice except one by filtering the elements into
+two groups.
+
+Separate the two single numbers with their XOR result.
+
+XOR result indicates bits where two single numbers differ. Then we take any bit with 1
+in the XOR result as the AND mask.
+
+Use this AND mask to separate the list into two groups, one of which contains numbers with
+bit set indicated the mask equal to 1, and the other with the bit set(0).
+
+Since the two single numbers differ at this bit, they must be located into
 two different groups. And two same numbers will give same result of AND with mask, so in each
 group, all elements occur twice except the single one.
 

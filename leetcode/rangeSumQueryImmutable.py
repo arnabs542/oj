@@ -41,7 +41,7 @@ and take the difference of two ends.
 Complexity: build O(n), query O(1)
 
 4. Segment tree
-Complexity: build O(nlogn), query O(1)
+Complexity: build O(nlogn), query O(logn)
 
 5. Binary indexed tree?
 
