@@ -68,6 +68,91 @@ and the complexity will be O(nlogn).
 
 Of course, O(n) is the average time complexity. In the worst case, the recursion may become
         T(n) = T(n - 1) + O(n) and the complexity will be O(N²).
+
+----------------------------------------------------------------------------------------------
+Divide and Conquer time complexity analysis
+The ultimate time complexity master theorem, given the recurrence relation.
+
+1. T(n) = 2T(n/2) + O(n) = O(NlogN),
+This is the case considering both parts of the division.
+
+Expand the expression:
+    T(n) = 2T(n/2) + O(n)
+         = O(n) + 2T(n/2)
+         = O(n) + 2[2T(n/4) + O(n/2)]
+         = O(n) + 2²T(n/2²) + 2O(n/2)
+         = O(n) + O(n) + 2²T(n/2²)
+         = 2O(n) + 2²T(n/2²)
+         = nO(n) + 2^(log₂n)T(n/(2^log₂n))
+         = ...
+         = log₂n O(n) + n(T(1))
+         = O(nlog₂n) + n
+         = O(nlog₂n)
+
+2. T(n) = 2T(n/2) + O(logN) = O(NlogN)
+This is a scenario where pre-process to build a data structure, like tree, to achieve O(logN)
+query. But the tree is a static data structure, meaning the subproblem T(n/2) still needs O(logN),
+not O(log(n/2)) time complexity.
+
+Expand the expression:
+T(n) = 2T(n/2) + O(logN)
+     = 2(2(T(n/2²) + O(logn))) + O(logn)
+     = 2²T(n/2²) + 2¹O(logn) + O(logn)
+     = O(logn) + 2¹O(logn) + 2²T(n/2²)
+     = O(logn) + 2¹O(logn) + ... + 2^{logn - 1}O(logn) + 2^{logn}T(n/2^{logn})
+     = O(logn) + 2¹O(logn) + ... + 2^{logn - 1}O(logn) + 2^{logn}T(n/2^{logn})
+     = ... # using geometric progression sum formula
+     = nO(log₂n) + n
+     = O(nlog₂n)
+
+3. T(n) = 2T(n/2) + O(1) = O(n)
+
+Expand the expression:
+T(n) = 2T(n/2) + O(1)
+     = 2(2(T(n/2²) + O(1))) + O(1)
+     = O(1) + 2¹O(1) + ... + 2^{logn}O(1) + 2^{logn}T(n/2^{logn})
+     = O(1) + 2¹O(1) + ... + 2^{logn}O(1) + 2^{logn}T(1)
+     = O(1) + 2¹O(1) + ... + 2^{logn}O(1) + n
+     = O(1) + 2¹O(1) + ... + 2^{logn}O(1) + n
+     = O(3n - 1)
+     = O(n)
+
+4.  T(n) = T(n/2) + O(n) = O(n),
+This is the case considering single part of the division.
+
+Expand the expression:
+    T(n) = T(n/2) + O(n)
+         = O(n) + T(n/2)
+         = O(n) + (T(n/4 + O(n/2))
+         = O(n) + T(n/2²) + O(n/2)
+         = O(n) + O(n/2) + T(n/2²)
+         = 1/2⁰O(n) + O(n/2¹) + T(n/2²)
+         = 1/2⁰O(n) + O(n/2¹) + O(n/2²) + ...  + O(n/2^{log₂n}) + T(n/2^{log₂n})
+         = ... # forming an geometric progression
+         = O(n) (1x(1 - (1/2)^{log₂n})/ (1 - 1/2)) + T(n/n)
+         = O(n) (1x(1 - (1/2)^{log₂n})/ (1 - 1/2)) + T(1)
+         = O(n) 2(1 - 1/n) + T(1)
+         = O(2n -2)  + T(1)
+         = O(n)
+
+5. T(n) = T(n/2) + O(1) = O(logn)
+Expand the expression:
+    T(n) = T(n/2) + O(1)
+         = O(1) + O(1) + T(n/2²)
+         = O(1) + O(1) + ... + O(1) + T(n/2^{logn})
+         = logn O(1) + T(1)
+         = O(logn)
+
+6. T(n) = T(n - 1) + O(n) = O(n²)
+Similar expansion like above.
+Expand the expression:
+    T(n) = T(n - 1) + O(n)
+         = T(n - 2) + O(n) + O(n - 1)
+         = ...
+         = T(1) + O(n) + O(n - 1) + ... + O(1)
+         = O(n(n+1)/2) + T(1)
+
+
 '''
 
 from heapq import heappush, heappop

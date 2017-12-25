@@ -22,14 +22,23 @@ What does first in 'first missing positive' mean? It means the SMALLEST.
 
 O(n) time and O(1) space, indicating something like ASSOCIATIVE ARRAY/HASHING/BUCKET.
 
-1. Bucket
+1. Linear scan
+Hash and linearly scan from 1 to n.
+
+But, this requires additional space O(N).
+
+2. Bucket
 Because we are finding the SMALLEST, then we can literally start from the smallest number 1,
 and increase the index to check whether the number exists. The array can contain at most n
 numbers, so the smallest would be in range [1, n] inclusive.
 
+This indicates that the domain is finite, we can use the input as buckets instead of hash map.
+
 So an approach would be:
     Scan the array, put the elements in their right bucket/position: nums[i] = i + 1. Then find the
 first element in the array whose value is not equal to its index plus 1.
+
+
 '''
 
 class Solution(object):

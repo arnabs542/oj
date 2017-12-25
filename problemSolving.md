@@ -15,12 +15,23 @@ abstracted into a graphical model.
 
 General models:
 - Counting model
-- Sorting model: monotonic model
-- Pointers model: two pointers, quick sort partition, ...
+- Sorting model: sort algorithms, monotonic analysis
+- Pointers model: two pointers, ...
+- Divide and conquer: quick sort partition, ...
 - Data structures: linked list, stack and queue, trees, graphs, ...
+    - Linear
+    - Associative/mapping: hash table, buckets, inverted index
+    - tree
+    - graph
 - GRAPH SEARCH model
-- RECURRENCE RELATION / STATE TRANSITION: Divide and conquer, STATE MACHINE, Backward induction
-- STATE REPRESENTATION: Bitwise, 
+- RECURRENCE RELATION / STATE TRANSITION:
+    - Divide and conquer
+    - Dynamic programming
+    - Greedy strategy
+    - STATE MACHINE
+    - Backward induction
+- STATE REPRESENTATION: Bitwise,
+- Mathematical analysis model
 
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES 
@@ -44,9 +55,10 @@ Remember, every problem has a naive brute force solution, regardless of complexi
 General optimization directions:
 - Brute force method: GRAPH SEARCH, naive count
 - Optimization directions:
-    - Avoid unnecessary computation: GREEDY STRATEGY
     - Avoid duplicate computation
-        - Space time trade off: Cache, dynamic programming
+        - Space time trade off: memoize
+        - Recurrence relation: dynamic programming, divide and conquer, state machine, ...
+    - Avoid unnecessary computation: GREEDY STRATEGY
     - Enable efficient DATA REPRESENTATION with 
         - DATA STRUCTURE
         - Data representation
@@ -87,8 +99,8 @@ To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
 - Array
 - Ordering sequence
 - Hash table: hash count, 
+- Buckets: optimization for hash table, but with defined domain
 - Two pointers: fast and slow pointers
-- Buckets
 - ...
 - Tree
 - Graph
@@ -97,10 +109,12 @@ To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
 ### Linear data structure
 
 Algorithms operating on linear data structure:
-- Sort: bubble sort, quick sort, merge sort, bucket sort, radix sort...
 - Count
+- Sort: bubble sort, quick sort, merge sort, bucket sort, radix sort...
 - Two Pointers: fast and slow pointers
 - Prefix sum
+- bucket: range within domain
+- cycle detection: range within domain
 - Bit
     - bit representation
     - bit manipulation

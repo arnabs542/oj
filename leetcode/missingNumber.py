@@ -19,15 +19,30 @@ Your algorithm should run in linear runtime complexity. Could you implement it u
 only constant extra space complexity?
 
 ==============================================================================================
-SOLUTION:
-    1. Hash table to store all distinct numbers from 0, 1, ..., n. Remove one by one while
-scanning the list. Complexity: time O(n), space O(n).
-    2. Since numbers are distinct, and only one is missing. We could find the number by subtract
+SOLUTION
+
+1. Hash table
+Use a hash table to store all distinct numbers from 0, 1, ..., n. Remove one by one while
+scanning the list.
+
+Complexity: time O(n), space O(n).
+
+2. Sum difference
+Since numbers are distinct, and only one is missing. We could find the number by subtract
 the total sum from 0 to n by the sum of given array. Then the difference is the missing number.
-    3. Bit manipulation(XOR).
+
+Complexity: O(N), O(1)
+
+3. Bit manipulation(XOR).
+Taking the sum of all numbers might result in overflow, and sort of heavy computation.
+Taking the XOR of all numbers will be easier.
+
 Taking another sequence of integers from 0 to n, then the missing value is the SINGLE one.
 Because (0^0) ^ (1^1) ^ ... ^ (n ^ n) = 0, if one is missing, then the XOR result is the
-missing value.
+missing value, since 0 ^ x = x.
+
+Complexity: O(N), O(1)
+
 '''
 
 class Solution(object):
@@ -55,8 +70,8 @@ class Solution(object):
         :rtype: int
         """
         xor = 0
-        for i, num in enumerate(nums):
-            xor ^= i + 1 ^ num
+        for i, num in enumerate(nums): # 0 to n - 1
+            xor ^= (i + 1) ^ num
         return xor
 
 def test():

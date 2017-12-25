@@ -33,9 +33,34 @@ Output: 0
 
 Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
 ==============================================================================================
-SOLUTION:
-    1) sort the intervals according to their (start, end). Scan the list from left to right, once
-we find two overlapping intervals, remove the one with larger range.
+SOLUTION
+
+This is a interval scheduling problem, illustrating greedy strategy property.
+
+1. Sort and greedy remove
+Sort the intervals according to their (start, end).
+
+Scan the list from left to right, for two overlapping intervals, remove the proper one.
+
+The problem is, which one to remove?
+There might be an interval overlapping with every one, while others are nonoverlaping with
+each other.
+In this case, removing the one with larger end will do the trick.
+
+Complexity: O(NlogN) + O(N²), worst case
+
+2. Optimization of the above greedy strategy - Use a stack
+Use a stack to pop from end of the list, and void inplace removing elements from a list.
+
+Complexity: O(N) + O(NlogN) = O(NlogN)
+Space complexity: O(N)
+
+3. Optimization of the above greedy strategy
+We don't have to output the intervals, we just need to count!
+
+Complexity: O(N) + O(NlogN) = O(NlogN)
+Space complexity: O(1)
+
 '''
 
 # Definition for an interval.
@@ -52,6 +77,12 @@ class Solution(object):
         :type intervals: List[Interval]
         :rtype: int
         """
+        # result = self._eraseOverlapIntervalsGreedyNaive(intervals)
+        result = self._eraseOverlapIntervalsGreedyOpt(intervals)
+
+        return result
+
+    def _eraseOverlapIntervalsGreedyNaive(self, intervals):
         # sort by key (start, end), or (start), or (end)
         # intervals.sort(key=lambda x: (x.start, x.end))
         intervals.sort(key=lambda x: x.start)
@@ -59,16 +90,41 @@ class Solution(object):
         while i < len(intervals):
             if intervals[i].start < intervals[i - 1].end:
                 j = i if intervals[i].end >= intervals[i - 1].end else i - 1
-                intervals.pop(j)
+                intervals.pop(j) # list.pop complexity is O(N), don't use this
                 n += 1
             else:
                 i += 1
 
         return n
 
+    def _eraseOverlapIntervalsGreedyOpt(self, intervals):
+        # if len(intervals) <= 1: return len(intervals)
+
+        intervals.sort(key=lambda x: (x.start, x.end))
+        end = float('-inf')
+        count = 0
+        for interval in intervals:
+            if interval.start >= end:
+                count += 1
+                end = interval.end # append a new interval
+            else:
+                end = min(end, interval.end) # replace
+        return len(intervals) - count
+
+    # TODO: output the non-overlapping intervals
+    # implement with stack will achieve O(N), because it supports O(1) remove at the end.
+
 def test():
     solution = Solution()
 
+    assert solution.eraseOverlapIntervals(
+        list(map(lambda x: Interval(x[0], x[1]),
+                 []
+                 ))) == 0
+    assert solution.eraseOverlapIntervals(
+        list(map(lambda x: Interval(x[0], x[1]),
+                 [[1, 3], [2, 3], [3, 4], [1, 3]]
+                 ))) == 2
     assert solution.eraseOverlapIntervals(
         list(map(lambda x: Interval(x[0], x[1]),
                  [[1, 2], [2, 3], [3, 4], [1, 3]]
@@ -81,6 +137,11 @@ def test():
         list(map(lambda x: Interval(x[0], x[1]),
                  [[-1, 9], [1, 3], [2, 4]]
                  ))) == 2
+    assert solution.eraseOverlapIntervals(
+        list(map(lambda x: Interval(x[0], x[1]),
+                 [[2, 9], [1, 3], [2, 4]]
+                 ))) == 2
+
     assert solution.eraseOverlapIntervals(
         list(map(lambda x: Interval(x[0], x[1]),
                  [[2, 9], [1, 3], [2, 4]]

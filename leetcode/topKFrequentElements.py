@@ -22,9 +22,12 @@ array's size.
 SOLUTION
 
 1. Hash to store elements' occurrence frequency. And, for top K problem, use HEAP.
-O(n + klogk)
 
-2. Hash and sort according to occurrence count. O(NlogN)
+Complexity: O(n + klogk)
+
+2. Hash and sort according to occurrence count.
+
+Complexity: O(NlogN)
 
 3. Bucket
 The possible values for the occurrence are in range [0, n].

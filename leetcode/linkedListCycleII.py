@@ -39,6 +39,12 @@ If they start at the same point, then they will always meet at the same point.
 
 If the distance between their starting points is a, where will they meet?
 
+Definitions:
+c = length of the cycle, if exists.
+a = the initial distance between two people, in the cycle.
+x = the meet point distance of slow pointer from entry origin.
+
+
 0----------------
 |               |
 |               x' = x % c
@@ -63,7 +69,7 @@ So, x = (c - a) + nc
 Since it's in a circle, period is c, take the modulo, then they meet at:
    x' = x % n = ((c - a) + nc) % c = c - a
 
-In another word, c - x' = a.
+In conclusion, they meet at x', where distance from x' to 0, is equal to distance from 0 to a.
 
 0----------------
 |               |
@@ -75,52 +81,43 @@ In another word, c - x' = a.
 ----------------------------------------------------------------------------------------------
 Now, go back to the original problem.
 
-Definitions:
-c = length of the cycle, if exists.
-a = the beginning of cycle, with distance a from list start.
-x = the meet point distance of slow pointer from entry origin.
+Define the distance from sequence head to cycle entry is h.
 
-    (CIRCLE-START-POINT)
-            |
-------------a----------------
-            |               |
-            |               |
-            |               |
-            |               |
-            |-------x-------|
-                    |
-               (MEET-POINT)
+(sequence start)         (CIRCLE-START-POINT)
+|                            |
+(-h)------------------------0----------------
+                            |               |
+                            |               x' = x % c = c - a (MEET POINT)
+                            |               |
+                            |               |
+                            |-------a-------|
+                                    |
+       (difference between slow and fast points, when slow enters the cycle)
 
+When the slow pointer enters the cycle 0, it has travelled h, while fast pointer travels 2h.
+The difference is:
+     2h - h = a + nc.
 
-Two pointers travel along the linked list with ones' speed is twice another ones'.
-Then when the slow pointer arrives at the entry of circle, the slow pointer is
-a' = (2a - a) % c = a % c ahead of slow one.
-
-When they meet at x, we have x = c - a, i.e., c - x = a.
+Since they meet at x', we have x' = c - a, i.e., c - x' = a.
 This indicates the distance from x to entry point is equal to the distance from
 linked list head to the entry point.
 
-2 (a + x ) = a + x + nc
-So, a + x = nc, where n = 1, 2, 3, ...
-a = nc - x = (n - 1)c + (c - x)
+----------------------------------------------------------------------------------------------
+Another derivation
+2 (h + x' ) = h + x' + nc
+So, h + x' = nc, where n = 1, 2, 3, ...
+h = nc - x' = (n - 1)c + (c - x') = nc + a, where n = 0, 1, 2, 3, ...
+----------------------------------------------------------------------------------------------
 
-Final conclusion:
-    a = (c - x) % c = c - x + mc, where m = 0, 1, 2, 3,
-where c -x is the distance from meet point to linked list cycle entry.
+And in this iterated function, elements in cycle have period property for arbitrary x:
+f(x + nc) = f(x).
+So f(x' + h) = f(x' + a + nc) = f(x' + a) = f(c) = f(0).
 
-Then two pointers with same speed of 1, starting from the linked list head and cycle entry,
-will eventually meet at the linked list entry node!
+Which means, f(-h + h) = f(x' + h) = f(0).
 
-    (CIRCLE-START-POINT)
-            |
-------------a----------------
-            |               |
-            |               |
-            |               |
-            |               |
-            |-------x-------|
-                    |
-               (MEET-POINT)
+Set up another finder pointer a sequence head with speed 1. Move the slow pointer and finder
+pointer simultaneously, will eventually meet at the cycle entry!
+
 
 '''
 
@@ -147,12 +144,13 @@ class Solution(object):
             slow = slow.next
 
             if fast == slow:
-                entry = dummy
-                while entry != slow:
-                    entry, slow = entry.next, slow.next
-                pass
-                return entry
-        return None
+                break
+
+        if fast != slow or fast == slow == dummy: return None
+        entry = dummy
+        while entry != slow:
+            entry, slow = entry.next, slow.next
+        return entry
 
 def test():
     solution = Solution()

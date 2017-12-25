@@ -23,17 +23,24 @@ To the right of 1 there is 0 smaller element.
 Return the array [2, 1, 1, 0].
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
     The count of smaller numbers after self is exactly the number of elements move to its left
 in a STABLE SORT.
-1. Brute force. for each element, count the smaller numbers after self. O(N²)
+
+1. Brute force. for each element, count the smaller numbers after self.
+Complexity: O(N²)
+
 2. Insert sort with binary search. Inserting SORT from right to left with binary search,
 then the inserting index of current element is the smaller numbers after self.
-3. Segment tree.
-4. Binary indexed tree.
-5. Merge sort.
+Complexity: O(NlogN) ?
 
-WRAP-UP:
+3. Merge sort
+
+4. Segment tree
+
+5. Binary indexed tree
+
+WRAP-UP
     Problems involved with COMPARING VALUES are naturally connected to SORTING process.
 
 '''

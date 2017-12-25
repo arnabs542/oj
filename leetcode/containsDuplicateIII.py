@@ -14,19 +14,41 @@ the difference between i and j is at most k.
 
 
 ===============================================================================================
-SOLUTION:
+SOLUTION
 
-1. The naive solution would be scan the list, at the same time, check elements within range k
-to see if their difference is at most t. And this is a O(nk) time complexity.
+1. Brute force
+The naive solution would be scan the list, at the same time, check elements within range k
+to see if their difference is at most t.
+Or for each number with in range [a_i - t, a_i + t], check whether it has occurred within window.
 
+Complexity: O(nk) or O(nt).
+
+2. Balanced binary search tree
 To reduce the time complexity we can reduce complexity of checking duplicates within range
-from O(k) to O(logk) or O(1).
+from O(k) to O(logk), with balanced binary search tree!
 
-2. Bucket
+Complexity: O(nlogk)
+
+2. Bucket - implemented with hash table
+
+Difference between i and j being at most k, can be dealt properly with maintaining window
+of size k.
+
+Another complex problem is dealing with relation "differ by at most t".
+Comparing against every number differing by less than t, will literally take O(t) time complexity.
+
+Using the identity of inequality,
+|a - b| <= t   <=>   |a - b|/t <= 1
+
+This indicates scaling down the comparing numbers won't change violate the constraint, but the
+complexity can be reduced from O(t) to O(1)!
 
     Utilizing buckets of size k, we can put the elements whose difference is at most t, the
 SCALE FACTOR, in the same or adjacent buckets if they share same sign. Thus, querying the
 existence of the target number can be done in O(1) time complexity.
+
+Complexity: O(n), O(n)
+
 '''
 
 class Solution(object):

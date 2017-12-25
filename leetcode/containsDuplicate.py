@@ -11,6 +11,18 @@ Contributors: Admin
 Given an array of integers, find if the array contains any duplicates. Your function
 should return true if any value appears at least twice in the array, and it should
 return false if every element is distinct.
+
+==============================================================================================
+SOLUTION
+
+1. Hash
+
+Complexity: O(N), O(N)
+
+2. Built-in set data structure
+
+Complexity: O(N), O(N)
+
 '''
 
 class Solution(object):
