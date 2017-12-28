@@ -75,6 +75,7 @@ add_executable(copyListWithRandomPointer copyListWithRandomPointer.cpp)
 add_executable(replaceWords replaceWords.cpp)
 add_executable(implementMagicDictionary implementMagicDictionary.cpp)
 add_executable(taskScheduler taskScheduler.cpp)
+add_executable(continuousSubarraySum continuousSubarraySum.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)

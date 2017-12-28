@@ -18,9 +18,20 @@ Each element in the result must be unique.
 The result can be in any order.
 
 ==============================================================================================
-SOLUTION:
-    1. hash table(set)
-    2. sort
+SOLUTION
+
+1. Hash table(set)
+
+Complexity: O(n) + O(m).
+
+2. Sort and two pointers
+
+Complexity: O(nlogn) + O(mlogm) + O(m + n).
+
+3. Sort and binary search
+
+Complexity: O(nlogn) + O(mlogm) + O(mlogn).
+
 '''
 
 class Solution(object):

@@ -276,7 +276,6 @@ def test():
     assert solution.exist([], "")
     assert solution.exist([[]], "")
     assert solution.exist([["a"]], "a")
-    assert solution.exist([["a"]], "a")
 
     board = [
         ['A', 'B', 'C', 'E'],

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _dataStructure import TreeNode
+from _type import TreeNode
 
 def prettyPrintTree(node: TreeNode, prefix="", isLeft=None):
     '''

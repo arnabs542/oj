@@ -47,7 +47,21 @@ class SegmentTree(object):
     Update
     ------
 
-    Time Complexity:
+    Range Update
+    -------------
+    It can be done naively, calling update for every element within range.
+    Or it can be done recursively with respect to range overlapping situation.
+
+    Lazy Propagation
+    ----------------
+    In short, we try to postpone updating descendants of a node, until the descendants
+    themselves need to be accessed.
+    Use another array lazy[] which is the same size as our segment tree array tree[] to
+    represent a lazy node. lazy[i] holds the amount by which the node tree[i] needs to be
+    incremented, when that node is finally accessed or queried. When lazy[i] is zero, it
+    means that node tree[i] is not lazy and has no pending updates.
+
+    Time Complexity
     ----------------
     Time Complexity for tree construction is O(n). There are total 2n-1 nodes, and value of
     every node is calculated only once in tree construction.
@@ -61,6 +75,10 @@ class SegmentTree(object):
     node at every level and number of levels is O(Logn).
     T(n) = T(n/2) + 1 = O(logn)
 
+    Reference
+    ---------
+    https://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/
+    https://leetcode.com/articles/recursive-approach-segment-trees-range-sum-queries-lazy-propagation/
     """
 
     def __init__(self, nums, purpose='rsq'):
@@ -216,18 +234,199 @@ class SegmentTree(object):
             self._tree[idx] = self._getLeaf(i)
         return self._tree[idx]
 
+    # TODO: lazy propagation
+
 
 class BinaryIndexedTree(object):
     # TODO: binary indexed tree
+    """
+    Binary indexed tree
 
+    A Fenwick tree or binary indexed tree is a data structure that can efficiently
+    update elements and calculate PREFIX SUMS in a table of numbers.
+
+    A linear list storing prefix sum takes O(n) time complexity to update.
+
+    Binary indexed tree is a 1 based array, as implicit data structure to represent the BIT.
+
+   -------------------------------------------------------------------------------------------
+    The idea
+
+    1) An integer can be represented as a BINARY NUMBER, or in another word, can be written
+    as a SUM OF TERMS OF POWER OF 2.
+
+    And this terms can be interpreted as offset, or range, from previous number.
+    Thus, we can construct the tree structure in such way that, each node stores prefix sum
+    within range (previous number, current number]. And the range contains number of size of
+    power of 2.
+
+    2) An (0, n] interval can be  divided into intervals of length of power of 2.
+
+    So the prefix sum over (0, n] can be divided into disjoint ranges of length of power of 2.
+    And the prefix sum is computed by summing up the sum over those ranges.
+
+    3) Every node of BI Tree stores sum of n elements where n is a power of 2.
+    And n is determined by the last 1 bit: n = i & -i.
+
+
+    ------------------------------------------------------------------------------------------
+    Nodes relation
+
+    1) Node i and its parent parent(i).
+    Node i represents sum of range from (parent(i), i], where n = i - parent(i) is power of 2.
+    parent(i)  = i - i & (-i)
+    And i stores sum of n = i & (-i) elements after parent(i).
+
+    2) Sibling
+    Node i and its next adjacent sibling sibling(i).
+    sibling(i) represents sum of twice as many elements as i.
+    sibling(i)  = i + i & (-i)
+
+    ------------------------------------------------------------------------------------------
+    Example
+
+    A range [0, n],  can be grouped into small ranges by integers that are powers of 2.
+    That is, n = 2^{floor(log(n))} + m, where m is the offset.
+    And m can be written as m = 2^{floor(log(n))} + m’, ...
+    This is a recursive process.
+
+    In binary indexed tree, each node stores sum of elements within range length n,
+    where n is a power of 2, and it is the offset between it's index and it's parent's index.
+    Every node and its parent have same binary number prefix, except the last bit 1.
+
+    Take an example [0, 11], where 11 = 1011.
+    8  = 1000_2
+    9  = 1001_2
+    10 = 1010_2
+    11 = 1011_2
+
+    Then (0, 11] can be divided into ranges:
+    (0, 8], where 8 = 1000_2,
+    (8, 10], where 10 - 1 = 2 = 10_2,
+    (10, 11], where 11 - 10 = 1 = 1_2,
+
+    Each node of binary indexed tree stores prefix sum from range
+
+    ------------------------------------------------------------------------------------------
+    Query
+
+    Prefix sum of current current index i can be recursively divided into ranges like
+    (parent(i), i].
+
+    Parent index is obtained by removing the last bit of current index.
+    parent(i)  = i - i & (-i)
+
+    Removing the last 1bit, is to subtract a power of 2.
+
+    ------------------------------------------------------------------------------------------
+    Update
+
+    Now, the trick is to update values. HOW?
+    When updating a value, we need to update a range prefix sum after this index. What index?
+    Of course it's not the parent node in query tree.
+    The nodes that should be updated are those with larger index, and representing ranges containing
+    current index.
+
+    It's the siblings and recursively parents' siblings!
+    The adjacent sibling represents a sum of range twice as the size of current one: 1, 2¹, 2², ...
+
+    parent(i) = i + i & (-1), adding the last 1 bit is to add a power of 2.
+    Since each node represents a sum over a range of size of power of 2,
+    Adding last 1 bit, is to add
+
+    ---------------------------------------------
+
+    Time Complexity
+    ----------------
+    The number of set bits in binary representation of a number n is O(Logn).
+    Therefore, we traverse at-most O(Logn) nodes in both getSum() and update() operations.
+    Time complexity of construction is O(nLogn) as it calls update() for all n elements.
+
+    Construct: O(nlogn)
+
+    Query: O(logn)
+
+    Update: O(logn)
+
+
+    Reference
+    ---------
+    https://www.geeksforgeeks.org/two-dimensional-binary-indexed-tree-or-fenwick-tree/
+    https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/#2d
+
+    """
+
+    def __init__(self, nums):
+        self._tree = [0 for _ in nums]
+        for i, num in enumerate(nums):
+            self.update(i, num)
+        pass
+
+    def update(self, i, diff):
+        """
+        update the prefix sum
+
+        Inputs
+        -----
+        i: element index, starting from 0
+        diff: difference to old value
+
+        Returns
+        -------
+        None
+        """
+        n = len(self._tree)
+        if i > len(self._tree):
+            # TODO: add a number
+            pass
+        i += 1
+
+        while i <= n:
+            self._tree[i - 1] += diff
+            i += i & -i
+        pass
+
+    def prefixSum(self, i):
+        s = 0
+        if i < 0:
+            return 0
+        if i >= len(self._tree):
+            return self.prefixSum(len(self._tree) - 1)
+        i += 1
+        while i:
+            s += self._tree[i - 1]
+            i -= i & -i
+        return s
+
+    def query(self, i, j):
+        """
+        Range sum query: [i, j]
+        """
+        a = 0
+        b = 0
+        if 1 <= i < len(self._tree):
+            a = self.prefixSum(i - 1)
+        if 0 <= j < len(self._tree):
+            b = self.prefixSum(j)
+        return b - a
+
+class BinaryIndexedTree2D:
+    """
+    Two dimensional binary indexed tree is nothing but an array of 1D binary indexed tree.
+
+    """
     def __init__(self, nums):
         pass
 
-    def update(self):
+    def update(self, x, y, diff):
         pass
 
-    def query(self):
+    def prefixSum(self, x, y):
         pass
+
+    def query(self, x0, y0, x1, y1):
+        pass
+    pass
 
 def testSegmentTree():
     # Your SegmentTree object will be instantiated and called as such:
@@ -284,10 +483,34 @@ def testSegmentTree():
     assert tree.query(0, 2) == 1
     assert tree.query(1, 5) == 0
 
-    print("segment tree for range minimum query passed")
+    print("segment tree for range minimum query passed!")
+
+def testBIT():
+    nums = []
+    bit = BinaryIndexedTree(nums)
+    assert bit.prefixSum(0) == 0
+    assert bit.prefixSum(1) == 0
+    assert bit.prefixSum(9) == 0
+
+    nums = [1]
+    bit = BinaryIndexedTree(nums)
+    assert bit.prefixSum(0) == 1
+    assert bit.prefixSum(2) == 1
+    assert bit.prefixSum(9) == 1
+
+    nums = [2, 1, 1, 3, 2, 3, 4, 5, 6, 7, 8, 9]
+    bit = BinaryIndexedTree(nums)
+    assert bit.prefixSum(5) == 12
+    print("Sum of elements in arr[0..5] is " + str(bit.prefixSum(5)))
+    bit.update(3, +6)
+    assert bit.prefixSum(5) == 18
+
+    print("binary indexed tree passed!")
 
 def test():
     testSegmentTree()
+
+    testBIT()
 
     print("self test passed!")
 

@@ -34,6 +34,16 @@ deserialize algorithms should be stateless.
 ==============================================================================================
 SOLUTION
 
+A tree structure can be deserialized using tree traveral(graph search). But the problem is
+how to convert it from tree to string, back and forth.
+
+Producing serialized string with tree traversing is straightforward. To make it possible
+to convert it back to deserialized tree, the serialized string must leave the tree structure
+intact!
+
+Explicitly keep the NULL nodes while serializing, so that different tree structure can't
+have same traversal serialization. Then the ambiguity is resolved.
+
 1. Breadth-first search traversal
 Complexity: O(n), O(N)
 
@@ -45,7 +55,7 @@ Complexity: O(n), O(N)
 
 import re
 from _visualize import prettyPrintTree
-from _dataStructure import TreeNode
+from _type import TreeNode
 
 class Codec:
 

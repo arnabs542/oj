@@ -188,6 +188,8 @@ class Solution(object):
 
         return area
 
+    # TODO: linear algorithm
+
 def test():
     solution = Solution()
 

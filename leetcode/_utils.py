@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _dataStructure import ListNode
+from _type import ListNode
 
 def linkedList(l):
     if not l:

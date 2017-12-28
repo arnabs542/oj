@@ -7,6 +7,7 @@ Total Accepted: 42994
 Total Submissions: 99666
 Difficulty: Easy
 Contributors: Admin
+
 Given two arrays, write a function to compute their intersection.
 
 Example:
@@ -26,27 +27,64 @@ cannot load all elements into the memory at once?
 SOLUTION
 
 1. Brute force solution
-For each element in nums1, check existence in nums2, and remove if it does exist, and update the
-intersection list.
+For each element in nums1, check existence in nums2, and remove if it does exist, and update
+the intersection list.
+
+Linear search takes O(n), and deleting an element from array takes O(n).
+
+Complexity: O(mn).
+
 
 2. Hash table
 
-3. Sort, two pointers
+Hash count.
+
+Complexity: O(m + n), O(m + N).
+
+
+3. Sort and binary search
+
+Sort two arrays.
+
+For each number n in nums1 that appears p times, find the lower bound and upper bound indices
+of value n, denoted by j and k, in nums2. Then n appears (k - j + 1) times.
+
+And two lists have |p - (k - j + 1)| occurrences of n in common.
+
+Complexity
+O(sort) + O(binary search) = O(nlogn + mlogm) + O(nlogm)
+
+4. Sort and two pointers
+
+Well, the core part of two pointers algorithm is the meaning of the pointers.
+In another word, what STATE the pointers are tracking!
+
+In this scenario, we are trying to find intersection elements. So our objective is to let the
+pointers point to same value in two arrays.
+
+What if two pointers' value are different?
+To two values equal, we need to narrow the gap: increase the smaller one!
 
 ----------------------------------------------------------------------------------------------
+FOLLOW UP
+
 Follow up 1: binary search?
 Follow up 2: hash/sort the smaller.
-        traverse the larger and binary search, two pointers on two arrays respectively.
+    traverse the larger and binary search, two pointers on two arrays respectively.
 
 Follow up 3: one is large, doesn't fit into the memory
-        If only nums2 cannot fit in memory, put all elements of nums1 into a hash table,
+    If only nums2 cannot fit in memory, put all elements of nums1 into a hash table,
 read chunks of array that fit into the memory, and record the intersections.
 
 Follow up 4: both large, neither fit into the memory
-        If both nums1 and nums2 are so huge that neither fit into the memory, SORT
+    If both nums1 and nums2 are so huge that neither fit into the memory, SORT
 them individually (EXTERNAL SORT), then read 2 elements from each array at a time in
 memory, record intersections.
     Or MapReduce paradigm could be used?
+
+Follow up 5: find the elements in nums2, that doesn't occur in nums1(set subtract).
+
+
 '''
 
 class Solution(object):
@@ -108,7 +146,11 @@ class Solution(object):
         :type nums2: List[int]
         :rtype: List[int]
 
-        Already sorted, binary search? But how to remove already matched elements efficiently?
+        Already sorted, binary search?
+        But how to remove already matched elements efficiently?
+
+        Find the lower bound and upper bound indices!
+
         """
         # FIXME: binary search with removing elements?
 

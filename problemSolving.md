@@ -17,6 +17,7 @@ General models:
 - Counting model
 - Sorting model: sort algorithms, monotonic analysis
 - Pointers model: two pointers, ...
+- Prefix or suffix
 - Divide and conquer: quick sort partition, ...
 - Data structures: linked list, stack and queue, trees, graphs, ...
     - Linear
@@ -32,6 +33,9 @@ General models:
     - Backward induction
 - STATE REPRESENTATION: Bitwise,
 - Mathematical analysis model
+    - combinatorics
+    - probability: pdf, cdf, pmf, ...
+    - calculus: change rate
 
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES 
@@ -56,8 +60,14 @@ General optimization directions:
 - Brute force method: GRAPH SEARCH, naive count
 - Optimization directions:
     - Avoid duplicate computation
-        - Space time trade off: memoize
-        - Recurrence relation: dynamic programming, divide and conquer, state machine, ...
+        - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER
+        - Divide and conquer
+        - Eliminate OVERLAPPING subproblems in combination treating by
+            - Space time trade off: memoize
+            - Recurrence relation: DYNAMIC PROGRAMMING, divide and conquer, state machine, ...
+        - Greedy strategy
+            - Maximum/minimum greedy with respect to: dynamic programming with Heap data structure: reduced to log complexity
+            - Linear strategy
     - Avoid unnecessary computation: GREEDY STRATEGY
     - Enable efficient DATA REPRESENTATION with 
         - DATA STRUCTURE
@@ -67,6 +77,10 @@ General optimization directions:
             - modulo
             - arithmetic 
     - Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
+
+For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsack problem, 
+items have different cost(weight) and gain(value), so it should be solved with dynamic programming.
+But if each item have same cost, then it can be done with greedy strategy to maximize sum of gain.
 
 ## To analyze a problem, the key is to DEFINE STATE that exploits the problem structure!
 

@@ -17,10 +17,12 @@ Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 
 ===============================================================================================
-Solution:
-    @1 hash: (key=element, value=element's position/index)
-    @2 sort: two pointers, move index from two ends to center
-    @3 brute-force
+Solution
+
+1. brute-force
+2. hash: (key=element, value=element's position/index)
+3. sort: two pointers, move index from two ends to center
+
 '''
 
 class Solution(object):

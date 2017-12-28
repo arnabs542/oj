@@ -35,19 +35,11 @@ Enumerate all possible substrings and verify.
 
 Complexity: O(N²)
 
-2. Greedy strategy?
-The method above involves duplicate computations, which we can eliminate some of by applying
-some greedy strategy.
+2. Divide and conquer
 
-3. State transition - sliding window?
-Maintain a counter of character occurrences, initially of the whole string. And pop out those
-characters not eligible.
+The method above involves duplicate computations, some which can be eliminated by
+divide and conquer.
 
-4. State transition - Two pointers?
-Initialize the window as [0, n - 1], and count the occurrences of characters.
-If any character on the window end doesn't
-
-5. Divide and conquer?
 If a character appears less than k times, then the target sub-string can never include it.
 Divide the string into several parts without this character, and get the largest one.
 
@@ -61,7 +53,7 @@ Similar to quick sort partition, if each partition only gets [0, n - 1] and [n, 
 Then the worst case is O(N²).
 
 
-6. Optimization of above divide and conquer algorithm
+3. Optimization of above divide and conquer algorithm
 1) More efficient range query?
 The problem of above solution is, after dividing the string, how to efficiently decide
 whether there is a character that appears less than k times?
@@ -72,6 +64,22 @@ This is a range query problem, binary index tree or segment tree?
 Instead dividing the string into two parts using just one character, we can partition
 the original string into multiple parts. Split the string using all character that
 are not eligible.
+
+2. Greedy strategy?
+Some greedy strategy.
+
+3. State transition - sliding window?
+Prefix sum?
+
+Maintain a counter of character occurrences, initially of the whole string. And pop out those
+characters not eligible.
+
+4. State transition - Two pointers?
+
+Initialize two pointers i = 0, j = n - 1?
+
+Initialize the window as [0, n - 1], and count the occurrences of characters.
+If any character on the window end doesn't
 
 
 '''
@@ -132,6 +140,7 @@ def test():
     assert solution.longestSubstring("ab", 1) == 2
     assert solution.longestSubstring("aba", 1) == 3
     assert solution.longestSubstring("aabaaa", 2) == 3
+    assert solution.longestSubstring("aadaabccc", 2) == 3
     assert solution.longestSubstring("aabaaa", -2) == 6
     assert solution.longestSubstring("abcde", 3) == 0
     assert solution.longestSubstring("abcde", 2) == 0

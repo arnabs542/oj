@@ -19,9 +19,13 @@ If you have figured out the O(n) solution, try coding another solution using the
 and conquer approach, which is more subtle.
 
 ===============================================================================================
-SOLUTION:
+SOLUTION
 
-1) Dynamic Programming.
+1) Brute force
+
+Complexity: O(N³) or O(N²) if calculating sum incrementally.
+
+2) Dynamic Programming.
 
 A subarray window must end somewhere, assuming position i.
 Kadane's algorithm begins with a simple INDUCTIVE question:
@@ -58,6 +62,13 @@ AT EACH POSITION is calculated in a simple way from a related but smaller and ov
 subproblem: the maximum subarray ending at the previous position) this algorithm can be
 viewed as a simple example of DYNAMIC PROGRAMMING.
 
+3) Prefix sum
+Subarray sum is range sum query. Prefix sum can be used to compute range sum efficiently.
+
+Calculate the cumulative sum(prefix sum) in a bottom up fashion, then, keep track of the
+minimum sum so far.
+
+
 ##############################################################################################
 VARIANT
 
@@ -65,9 +76,9 @@ VARIANT
 Q: 给出一个Char Array, 里面只有 R, G. 现在要选择一个范围，使得 R 变成G，G变成R，并使得G的个数－ R的个数最大。输出这个范围并且输出最大结果.
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
 
-Maximum subarray problem
+Maximum subarray problem -  COUNTING AS SUMMING
 
 要求的的是一个范围，就是一个subarray。这个subarray的#R - #G 要足够大。
 
@@ -75,6 +86,7 @@ Maximum subarray problem
 R = 1,
 G = 0,
 那么这个subarray需要满足的条件就是： maximum sum of elements within range.
+
 
 然后，用DP一遍就可以解决了
 
@@ -88,9 +100,9 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        return self.maxSubArrayDP(nums)
+        return self._maxSubArrayDP(nums)
 
-    def maxSubArrayDP(self, nums: list) -> int:
+    def _maxSubArrayDP(self, nums: list) -> int:
         """
         :type nums: List[int]
         :rtype: int
@@ -101,7 +113,7 @@ class Solution(object):
             max_so_far = max(max_so_far, max_ending_here)
         return max_so_far
 
-    def maxSubArrayDPAllowZeroLength(self, nums: list) -> int:
+    def _maxSubArrayDPAllowZeroLength(self, nums: list) -> int:
         """
         :type nums: List[int]
         :rtype: int
@@ -114,7 +126,7 @@ class Solution(object):
             max_so_far = max(max_so_far, max_ending_here)
         return max_so_far
 
-    def maxSubArrayDP2(self, nums: list) -> list:
+    def _maxSubArrayDP2(self, nums: list) -> list:
         """
         :type nums: List[int]
         :rtype: list
@@ -139,6 +151,10 @@ class Solution(object):
 
         print('maximum subarray', nums[begin:end])
         return nums[begin:end]
+
+      def _maxSubArrayPrefixSum(self, nums: list) -> int:
+          # TODO: prefix sum solution
+          pass
 
     # TODO: divide and conquer solution
 

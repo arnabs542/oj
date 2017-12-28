@@ -66,6 +66,20 @@ Complexity: O(l*n), O(l*n), where l refers to the range of sum, and n refers to 
 of array.
 
 3. Dynamic Programming
+Obviously, the state we are tracking is a tuple (n, s), where n is the size of array, and s
+is the target sum.
+
+Since the sum of elements is bounded, it's possible to traverse possible combination of (n, s).
+This indicates it can be solved with dynamic programming.
+for i in range(n):
+    for s in range(-1000, 10001):
+        # state transition, XXX: check out of bound!
+        dp[i][s + 1000] += dp[i - 1][s + 1000 + nums[i]]
+        dp[i][s + 1000] += dp[i - 1][s + 1000 - nums[i]]
+
+        # or another implementation:
+        dp[i][s + 1000 + nums[i]] += dp[i - 1][s + 1000]
+        dp[i][s + 1000 - nums[i]] += dp[i - 1][s + 1000]
 
 '''
 
