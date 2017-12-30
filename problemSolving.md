@@ -19,7 +19,7 @@ General models:
 - Pointers model: two pointers, ...
 - Prefix or suffix
 - Divide and conquer: quick sort partition, ...
-- Data structures: linked list, stack and queue, trees, graphs, ...
+- Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear
     - Associative/mapping: hash table, buckets, inverted index
     - tree
@@ -60,7 +60,7 @@ General optimization directions:
 - Brute force method: GRAPH SEARCH, naive count
 - Optimization directions:
     - Avoid duplicate computation
-        - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER
+        - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER (ORDER INVARIANT)
         - Divide and conquer
         - Eliminate OVERLAPPING subproblems in combination treating by
             - Space time trade off: memoize
@@ -77,6 +77,9 @@ General optimization directions:
             - modulo
             - arithmetic 
     - Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
+        - Define state that WON'T LOSE INFORMATION for state transition function
+        - Define state that's TRACTABLE
+        - Augment/ADD STATE by another dimension of if current dimensions are insufficient
 
 For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsack problem, 
 items have different cost(weight) and gain(value), so it should be solved with dynamic programming.

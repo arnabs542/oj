@@ -30,7 +30,7 @@ SOLUTION
 REDUCE to the problem where all number appear twice except one by filtering the elements into
 two groups.
 
-Separate the two single numbers with their XOR result.
+Separate the two single numbers with their XOR result as a filter.
 
 XOR result indicates bits where two single numbers differ. Then we take any bit with 1
 in the XOR result as the AND mask.

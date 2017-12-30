@@ -80,14 +80,24 @@ group by next significant bit:
 How to represent the idea???
 
 3. Prefix tree - trie
+
+The brute force solution is O(N²), because for each number in the array, we have to
+match it against every other number in the array, which is O(N).
+
+Is there a data structure to reduce this O(N) complexity?
+Well, the numbers in the array can be treated as words in dictionary, and we want to
+match a number against the dictionary.
+
+By matching, I mean constructing the maximum XOR result.
 The maximum integer can be constructed in a greedy strategy manner:
     choose the maximum significant bits first.
+
 
 In this situation, apparently, it is a prefix problem in a bitwise perspective:
     construct the result from most significant bit to least significant bit.
 
-Build a trie tree storing binary representation of all numbers, and for each number try to
-find the largest XOR while searching on the tree.
+Build a TRIE - PREFIX TREE storing binary representation of all numbers.
+For each number try to find the largest XOR while searching on the tree.
 
 For each number n in nums, we want to find the other number giving largest XOR. To achieve so,
 for each bit b in n, we choose the other number with that bit of ~b, if we can.
@@ -110,7 +120,7 @@ for each bit b in n, we choose the other number with that bit of ~b, if we can.
 Complexity
 O(N), O(1) ~ O(N)
 
-4. another bitwise solution without extra space?
+4. Another bitwise solution without extra space?
 
 '''
 

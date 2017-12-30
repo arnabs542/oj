@@ -4,6 +4,8 @@
 """
 630. Course Schedule III
 
+Hard
+
 There are n different online courses numbered from 1 to n. Each course has some
 duration(course length) t and closed on dth day. A course should be taken continuously
 for t days and must be finished before or on the dth day. You will start at the 1st day.
@@ -28,7 +30,7 @@ Note:
 The integer 1 <= d, t, n <= 10,000.
 You can't take two courses simultaneously.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 Interval scheduling problem.
@@ -41,6 +43,8 @@ The ORDER of taking courses matters, so it's permutation, not combination proble
 Complexity: O(sum(A(n, k))), O(n)
 
 2. Brute force COMBINATION
+
+Reduce permutation complexity to combination complexity by ORDER INVARIANT.
 
 The problem here is, the order of taking courses matters.
 
@@ -84,11 +88,13 @@ O(TN), where T is the largest deadline, and N is the size of courses.
 
 4. Greedy Strategy - REDUCE PERMUTATION to COMBINATION by RESTRICTING ORDERING - order of choice
 
+Reduce permutation complexity to combination complexity by ORDER INVARIANT.
+
 This problem have two aspects: the ORDER of courses, and whether to take a course.
 Dynamic programming is degenerated to brute force if there is no specific ORDER of taking courses.
 Try to find some greedy strategies to specify the order, avoiding permutation treating.
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Derive greedy strategy: guess/assume and prove mathematically
 
 Mathematical proof methods:
@@ -166,14 +172,16 @@ Now, the problem can be solved with graph search or dynamic programming.
 This combinatorial problem is similar to 0-1 knapsack problem.
 
 However, there is a very subtle difference: items is 0-1 knapsack problem have different VALUE GAIN!
-In this course schedule problem, every item(course) has same value gain: 1.
 If each course has different credits, and we want to maximize the total credits earned, then it's
 knapsack problem.
+In this course schedule problem, every item(course) has same value gain 1, and there are
+greedy strategy!
 
 Since each item has same value gain, we can develop greedy strategy with respect to choosing items!
 
+--------------------------------------------------------------------------------
 Greedy strategy:
-    Prefer courses with least cost, i.e., duration time!
+    Prefer courses with least cost, i.e., duration time, when incompatibility occurs!
 
 Sort the courses according to the deadline, then scan the list and choose the courses while we can.
 If a course can't be taken, meaning current time t0 + course duration d > course deadline, we can
@@ -183,30 +191,30 @@ How to prove?
 Setup, we have a list of compatible courses of size k, now add an incompatible course.
 
 Hypothesis: there won't be a better choice than removing the course with largest duration.
-Removing the course with largest cost will retain size k, and have shorter time taken.
+Optimality is quantified with two dimensions: larger courses size k, and shorter time cost.
 
+--------------------------------------------------------------------------------
 Proof
-Assume above hypothesis is wrong.
 
-Given c1=[t1, d1], c2=[t2, d2], d1 <= d2, and t1 > t2, will removing c1 be a worse choice than c2?
+We can't have the list size by k + 1, since there are incompatible.
+The locally optimal solution will have size of k.
+And removing the course with longest duration time will necessarily yield shortest time cost.
+But will this greedy strategy retain k compatible intervals?
 
-We have multiple choices: remove the recently added course, remove another course.
+Suppose the course with longest duration is i, where i != k + 1. And total time cost by other courses
+is t'. Then since c_1, c_2, ..., c_{k} are compatible:
+    t' + t_{i} <= d_{k} <= d_{k+1}
 
-1) The recently added is the one with largest cost(duration).
+Since c1, ..., c_{k+1} are not compatible:
+    t' + t_{i} + t_{k+1} > d_{k+1}
 
-2) Recently added is not the one with largest cost(duration).
+And since t_{i} = max_j{t_j}, so t_{i} >= t_{k+1}. If we remove c_{i} and add c_{k_1}, we have:
+    t' + t_{k+1} <= t' + t_{i]} <= d_{k} <= d_{k+1}.
+This means, without highest cost course c_{i}, the rest are compatible!
+Removing the highest cost course, and adding the new one will retain optimal size k,
+and yield lowest time cost.
 
-Removing one course will at least retain k compatible courses, to yield better result,
-to want the cost taken to be minimal.
-Better result means: larger compatible courses size, shorter time taken.
-
-TODO: explain this clearly.
-A bad choice means, will t0 + t1 <= d1 and t0 + t2 > d2?
-
-d2 >= d1 >= t1 > t2
-
-t0 + t2 < t0 + t1 <= d1 < d2, contradiction!
-
+Greedy strategy proved!
 
 Complexity: O(NlogN), O(N)
 
@@ -259,7 +267,7 @@ class Solution:
         # print(dp)
         return dp[0][min(1, N)]
 
-    # TODO: more optimization, totally greedy strategy
+    # DONE: more optimization, totally greedy strategy
     def _scheduleCourseGreedyStrategy(self, courses: list):
         """
         Greedy strategy:

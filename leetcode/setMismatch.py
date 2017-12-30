@@ -30,6 +30,25 @@ Complexity: O(N), O(N)
 
 Complexity: O(N), O(1)
 
+4. XOR
+Calculate XOR result filter = XOR(nums, [1, n]) = missing ^ duplicate.
+
+Using one bit in filter as mask, divide nums into nums0 and nums1, where for each number x in nums0,
+x & mask = 0, and for y in nums1, y & mask = mask.
+Similarly, do divide [1, n] into set0 and set1.
+
+After this filtering, the duplicate number and missing number are separated into two different sets.
+
+Take XOR result of set0 and nums0, giving result denoted by a.
+Take XOR result of set1 and nums1, giving result denoted by b.
+
+Then a and b must be the missing and duplicate number, but the mapping is unknown yet.
+Traverse nums to check which one of a and b exist. Then which one is duplicate and missing is known.
+
+Complexity: O(N), O(1)
+
+Pro: don't have to modify the input data
+Con: can't deal with situation where one element can repeat for more than once.
 
 """
 

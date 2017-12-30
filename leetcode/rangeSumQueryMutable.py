@@ -56,7 +56,7 @@ class NumArray(object):
         :type j: int
         :rtype: int
         """
-        result = self.segmentTree.query(i, j, 0)
+        result = self.segmentTree.query(0, 0, self.segmentTree.size - 1, i, j)
         print('[{i}, {j}]: {result}'.format(i=i, j=j, result=result))
         return result
 
@@ -93,6 +93,8 @@ def test():
     assert numArray.sumRange(4, 4) == 6
     numArray.update(3, 8)
     assert numArray.sumRange(0, 4) == 32
+
+    print("self test passed!")
 
 if __name__ == '__main__':
     test()

@@ -17,14 +17,22 @@
 
 #include <iostream>
 #include <string>
+#include <debug.hpp>
 
 using namespace std;
 
 class Solution
 {
 public:
-    string longestPalindrome(string s)
-    {
+    string longestPalindrome(string s) {
+        string result = _longestPalindromeDP(s);
+
+        cout << s << " => " << result << endl;
+
+        return result;
+    }
+
+    string _longestPalindromeDP(string s) {
         int n = s.length();
         int longestBegin = 0;
         int maxLen = 1;

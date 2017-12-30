@@ -25,10 +25,14 @@ To differentiate the single bits, we only need to store the bit occurrence count
 
 Then jth bit appears in the single number if and only if count[j] = 1, j starting with 0.
 
+There are 32 bits to count respectively, so 32 integers are needed to record it.
+
 Time complexity: O(N)
 Space complexity: 32 integers corresponding to 32 bits' occurrence count. O(32) = O(1).
 
-3. Space optimization with multiple bit representation of state of count modulo
+3. Space optimization: store bitwise count MODULO by 3
+
+Then, for each bit count modulo by 3, only two bits are needed, totally 32*2=64 bits.
 
 The idea is similar to circuit design where we manipulate bits to represent numbers, and
 design a Finite State Machine to transit states.
@@ -76,7 +80,7 @@ Follow up
 
 Answer:
     we can't take modulo operation with K, because M % K = 0 = K % K, not differentiable.
-The divisor P can be chosen in range [k + 1, ∞].
+The divisor P can be chosen in range [max(K, M), ∞].
 And the number of hierarchical bits we need is ceil(log₂(P)).
 
 '''

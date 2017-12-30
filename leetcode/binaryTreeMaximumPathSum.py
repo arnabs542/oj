@@ -72,8 +72,16 @@ BACKWARD manner.
 ##############################################################################################
 FOLLOW UP
 
-1. Find the maximum path distance
-Define state: (max_distance_ending_here, max_distance_so_far)
+1. Find the maximum path distance(543. Diameter of Binary Tree)
+
+WARN
+Define state: (max_distance_ending_here, max_distance_so_far) will be bad!
+This is because nodes path [] and [1] both have same value distance of 0, but the
+state transition will give totally different next state 0 and 1. Then the recurrence relation
+will lose information because of incorrect mapping!
+
+Instead, define tractable state as a tuple:
+    (globally optimal: max_distance_so_far, maximum number of nodes of paths)
 
 Note that if a node's child is empty, the distance increase from the child subtree should be 0!
 

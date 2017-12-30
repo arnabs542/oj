@@ -19,20 +19,38 @@ Given "aacecaaa", return "aaacecaaa".
 
 Given "abcd", return "dcbabcd".
 
-SOLUTION:
-    Find the longest palindrome prefix. Then insert the reverse part of substring
-after such palindrome prefix before the original one.
+================================================================================
+SOLUTION
 
-1. Brute force, enumerate all prefices, and check whether it's palindrome
+To construct the shortest palindrome, we need to find the longest palindrome PREFIX.
+Then insert the reverse part of substring after such palindrome prefix before the
+original one.
+
+So, the problem is reduced to finding longest palindrome prefix.
+
+1. Brute force
+Enumerate all prefices, and check whether it's palindrome
+
+Complexity: O(N²)
 
 2. Slightly optimized, by using built-in string comparison between string and its reverse.
 
-3. KMP to find Longest Prefix that is also a suffix
+3. State machine - KMP state transition on lps(longest prefix that's also a suffix)
+
+Longest prefix that is palindrome can be reduced to
+longest prefix that is also a suffix(lps) of string obtained by concatenating original S
+, delimiter and reverse of S...
+
 1) If we reverse the string, then the palindrome prefix becomes a palindrome postfix,
 and they are equal to each other by palindrome's definition.
 2) So the problem is now transformed to find the LPS of `s + reversed(s)`. But the LPS
 should only be composed substring of s itself, not any part of the reversed one, so we
-can add a out of vocabulary symbol between s and reversed(s). Time Complexity is O(n).
+can add a out of vocabulary symbol as a delimiter, between s and reversed(s).
+
+Concatenating S, '#', reversed S:
+S#S' = Pxxx#xxxP
+
+Time Complexity is O(n).
 
 '''
 
@@ -43,11 +61,11 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        # return self.shortestPalindromeBruteForce(s)
-        # return self.shortestPalindromeBruteForce2(s)
-        return self.shortestPalindromeKMP(s)
+        # return self._shortestPalindromeBruteForce(s)
+        # return self._shortestPalindromeBruteForce2(s)
+        return self._shortestPalindromeKMP(s)
 
-    def shortestPalindromeBruteForce(self, s):
+    def _shortestPalindromeBruteForce(self, s):
         """
         :type s: str
         :rtype: str
@@ -70,7 +88,7 @@ class Solution(object):
         print(s)
         return s
 
-    def shortestPalindromeBruteForce2(self, s):
+    def _shortestPalindromeBruteForce2(self, s):
         m = len(s)
         idx = 0
         s_reversed = s[::-1]
@@ -87,11 +105,11 @@ class Solution(object):
         s = s[idx + 1:][::-1] + s
         return s
 
-    def shortestPalindromeKMP(self, s):
+    def _shortestPalindromeKMP(self, s):
         # build up a LPS(Longest Prefix that is also a Suffix) lookup table
         if not s:
             return s
-        text = s + '\xff' + s[::-1]
+        text = s + '#' + s[::-1]
         lps = [0] * len(text)
         q = 0
         for i in range(1, len(text)):

@@ -1,4 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 '''
+132. Palindrome Partitioning II
+
 Given a string s, partition s such that every substring of the partition is a palindrome.
 
 Return the minimum cuts needed for a palindrome partitioning of s.
@@ -6,25 +12,27 @@ Return the minimum cuts needed for a palindrome partitioning of s.
 For example, given s = "aab",
 Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
 
-Solution:
-    @1 Dynamic Programming:
-        Use DP to check whether a string is palindromic
-        Use DP to decide the min cut of a string by partitioning it,
-        with the recurrence similar to the matrix chain order problem
+==============================================================================================
+SOLUTION
 
-        table[i][j]=
-        -1  (initialization)
-        0   (palindrome)
-        n   (n>0,not palindrome,n is the min cut of palindromic partitioning)
+1. Dynamic Programming
+    Use DP to check whether a string is palindromic
+    Use DP to decide the min cut of a string by partitioning it,
+    with the recurrence similar to the matrix chain order problem
 
-        recurrence:
-            1) table[i][j]=(s[i]==s[j] && table[i+1][j-1] == True)
-            2) mincuts[j] = min(mincuts[j], mincuts[i-1]+1) if table[i][j] == True
-                mincuts[i]:minimum palindrome cuts for s[0:i+1]
-            The above recurrence is optimized version for :
-                mincuts[i][j] = min(mincuts[i][k]+mincuts[k+1][j]+1)
-            The former recurrence only reassign new mincus when
-            palindrome suffix occurs.
+    table[i][j]=
+    -1  (initialization)
+    0   (palindrome)
+    n   (n>0,not palindrome,n is the min cut of palindromic partitioning)
+
+    recurrence:
+        1) table[i][j]=(s[i]==s[j] && table[i+1][j-1] == True)
+        2) mincuts[j] = min(mincuts[j], mincuts[i-1]+1) if table[i][j] == True
+            mincuts[i]:minimum palindrome cuts for s[0:i+1]
+        The above recurrence is optimized version for :
+            mincuts[i][j] = min(mincuts[i][k]+mincuts[k+1][j]+1)
+        The former recurrence only reassign new mincus when
+        palindrome suffix occurs.
 '''
 
 

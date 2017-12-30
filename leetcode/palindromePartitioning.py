@@ -1,20 +1,46 @@
-'''
-Palindrome Partitioning
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+131. Palindrome Partitioning
 
 Given a string s, partition s such that every substring of the partition is a palindrome.
 
 Return all possible palindrome partitioning of s.
 
-For example, given s = "aab"
+For example, given s = "aab",
 Return
 
-  [ ["aa","b"], ["a","a","b"] ]
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
 
+==============================================================================
+SOLUTION
 
-Solution:
-    @1: Dynamic Programming
-    @2: Depth First Search
-'''
+1. Brute fore - graph search
+At each position, make binary decision about whether to partition here.
+
+Complexity
+Combination subset complexity: O(2ⁿ)
+
+2. Dynamic Programming
+
+For the last character, find all possible palindrome substring ending here.
+Denote the substring ending here begins with i.
+Then, f(n) = {p + s[i:n+1] for p in f(i - 1)}, for each i that s[i:n+1] is palindrome.
+
+Complexity: O(N³).
+
+One problem is how to find palindrome ending with last character, as this can
+degenerate to O(N²).
+
+Build a palindrome table? p[i][j] = 1 indicates substring s[i:j+1] is palindrome.
+
+3. Graph search: depth first search
+
+"""
 
 
 class Solution:

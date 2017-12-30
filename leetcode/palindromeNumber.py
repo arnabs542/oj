@@ -47,10 +47,10 @@ class Solution(object):
         :type x: int
         :rtype: bool
         """
-        # return self.isPalindromeTwoPointers(x)
-        return self.isPalindromeReverseHalf(x)
+        return self._isPalindromeTwoPointers(x)
+        # return self._isPalindromeReverseHalf(x)
 
-    def isPalindromeTwoPointers(self, x):
+    def _isPalindromeTwoPointers(self, x):
         if x < 0:
             return False
         div = 1  # divisor to keep track of the leftmost digit
@@ -69,7 +69,7 @@ class Solution(object):
         if x == 0:
             return True
 
-    def isPalindromeReverseHalf(self, x):
+    def _isPalindromeReverseHalf(self, x):
         # DONE: reverse half of the integer
         if x and x % 10 == 0:
             return False

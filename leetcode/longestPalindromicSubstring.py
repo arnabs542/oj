@@ -28,58 +28,80 @@ Output: "bb"
 ==============================================================================================
 SOLUTION
 
-@1 brute-force.Time complexiyy: O(n^3)
-@2 dynamic programming.Time: O(N²),space: O(N²)
-Notation: table[i][j] == 1: s[i:j+1] is palindrome,0: not
+1. Brute-force.
 
-    Recurrence:
-        table[i][i] = 1
-        table[i][j] = 1 <=> table[i+1][j-1] == 1 && s[i] == s[j]
-@3 Two pointers: check by scanning from center to two sides
-@4 Manacher's algorithm
+Exhaust all cases and verify.
+
+Time complexity: O(n^3)
+
+2. Dynamic programming
+
+Define state: dp[i][j].
+dp[i][j] == 1: s[i:j+1] is palindrome. 0: s[i:j+1] is not palindrome.
+
+Recurrence relation:
+    dp[i][i] = 1
+    dp[i][j] = 1 <=> dp[i+1][j-1] == 1 && s[i] == s[j]
+
+Complexity
+Time: O(N²), space: O(N²)
+
+3. Two pointers: check by scanning from center to two sides
+
+Complexity: O(N²), O(1)
+
+4. Manacher's algorithm
+
+I have no idea...
+
+5. Suffix array?
+
+Complexity: O(nlogn)?
 
 '''
 
+from _decorators import timeit
+
 class Solution(object):
-    def longestPalindromeDP(self, s):
-        if not s:
-            return ''
-        n = len(s)
+
+    @timeit
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        result = self._longestPalindromeDP(s)
+        # result = self._longestPalindromeDPOpt(s)
+        print(result)
+
+        return result
+
+    def _longestPalindromeDP(self, s):
+        # if not s: return ''
 
         # TODO: this is a O(N²) solution, always Time limit exceed with Python
 
         # optimization for two dimensional array initialization
-        longestPalin = ""
-        table = [[0 for _ in range(n)] for x in range(n)]
+        n = len(s)
+        dp = [[1  if i == j or i + 1 == j and s[i] == s[j] else 0
+               for j in range(n)] for i in range(n)]
 
         # initialization
-        table[n - 1][n - 1] = 1
-        begin, end = 0, 1
-        for i in range(n):
-            table[i][i] = 1
-            begin, end = i, i + 1
-
-        for i in range(n - 1):
-            if s[i] == s[i + 1]:
-                table[i][i + 1] = 1
-                begin, end = i, i + 2
+        begin, end = 0, min(1, len(s))
 
         # state transition
-        for l in range(3, n + 1, 1):
+        for l in range(2, n + 1, 1):
             for i in range(n - l + 1):
                 j = i + l - 1
-                if s[i] == s[j] and s[i + 1] == s[j - 1] and\
-                   table[i + 1][j - 1]:
-                    table[i][j] = 1
+                if s[i] == s[j] and (l == 2 or dp[i + 1][j - 1]):
+                    dp[i][j] = 1
                     # optimization to reduce time complexity constant
                     begin = i
                     end = j + 1
 
-        longestPalin = s[begin:end]
+        return s[begin:end]
 
-        return longestPalin
-
-    def longestPalindromeDPOpt(self, s):
+    def _longestPalindromeDPOpt(self, s):
         '''
         When you increase s by 1 character, you could only increase
         maxPalindromeLen by 2 at most, and that new maxPalindrome includes this
@@ -98,7 +120,7 @@ class Solution(object):
         the substrings ending with this new character, with length P+1 or P+2,
         are palindromes, and update accordingly.
 
-        Optimized  utilizing built in string compare implementation
+        Optimization  utilizing built in string compare implementation
         '''
         if s == s[::-1]:
             return s
@@ -126,22 +148,26 @@ class Solution(object):
 
     # TODO: SUFFIX ARRAY implementation, O(n*logn)
 
-    def longestPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        # return self.longestPalindromeDP(s)
-        return self.longestPalindromeDPOpt(s)
 
 def test():
     solution = Solution()
-    print(solution.longestPalindrome(""))
-    print(solution.longestPalindrome("a"))
-    print(solution.longestPalindrome("aa"))
-    print(solution.longestPalindrome("ccd"))
-    print(solution.longestPalindrome("abb"))
-    print(solution.longestPalindrome("ukxidnpsdfwieixhjnannbmtppviyppjgbsludrzdleeiydzawnfmiiztsjqqqnthwinsqnrhfjxtklvbozkaeetmblqbxbugxycrlzizthtuwxlmgfjokhqjyukrftvfwikxlptydybmmzdhworzlaeztwsjyqnshggxdsjrzazphugckgykzhqkdrleaueuajjdpgagwtueoyybzanrvrgevolwssvqimgzpkxehnunycmlnetfaflhusauopyizbcpntywntadciopanyjoamoyexaxulzrktneytynmheigspgyhkelxgwplizyszcwdixzgxzgxiawstbnpjezxinyowmqsysazgwxpthloegxvezsxcvorzquzdtfcvckjpewowazuaynfpxsxrihsfswrmuvluwbdazmcealapulnahgdxxycizeqelesvshkgpavihywwlhdfopmmbwegibxhluantulnccqieyrbjjqtlgkpfezpxmlwpyohdyftzgbeoioquxpnrwrgzlhtlgyfwxtqcgkzcuuwagmlvgiwrhnredtulxudrmepbunyamssrfwyvgabbcfzzjayccvvwxzbfgeglqmuogqmhkjebehtwnmxotjwjszvrvpfpafwomlyqsgnysydfdlbbltlwugtapwgfnsiqxcnmdlrxoodkhaaaiioqglgeyuxqefdxbqbgbltrxcnihfwnzevvtkkvtejtecqyhqwjnnwfrzptzhdnmvsjnnsnixovnotugpzuymkjplctzqbfkdbeinvtgdpcbvzrmxdqthgorpaimpsaenmnyuyoqjqqrtcwiejutafyqmfauufwripmpcoknzyphratopyuadgsfrsrqkfwkdlvuzyepsiolpxkbijqw"))
+    assert (solution.longestPalindrome("") == "")
+    assert (solution.longestPalindrome("a") == "a")
+    assert solution.longestPalindrome("aa") == "aa"
+    assert solution.longestPalindrome("ccd") == "cc"
+    assert solution.longestPalindrome("cbbd") in ["bb", ]
+    assert (solution.longestPalindrome("abb") == "bb")
+    assert (solution.longestPalindrome("ukxidnpsdfwieixhjnannbmtppviyppjgbsludrzdleeiydzawnfmiiztsjqqqnthwinsqnrhfjxtklvbozkaeetmblqbxbugxycrlzizthtuwxlmgfjokhqjyukrftvfwikxlptydybmmzdhworzlaeztwsjyqnshggxdsjrzazphugckgykzhqkdrleaueuajjdpgagwtueoyybzanrvrgevolwssvqimgzpkxehnunycmlnetfaflhusauopyizbcpntywntadciopanyjoamoyexaxulzrktneytynmheigspgyhkelxgwplizyszcwdixzgxzgxiawstbnpjezxinyowmqsysazgwxpthloegxvezsxcvorzquzdtfcvckjpewowazuaynfpxsxrihsfswrmuvluwbdazmcealapulnahgdxxycizeqelesvshkgpavihywwlhdfopmmbwegibxhluantulnccqieyrbjjqtlgkpfezpxmlwpyohdyftzgbeoioquxpnrwrgzlhtlgyfwxtqcgkzcuuwagmlvgiwrhnredtulxudrmepbunyamssrfwyvgabbcfzzjayccvvwxzbfgeglqmuogqmhkjebehtwnmxotjwjszvrvpfpafwomlyqsgnysydfdlbbltlwugtapwgfnsiqxcnmdlrxoodkhaaaiioqglgeyuxqefdxbqbgbltrxcnihfwnzevvtkkvtejtecqyhqwjnnwfrzptzhdnmvsjnnsnixovnotugpzuymkjplctzqbfkdbeinvtgdpcbvzrmxdqthgorpaimpsaenmnyuyoqjqqrtcwiejutafyqmfauufwripmpcoknzyphratopyuadgsfrsrqkfwkdlvuzyepsiolpxkbijqw") == "aueua")
+
+    import yaml
+    with open("./longestPalindromicSubstring.json", "r") as f:
+        data = yaml.load(f)
+
+    for r in data:
+        assert solution.longestPalindrome(r['input']) == r['output']
+
+
+    print("self test passed!")
 
 
 if __name__ == "__main__":

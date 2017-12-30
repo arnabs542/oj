@@ -20,6 +20,16 @@ Example 2:
 Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
 
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
+
+==============================================================================================
+SOLUTION
+
+1. Sort and insert
+Sort the original intervals list, and iterate over the original list. Then the process is like
+merge sort.
+
+Complexity: O(NlogN) + O(N)
+
 '''
 
 # Definition for an interval.
