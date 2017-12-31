@@ -81,12 +81,12 @@ public:
             for (int j: indices) {
                 if (j && s[j - 1] == s[i]) {
                     indicesNew.push_back(j - 1);
-                } // general case of forming new palindrome string
+                } // length >= 3, general case of forming new palindrome string of
             }
             if (i && s[i] == s[i - 1]) {
                 indicesNew.push_back(i - 1);
-            } // edge case, 'aa'
-            indicesNew.push_back(i); // 1
+            } // length 2 palindrome, 'aa'
+            indicesNew.push_back(i); // length 1, palindrome
             dp[1] = dp[0] + indicesNew.size();
 
             indices = move(indicesNew);

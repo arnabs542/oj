@@ -48,6 +48,17 @@ Time: O(N²), space: O(N²)
 
 3. Two pointers: check by scanning from center to two sides
 
+Perform a “center expansion” among all possible centers of the palindrome.
+
+Let N = len(S). There are 2N-1 possible centers for the palindrome:
+  we could have a center at S[0], between S[0] and S[1], at S[1], between S[1] and S[2], at S[2], etc.
+
+To iterate over each of the 2N-1 centers, we will move the left pointer every 2 times, and the right pointer every 2 times starting with the second (index 1).
+After writing some case, it's easy to derive the left and right indices formula.
+Hence, left = center / 2 - (center + 1)%2, right = center / 2 + 1.
+
+From here, finding every palindrome starting with that center is straightforward: while the ends are valid and have equal characters, record the answer and expand.
+
 Complexity: O(N²), O(1)
 
 4. Manacher's algorithm
@@ -70,8 +81,9 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        result = self._longestPalindromeDP(s)
+        # result = self._longestPalindromeDP(s)
         # result = self._longestPalindromeDPOpt(s)
+        result = self._longestPalindromeCenterExpand(s)
         print(result)
 
         return result
@@ -103,6 +115,8 @@ class Solution(object):
 
     def _longestPalindromeDPOpt(self, s):
         '''
+        Just using builtin string compare!
+
         When you increase s by 1 character, you could only increase
         maxPalindromeLen by 2 at most, and that new maxPalindrome includes this
         new character.
@@ -142,7 +156,22 @@ class Solution(object):
 
         return s[start:start + maxlen]
 
-    # TODO: expand around the center, O(N²)
+    # DONE: expand around the center, O(N²)
+    def _longestPalindromeCenterExpand(self, s):
+        n = len(s) # 2, "aa"
+        result = ""
+        for center in range(2 * n - 1): # 1
+            d, r = divmod(center, 2) # 0, 1
+            right = (center // 2) + 1 # 1
+            left = (right - 1) if r else right - 2 # 0
+            l = not r # 0
+            while 0 <= left < right < n and s[left] == s[right]:
+                l += 2 # 2
+                left -= 1 # -1
+                right += 1 # 2
+            if l > len(result):
+                result = s[left + 1:right] # s[0:2]
+        return result
 
     # TODO: Manacher's linear time complexity solution, O(n)
 

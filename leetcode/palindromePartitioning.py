@@ -19,11 +19,15 @@ Return
 ==============================================================================
 SOLUTION
 
-1. Brute fore - graph search
+1. Brute fore - graph search - combination
 At each position, make binary decision about whether to partition here.
 
 Complexity
 Combination subset complexity: O(2ⁿ)
+
+--------------------------------------------------------------------------------
+The state transition is kind of straightforward. The real problem is how to
+determine whether a substring is palindrome or not.
 
 2. Dynamic Programming
 

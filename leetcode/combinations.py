@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 '''
 77. Combinations
 
@@ -22,8 +23,12 @@ If n = 4 and k = 2, a solution is:
   [1,4],
 ]
 
-================================================================================================
+================================================================================
 SOLUTION
+
+Combinations are ORDER INVARIANT. So the state space is same as permutation
+except that order must be restricted to avoid duplicates.
+
     Combinations are like permutations except that the elements are unordered. Different arrangement
 of combination set correspond to different permutations, thereby producing duplicate combinations.
 To address the unordered property, we can force the elements to be ORDERED, increasing or decreasing.

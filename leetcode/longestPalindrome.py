@@ -27,7 +27,7 @@ Output:
 Explanation:
 One longest palindrome that can be built is "dccaccd", whose length is 7.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 1. Brute force

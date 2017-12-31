@@ -18,7 +18,7 @@ Note:
 3. Your runtime complexity should be less than O(n²).
 4. There is only one duplicate number in the array, but it could be repeated more than once.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 To prove the existence of duplicate element, we can utilize pigeonhole principle.

@@ -51,6 +51,9 @@ Idea is similar to binary indexed tree. We partition the integer range into seve
 in log space. In log space means the partition is done with terms of power, based on 10, in
 this case.
 
+For example, 999 = 900 + 99 + 9 = 899 + 1 + 99 + 9.
+Then we can find a way to reduce the problem and use some recurrence relation.
+
 Recurrence relation can be built with respect to the partitions.
 
 Let m = floor(log₁₀n), a, r = divmod(n, 10^m).

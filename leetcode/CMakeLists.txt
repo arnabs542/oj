@@ -49,7 +49,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 #=======================================BUILD TARGETS==========================================
 
 # add the executable target
-add_executable(WildcardMatching WildcardMatching.cpp)
+add_executable(wildcardMatching wildcardMatching.cpp)
 #add_executable(wordBreakII wordBreakII.cpp)
 add_executable(minimumWindowString minimumWindowString.cpp)
 add_executable(totalHammingDistance totalHammingDistance.cpp)
@@ -94,7 +94,7 @@ target_link_libraries(replaceWords _type)
 
 message(STATUS "leetcode WITH_TESTS: ${WITH_TESTS}")
 if (WITH_TESTS)
-  add_executable(_test _test.cpp)
+  add_executable(_test tests/_test.cpp)
 endif (WITH_TESTS)
 #=============================================================================================
 # the following is not used yet, serving as tutorial template
@@ -112,7 +112,7 @@ endif (WITH_TESTS)
 include(CTest)
 
 # does the application run
-add_test (WildcardMatchingRun WildcardMatching hello he*o)
+add_test (wildcardMatchingRun wildcardMatching hello he*o)
 add_test (testCPP _test.cpp)
 
 #=============================================================================================

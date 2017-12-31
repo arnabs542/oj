@@ -35,6 +35,12 @@ substring s[i:j+1].
 
 Then we have recurrence relation...
 
+if (s[i] == s[j]) {
+    dp[i][j] = 2 + dp[i + 1][j - 1]; // dependency requires (i + 1, j - 1) computed first
+} else {
+    dp[i][j] = max(dp[i][j-1], dp[i + 1][j]);
+}
+
 Time limit exceeded in Python implementation...
 
 """
