@@ -9,6 +9,25 @@ For example,
 [1,1,2] have the following unique permutations:
     [1,1,2], [1,2,1], and [2,1,1].
 
+================================================================================
+SOLUTION
+
+1. Brute force - permutation
+Just like permutations without duplicates, generate all of them, and check
+for duplicates.
+
+Define state as a tuple:
+    (permutation, i: next position to fill)
+
+Complexity: O(n!)
+
+2. Avoid duplicates on the fly
+
+With a graph search(depth first search) algorithm, how does duplicates occur?
+It occurs when we fill one position with same number more than once!
+
+Well, then we avoid that, and problem is solved.
+
 '''
 
 

@@ -29,14 +29,38 @@ SOLUTION
 Combinations are ORDER INVARIANT. So the state space is same as permutation
 except that order must be restricted to avoid duplicates.
 
-    Combinations are like permutations except that the elements are unordered. Different arrangement
-of combination set correspond to different permutations, thereby producing duplicate combinations.
-To address the unordered property, we can force the elements to be ORDERED, increasing or decreasing.
+Combinations are like permutations except that the elements are unordered.
+Different arrangement of combination set correspond to different permutations,
+thereby producing duplicate combinations.
+
+To address the ORDER INVARIANT property, we can restrict the elements to be ORDERED,
+no matter increasing or decreasing.
 
 Treat this problem as a graph problem, and utilize the recurrence relation. Then we have
 multiple approaches to resolve the problem.
 
-1. Graph problem treatment - dfs(Depth First Search): recursion or stack iteration
+1. Graph problem treatment - dfs(Depth First Search) - recursion or stack iteration
+
+There are many different ways to define the state.
+
+1) In a slots filling - position-wise perspective
+Define state as a tuple of:
+    (
+    i: starting position of combination to fill,
+    available numbers,
+    )
+
+Where available numbers can be represented by a integer index, indicating the
+available numbers' starting position.
+
+2) In a element-wise perspective
+
+For each number, we make binary decision about whether to use that element or not
+Define state:
+    (
+    i: current element index,
+    count of numbers in current combination
+    )
 
 Utilizing the recurrence relation between a sub-combination and its superset:
     any non-empty combination can be obtained by adding elements to one of its subset.
@@ -62,9 +86,15 @@ At each position, we can:
     1) choose one available element from m unused set(one of many), or
     2) decide whether to use the one specific element(zero or one)
 
+Complexity: C(n, k), C(n, k).
+
 '''
+
+from _decorators import timeit
+
 class Solution(object):
 
+    @timeit
     def combine(self, n, k):
         """
         :type n: int
@@ -72,7 +102,7 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         # result = self._combineDfs(n, k)
-        result = self._combineDfsBinary(n, k)
+        result = self._combineDfsElementwise(n, k)
         # result = self._combineDfsOpt(n, k)
         # result = self._combineDfsBacktrack(n, k)
         # result = self._combineDP(n, k)
@@ -85,6 +115,8 @@ class Solution(object):
         :type n: int
         :type k: int
         :rtype: List[List[int]]
+
+        Position-wise state transition.
 
         Fill k slots with n candidates one by one, recursively.
         Another recurrence relation could be C(n,k)=C(n-1,k-1)+C(n-1,k).
@@ -159,11 +191,12 @@ class Solution(object):
         dfs(0)
         return result
 
-    def _combineDfsBinary(self, n, k):
+    def _combineDfsElementwise(self, n, k):
         '''
-        Another kind of state transition function.
+        Element wise perspective state transition function.
 
-        At each step, we have two choices: use this element or not, giving two search branches.
+        For each element, we make binary decision:
+            use this element or not, giving two search branches.
         '''
         result = []
         combination = []

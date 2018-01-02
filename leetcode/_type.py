@@ -22,3 +22,12 @@ class ListNode(object):
     def __repr__(self):
         return str(self.val)
 
+
+# Definition for an interval.
+class Interval:
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
+
+    def __repr__(self):
+        return '[{}, {}]'.format(self.start, self.end)

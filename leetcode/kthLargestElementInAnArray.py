@@ -71,6 +71,8 @@ Of course, O(n) is the average time complexity. In the worst case, the recursion
 
 ----------------------------------------------------------------------------------------------
 Divide and Conquer time complexity analysis
+Master theorem - time complexity given the recurrence relation.
+
 The ultimate time complexity master theorem, given the recurrence relation.
 
 1. T(n) = 2T(n/2) + O(n) = O(NlogN),
@@ -152,6 +154,11 @@ Expand the expression:
          = T(1) + O(n) + O(n - 1) + ... + O(1)
          = O(n(n+1)/2) + T(1)
 
+7. T(n) = T(n-1)+T(n-2)+...+T(1)
+=> T(n+1) = T(n)+T(n-1)+T(n-2)+...+T(1)
+=>T(n+1) = 2T(n)
+
+T(n) = O(2ⁿ)
 
 '''
 

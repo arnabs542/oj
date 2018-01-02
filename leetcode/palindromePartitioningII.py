@@ -15,55 +15,96 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 ==============================================================================================
 SOLUTION
 
-1. Dynamic Programming
-    Use DP to check whether a string is palindromic
-    Use DP to decide the min cut of a string by partitioning it,
-    with the recurrence similar to the matrix chain order problem
+1. Brute force
+Exhaust all possible partitions, and get the shortest list.
 
-    table[i][j]=
-    -1  (initialization)
-    0   (palindrome)
-    n   (n>0,not palindrome,n is the min cut of palindromic partitioning)
+Complexity is same as "palindrome partitioning", O(n2ⁿ).
 
-    recurrence:
-        1) table[i][j]=(s[i]==s[j] && table[i+1][j-1] == True)
-        2) mincuts[j] = min(mincuts[j], mincuts[i-1]+1) if table[i][j] == True
-            mincuts[i]:minimum palindrome cuts for s[0:i+1]
-        The above recurrence is optimized version for :
-            mincuts[i][j] = min(mincuts[i][k]+mincuts[k+1][j]+1)
-        The former recurrence only reassign new mincus when
-        palindrome suffix occurs.
+2. Dynamic Programming
+In this problem, there is no need to find all partition configurations.
+We only need to keep track of state of minimum cuts.
+
+
+1) Define stet mincuts[j] as minimum cuts needed for substring s[0:j+1]
+
+Complexity: O(N³) without building the palindrome look up table, because
+checking palindrome takes O(N) on average.
+
+
+2) Preprocess to build a palindrome look up table
+
+Define state dp[i][j] as minimum cuts needed for substring s[i:j+1]
+And define state pal[i][j] as whether substring s[i:j+1] is palindrome or not.
+
+Then pal[i][j] depends on pal[i+1][j-1].
+The look up table can be filled in a reverse row-major manner:
+    for  i = N, N - 1, ... 1:
+        for j = i, i + 1, ..., N:
+            # state transition from pal[i+1][j-1]
+
+Or, in a column major manner:
+    for j = 1, 2, ..., N:
+        for  i = 1, 2, ... j:
+            # state transition from pal[i+1][j-1]
+
+Recurrence relation similar to the matrix chain order problem
+Recurrence relation:
+    1) pal[i][j] = (s[i]==s[j] && pal[i+1][j-1] == True)
+    2) mincuts[j] = min(mincuts[j], mincuts[i-1]+1) if pal[i][j] == True
+
+Complexity: O(N²)
+
+3. Breadth first search
+
+Minimum cuts can be treated as shortest path in graph.
+
+And shortest path problem can generally be solved with breadth first search.
+
+Define state (i: starting index, step: number of cuts taken)
+
+
 '''
 
 
 class Solution:
-    # @param s,a string
-    # @return an integer
-
-    # @apply dynamic programming.mincuts[i] = min(mincuts[i-j])+1
-    # @ j is the length of palindrome string ending with s[i]
-
     def minCut(self, s):
-        table = [[-1 for x in range(len(s))] for x in range(len(s))]
-        mincuts = [-1 for x in range(len(s) + 1)]
+        """
+        :type s: str
+        :rtype: int
+        """
+        result = self._minCutDp(s)
 
-        for i in range(0, len(s) + 1, 1):
-            mincuts[i] = i - 1
+        print(s, "result: ", result)
 
-        for j in range(2, len(s) + 1, 1):
-            for i in range(1, j + 1, 1):
-                if s[i - 1] == s[j - 1] and ((j - i < 2) or table[i][j - 2] == 0):
-                    table[i - 1][j - 1] = 0
-                    mincuts[j] = min(mincuts[j], mincuts[i - 1] + 1)
+        return result
 
+    def _minCutDp(self, s):
+        pal = [[1 if j == i  else 0 for j in range(len(s))] for i in range(len(s))]
+        mincuts = [x - 1 if x else 0 for x in range(len(s) + 1)]
+
+        # XXX: trick, update the state transition table in column major manner
+        for j in range(0, len(s), 1):
+            for i in range(0, j + 1, 1):
+                if s[i] == s[j] and ((j - i < 2) or pal[i + 1][j - 1]):
+                    pal[i][j] = 1
+                    mincuts[j + 1] = min(mincuts[j + 1], mincuts[i] + (i > 0))
+
+        # print(mincuts)
         return mincuts[len(s)]
 
 
 if __name__ == "__main__":
-    print(Solution().minCut("aaaaaaaaaaaaaaaaaa"))
+    solution = Solution()
+
+    assert solution.minCut("") == 0
+    assert solution.minCut("1") == 0
+    assert solution.minCut("aa") == 0
+    assert solution.minCut("aba") == 0
+    assert solution.minCut("aab") == 1
+    assert (Solution().minCut("aaaaaaaaaaaaaaaaaa") == 0)
         # Solution().minCut("adabdcaebdcebdcacaaaadbbcadabcbeabaadcbcaaddebdbddcbdacdbbaedbdaaecabdceddccbdeeddccdaabbabbdedaaabcdadbdabeacbeadbaddcbaacdbabcccbaceedbcccedbeecbccaecadccbdbdccbcbaacccbddcccbaedbacdbcaccdcaadcbaebebcceabbdcdeaabdbabadeaaaaedbdbcebcbddebccacacddebecabccbbdcbecbaeedcdacdcbdbebbacddddaabaedabbaaabaddcdaadcccdeebcabacdadbaacdccbeceddeebbbdbaaaaabaeecccaebdeabddacbedededebdebabdbcbdcbadbeeceecdcdbbdcbdbeeebcdcabdeeacabdeaedebbcaacdadaecbccbededceceabdcabdeabbcdecdedadcaebaababeedcaacdbdacbccdbcece")
-    print(Solution().minCut("ababbbabbababa"))
-    print(Solution().minCut("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    assert (Solution().minCut("ababbbabbababa") == 3)
+    assert (Solution().minCut("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -88,4 +129,4 @@ if __name__ == "__main__":
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
+                            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") == 1)

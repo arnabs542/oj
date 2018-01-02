@@ -93,8 +93,8 @@ class Solution(object):
         :type S: int
         :rtype: int
         """
-        # result = self._findTargetSumWaysDfs(nums, S)
-        result = self._findTargetSumWaysDfsIterative(nums, S)
+        result = self._findTargetSumWaysDfs(nums, S)
+        # result = self._findTargetSumWaysDfsIterative(nums, S)
         print(result)
         return result
 

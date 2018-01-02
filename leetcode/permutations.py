@@ -19,8 +19,8 @@ Follow up: with duplicate elements? Like 1,1,2, 2,3,2, ...
 
 Follow up: arrangements of m of n numbers. ( m <= n)
 
-==============================================================================================
-SOLUTION:
+================================================================================
+SOLUTION
 
 For a general partial permutation can be obtained in a slot filling manner: fill one slot,
 or position, at one time, and then reach the final stage where we have an eligible solution.
@@ -29,9 +29,10 @@ This process can be treated as growing a graph,
 For the recurrence relation, we have several difference state transition, depending on the
 definition of STATE.
 
+--------------------------------------------------------------------------------
 1. Dynamic Programming: mathematical recurrence relation
 
-Define the state f[n, k] as number of PARTIAL ARRANGEMENTS of k given n, then explore the
+Define the STATE f[n, k] as number of PARTIAL ARRANGEMENTS of k given n, then explore the
 RECURRENCE RELATION.
 
 The structure of this problem resembles the 0-1 knapsack problem.
@@ -42,6 +43,7 @@ We have recurrence relation state transition:
 For a special case, full permutation, we have
   f[n, n] = n * f[n - 1, n - 1] + 0 = n * f[n - 1, n - 1]
 
+--------------------------------------------------------------------------------
 2. Treat it as GRAPH problem: dfs/bfs
 
 A Dynamic Graph is a graph with dynamic vertices or edges/connectivity.
@@ -49,7 +51,7 @@ A Dynamic Graph is a graph with dynamic vertices or edges/connectivity.
 Vertices are partial states, representing the partial permutations. And connectivity is
 represented by edges, which correspond to state transition/recurrence relation.
 
-For each vertex, there are many different branches to follow, leading to another
+For each vertex, there are many different BRANCHES to follow, leading to another
 vertex/state/permutation. To find all eligible permutations, traverse the graph from
 vertices of shorter permutations to longer ones. This is actually growing the partial
 permutations
@@ -65,7 +67,7 @@ In this dynamic graph, the VERTICES are PARTIAL PERMUTATIONS, and the EDGES are 
 numbers. We generate the permutations by adding numbers one by one to transit from one
 vertex to another through an edge.
 
-Define the state f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
+Define the STATE f(k) as a partial arrangement of k numbers, where k = 0, 1, ..., K.
 Then there always exists such transition from f(k - 1) that
 
     f(k) = f(k - 1) + [available/non-duplicate number].
@@ -84,6 +86,7 @@ To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
     2) Pass indices, for states represented with large objects
     2) Backtrack: mutate state in place, do dfs, restore when dfs subroutine returns.
 
+--------------------------------------------------------------------------------
 3. Generative method: Lexicographical order next permutation
 Define the state as one possible partial permutation of K numbers. At each step, find
 the next Lexicographically larger permutation.
@@ -94,38 +97,58 @@ the other n−0 elements are not disturbed
 
 Reference: https://en.wikipedia.org/wiki/Heap%27s_algorithm
 
-==============================================================================================
+Complexity: P(n, k), P(n, k) for permutations of k given n.
+If k = n, then complexity is O(n!), O(n!).
+
+================================================================================
 CONVERT RECURSIVE CALL TO ITERATIVE
 
 To convert recursive depth-first search call to iterative, we have two
-difference implementations.
+difference approaches.
 
-1. ADAPT BREADTH-FIRST SEARCH process.
+1. Simple case without backtracking - push and pop out of stack
+
+Just BREADTH-FIRST SEARCH process, but with a stack.
 
 Change the search FRONTIER behaviour from QUEUE to STACK, and the rest
 is the same with BREADTH-FIRST SEARCH. We PUSH states into the search
 frontier, and pop them out, then explore adjacent vertices(states). In
 this way, we are pushing all adjacent vertices at the same time.
 
-2. EMULATE THE RECURSIVE CALL mechanism with STACK.
-
-First, define the STATE.
-We define the state as a tuple of:
-    function INPUT PARAMETER,
-    LOCAL VARIABLES,
-    OUTPUT(RETURN VALUE)
-in the RECURSIVE PROCEDURE and store them as STACK FRAME.
-
-Operate on the stack, at each frame, we determine whether to PUSH a new frame or POP out
-an existing frame that has already been finished exploring.
-
-Then general algorithm procedure skeleton for this would be
+Then general procedure skeleton for this would be like
 1) PUSH state until some condition(STOP CRITERION)
 2) POP state for CONDITION of STOP CRITERION, RESTORING states to backtrack. Those
 STOP CRITERIA correspond to the regions where the recursive dfs procedure function returns.
 3) Repeat 1) and 2)
 
+2. Complex case - with backtracking - define states with full information
+
+Emulate the RECURSION mechanism with STACK.
+
+--------------------------------------------------------------------------------
+First and most importantly, define the STATE with full information.
+
+Aggregate the variables used in the recursive procedure, and define the state as a tuple of:
+    state = (
+    INPUT: function PARAMETERS,
+    LOCAL VARIABLES: search branch control variables, value accumulator, ...,
+    OUTPUT: function RETURN VALUE,
+    )
+store them as STACK FRAME.
+
+--------------------------------------------------------------------------------
+Second, convert the state transition recurrence relation from recursion to iteration.
+1) Recursive call: pushing stack frame into the stack
+2) Recursive procedure returns: popping out from the stack
+3) Local variable modified: pop out from the stack, and modify the state,
+and push again. This is actually the backtracking.
+
+--------------------------------------------------------------------------------
+Operate on the stack, at each frame, we determine whether to PUSH a new frame or POP out
+an existing frame that has already been finished exploring.
+
 Psuedocode to emulate recursion with stack in iterative manner:
+
 ```
 stack = [(state0)]# Initialize stack with initial state
 while stack is not empty:
@@ -135,7 +158,7 @@ while stack is not empty:
         if condition a solution is satisfied:
             collect current solution
         stack.pop()
-        if stack: # there exists a higher level stack frame
+        if stack: # backtrack, a higher level stack frame
             frame = stack.pop()
             backtrack: restore state of the frame
             new_frame = T(frame) # state transition from old to new state
@@ -145,6 +168,7 @@ while stack is not empty:
         new_frame = T(frame) # state transition from old to new state
         stack.append(new_frame) # push new state/frame
 return result
+
 ```
 
 ----------------------------------------------------------------------------------------------
@@ -157,8 +181,10 @@ vertices(states) at one time or one by one.
 For DYNAMIC GRAPH, where the edges or vertexes are dynamic, if we want to backtrack (
 restoring states after descendants have been visited), we adopt Stack Emulated Recursion
 approach.
+
 Otherwise, we need to pass copies of states to avoid backtrack, in order to do
 it with the first manner.
+
 """
 
 

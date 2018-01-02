@@ -20,9 +20,12 @@ You may assume the string contains only lowercase alphabets.
 Follow up:
 What if the inputs contain unicode characters? How would you adapt your solution to such case?
 
-==============================================================================================
-SOLUTION:
-1. hash table to record occurrence count, O(n)
+================================================================================
+SOLUTION
+
+1. Hash count
+
+Complexity: O(26)
 
 Adversarial approach:
     In one pass increase the count, in the other one pass decrease the count.
@@ -38,14 +41,15 @@ prime factors = [
 73, 79, 83, 89, 97,
 101, 107]
 
-    1) Use product of prime factors to as the hash code.
+1) Use product of prime factors to as the hash code.
     But there is a potential risk of overflowing. Taking logarithm of the hash code will
 reduce the precision.
-    2) Use occurrence count weighted (co)prime numbers as hash code.
+2) Use occurrence count weighted (co)prime numbers as hash code.
     Wrong! Because the coefficient may not be coprime with those prime numbers. Their might
 be hash collision.
 
 3. Optimized counting sort to reduce the sorting complexity to O(n).
+
 '''
 
 class Solution(object):

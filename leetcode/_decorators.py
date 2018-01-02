@@ -45,23 +45,20 @@ class memoize(object):
             res = cache[key] = self.func(*args, **kw)
         return res
 
-class memoizeFunc(dict):
+class memoizeFunc:
     '''
     Decorator. Caches a function's return value each time it is called.
     If called later with the same arguments, the cached value is returned
     (not reevaluated).
     '''
+    def __init__(self, fn):
+        self.fn = fn
+        self.memo = {}
+    def __call__(self, *args):
+        if args not in self.memo:
+            self.memo[args] = self.fn(*args)
+        return self.memo[args]
 
-    def __init__(self, func):
-        super().__init__()
-        self.func = func
-
-    def __call__(self, *args, **kw):
-        return self[args]
-
-    def __missing__(self, key):
-        ret = self[key] = self.func(*key)
-        return ret
 
 def timeit(method):
     '''

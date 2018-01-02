@@ -16,10 +16,13 @@ Rectangle Area
 Assume that the total area is never beyond the maximum possible value of int.
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
+
 Sum areas of individual rectangles, and subtract overlapping area.
 
 To get the INTERSECTION border points, we just need to get the INNER MOST COORDINATE.
+
+
 '''
 
 class Solution(object):

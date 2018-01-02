@@ -23,11 +23,19 @@ SOLUTION
 At each position, make binary decision about whether to partition here.
 
 Complexity
-Combination subset complexity: O(2ⁿ)
+
+T(n) = 1 + T(n - 1) + 2 + T(n - 2) + ... + n - 1 +  T(1)
+
+Combination subset complexity: O(n2ⁿ)
+There are at most 2ⁿ different configurations of partitioning the string.
+And for each configuration, it takes O(n) time to check whether it's palindrome.
+
+Worst case is "aaaaaa".
 
 --------------------------------------------------------------------------------
 The state transition is kind of straightforward. The real problem is how to
 determine whether a substring is palindrome or not.
+
 
 2. Dynamic Programming
 
@@ -35,105 +43,62 @@ For the last character, find all possible palindrome substring ending here.
 Denote the substring ending here begins with i.
 Then, f(n) = {p + s[i:n+1] for p in f(i - 1)}, for each i that s[i:n+1] is palindrome.
 
-Complexity: O(N³).
+Complexity: Actually still more than O(N³), upper bound is O(2ⁿ), because the
+palindrome set size may be exponential.
 
 One problem is how to find palindrome ending with last character, as this can
 degenerate to O(N²).
 
 Build a palindrome table? p[i][j] = 1 indicates substring s[i:j+1] is palindrome.
 
-3. Graph search: depth first search
 
 """
 
 
 class Solution:
-
-    @classmethod
-    def getAnchorPalins(cls, s, index, step):
-        '''
-        @param s,a string
-        @param index,a integer
-        @param step,1 or -1
-
-        @return a list of  palindrome strings that start
-          or end with index
-
-        @optimization: when deciding whether a substring is palindrome,
-          we can also apply dynamic programming technique.
-         use a two-dimension array p[n][n] to store whether
-        a substring s[i:j+1] is palindrome
-        '''
-        pl = []
-        for i in range(index, index + step * len(s), step):
-            if index < i:
-                if Solution.isPalindrome(s[index:i]):
-                    if s[index:i] != "":
-                        pl.append(s[index:i])
-                    else:
-                        pass
-                else:
-                    pass
-
-            else:
-                if Solution.isPalindrome(s[i:index + 1]):
-                    if s[i:index + 1] != "":
-                        pl.append(s[i:index + 1])
-                    else:
-                        pass
-
-        return pl
-
-    @classmethod
-    def isPalindrome(cls, s):
-        n = len(s)
-        if n == 0:
-            return True
-        i = 0
-        j = n - 1
-        for i in range(n):
-            # print "i:%d "%i,s[i].lower(),",",s[j].lower()
-            if i >= j:
-                return True
-            if s[i].isalnum():
-                while not s[j].isalnum():
-                    j = j - 1
-
-                if s[i].lower() != s[j].lower():
-                    return False
-                else:
-                    j = j - 1
-                    pass
-
-            else:
-                pass
-
-    # @param, a string
-    # @return a list of lists of string
     def partition(self, s):
-        pls = []
-        pls.append([[s[0]]])
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        result = self._partitionDfs(s)
 
-        for i in range(1, len(s), 1):
-            pls.append([])
-            #palins = []
-            palins = Solution.getAnchorPalins(s, i, -1)
-            for palin in palins:
-                j = i - len(palin)
-                if j >= 0:
-                    for pl in pls[j]:
-                        newPl = list(pl)
-                        newPl.append(palin)
-                        pls[i].append(newPl)
-                else:
-                    newPl = [palin]
-                    pls[i].append(newPl)
+        print(s, 'result: ', result)
 
-        return pls[len(s) - 1]
+        return result
+
+    def _partitionDfs(self, s):
+
+        isPalindrome = lambda i, j: s[i:j + 1] == s[i:j + 1][::-1]
+
+        def dfs(start: int):
+            """
+            Returns
+            a list of list of palindrome substrings
+            """
+            if start >= len(s): return [[]] # FATAL base case
+            result = []
+            for i in range(start, len(s)):
+                # is palindrome
+                if isPalindrome(start, i):
+                    ret = dfs(i + 1)
+                    for l in ret:
+                        result.append([s[start:i + 1]] + l)
+            return result
+        return dfs(0)
+
+    # TODO: dynamic programming?
+
+def test():
+    solution = Solution()
+
+    assert solution.partition("") == [[]]
+    assert solution.partition("a") == [["a"]]
+    assert solution.partition("aa") == [["a", "a"], ["aa"]]
+    assert (Solution().partition("aab") == [["a", "a", "b"], ["aa", "b"]])
+
+    print("self test passed!")
 
 if __name__ == "__main__":
-    print(Solution().partition("aa"))
-    print(Solution().partition("aab"))
-    # print Solution
-    print(Solution().getAnchorPalins("aab", 2, -1))
-    print(Solution().getAnchorPalins("aa", 1, -1))
+    test()
+

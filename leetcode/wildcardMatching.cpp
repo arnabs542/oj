@@ -222,9 +222,9 @@ public:
      *
      * Returns:
      * int:
-     * ret =0: no match, both text and pattern not exhausted
-     * ret = 1: string s is exhausted, but no match: pattern contains more characters
-     * ret = 2: match
+     * ret = 1: match, end of string and pattern
+     * ret = 0: no match, characters no match, both text and pattern not exhausted
+     * ret = -1: no match, another state, string s is exhausted: pattern contains more characters
      *
      */
     int dfs(string& s, string& p, unsigned int si, unsigned int pi) {
@@ -233,22 +233,22 @@ public:
                 ++si;
                 ++pi;
             } else if (p[pi] == '*') {
-                //while (pi < p.size() - 1 && p[pi + 1] == '*') ++pi; // skip successive '*'
+                while (pi < p.size() - 1 && p[pi + 1] == '*') ++pi; // skip successive '*'
                 for (uint k = si; k <= s.length(); ++k) {
                     int ret = dfs(s, p, k, pi + 1);
-                    if (ret == 1 || ret == 2) { return ret; }
+                    if (ret == -1 || ret == 1) { return ret; } // avoid exhaustive search for negative
                 }
-                return 0;
-            } else { return 0; }
+                return -1;
+            } else { return 0; } // characters no match.
         }
         while (pi < p.size() && (p[pi] == '*'))  ++pi;
-        if (si == s.size() && pi == p.size()) { return 2; }
-        if (pi < p.size()) { return 1; } // pattern contains more characters
+        if (si == s.size() && pi == p.size()) { return 1; }
+        if (pi < p.size()) { return -1; } // pattern contains more characters
         return 0;
     }
 
     bool _isMatchBacktrack(string s, string p) {
-        return dfs(s, p, 0, 0) > 1;
+        return dfs(s, p, 0, 0) > 0;
     }
 
     bool _isMatchBacktrackIterative(const char* text, const char* pattern)

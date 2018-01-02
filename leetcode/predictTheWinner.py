@@ -42,17 +42,24 @@ Note:
 Any scores in the given array are non-negative integers and will not exceed 10,000,000.
 If the scores of both players are equal, then player 1 is still the winner.
 
-==============================================================================================
+
+================================================================================
 SOLUTION
 
-This is a multiple agent zero-sum game, so MINIMAX algorithm applies.
-The ultimate payoff function f = difference between scores of first and second player.
+This is a multiple agent zero-sum game, and MINIMAX algorithm applies.
+The ultimate state is whether a player wins or loses. But this state doesn't provide
+full information for state transition.
+
+The state transition recurrence relation depends on the exact sum of chosen numbers.
+Define payoff function, as f = difference between scores of first and second player.
 Then 1st player wins if f >= 0.
 
-And the subproblems are represented with states of interval. Apparently, they are overlapping.
-So recursive implementation will be exponentially time consuming due to lots of redundant
-calculation.
-To utilize ITERATIVE approach, we must define state transition wisely.
+So, define state as a tuple:
+    (
+    score difference: difference of score to another player,
+    (low, high): with available numbers in range [i, j]
+    )
+
 ----------------------------------------------------------------------------------------------
 In this multiplayer game, there are two players: maximizer and minimizer. In two alternative
 steps, agents take their best actions to maximize/minimize the payoff function.
@@ -63,16 +70,29 @@ is equivalent to maximizing its negative function. Then we can define an such pl
 state that its negative value corresponds to its opponent's payoff function.
 
 Then, we can define intermediate payoff function:
-    f(a, i, j) = maximum difference between scores the first and second player can obtain with
-given an array a from in [i, j].
+    f(a, low, high) = maximum difference between scores the first and second player can obtain with
+given an array a from in [low, high].
 
 Then the state transition for payoff function can be easily derived with MINIMAX:
-    f[i][j] = max(nums[i - 1] - f[i + 1][j], nums[j - 1] - f[i][j - 1])
+    f[low][high] = max(nums[low] - f[low + 1][high], nums[high] - f[low][high - 1])
 
-1. Dynamic programming with 2D state transition matrix
+1. Recursive minimax - with memoization
+
+And the subproblems are represented with states of interval. Apparently, they are overlapping.
+So recursive implementation will be exponentially time consuming due to lots of redundant
+calculation.
+
+To adopt ITERATIVE approach, we must define state transition wisely.
+
+Complexity
+O(2ⁿ) without memoization
+O(n²) with memoization
+
+
+2. Dynamic programming with 2D state transition matrix
 Complexity: O(N²), O(N²).
 
-2. Space optimization
+3. Space optimization
 By drawing the state transition curve in the transition matrix, we can observe that current
 state only depends on (i, j-1), (i+1, j). Then we can reduce the 2D transition matrix to a 1D
 state transition column/row vector. If using a row vector, Then we fill the vector from
@@ -90,6 +110,8 @@ bottom to up, left to right.
 
 '''
 
+from _decorators import memoizeFunc as memoize
+
 class Solution(object):
 
     def PredictTheWinner(self, nums):
@@ -97,10 +119,23 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        # return self.PredictTheWinnerMinimax(nums)
-        return self.PredictTheWinnerMinimaxSpaceOptimized(nums)
+        result = self._PredictTheWinnerMinimaxDfs(nums)
+        # result = self._PredictTheWinnerMinimaxDp(nums)
+        # result = self._PredictTheWinnerMinimaxSpaceOptimized(nums)
 
-    def PredictTheWinnerMinimax(self, nums):
+        print(nums, result)
+
+        return result
+
+    def _PredictTheWinnerMinimaxDfs(self, nums):
+        @memoize
+        def dfs(low, high):
+            if not 0 <= low <= high <= len(nums) - 1: return 0
+            diff = max(nums[low] - dfs(low + 1, high), nums[high] - dfs(low, high - 1))
+            return diff
+        return dfs(0, len(nums) - 1) >= 0
+
+    def _PredictTheWinnerMinimaxDp(self, nums):
         f = [[0 for j in range(len(nums) + 2)] for i in range(len(nums) + 2)]
         for l in range(1, len(nums) + 1):
             for i in range(1, len(nums) + 2 - l):
@@ -112,7 +147,7 @@ class Solution(object):
         # print(f[1][len(nums)], f)
         return f[1][len(nums)] >= 0
 
-    def PredictTheWinnerMinimaxSpaceOptimized(self, nums):
+    def _PredictTheWinnerMinimaxSpaceOptimized(self, nums):
         '''
         Linear space complexity for above minimax solution
         '''
@@ -128,7 +163,7 @@ def test():
     solution = Solution()
 
     a = []
-    assert solution.PredictTheWinner(a)
+    # assert solution.PredictTheWinner(a)
 
     a = [1]
     assert solution.PredictTheWinner(a)

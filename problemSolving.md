@@ -9,11 +9,15 @@ Enumerate test cases/examples, to understand the problem, and maybe INDUCTIVELY 
 Backward induction.
 
 ## Abstraction and MODELING - solving the problem in a model of the system before applying it to the real system
+
+### Observe, State, Model
+Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
+
 Convert practical problems into mathematical/algorithmic MODELS.
 For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are all problems that can be
 abstracted into a graphical model.
 
-General models:
+### General Models
 - Counting model
 - Sorting model: sort algorithms, monotonic analysis
 - Pointers model: two pointers, ...
@@ -25,7 +29,7 @@ General models:
     - tree
     - graph
 - GRAPH SEARCH model
-- RECURRENCE RELATION / STATE TRANSITION:
+- STATE TRANSITION RECURRENCE RELATION
     - Divide and conquer
     - Dynamic programming
     - Greedy strategy
@@ -33,12 +37,16 @@ General models:
     - Backward induction
 - STATE REPRESENTATION: Bitwise,
 - Mathematical analysis model
+    - Order
+    - Interval or ranges
+    - Monotonicity analysis
+    - Extrema points analysis: often related to monotonic stacks and queues
     - combinatorics
     - probability: pdf, cdf, pmf, ...
-    - calculus: change rate
+    - calculus: change rate, integral, differentiation
 
 Try to exploit the problem in approaches like:
-- Change PERSPECTIVES 
+- Change PERSPECTIVES: backward induction, ...
 - Domain and range 
 - Treat it as another model of problem
 - Differentiation and integral (prefix sum)
@@ -56,30 +64,33 @@ algorithm, then try to OPTIMIZE by resolving that.
 
 Remember, every problem has a naive brute force solution, regardless of complexity.
 
-General optimization directions:
+### Optimization directions
 - Brute force method: GRAPH SEARCH, naive count
-- Optimization directions:
-    - Avoid duplicate computation
-        - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER (ORDER INVARIANT)
-        - Divide and conquer
-        - Eliminate OVERLAPPING subproblems in combination treating by
-            - Space time trade off: memoize
-            - Recurrence relation: DYNAMIC PROGRAMMING, divide and conquer, state machine, ...
-        - Greedy strategy
-            - Maximum/minimum greedy with respect to: dynamic programming with Heap data structure: reduced to log complexity
-            - Linear strategy
-    - Avoid unnecessary computation: GREEDY STRATEGY
-    - Enable efficient DATA REPRESENTATION with 
-        - DATA STRUCTURE
-        - Data representation
-            - bit representation: bitmap
-            - bit operation: XOR
-            - modulo
-            - arithmetic 
-    - Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
-        - Define state that WON'T LOSE INFORMATION for state transition function
-        - Define state that's TRACTABLE
-        - Augment/ADD STATE by another dimension of if current dimensions are insufficient
+- Avoid duplicate computation: order invariant, overlapping subproblem
+    - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
+    - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER (ORDER INVARIANT), P(n, k) -> C(n, k): O(n!) -> O(2ⁿ)
+    - Reduce COMBINATION to polynomial by eliminate OVERLAPPING subproblem: C(n, k) -> polynomial(n): O(2ⁿ) -> O(n^k)
+        - Space time trade off: MEMOIZE
+            - Collection data structure not easy to hash
+                - Convert to string
+                - Alternative state representation: ordered integer indices, ranges or intervals
+        - Recurrence relation: DYNAMIC PROGRAMMING, divide and conquer, state machine, ...
+    - Divide and conquer: reduce combination complexity to log, O(n) -> O(logn)
+- Avoid unnecessary computation: GREEDY STRATEGY
+    - Greedy strategy: reduce dynamic programming to greedy strategy if items share same gain 
+        - Order related
+        - Maximum/minimum: heap data structure, ...
+- Efficient DATA REPRESENTATION 
+    - DATA STRUCTURE
+    - Data representation
+        - bit representation: bitmap
+        - bit operation: XOR
+        - modulo
+        - arithmetic 
+- Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
+    - Define state that WON'T LOSE INFORMATION for state transition function
+    - Define state that's TRACTABLE
+    - Augment/ADD STATE by another dimension of if current dimensions are insufficient
 
 For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsack problem, 
 items have different cost(weight) and gain(value), so it should be solved with dynamic programming.
