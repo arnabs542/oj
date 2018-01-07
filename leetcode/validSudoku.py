@@ -23,8 +23,8 @@ need to be validated.
 ==============================================================================================
 SOLUTION
 
-Validity of soduku is only affected by three variables: whether there is duplicate in row, column
-and sub-box.
+Validity of sudoku is determined by three conditions:
+    whether there is duplicate in row, column and sub-box.
 
 1. Use hash table to mark existence.
 
@@ -39,10 +39,14 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: bool
         """
-        # return self.isValidSudokuHash(board)
-        return self.isValidSudokuArray(board)
+        # result = self._isValidSudokuHash(board)
+        result = self._isValidSudokuArray(board)
 
-    def isValidSudokuHash(self, board):
+        print(board, result)
+
+        return result
+
+    def _isValidSudokuHash(self, board):
         n = len(board)
         cols, rows = [set() for _ in range(n)], [set() for _ in range(n)]
         boxes = [[set() for _ in range(3)] for _ in range(3)]
@@ -56,7 +60,7 @@ class Solution(object):
                 boxes[i//3][j//3].add(d)
         return True
 
-    def isValidSudokuArray(self, board):
+    def _isValidSudokuArray(self, board):
         '''
         Using array as hash table, array's indices as keys, values as hash table's values.
         '''
