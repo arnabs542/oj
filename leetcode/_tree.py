@@ -238,7 +238,7 @@ class SegmentTree(object):
 
 
 class BinaryIndexedTree(object):
-    # TODO: binary indexed tree
+    # DONE: binary indexed tree
     """
     Binary indexed tree
 
@@ -253,12 +253,14 @@ class BinaryIndexedTree(object):
     The idea
 
     1) An integer can be represented as a BINARY NUMBER, or in another word, can be written
-    as a SUM OF TERMS OF POWER OF 2.
+    as a SUM OF TERMS OF POWERS OF 2.
 
     And this terms can be interpreted as offset, or range, from previous number.
     Thus, we can construct the tree structure in such way that, each node stores prefix sum
     within range (previous number, current number]. And the range contains number of size of
     power of 2.
+
+    In the same way, cumulative sum can be represented as sum of sets of partial sums.
 
     2) An (0, n] interval can be  divided into intervals of length of power of 2.
 
@@ -268,11 +270,16 @@ class BinaryIndexedTree(object):
     3) Every node of BI Tree stores sum of n elements where n is a power of 2.
     And n is determined by the last 1 bit: n = i & -i.
 
+    For example:
+    idx is some index of BIT. r is a position in idx of the last digit 1 (from left to right)
+    in binary notation. tree[idx] is sum of frequencies from index (idx – 2^r + 1) to index idx.
 
     ------------------------------------------------------------------------------------------
     Nodes relation
 
     1) Node i and its parent parent(i).
+    Isolate the last digit, using bitwise operator AND with num and -num.
+
     Node i represents sum of range from (parent(i), i], where n = i - parent(i) is power of 2.
     parent(i)  = i - i & (-i)
     And i stores sum of n = i & (-i) elements after parent(i).
@@ -357,76 +364,144 @@ class BinaryIndexedTree(object):
     """
 
     def __init__(self, nums):
-        self._tree = [0 for _ in nums]
-        for i, num in enumerate(nums):
-            self.update(i, num)
+        if isinstance(nums, list):
+            self._tree = [0 for _ in range(len(nums) + 1)] # 0 is dummy root node
+            self.size = len(self._tree) - 1
+            for i, num in enumerate(nums):
+                self.update(i, num)
+        elif isinstance(nums, int):
+            self._tree = [0 for _ in range(nums + 1)]
+            self.size = nums
         pass
 
-    def update(self, i, diff):
+    def update(self, x, diff):
         """
         update the prefix sum
 
         Inputs
         -----
-        i: element index, starting from 0
+        x: element index, starting from 0
         diff: difference to old value
 
         Returns
         -------
         None
         """
-        n = len(self._tree)
-        if i > len(self._tree):
-            # TODO: add a number
+        if x < 0:
+            raise Exception("ERROR: BIT update index x = {} is smaller than 0!".format(x))
+        if x >= self.size:
+            # TODO: add a number to the end of array
             pass
-        i += 1
 
-        while i <= n:
-            self._tree[i - 1] += diff
-            i += i & -i
-        pass
+        x += 1 # zero indexed to one indexed
+        while x <= self.size:
+            self._tree[x] += diff
+            x += x & -x
+        return
 
-    def prefixSum(self, i):
-        s = 0
-        if i < 0:
+    def query(self, x):
+        # n = len(self._tree) - 1 # 0 is dummy root node
+        if x < 0:
             return 0
-        if i >= len(self._tree):
-            return self.prefixSum(len(self._tree) - 1)
-        i += 1
-        while i:
-            s += self._tree[i - 1]
-            i -= i & -i
+        if x >= self.size:
+            return self.query(self.size - 1)
+
+        s = 0
+        x += 1
+        while x:
+            s += self._tree[x]
+            x -= x & -x
         return s
 
-    def query(self, i, j):
+    def prefixSum(self, x):
+        return self.query(x)
+
+    def queryRangeSum(self, i, j):
         """
         Range sum query: [i, j]
+        i, j: 0 based index
         """
         a = 0
         b = 0
-        if 1 <= i < len(self._tree):
+        if i >= 0:
             a = self.prefixSum(i - 1)
-        if 0 <= j < len(self._tree):
+        if j >= 0:
             b = self.prefixSum(j)
         return b - a
+
+    def lowerBound(self, target):
+        # TODO: binary search for lower bound index of cumulative value target,
+        # assuming increasing cumulative function!
+        low, high = 0, self.size - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if self.query(mid) >= target:
+                high = mid - 1
+            else:
+                low = mid + 1
+            pass
+        # print("prefix sum: ", self.query(low), low)
+        return low
+
+    def upperBound(self, target):
+        # TODO: binary search for upper bound index of cumulative value cum,
+        # assuming increasing cumulative function!
+        low, high = 0, self.size - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if self.query(mid) <= target:
+                low = mid + 1
+            else:
+                high = mid - 1
+            pass
+        return high
 
 class BinaryIndexedTree2D:
     """
     Two dimensional binary indexed tree is nothing but an array of 1D binary indexed tree.
 
+    In two dimensional binary indexed tree, bit[x][y] stores range sum over:
+        point [parent(x) + 1][maxY] to point [x][y].
     """
     def __init__(self, nums):
-        pass
+        if isinstance(nums, list):
+            self.maxX = len(nums)
+            self.maxY = len(nums[0]) if nums else 0
+
+        self._tree = [[0 for _ in range(self.maxY + 1)] for _ in range(self.maxX + 1)]
 
     def update(self, x, y, diff):
+        x += 1
+        y += 1
+        while x <= self.maxX:
+            self._updatey(x, y, diff)
+            x += x & -x
         pass
+
+    def _updatey(self, x, y, diff):
+        while y <= self.maxY:
+            self._tree[x][y] += diff
+            y += y & -y
+
+    def query(self, x, y):
+        x += 1
+        y += 1
+        if x <= 0 or y <= 0: return 0
+
+        s = 0
+        while x:
+            y1 = y
+            while y1:
+                s += self._tree[x][y1]
+                y1 -= y1 & -y1
+                pass
+            x -= x & -x
+
+        return s
 
     def prefixSum(self, x, y):
-        pass
+        return self.query(x, y)
 
-    def query(self, x0, y0, x1, y1):
-        pass
-    pass
 
 def testSegmentTree():
     # Your SegmentTree object will be instantiated and called as such:
@@ -504,6 +579,17 @@ def testBIT():
     print("Sum of elements in arr[0..5] is " + str(bit.prefixSum(5)))
     bit.update(3, +6)
     assert bit.prefixSum(5) == 18
+    try:
+        bit.update(-1, 9)
+    except Exception as e:
+        # raise(e)
+        print(e)
+
+    # test binary search for lower bound and upper bound
+    nums = [2, 1, 1, 0, 0, 0, 0, 3, 2, 3, 4, 5, 6, 7, 8, 9]
+    bit = BinaryIndexedTree(nums)
+    assert bit.lowerBound(4) == 2
+    assert bit.upperBound(4) == 6
 
     print("binary indexed tree passed!")
 

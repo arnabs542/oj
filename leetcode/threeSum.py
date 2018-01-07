@@ -19,8 +19,26 @@ A solution set is:
   [-1, -1, 2]
 ]
 
-SOLUTION:
-    Two pointers scan an array from two sides to middle.
+================================================================================
+SOLUTION
+
+1. Brute force
+
+Avoid duplicate, use a set to filter?
+
+Complexity: O(N³)
+
+2. Sort and Reduce it to two sum problem.
+
+Sort the list, scan the list and for each number, assume it's the first number n
+in the triplet, and search for other two numbers summing to -n.
+
+How to avoid duplicate?
+First part is to avoid duplicate first number n.
+Second part is to filter duplicate two tuples in the two sum procedure.
+
+Two pointers scan an array from two sides to middle to solve the two sum problem.
+
 '''
 
 class Solution(object):

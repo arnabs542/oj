@@ -4,7 +4,7 @@
 from functools import partial
 import time
 
-class memoize(object):
+class memoizeMethod(object):
     """
     Cache the return value of a function, including a class method.
 
@@ -47,7 +47,10 @@ class memoize(object):
 
 class memoizeFunc:
     '''
-    Decorator. Caches a function's return value each time it is called.
+    Memoize Decorator.
+
+    Caches a function's return value using its arguments as key.
+
     If called later with the same arguments, the cached value is returned
     (not reevaluated).
     '''
@@ -59,6 +62,7 @@ class memoizeFunc:
             self.memo[args] = self.fn(*args)
         return self.memo[args]
 
+memoize = memoizeFunc
 
 def timeit(method):
     '''

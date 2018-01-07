@@ -27,7 +27,7 @@ Of course not..
 Complexity: O(n!2ⁿ)
 
 2. Brute force - combination
-Sort and make binary decision for each pair.
+Make binary decision for each pair.
 
 Complexity: O(2ⁿ)
 

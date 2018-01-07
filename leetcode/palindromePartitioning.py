@@ -19,8 +19,17 @@ Return
 ==============================================================================
 SOLUTION
 
+A problem of finding all possible partitioning. It can be generally treated
+as a graph search problem, solving it with depth first search or bfs.
+
 1. Brute fore - graph search - combination
 At each position, make binary decision about whether to partition here.
+
+Define state:
+    (
+    palindrome substrings: as return,
+    index: substring starting index
+    )
 
 Complexity
 
@@ -36,8 +45,10 @@ Worst case is "aaaaaa".
 The state transition is kind of straightforward. The real problem is how to
 determine whether a substring is palindrome or not.
 
+2. Depth first search optimized with preprocessing a lookup table
+Check below dynamic programming.
 
-2. Dynamic Programming
+3. Dynamic Programming
 
 For the last character, find all possible palindrome substring ending here.
 Denote the substring ending here begins with i.
@@ -50,6 +61,8 @@ One problem is how to find palindrome ending with last character, as this can
 degenerate to O(N²).
 
 Build a palindrome table? p[i][j] = 1 indicates substring s[i:j+1] is palindrome.
+
+Complexity: O(2ⁿ-¹) + O(N²)
 
 
 """
@@ -95,6 +108,7 @@ def test():
     assert solution.partition("") == [[]]
     assert solution.partition("a") == [["a"]]
     assert solution.partition("aa") == [["a", "a"], ["aa"]]
+    assert solution.partition("aaa") == [['a', 'a', 'a'], ['a', 'aa'], ['aa', 'a'], ['aaa']]
     assert (Solution().partition("aab") == [["a", "a", "b"], ["aa", "b"]])
 
     print("self test passed!")

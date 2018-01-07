@@ -35,13 +35,22 @@ SOLUTION
 1. Brute force
 
 Track the state of 3-tuples.
-Take all possible 3-tuples, and verify.
+Exhaust all possible 3-tuples, and verify.
 
 Complexity: O(N³)
 
-2. Better brute force
+2. Improved brute force with some greedy strategy
+
+Idea: Fix '1' as minimum so far, exhaust all possible '3' and '2' pairs.
+
+For '1', it's optimal to always choose the minimum number so far.
+For '3', it can be any number after '1'.
+For '2', it can be any number after '3'.
+
 Scan the list, keep track of the minimum as '1'. For every number in the list, try to treat it
 as '3',  and search for '2' after it.
+
+Fixing minimum value so far as '1', reduce O(n) to O(1) for finding '1'.
 
 Complexity: O(N²)
 
@@ -51,7 +60,8 @@ Still, keep track  of 3-tuple state.
 Brute force method involves duplicate computations, with some greedy strategy or insights,
 it shall be reduced.
 
-This is an order model. MONOTONICITY analysis or EXTREMA POINTS analysis.
+This is an order model. After MONOTONICITY analysis or EXTREMA POINTS analysis, we can
+find the maximum as '3', then divide and conquer.
 
 We have some greedy strategy of choosing '1' and '3': local minimums and local maximums.
 
@@ -69,6 +79,8 @@ data structure, such as a segment tree. Then complexity is reduced to O(NlogN)
 Space complexity O(N).
 
 4. Stack of non-overlapping intervals
+
+Idea: maintain a list of ['1', '3'] pairs/intervals, try to find possible '2' within range.
 
 An array can be partitioned into a set of sequence monotonic increasing or decreasing subarray.
 
@@ -114,18 +126,56 @@ Then, scan the array, and for each new element:
 2) If it's local minimum: we have a new interval start 'lmin'
 3) If it's larger than previous number, we have a temporary interval end 'lmax'
 And try to merge the intervals:
-1) If it overlaps with an interval within the stack, then pattern is found
-2) If no overlapping, then push the new interval into the stack. And still keep
+1) If it OVERLAPS with an interval within the stack, then pattern is found
+2) If NON-OVERLAPPING, then push the new interval into the stack. And still keep
 the interval start 'lmin'. In this case, the new interval must be below stack top one.
-3) If new interval contains the stack top interval, then merge them.
+3) If new interval INCLUDES the stack top interval, then merge them.
 
 Repeat above procedures.
 
-5. Backward induction
-This problem is really much much simpler when processed backward!
+5. STACK - Backward induction - finding 3, min array, decreasing stack of '2'
 
-Scan the list backward, maintain monotonically increasing
-Just maintain a
+Idea: Use minimum so far as '1', maintain a list of possible '2', and linear search for '3'.
+
+Still keep track of state of individual numbers '1', '3' and '2'.
+
+In improved brute force method, fixing minimum so far as '1',
+reduces O(n) to O(1) for finding '1'.
+The idea is to fix global minimum so far as '1', and keep a list of potential
+'2', and scan the list to find proper '3', and updating '2' meanwhile.
+
+Note that, the minimum value function is monotonically decreasing!
+
+If scanning the array backward, then the minimum '1' is increasing.
+So shall be the '2'.
+
+Denote the min[j] as the minimum value of subarray [0, ..., j].
+
+Scan the list backward, at each position i, we have  min[i] <= nums[i].
+Now if we have a potential '2', denoted as n2. Then there are several case:
+    1) min[i] < n2  < nums[i]: found!
+    2) n2 <= min[i]: discard n2, and find a larger oner, since min[i] is
+increasing, n2 have no change of being '2'
+    3) n2 = nums[i]:  just keep one of them, as potential '2'.
+    4) n2 > nums[i]:  there is a change for both nums[i] and n2 being '2'.
+
+This indicates maintaining a monotonically decreasing stack of '2'.
+
+6. Finding '1', keep decreasing stack of '3'
+
+Idea: Maintain a list of possible '3', and linear search for '1', '2' can be
+determined by maximum number less than '3'.
+
+Both '3' and '2' have greedy strategy to choose!
+
+'2' can be found by greedily choosing the maximum number that has a larger
+element, '3' before it.
+
+Scan the array backward. For each number n, treat it as '1'. If there is a
+match, then we found it. If n is larger than current '3', then greedily
+choose n as the new '3', and choose the maximum number less than n, as the '2'.
+
+This is be done with a MONOTONICALLY DECREASING STACK of '3'.
 
 --------------------------------------------------------------------------------
 Reference: https://leetcode.com/articles/132-pattern/
@@ -142,9 +192,11 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        result = self._find132patternExtreama(nums)
+        # result = self._find132patternExtreama(nums)
         # result = self._find132patternDivideAndConquer(nums)
         # result = self._find132patternIntervalStack(nums)
+        # result = self._find132patternNumberStackFind3(nums)
+        result = self._find132patternNumberStackFind1(nums)
 
         print(nums[:100], result)
 
@@ -227,7 +279,29 @@ class Solution(object):
             intervals.append([lmin, lmax]) # push new interval into stack
         return False
 
-    # TODO: backward scan
+    # DONE: backward scan
+    def _find132patternNumberStackFind3(self, nums):
+        mins = [float('inf') for _ in range(len(nums))]
+        stack = [] # stack of '2'
+        for i in range(len(nums)):
+            mins[i] = min(mins[i - 1] if i else float('inf'), nums[i]) # [-1, -1, -1]
+        for i in range(len(nums) - 1, -1, -1):
+            while stack and stack[-1] <= nums[i]:
+                n2 = stack.pop()
+                if mins[i] < n2 < nums[i]: return True
+            stack.append(nums[i]) # [2]
+        return False
+
+    def _find132patternNumberStackFind1(self, nums):
+        n2 = float('-inf')
+        stack = [] # stack of '3'
+        for n in reversed(nums):
+            if n < n2: return True
+            while stack and stack[-1] < n:
+                n2 = stack.pop()
+            stack.append(n)
+        return False
+
 
 def test():
     solution = Solution()

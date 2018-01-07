@@ -22,15 +22,15 @@ Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 
 The number of ways decoding "12" is 2.
 
-SOLUTION:
+================================================================================
+SOLUTION
+
 1. Depth first search: recursive version gives time limit exceeded, maybe a iterative one
 2. Dynamic Programming: let i denote the ith character in the string
     f[i] = (f[i - 1] if (s[i-1] in self.num2letter) else 0) +
             (f[i - 2] if (s[i-2:i] in self.num2letter) else  0)
 '''
 
-
-from _decorators import memoize
 
 class Solution(object):
 

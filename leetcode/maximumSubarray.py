@@ -78,7 +78,7 @@ Q: 给出一个Char Array, 里面只有 R, G. 现在要选择一个范围，使�
 ==============================================================================================
 SOLUTION
 
-Maximum subarray problem -  COUNTING AS SUMMING
+Maximum subarray problem -  COUNT AS SUM
 
 要求的的是一个范围，就是一个subarray。这个subarray的#R - #G 要足够大。
 

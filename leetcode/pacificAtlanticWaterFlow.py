@@ -67,7 +67,9 @@ Update its neighbour after current cell is update?
 
 WRONG ANSWER: Mixing two search goals' visited state, causing incomplete result.
 
-2. Two passes search from sources
+2. Two passes search from sources - WRONG ANSWER!
+
+TOPOLOGICAL ORDER NOT GUARANTEED FOR CONNECTED VERTICES WITH SAME VALUE!
 
 Of course, search for two different goals in separate passes.
 WARN: It's better NOT TO MIX TWO SEARCH GOAL'S VISITED STATE!
@@ -92,7 +94,8 @@ Search the graph in an order from where is near sinks to where is far from sinks
 Complexity: O(N²), where N is the number of cells in the matrix.
 
 
-3. Optimization of two passes search from sources
+3. Optimization of two passes search from sources - WRONG ANSWER
+Wrong answer for same reason as above.
 
 SEPARATE STATE FOR DIFFERENT SEARCH GOALS, SEARCH FROM SINKS
 
@@ -102,7 +105,11 @@ So, SEARCHING FROM SINKS directly will make it easier, eliminating duplicate sea
 
 Complexity: O(N), O(N), where N is the number of cells in the matrix
 
-4. Breadth first search
+4. Breadth first search - two passes search from SINKS for different goals
+
+ACCEPTED! TOPOLOGICAL ORDER GUARANTEED FOR CONNECTED VERTICES WITH SAME VALUE
+WHEN SEARCHING FROM SINKS, INSTEAD OF POTENTIAL SOURCES!
+
 Same idea, search from four sink sides, except using a explicit queue as search frontier.
 Complexity: O(N), O(N), where N is the number of cells in the matrix
 
@@ -237,7 +244,7 @@ class Solution(object):
                 # state[x][y] |= state[u][v]
             pass
 
-        # search from sinks
+        # XXX: search from sinks to ensure topological order!
         for i in range(m):
             dfs(i, 0, state0)
         for j in range(n):

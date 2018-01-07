@@ -24,10 +24,14 @@ SOLUTION
 
 Complexity: O(NlogN), O(N)
 
-2. Depth first search with hash table
+2.  Graph search - dfs
+Treat it as a graph connected component problem.
+
+Depth first search with hash table marking visited elements.
 
 Complexity: O(N), O(N)
 
+3. Union find
 
 '''
 
@@ -46,7 +50,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
 
-        depth-first search strategy
+        Depth-first search
         """
         table = set(nums)
         length_max = 1

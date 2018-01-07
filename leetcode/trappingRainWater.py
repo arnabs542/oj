@@ -19,25 +19,39 @@ The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In th
 case, 6 units of rain water (blue section) are being trapped. Thanks Marcos for
 contributing this image!
 
-==============================================================================================
-SOLUTION:
-    A interval container's height is determined by the short slab.
-    By analysis of the MONOTONICITY property, we can see the key points are the increasing
+
+================================================================================
+SOLUTION
+
+By observing the physical process, a container is determined by two side bars.
+Valid containers have side bars formed by local maxima.
+A container's valid height is determined by the short slab of two sides.
+
+1. Monotonicity and extrema points analysis
+
+By analysis of the MONOTONICITY property, we can see the key points are the increasing
 subsequence's local EXTREMA, i.e., the LOCAL MAXIMUM.
 
-1. Find all local maxima, and remove the strictly local minimum of those local maxima
+Find all local maxima, and remove the strictly local minimum of those local maxima
 
 Array:                    [0, 1, 0, 2, 1, 0, 1, 3, 2,  1, 2, 1]
 Difference(derivatives) : [0, 1,-1, 2,-1, 0, 1, 2,-1, -1, 1,-1]
-Increasing ends:  [1, 3, 7, 10] (with positive derivatives)
+Increasing maximum bars:  [1, 3, 7, 10] (with positive derivatives)
 
 1. Find local maxima with FIRST-ORDER DERIVATIVES or some linear scanning algorithm.
-2. Remove local minima of previously found local maxima. So that we will only have at most
-one increasing and one decreasing major bins sequence.
+2. Recursively remove local minima of previously found local maxima. So that we
+will only have at most one increasing and one decreasing major bins sequence,
+i.e., a peak shape sequence.
 3. Compute the AREA UNDER CURVE between two points.
 
 The interval between two consecutive local maximum points are valid container for trapping
 water.
+
+If the recursive deleting elements isn't implemented correctly, for example,
+deleting from array inplace, the complexity would go to O(N²). Since removing
+from a list is O(N).
+
+Complexity: O(N), O(N)
 
 2. Two pointers
 Compute the are in a cumulative way with two pointers.
@@ -64,48 +78,66 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        # return self.trapMonotonicity(height)
-        return self.trapTwoPointers(height)
+        result = self._trapExtremaPoints(height)
+        # result = self._trapTwoPointers(height)
 
-    def trapMonotonicity(self, height: list) -> int:
+        print(height, result)
+
+        return result
+
+    def _trapExtremaPointsNaive(self, height: list) -> int:
         """
         :type height: List[int]
         :rtype: int
 
         Use first-order derivatives to find local maxima and local minima of them.
+
+        Deleting local minima from array by calling  pop(i) is O(N).
+
+        Complexity: O(N²) in worst case
+
+        TODO: improve it
         """
         derivatives = list(map(
             lambda x: height[x[0]] - height[x[0] - 1] if x[0] else x[1],
             enumerate(height)
         ))
-        ends = []
+        maxima = []
         # find local maxima
         for i in range(1, len(derivatives) + 1):
             if (i == len(derivatives) or derivatives[i] <= 0) and derivatives[i - 1] > 0:
-                ends.append((i - 1, height[i - 1]))
+                maxima.append((i - 1, height[i - 1]))
 
         # remove local minimum of maxima
         i = 1
-        print(ends)
-        while 0 < i < len(ends) - 1:
-            if ends[i - 1][1] >= ends[i][1] <= ends[i + 1][1]:
-                ends.pop(i)
+        print(maxima)
+        while 0 < i < len(maxima) - 1:
+            if maxima[i - 1][1] >= maxima[i][1] <= maxima[i + 1][1]:
+                maxima.pop(i)
                 if i >= 2: i -= 1
             else:
                 i += 1
-        print(ends)
+        print(maxima)
 
         # compute area under curve between two points
         amount = 0
-        for i in range(len(ends) - 1):
-            shortSlab = min(height[ends[i][0]], height[ends[i + 1][0]])
-            for j in range(ends[i][0] + 1, ends[i + 1][0]):
+        for i in range(len(maxima) - 1):
+            shortSlab = min(height[maxima[i][0]], height[maxima[i + 1][0]])
+            for j in range(maxima[i][0] + 1, maxima[i + 1][0]):
                 amount += max(shortSlab - height[j], 0)
 
         print(amount)
         return amount
 
-    def trapTwoPointers(self, height: list) -> int:
+    # TODO: more efficient deleting local minima
+    def _trapExtremaPointsStack(self, height: list) -> int:
+        """
+        TODO: improve it with lazy deleting, or stack
+        """
+
+        pass
+
+    def _trapTwoPointers(self, height: list) -> int:
         '''
         Two pointers algorithm.
         '''

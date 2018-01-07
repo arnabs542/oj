@@ -64,6 +64,7 @@ Complexity: O(2ⁿ)
 3. Dynamic programming - eliminate overlapping subproblems - 0-1 knapsack problem
 
 The combination method, using depth first search on the graph still involves duplicate calculations.
+With memoization, combination is reduced to Cartesian product.
 
 Overlapping subproblems lead to duplicate computations. Dynamic programming is a method to
 tackle that.

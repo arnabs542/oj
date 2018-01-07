@@ -18,32 +18,43 @@ For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are 
 abstracted into a graphical model.
 
 ### General Models
-- Counting model
-- Sorting model: sort algorithms, monotonic analysis
+- Counting model: hash count, count as sum
+- Sorting model: sorting algorithms, augmented BST with rank, monotonic analysis
+    - Order statistics
 - Pointers model: two pointers, ...
 - Prefix or suffix
 - Divide and conquer: quick sort partition, ...
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
-    - Linear
+    - Linear: array, linked list, stack, queue(deque), priority queue, 
     - Associative/mapping: hash table, buckets, inverted index
-    - tree
+    - tree: (balanced)binary search tree, kd-tree, range query tree, implicit representation of heap
+    - Range query: segment tree, binary indexed tree
     - graph
-- GRAPH SEARCH model
+- GRAPH model: multiple branches, many to many connections
+    - Depth first search: all paths, one path, backtracking
+    - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
+    - Union find: connected components
 - STATE TRANSITION RECURRENCE RELATION
-    - Divide and conquer
-    - Dynamic programming
-    - Greedy strategy
-    - STATE MACHINE
-    - Backward induction
+    - Sequential recurrence relation
+        - Backward induction
+        - DYNAMIC PROGRAMMING
+        - STATE MACHINE
+        - Greedy strategy
+    - Partition recurrence relation
+        - Dynamic programming
+        - divide and conquer
+        - Greedy strategy
 - STATE REPRESENTATION: Bitwise,
 - Mathematical analysis model
     - Order
-    - Interval or ranges
-    - Monotonicity analysis
-    - Extrema points analysis: often related to monotonic stacks and queues
+    - Equality: Interval or ranges
+    - Calculus: change rate
+        - integration
+        - differentiation
+        - Monotonicity analysis: max/min function, prefix sum
+        - Extrema points analysis: often related to monotonic stacks and queues
     - combinatorics
     - probability: pdf, cdf, pmf, ...
-    - calculus: change rate, integral, differentiation
 
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES: backward induction, ...
@@ -55,74 +66,11 @@ Try to exploit the problem in approaches like:
 
 Refer to sections for more.
 
-## Optimize From naive, brute force Solutions
-When in doubt, use brute force.
+### Common models for different kind of problems
 
-Once we figured out SIMPLEST naive brute force solutions, figure out the bottleneck in our naive
-algorithm, then try to OPTIMIZE by resolving that.
-2) Optimize space usage with better REPRESENTATION
+Basic data structures
+=====================
 
-Remember, every problem has a naive brute force solution, regardless of complexity.
-
-### Optimization directions
-- Brute force method: GRAPH SEARCH, naive count
-- Avoid duplicate computation: order invariant, overlapping subproblem
-    - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
-    - Reduce PERMUTATION to COMBINATION by RESTRICTING ORDER (ORDER INVARIANT), P(n, k) -> C(n, k): O(n!) -> O(2ⁿ)
-    - Reduce COMBINATION to polynomial by eliminate OVERLAPPING subproblem: C(n, k) -> polynomial(n): O(2ⁿ) -> O(n^k)
-        - Space time trade off: MEMOIZE
-            - Collection data structure not easy to hash
-                - Convert to string
-                - Alternative state representation: ordered integer indices, ranges or intervals
-        - Recurrence relation: DYNAMIC PROGRAMMING, divide and conquer, state machine, ...
-    - Divide and conquer: reduce combination complexity to log, O(n) -> O(logn)
-- Avoid unnecessary computation: GREEDY STRATEGY
-    - Greedy strategy: reduce dynamic programming to greedy strategy if items share same gain 
-        - Order related
-        - Maximum/minimum: heap data structure, ...
-- Efficient DATA REPRESENTATION 
-    - DATA STRUCTURE
-    - Data representation
-        - bit representation: bitmap
-        - bit operation: XOR
-        - modulo
-        - arithmetic 
-- Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
-    - Define state that WON'T LOSE INFORMATION for state transition function
-    - Define state that's TRACTABLE
-    - Augment/ADD STATE by another dimension of if current dimensions are insufficient
-
-For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsack problem, 
-items have different cost(weight) and gain(value), so it should be solved with dynamic programming.
-But if each item have same cost, then it can be done with greedy strategy to maximize sum of gain.
-
-## To analyze a problem, the key is to DEFINE STATE that exploits the problem structure!
-
-## Reduce and Generalize - Transforming the problem into another problem for which solutions exist
-Some problems may be so complicated that it's not easy to analyze the underlying
-model with above approaches.
-1. Reduce to the simpler form: divide and conquer, or to its simplest form
-2. Find solution for simpler form
-3. Make (greedy strategy) hypothesis, and prove it (by contradiction, mathematical induction...), and/or
-4. Derive the RECURRENCE RELATION/STATE TRANSITION.
-
-In this stage, we may ship naive solutions.
-
-## Algorithm BRAINSTORM
-When having no clue, BRAINSTORM.
-
-To address a specific complexity problem, we can Hit and Try. Run through possible
-solutions with specific time/space complexity, and try.
-
-## Inspect in another perspective - Think Out of the Box
-
-# To sum it up
-In general APPROACH is to examplify and optimize from naive solution. 
-To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
-
-# Common models for different kind of problems
-
-## Basic data structures
 - Bit representation or binary bit perspective
 - Array
 - Ordering sequence
@@ -172,11 +120,13 @@ Delete: O(n)
 
 #### Bucket
 
-### Tree data structure
+Tree data structure - special graph with only tree edges
+===================
+The core idea of tree is divide and conquer: structure data in properly partitioned spaces.
 
 #### Aspects of trees
-General tree search: preorder, inorder, postorder, level order.
-Tree degrees
+- General tree search: preorder, inorder, postorder, level order.
+- Tree degrees
 
 #### Heap
 Tree structure with implicit data structure: array.
@@ -185,17 +135,95 @@ Tree structure with implicit data structure: array.
 
 #### Balanced binary search tree
 
-#### Segment tree
+#### Segment tree - range query
 
-#### Binary indexed tree
+#### Binary indexed tree - range query
 A tree structure dealing with prefix sum.
 
 #### Disjoint set
 
 
-## Analytical models
+### Analytical models
 - Calculus: Differentiation and integral(prefix sum array, difference array)
 - Probability distribution
 - Number theory
 - Binary search
+
+## Optimize From naive, brute force Solutions
+When in doubt, use brute force.
+
+Once we figured out SIMPLEST naive brute force solutions, figure out the bottleneck in our naive
+algorithm, then try to OPTIMIZE by resolving that.
+2) Optimize space usage with better REPRESENTATION
+
+Remember, every problem has a naive brute force solution, regardless of complexity.
+
+### Optimization directions
+- Brute force method: GRAPH SEARCH, naive count
+- Avoid duplicate computation: order invariant, overlapping subproblem
+    - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
+    - Reduce PERMUTATION to COMBINATION (SUBSETS) by RESTRICTING ORDER (ORDER INVARIANT), \sum_k{P(n, k)} -> \sum_k{C(n, k)} = 2ⁿ, or O(n!) -> O(C(n, k))
+    - Reduce COMBINATION (SUBSETS) to CARTESIAN PRODUCT by eliminate OVERLAPPING subproblem: C(n, k) -> polynomial(n): O(2ⁿ) -> O(n^k)
+        - Space time trade off: MEMOIZE
+            - Collection data structure not easy to hash
+                - Convert to string
+                - Alternative state representation: ordered integer indices, ranges or intervals
+        - Recurrence relation
+    - Reduce CARTESIAN PRODUCT STATE to RANGE STATE: states in different search branches form a contiguous interval
+    - Divide and conquer: reduce combination complexity to log, O(n) -> O(logn)
+- Avoid unnecessary computation: GREEDY STRATEGY
+    - Greedy strategy: reduce dynamic programming to greedy strategy if items share same gain 
+        - Order related
+        - Maximum/minimum: heap data structure, ...
+- Efficient DATA REPRESENTATION 
+    - DATA STRUCTURE
+    - Data representation
+        - bit representation: bitmap
+        - bit operation: XOR
+        - modulo
+        - arithmetic 
+- Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
+    - Define state that WON'T LOSE INFORMATION for state transition function
+    - Define state that's TRACTABLE
+    - Augment/ADD STATE by another dimension of if current dimensions are insufficient
+
+For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsack problem, 
+items have different cost(weight) and gain(value), so it should be solved with dynamic programming.
+But if each item have same cost, then it can be done with greedy strategy to maximize sum of gain.
+
+## To analyze a problem, the key is to DEFINE STATE that exploits the problem structure!
+
+## Reduce and Generalize - Transforming the problem into another problem for which solutions exist
+Some problems may be so complicated that it's not easy to analyze the underlying
+model with above approaches.
+1. Reduce to the simpler form: divide and conquer, or to its simplest form
+2. Find solution for simpler form
+3. Make (greedy strategy) hypothesis, and prove it (by contradiction, mathematical induction...), and/or
+4. Derive the RECURRENCE RELATION/STATE TRANSITION.
+
+In this stage, we may ship naive solutions.
+
+## BRAINSTORM
+When having no clue, BRAINSTORM.
+
+Run algorithm brainstorm.
+Exhaust all possible decisions.
+
+To address a specific complexity problem, we can Hit and Try. Run through possible
+solutions with specific time/space complexity, and try.
+
+## Inspect in another perspective - Think Out of the Box
+
+## To sum it up
+In general APPROACH is to examplify and optimize from naive solution. 
+To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
+
+
+## General bugs in code
+- off-by-one bug
+- edge case failure
+- using 'if' instead of expected loop should be used
+- missing TAIL INCREMENT STATEMENT in iteration
+- wrong order of statements of assigning values
+- missing bound check while incrementing 
 

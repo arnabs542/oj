@@ -105,14 +105,14 @@ class Solution:
         pass
 
     def _findRedundantConnectionUnionFind(self, edges):
-        trees = [i for i in range(1001)]
+        parents = [i for i in range(1001)]
         def find(u):
-            while trees[u] != u: u = trees[u]
-            return u
+            if parents[u] != u: parents[u] = find(parents[u]) # path compression
+            return parents[u]
         def union(u, v):
             pu, pv = find(u), find(v)
-            if pu < pv: trees[pv] = pu
-            else: trees[pu] = pv
+            if pu < pv: parents[pv] = pu
+            else: parents[pu] = pv
 
         for u, v in edges:
             pu, pv = find(u), find(v)

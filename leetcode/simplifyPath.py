@@ -22,12 +22,13 @@ Another corner case is the path might contain multiple slashes '/' together, suc
 In this case, you should ignore redundant slashes and return "/home/foo".
 
 ==============================================================================================
-SOLUTION:
-    Split string into a STACK list of tokens.
-    Scan the STACK:
-        '.', '': POP
-        '..': POP current and previous(if exists) token
-        else: index increased by one
+SOLUTION
+
+Split string into a list of tokens.
+Scan the list, and push tokens into a STACK:
+1)    '.', '':ignore
+2)    '..': POP previous(if exists) token
+3)    else: PUSH
 
 '''
 

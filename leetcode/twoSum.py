@@ -20,8 +20,16 @@ return [0, 1].
 Solution
 
 1. brute-force
+
+Complexity: O(N²)
+
 2. hash: (key=element, value=element's position/index)
+
+Complexity: O(N), O(N)
+
 3. sort: two pointers, move index from two ends to center
+
+Complexity: O(nlogn), O(1)
 
 '''
 
@@ -34,12 +42,22 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
+        result = self._twoSumHash(nums, target)
+
+        print(nums, target, result)
+
+        return result
+
+    def _twoSumHash(self, nums, target):
         mapping = dict()
         for k, v in enumerate(nums):
             if target - v in mapping and mapping[target - v] != k:
                 return sorted([k, mapping[target - v]])
             mapping[v] = k
+        return []
 
 if __name__ == "__main__":
-    print(Solution().twoSum([3, 2, 4], 6))
-    print(Solution().twoSum([2, 7, 11, 15], 9))
+    assert (Solution().twoSum([3, 2, 4], 6)) == [1, 2]
+    assert (Solution().twoSum([2, 7, 11, 15], 9)) == [0, 1]
+
+    print("self test passed!")

@@ -22,21 +22,22 @@ Follow up: arrangements of m of n numbers. ( m <= n)
 ================================================================================
 SOLUTION
 
-For a general partial permutation can be obtained in a slot filling manner: fill one slot,
-or position, at one time, and then reach the final stage where we have an eligible solution.
-This process can be treated as growing a graph,
+For a general partial permutation can be obtained in a slot filling manner:
+    generate the permutation position by position, slot by slot.
 
-For the recurrence relation, we have several difference state transition, depending on the
-definition of STATE.
+The generating process forms a DYNAMIC GRAPH, in which the vertices and edges are
+corresponding available elements in the collection.
+
+For the state transition, we have several difference recurrence relation,
+depending on the definition of STATE.
 
 --------------------------------------------------------------------------------
-1. Dynamic Programming: mathematical recurrence relation
+1. Dynamic Programming - bottom up breadth first search
 
 Define the STATE f[n, k] as number of PARTIAL ARRANGEMENTS of k given n, then explore the
 RECURRENCE RELATION.
 
-The structure of this problem resembles the 0-1 knapsack problem.
-We have recurrence relation state transition:
+We have mathematical state transition recurrence relation:
   f[n, k] = #arrangements containing mth number + #arrangements not with mth number
           = f[n - 1, k - 1] * k + f[n - 1, k],
 

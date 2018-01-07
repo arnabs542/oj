@@ -20,14 +20,18 @@ You may assume that each input would have exactly one solution.
 Input: numbers={2, 7, 11, 15}, target=9
 Output: index1=1, index2=2
 
-==============================================================================================
+
+================================================================================
 SOLUTION
-1 hash
+
+1. Hash
 inverted index: (key=element, value=element's position/index)
 
 Complexity: O(N), O(N)
 
 2. Two pointers
+Think this as a graph search process, but with some pruning process with some greedy strategy.
+
 The target indices i, j must satisfy 0 <= i, j <= n - 1, where n is the length of the array.
 Initialize i = 0, j = n - 1, then search inward(from both ends to middle).
 
