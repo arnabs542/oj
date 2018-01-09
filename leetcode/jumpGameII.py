@@ -20,13 +20,32 @@ Given array A = [2,3,1,1,4]
 
 The minimum number of jumps to reach the last index is 2. (Jump 1 step from index 0 to 1,
 then 3 steps to the last index.)
-===============================================================================================
-SOLUTION:
-    1. Treated as an Graph problem, naive BREADTH FIRST SEARCH will exceed the time limit.
-    2. Greedy strategy. In a bottom-up manner, update the furthest index that we can reach by
-jumping. Harnessing a data structure to maintain the steps to take to get a position. To
-speed it up, we can just use a single variable to keep track of the current step range so that
+
+================================================================================
+SOLUTION
+
+Minimum number of jumps, is equivalent to shortest path, use breadth first search!
+
+1. Treated as an Graph problem
+
+Naive BREADTH FIRST SEARCH will exceed the time limit.
+
+Complexity: O(V + E) = O(mn), where n is the array size, and m is the average
+array value.
+
+2. Keep track of RANGE STATE
+
+In a bottom-up manner, update the furthest index that we can reach by
+jumping.
+
+Define state: (step, range)
+
+Maintain the steps to take to get a position.
+Use a single variable to keep track of the current step range so that
 we can determine when to update the number of steps so far.
+
+Complexity: O(N)
+
 '''
 
 class Solution(object):
@@ -36,10 +55,10 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        # return self.jumpGreedyBFS(nums)
-        return self.jumpGreedyBFSOpt(nums)
+        # return self._jumpGreedyBFS(nums)
+        return self._jumpGreedyBFSOpt(nums)
 
-    def jumpGreedyBFS(self, nums):
+    def _jumpGreedyBFS(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -59,26 +78,26 @@ class Solution(object):
         print(steps)
         return steps[-1]
 
-    def jumpGreedyBFSOpt(self, nums):
+    def _jumpGreedyBFSOpt(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        stepEnd, steps, furthest = 0, 0, 0
+        prevFurthest, step, furthest = 0, 0, 0
         for i in range(len(nums) - 1):
             furthest = max(i + nums[i], furthest)
 
-            if i == stepEnd:
-                # update the number of steps when out of current range
-                stepEnd = furthest
-                steps += 1
+            if i == prevFurthest:
+                # update the number of step when out of current range
+                prevFurthest = furthest
+                step += 1
 
                 # early stop
                 # if furthest >= len(nums) - 1:
                     # break
             pass
-        print(steps)
-        return steps if furthest >= len(nums) - 1 else -1
+        print(step)
+        return step if furthest >= len(nums) - 1 else -1
 
 def test():
     solution = Solution()

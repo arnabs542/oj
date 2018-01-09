@@ -3,6 +3,7 @@
 
 """
 678. Valid Parenthesis String
+Medium
 
 Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. We define the validity of a string by these rules:
 

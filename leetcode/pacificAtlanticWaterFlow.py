@@ -135,6 +135,11 @@ class Solution(object):
         return result
 
     def _pacificAtlanticDfs(self, matrix):
+        """
+        WRONG ANSWER
+
+        DON'T READ THIS
+        """
         # FIXME: messing up with two search goals' state!
         # FIXME: starting points for search is incorrect!
         if not matrix or not matrix[0]: return []
@@ -169,6 +174,11 @@ class Solution(object):
         return result
 
     def _pacificAtlanticDfsTwoPasses(self, matrix):
+        """
+        WRONG ANSWER
+
+        DON'T READ THIS
+        """
         # FIXME: what the hell... still doesn't work?
         # Of course, search isn't started from sink, the order visited between
         # cells with same value are still undefined!
@@ -184,7 +194,7 @@ class Solution(object):
         def dfs(x, y, state):
             if not (0 <= x < len(matrix) and 0 <= y < len(matrix[0])): return
             # XXX: have to visit connected cell with same value again...
-            # if (x, y) in visited: return
+            if (x, y) in visited: return
             visited.add((x, y))
 
             if state is state0 and (x == 0 or y == 0): state[x][y] = 1
@@ -198,6 +208,8 @@ class Solution(object):
                 if (u, v) not in visited:
                     dfs(u, v, state)
                 state[x][y] |= state[u][v]
+                if matrix[x][y] == matrix[u][v]: # still don't, work if many adjacent cells have same value?
+                    state[u][v] |= state[x][y]
 
         # search from left to right, top to down for top left region source
         for i, _ in enumerate(matrix):

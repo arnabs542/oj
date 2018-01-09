@@ -23,7 +23,7 @@ abstracted into a graphical model.
     - Order statistics
 - Pointers model: two pointers, ...
 - Prefix or suffix
-- Divide and conquer: quick sort partition, ...
+- Partition
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear: array, linked list, stack, queue(deque), priority queue, 
     - Associative/mapping: hash table, buckets, inverted index
@@ -41,9 +41,10 @@ abstracted into a graphical model.
         - STATE MACHINE
         - Greedy strategy
     - Partition recurrence relation
-        - Dynamic programming
-        - divide and conquer
+        - Dynamic programming: overlapping subproblems
+        - divide and conquer: partition into disjoint subproblems
         - Greedy strategy
+    - Sliding window recurrence relation: offset and stride
 - STATE REPRESENTATION: Bitwise,
 - Mathematical analysis model
     - Order
@@ -54,6 +55,9 @@ abstracted into a graphical model.
         - Monotonicity analysis: max/min function, prefix sum
         - Extrema points analysis: often related to monotonic stacks and queues
     - combinatorics
+        - PERMUTATION
+        - COMBINATION
+        - CARTESIAN PRODUCT
     - probability: pdf, cdf, pmf, ...
 
 Try to exploit the problem in approaches like:
@@ -169,7 +173,7 @@ Remember, every problem has a naive brute force solution, regardless of complexi
                 - Convert to string
                 - Alternative state representation: ordered integer indices, ranges or intervals
         - Recurrence relation
-    - Reduce CARTESIAN PRODUCT STATE to RANGE STATE: states in different search branches form a contiguous interval
+    - Reduce COMBINATION or CARTESIAN PRODUCT STATE to RANGE STATE: states in different search branches form a contiguous interval
     - Divide and conquer: reduce combination complexity to log, O(n) -> O(logn)
 - Avoid unnecessary computation: GREEDY STRATEGY
     - Greedy strategy: reduce dynamic programming to greedy strategy if items share same gain 

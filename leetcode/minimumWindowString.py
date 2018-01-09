@@ -30,7 +30,7 @@ Enumerate all windows, and check existence.
 
 Complexity: O(N²).
 
-2. Sliding window
+2. State transition recurrence relation in Sliding window
 
 Slide the window, maintain the state transition in dynamic programming approach.
 
@@ -90,10 +90,10 @@ class Solution(object):
         :type t: str
         :rtype: str
         """
-        # return self.minWindowDP(s, t)
-        return self.minWindowDP2(s, t)
+        # return self._minWindowDP(s, t)
+        return self._minWindowDP2(s, t)
 
-    def minWindowDP(self, s: str, t: str) -> str:
+    def _minWindowDP(self, s: str, t: str) -> str:
         counter, missing = Counter(t), len(t)
         begin, end = 0, 0
         i = j = 0
@@ -112,13 +112,13 @@ class Solution(object):
         print('result', s[begin:end])
         return s[begin: end]
 
-    def minWindowDP2(self, s: str, t: str) -> str:
+    def _minWindowDP2(self, s: str, t: str) -> str:
         '''
         Rewrite the solution
         '''
-        counter = Counter(t)
         i, begin, end = 0, 0, 0
 
+        counter = Counter(t)
         missing = len(t) # STATE: number of chars to match yet
 
         for j, c in enumerate(s):

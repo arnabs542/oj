@@ -19,11 +19,32 @@ For example:
 A = [2,3,1,1,4], return true.
 
 A = [3,2,1,0,4], return false.
-===============================================================================================
-SOLUTION:
-    1. Treat it as a Graph problem, time limit exceeded
-    2. Greedy strategy. In a bottom-up manner, update the furthest index that we can reach by
+
+================================================================================
+SOLUTION
+
+1. Depth first search - combinatorial
+
+Treat it as a Graph problem.
+
+Define state as position (i,).
+
+Complexity: O(V + E) = O(n + mn) = O(mn),
+where m is the average of maximum jump, i.e., average array value.
+
+Time limit exceeded for large array element value.
+
+2. Discrete combinatorial state to continuous RANGE STATE
+
+Track the RANGE STATE, instead of discrete combinatorial states!
+
+At each state(position), the next states are within a continuous range!
+
+In a bottom-up manner, update the furthest index that we can reach by
 jumping.
+
+Complexity: O(n)
+
 '''
 
 class Solution(object):
@@ -62,6 +83,8 @@ class Solution(object):
 
     def canJumpGreedy(self, nums):
         '''
+        Range state
+
         Another form of BREADTH-FIRST SEARCH, with no frontier structure because the graph is
         presented as a list. A single range variable could work as the indicator of exploration
         frontier.

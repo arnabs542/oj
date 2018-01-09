@@ -29,12 +29,23 @@ Return 6.
 ==============================================================================================
 SOLUTION
 
+1. Linear search
+
+Complexity: O(n)
+
+2. Binary search
+Narrow down the search state space by half at each time.
+
+Complexity: O(logn)
+
+
 '''
 
 # The guess API is already defined for you.
 # @param num, your guess
 # @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
 # def guess(num):
+
 
 class Solution(object):
 
@@ -43,6 +54,13 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        result = self._guessNumberBinarySearch(n)
+
+        print(n, result)
+
+        return result
+
+    def _guessNumberBinarySearch(self, n):
         low, high = 1, n
         while low <= high:
             mid = (low + high) >> 1
@@ -53,3 +71,16 @@ class Solution(object):
                 high = mid - 1
             else:
                 return mid
+
+def test():
+    solution = Solution()
+
+    global guess
+
+    guess = lambda x: -1 if 6 < x else (1 if 6 > x else 0)
+    assert solution.guessNumber(10) == 6
+
+    print("self test passed!")
+
+if __name__ == '__main__':
+    test()

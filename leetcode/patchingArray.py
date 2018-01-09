@@ -34,15 +34,41 @@ Return 0.
 ==============================================================================================
 SOLUTION:
 
-1. brute-force combinations
+1. Brute-force combinations
 
-Enumerate all possible combinations, then patch the smallest missing number. The combinations
-can be constructed by adding one number each time. Time complexity is huge, and space
-complexity is O(N).
+Enumerate all possible combinations, then patch the smallest missing number.
+The combinations subsets is updated incrementally.
 
-2. Greedy strategy
+Define state = (
+i: integer in range [1, n],
+subsets
+)
 
-Define STATE AS THE COVERED RANGE.
+Time complexity is exponential O(2ⁿ), and space complexity is O(2ⁿ).
+
+2. Brute force combinations optimized
+
+Tracking combination subsets sums, instead of the subsets.
+
+Define state as a tuple of
+(
+i: integer in range [1, n],
+subsets sums
+)
+
+Complexity: O(N²), O(N)
+
+3. Combination state to RANGE state
+
+The combination sums must form a interval, why not track the range state covered?
+
+The COVERED RANGE can be represented by interval [0, high].
+
+Define the state as a tuple of
+(
+i: index of the sorted array,
+high: interval upper bound,
+)
 
 Then extend the range by adding a number from the array. The eligible number must not be
 greater than the range's right end plus 1. Let's say the covered range's right end is `high`,
@@ -59,6 +85,9 @@ If no eligible number exists in the array, we will have to patch high + 1, cover
 
 This is similar with 'Jump game' problem.
 
+Time complexity: O(M + logN), where M is the array size, N is target number n.
+Space complexity: O(1)
+
 '''
 
 from collections import defaultdict
@@ -71,21 +100,42 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        # return self.minPatchesCombination(nums, n)
-        # return self.minPatchesCombinationOpt(nums, n)
-        return self.minPatchesGreedyRange(nums, n)
+        # return self.__minPatchesBruteForceCombination(nums, n)
+        # return self._minPatchesCombinationOpt(nums, n)
+        return self._minPatchesGreedyRange(nums, n)
 
-    def minPatchesCombination(self, nums, n):
+    def _minPatchesBruteForceCombination(self, nums, n):
         '''
         Greedily patch the smallest missing one
         '''
+
+        def patch(combinations: dict, num: int, n, dup: bool=False):
+            """
+            Generate new combination subsets with new element,
+            in a dynamic programming approach
+
+            """
+            new = defaultdict(list)
+            for s, subsets in combinations.items():
+                newSum = s + num  # sum
+                if newSum > n:
+                    continue
+                for c in subsets:
+                    if dup and not (c and c[-1] == num):
+                        continue
+                    # print(c, num, dup)
+                    new[newSum].append(c + [num])
+            for s, c in new.items():
+                combinations[s].extend(c)
+            pass
+
         # FIXME: storing combinations will exceed the time limit
         nums.sort()
         n_patches = 0
         combinations = defaultdict(list)
-        combinations[0].append([])
+        combinations[0].append([]) # subset sum -> subsets
         for i, num in enumerate(nums):
-            self.patch(combinations, num, n, dup=i and num == nums[i - 1])
+            patch(combinations, num, n, dup=i and num == nums[i - 1])
 
         while True:
             # find missing
@@ -95,7 +145,7 @@ class Solution(object):
 
             if j <= n:
                 print('patch', j)
-                self.patch(combinations, j, n)
+                patch(combinations, j, n)
                 n_patches += 1
             else:
                 break
@@ -106,48 +156,39 @@ class Solution(object):
         print(tmp, '\n')
         return n_patches
 
-    def patch(self, combinations: dict, num: int, n, dup: bool=False):
-        new = defaultdict(list)
-        for k, l in combinations.items():
-            s = k + num  # sum
-            if s > n:
-                continue
-            for c in l:
-                if dup and not (c and c[-1] == num):
-                    continue
-                # print(c, num, dup)
-                new[s].append(c + [num])
-        for k, c in new.items():
-            combinations[k].extend(c)
-        pass
 
-    def minPatchesCombinationOpt(self, nums, n):
+    def _minPatchesCombinationOpt(self, nums, n):
+        """
+        A little optimization, not storing combination subsets, but storing their sums.
+
+        Still, slow and exceeds time limit.
+        """
         # FIXME: storing combinations will exceed the time limit
         n_patches = 0
-        covered = {0}
+        subsetSums = {0}
 
         def patch(i):
             print('patch', i, nums, n)
             new = set()
-            for j in covered:
+            for j in subsetSums:
                 if i + j <= n:
                     new.add(i + j)
             return new
 
         for i in nums:
-            covered |= patch(i)
+            subsetSums |= patch(i)
 
-        while len(covered) != n + 1:
+        while len(subsetSums) != n + 1:
             j = 0
-            while j <= n and j in covered:
+            while j <= n and j in subsetSums:
                 j += 1
             if j <= n:
                 n_patches += 1
-                covered |= patch(j)
+                subsetSums |= patch(j)
             pass
         return n_patches
 
-    def minPatchesGreedyRange(self, nums, n):
+    def _minPatchesGreedyRange(self, nums, n):
         '''
         Scan from 1 to n, maintainer covered range.
         '''
@@ -155,10 +196,10 @@ class Solution(object):
         covered, i = 0, 0
         while covered < n:
             if i < len(nums) and nums[i] <= covered + 1:
-                covered += nums[i]
+                covered += nums[i] # extend the range seamlessly
                 i += 1
             else:
-                covered += covered + 1
+                covered += covered + 1 # there is a gap now
                 patches += 1
 
         return patches

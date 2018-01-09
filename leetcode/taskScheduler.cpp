@@ -38,7 +38,7 @@ consider both of them.
 NO, this problem doesn't require the tasks be executed in order, actually it's only there number
 of instances that matter.
 
-3. Greedy strategy with MAX HEAP
+3. Greedy strategy - Alternating tasks -  ordered data structure, like MAX HEAP, or bst.
 The brute force solution involves many duplicates? A proper greedy strategy will simplify it.
 
 The most simple case is when all tasks occur same times. Then we can shuffle by alternating
@@ -67,7 +67,7 @@ Complexity
 Build heap: O(26), get top of heap: O(log26), insert: O(log26)
 O(26N) = O(N)
 
-4. Simplified implementation of above idea
+4. Simplified implementation of above idea: count the idle slots
 
 I have no idea......
 
