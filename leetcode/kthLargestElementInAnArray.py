@@ -173,9 +173,13 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        # return self._findKthLargestSort(nums, k)
-        # return self._findKthLargestHeap(nums, k)
-        return self._findKthLargestPartition(nums, k)
+        # result = self._findKthLargestSort(nums, k)
+        # result = self._findKthLargestHeap(nums, k)
+        result = self._findKthLargestPartition(nums, k)
+
+        print(nums, k, " => ", result)
+
+        return result
 
     def _findKthLargestSort(self, nums, k):
         """
@@ -211,7 +215,49 @@ class Solution(object):
         return heap[0]
 
     def _findKthLargestPartition(self, nums: list, k: int) -> int:
-        # DONE: quick select, partition to divide and conquer
+        def partition(arr, low, high):
+            pivot = arr[high]
+            i = low # partition pointer: all elements on left are SMALLER than pivot!
+            # SWEEP the sequence
+            for j in range(low, high):
+                if arr[j] <= pivot:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    i += 1
+            arr[i], arr[high] = arr[high], arr[i]
+            # print(low, high, i, arr)
+            return i
+
+        def partitionThreeWay(arr: list, p: int, r: int):
+            """
+            Dutch national flag partition method, robust to repeated elements.
+
+            Partition the array into three parts with two partition pointers:
+                smaller than pivot, equal to pivot, larger than pivot.
+
+            Reference: https://en.wikipedia.org/wiki/Dutch_national_flag_problem
+            """
+            pivot = arr[r]
+            smaller, j, greater = p, p, r
+            while j <= greater:
+                if arr[j] < pivot:
+                    arr[smaller], arr[j] = arr[j], arr[smaller]
+                    smaller += 1
+                    j += 1
+                elif arr[j] > pivot:
+                    arr[j], arr[greater] = arr[greater], arr[j]
+                    greater -= 1
+                else: j += 1
+            return smaller, greater
+
+        def partitionRandomized(arr, low, high, randomize=True):
+            # DONE: randomized partition
+            # randomly CHOOSE THE PIVOT
+            rand = random.randint(low, high)
+            arr[rand], arr[high] = arr[high], arr[rand]
+
+            return partition(arr, low, high)
+
+       # DONE: quick select, partition to divide and conquer
         k = len(nums) - k
         p, r = 0, len(nums) - 1
         while p <= r:
@@ -224,43 +270,14 @@ class Solution(object):
             else:
                 return nums[q]
 
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low
-    for j in range(low, high):
-        if arr[j] <= pivot:
-            arr[i], arr[j] = arr[j], arr[i]
-            i += 1
-    arr[i], arr[high] = arr[high], arr[i]
-    # print(low, high, i, arr)
-    return i
-
-def partitionRandomized(arr, low, high, randomize=True):
-    # DONE: randomized partition
-    # randomly CHOOSE THE PIVOT
-    if randomize:
-        rand = random.randint(low, high)
-        arr[rand], arr[high] = arr[high], arr[rand]
-
-    pivot = arr[high]
-    i = low
-    # SWEEP the sequence
-    # for j in range(low, high):
-        # if arr[j] <= pivot:
-            # arr[j], arr[i] = arr[i], arr[j]
-            # i += 1
-    i = partition(arr, low, high)
-    arr[i - 1], arr[high] = arr[high], arr[i - 1]
-    return i
-
 def test():
     solution = Solution()
     arr = [2, 8, 7, 1, 8, 3, 5, 6, 4, 2]
-    partition(arr, 0, len(arr) - 1)
-    assert arr == [2, 1, 2, 8, 8, 3, 5, 6, 4, 7]
-    arr = [6, 5]
-    partition(arr, 0, 1)
-    assert arr == [5, 6]
+    # partition(arr, 0, len(arr) - 1)
+    # assert arr == [2, 1, 2, 8, 8, 3, 5, 6, 4, 7]
+    # arr = [6, 5]
+    # partition(arr, 0, 1)
+    # assert arr == [5, 6]
 
     assert solution.findKthLargest([1], 1) == 1
     assert solution.findKthLargest([3, 2, 1, 5, 6, 4], 2) == 5

@@ -18,7 +18,8 @@ Note:
 You are not suppose to use the library's sort function for this problem.
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
+
     This is exactly the Dutch National Flag problem, two pointers for three-way partition!
 Choose a pivot value, say it's 1, and use two pointers smaller, greater on the left, right
 respectively.
@@ -26,7 +27,8 @@ respectively.
     greater: elements on the right of it are greater than the pivot.
 
     Then scan the list from left to right, swap smaller elements to the left, greater elements
-to the right, updating the splitting two pointers as well.
+to the right, updating two partition pointers in the meanwhile.
+
 '''
 
 class Solution(object):
@@ -50,7 +52,7 @@ class Solution(object):
                 nums[greater], nums[i] = nums[i], nums[greater]
                 greater -= 1
             else:
-                i += 1
+                i += 1 # equal value
             pass
         print(smaller, greater, nums)
         return nums
@@ -68,6 +70,9 @@ def test():
     assert solution.sortColors(l) == sorted(l)
 
     l = [2, 2, 0, 0, 1, 1, 1, 2]
+    assert solution.sortColors(l) == sorted(l)
+
+    l = [2, 2, 0, 0, 1, 1, 1, 2, 0]
     assert solution.sortColors(l) == sorted(l)
 
     print('self test passed')

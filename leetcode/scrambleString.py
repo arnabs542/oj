@@ -93,7 +93,7 @@ Then the state will move in a deterministic order.
 """
 
 
-from _decorators import timeit, memoizeFunc as memoize
+from _decorators import timeit, memoize
 from collections import Counter
 
 class Solution:

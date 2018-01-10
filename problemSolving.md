@@ -35,24 +35,39 @@ abstracted into a graphical model.
     - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
     - Union find: connected components
 - STATE TRANSITION RECURRENCE RELATION
-    - Sequential recurrence relation
-        - Backward induction
-        - DYNAMIC PROGRAMMING
-        - STATE MACHINE
-        - Greedy strategy
-    - Partition recurrence relation
-        - Dynamic programming: overlapping subproblems
+    - state definition
+        - indexes: vertices and edges set
+        - value: states bounded here
+        - value: states ending here
+        - value: states locally optimal(optimal so far)
+    - states representation 
+        - bits
+        - integers: target number,
+        - sets state: vertices, edges, 
+            - combinatorial state
+            - RANGE STATE: covered range during traversal, ...
+    - state transition technique 
         - divide and conquer: partition into disjoint subproblems
-        - Greedy strategy
-    - Sliding window recurrence relation: offset and stride
-- STATE REPRESENTATION: Bitwise,
+        - Backward induction
+        - DYNAMIC PROGRAMMING: overlapping subproblems
+        - STATE MACHINE
+            - Deterministic finite automata
+            - Nondeterministic finite automata
+        - Greedy strategy 
+            - monotonic stack/queue
+            - heap
+    - state transition form
+        - Sequential recurrence relation: one end dimensional dynamic programming
+        - Partition recurrence relation: divide and conquer, two ends dynamic programming
+        - Sliding window recurrence relation: offset and stride
+- STATE REPRESENTATION: Bitwise
 - Mathematical analysis model
     - Order
     - Equality: Interval or ranges
     - Calculus: change rate
-        - integration
-        - differentiation
-        - Monotonicity analysis: max/min function, prefix sum
+        - integration: cumulative function
+        - differentiation: difference array
+        - Monotonicity analysis: max/min function, cumulative sum/prefix sum
         - Extrema points analysis: often related to monotonic stacks and queues
     - combinatorics
         - PERMUTATION
@@ -111,8 +126,19 @@ Update: O(n)
 Delete: O(1) at both ends, O(n) on average.
 
 #### Queue 
+First In First Out data structure.
+
+Applicable scenarios:
+- Breadth first search
 
 #### Stack
+First In Last Out data structure.
+
+Applicable scenarios:
+- Depth first search
+- Reverse problem
+- Nested structure
+- Monotonic sequence
 
 #### Prefix sum 
 This linear data structure contains F(x) where F(x) is integral of f(x) given by another array.
@@ -163,7 +189,7 @@ algorithm, then try to OPTIMIZE by resolving that.
 Remember, every problem has a naive brute force solution, regardless of complexity.
 
 ### Optimization directions
-- Brute force method: GRAPH SEARCH, naive count
+- Brute force method: GRAPH SEARCH(permutation, combination subsets), naive count
 - Avoid duplicate computation: order invariant, overlapping subproblem
     - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
     - Reduce PERMUTATION to COMBINATION (SUBSETS) by RESTRICTING ORDER (ORDER INVARIANT), \sum_k{P(n, k)} -> \sum_k{C(n, k)} = 2ⁿ, or O(n!) -> O(C(n, k))
@@ -188,6 +214,7 @@ Remember, every problem has a naive brute force solution, regardless of complexi
         - arithmetic 
 - Refine STATE we are tracking to use STATE TRANSITION/RECURRENCE RELATION
     - Define state that WON'T LOSE INFORMATION for state transition function
+    - Use range state if discrete states form a continuous interval 
     - Define state that's TRACTABLE
     - Augment/ADD STATE by another dimension of if current dimensions are insufficient
 

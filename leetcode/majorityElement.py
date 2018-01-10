@@ -23,7 +23,7 @@ Complexity: O(N), O(N)
 2. Reduced top K problem: find the kth element, where k is n/2.
 1) Sort: O(nlogn)
 2) Heap( top K ): O(nlogk)
-3) Quick select
+3) Quick select: O(n)
 
 3. Voting algorithm
 Complexity: O(N), O(1)
@@ -65,6 +65,66 @@ class Solution(object):
 
         return -1
 
+    def _majorityElementRandomization(self, nums):
+        # TODO: randomized solution
+        # randomly sample an element, check whether its occurrence is above
+        # ⌊n/2⌋
+        pass
+
+    def _majorityElementDivideAndConquer(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+
+        This problem is a degraded special case of the kth largest element, where
+        k is equal to the middle of nums.
+
+        Divide and conquer with partition
+        Keep partitioning the list, until the pivot is at the middle position.
+        """
+        # FIXED: partitioning method exceeds time limit
+        def partition(arr, p, r):
+            pivot = arr[r]
+            i = j = p
+            for j in range(p, r):
+                if arr[j] <= pivot:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    i += 1
+            arr[i], arr[r] = arr[r], arr[i]
+            return i
+
+        def partitionDNF(arr, p, r):
+            """
+            Dutch national flag partition: tackle situation of many duplicate numbers
+            """
+            pivot = arr[r]
+            i, j, n = p, p, r
+            while j <= n:
+                if arr[j] < pivot:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    i += 1
+                    j += 1
+                elif arr[j] > pivot:
+                    arr[j], arr[n] = arr[n], arr[j]
+                    n -= 1
+                else: j += 1
+            return i, n
+
+        left, right = 0, len(nums) - 1
+        mid = len(nums) // 2
+        while left <= right:
+            # q = partition(nums, left, right)
+            p, q = partitionDNF(nums, left, right)
+            # print(p, q)
+            if q < mid:
+                left = q + 1
+            elif p > mid:
+                right = q - 1
+            else:
+                break
+
+        return nums[mid]
+
     def _majorityElementVote(self, nums):
         """
         :type nums: List[int]
@@ -97,62 +157,6 @@ class Solution(object):
                 count -= 1
         # print(candidate)
         return candidate
-
-    def _majorityElementRandomization(self, nums):
-        # TODO: randomized solution
-        # randomly sample an element, check whether its occurrence is above
-        # ⌊n/2⌋
-        pass
-
-    def _majorityElementDivideAndConquer(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-
-        This problem is a degraded special case of the kth largest element, where
-        k is equal to the middle of nums.
-
-        Divide and conquer with partition
-        Keep partitioning the list, until the pivot is at the middle position.
-        """
-        # FIXED: partitioning method exceeds time limit
-        def partition(arr, p, r):
-            pivot = arr[r]
-            i = j = p
-            for j in range(p, r):
-                if arr[j] <= pivot:
-                    arr[i], arr[j] = arr[j], arr[i]
-                    i += 1
-            arr[i], arr[r] = arr[r], arr[i]
-            return i
-
-        def partitionDNF(arr, p, r):
-            pivot = arr[r]
-            i, j, n = p, p, r
-            while j <= n:
-                if arr[j] < pivot:
-                    arr[i], arr[j] = arr[j], arr[i]
-                    i += 1
-                    j += 1
-                elif arr[j] > pivot:
-                    arr[j], arr[n] = arr[n], arr[j]
-                    n -= 1
-                else: j += 1
-            return i, n
-
-        left, right = 0, len(nums) - 1
-        mid = len(nums) // 2
-        while left <= right:
-            p, q = partitionDNF(nums, left, right)
-            print(p, q)
-            if q < mid:
-                left = q + 1
-            elif p > mid:
-                right = q - 1
-            else:
-                break
-
-        return nums[mid]
 
     def _majorityElementBit(self, nums):
         """

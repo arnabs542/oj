@@ -110,7 +110,7 @@ bottom to up, left to right.
 
 '''
 
-from _decorators import memoizeFunc as memoize
+from _decorators import memoize
 
 class Solution(object):
 

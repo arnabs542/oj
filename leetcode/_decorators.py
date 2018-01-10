@@ -45,7 +45,7 @@ class memoizeMethod(object):
             res = cache[key] = self.func(*args, **kw)
         return res
 
-class memoizeFunc:
+class memoize:
     '''
     Memoize Decorator.
 
@@ -61,8 +61,6 @@ class memoizeFunc:
         if args not in self.memo:
             self.memo[args] = self.fn(*args)
         return self.memo[args]
-
-memoize = memoizeFunc
 
 def timeit(method):
     '''
