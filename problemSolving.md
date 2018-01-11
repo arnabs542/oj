@@ -17,13 +17,11 @@ Convert practical problems into mathematical/algorithmic MODELS.
 For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are all problems that can be
 abstracted into a graphical model.
 
-### General Models
+### General Mathematical Models
+- Equality: Interval or ranges
 - Counting model: hash count, count as sum
 - Sorting model: sorting algorithms, augmented BST with rank, monotonic analysis
     - Order statistics
-- Pointers model: two pointers, ...
-- Prefix or suffix
-- Partition
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear: array, linked list, stack, queue(deque), priority queue, 
     - Associative/mapping: hash table, buckets, inverted index
@@ -34,7 +32,7 @@ abstracted into a graphical model.
     - Depth first search: all paths, one path, backtracking
     - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
     - Union find: connected components
-- STATE TRANSITION RECURRENCE RELATION
+- STATE TRANSITION RECURRENCE RELATION(递推关系)
     - state definition
         - indexes: vertices and edges set
         - value: states bounded here
@@ -45,7 +43,7 @@ abstracted into a graphical model.
         - integers: target number,
         - sets state: vertices, edges, 
             - combinatorial state
-            - RANGE STATE: covered range during traversal, ...
+        - RANGE STATE: some sets form a continuous range, such as covered range during traversal, ...
     - state transition technique 
         - divide and conquer: partition into disjoint subproblems
         - Backward induction
@@ -60,20 +58,25 @@ abstracted into a graphical model.
         - Sequential recurrence relation: one end dimensional dynamic programming
         - Partition recurrence relation: divide and conquer, two ends dynamic programming
         - Sliding window recurrence relation: offset and stride
-- STATE REPRESENTATION: Bitwise
-- Mathematical analysis model
-    - Order
-    - Equality: Interval or ranges
-    - Calculus: change rate
-        - integration: cumulative function
-        - differentiation: difference array
-        - Monotonicity analysis: max/min function, cumulative sum/prefix sum
-        - Extrema points analysis: often related to monotonic stacks and queues
-    - combinatorics
-        - PERMUTATION
-        - COMBINATION
-        - CARTESIAN PRODUCT
-    - probability: pdf, cdf, pmf, ...
+- Pointers model: two pointers, ...
+- Prefix or suffix
+- Partition
+    - Pointers split: three way partition(dnf)
+    - Binary split: binary search tree, segment tree
+    - Exponential split: binary indexed tree
+- Calculus: change rate
+    - integration: cumulative function
+    - differentiation: difference array
+    - Monotonicity analysis(单调性): max/min function, cumulative sum/prefix sum
+        - Binary search
+        - Sliding window
+    - Extrema points analysis: often related to monotonic stacks and queues
+- combinatorics
+    - PERMUTATION
+    - COMBINATION: permutation without order
+    - CARTESIAN PRODUCT
+- probability: pdf, cdf, pmf, ...
+    - joint, marginal, conditional probability
 
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES: backward induction, ...
@@ -192,7 +195,7 @@ Remember, every problem has a naive brute force solution, regardless of complexi
 - Brute force method: GRAPH SEARCH(permutation, combination subsets), naive count
 - Avoid duplicate computation: order invariant, overlapping subproblem
     - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
-    - Reduce PERMUTATION to COMBINATION (SUBSETS) by RESTRICTING ORDER (ORDER INVARIANT), \sum_k{P(n, k)} -> \sum_k{C(n, k)} = 2ⁿ, or O(n!) -> O(C(n, k))
+    - Reduce PERMUTATION to COMBINATION (SUBSETS) by RESTRICTING ORDER (ORDER INVARIANT) or memoization, \sum_k{P(n, k)} -> \sum_k{C(n, k)} = 2ⁿ, or O(n!) -> O(C(n, k))
     - Reduce COMBINATION (SUBSETS) to CARTESIAN PRODUCT by eliminate OVERLAPPING subproblem: C(n, k) -> polynomial(n): O(2ⁿ) -> O(n^k)
         - Space time trade off: MEMOIZE
             - Collection data structure not easy to hash

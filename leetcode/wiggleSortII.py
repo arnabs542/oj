@@ -47,9 +47,9 @@ Partition the array into half. Fill even positions from first half, in
 decreasing order, and fill odd positions from second half, in decreasing order.
 
 
-3. Divide and conquer?
+2. Divide and conquer?
 
-2. Linear time complexity
+3. Linear time complexity
 
 Maybe swap where we can?
 Duplicate situation: Go find first non-duplicate, swap.
