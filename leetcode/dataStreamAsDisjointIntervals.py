@@ -23,8 +23,33 @@ Follow up:
 What if there are lots of merges and the number of disjoint intervals are small
 compared to the data stream's size?
 ===============================================================================================
-SOLUTION:
-    insert, and merge while it's possible.
+SOLUTION
+
+1. Brute force
+
+Sort, and merge.
+
+Complexity
+addNum: O(1)
+getIntervals: O(nlogn)
+
+Trade-off between insert and query
+
+2. Binary search.
+Insert, and merge whenever possible.
+
+Without a doubly linked list, the insert is O(n).
+AddNum: O(n²)
+getIntervals: O(n)
+Since number of disjoint intervals are small, so it's acceptable.
+
+3. Binary search tree
+In C++, there is a container iterator, enabling efficient insert and traverse
+back and forth.
+
+addNum: O(logn)
+getIntervals: O(n)
+
 '''
 
 # Definition for an interval.
@@ -55,16 +80,15 @@ class SummaryRanges(object):
         339ms, 98.89%, 2016-10-29 15:59
         """
         low, high = 0, len(self.ranges) - 1
-        # XXX: binary search
+        # XXX: binary search for position to insert or merge
         while low <= high:
             mid = (low + high) >> 1
             if val < self.ranges[mid].start - 1:
                 high = mid - 1
             elif val > self.ranges[mid].end + 1:
                 low = mid + 1
-            # break if val can be merged into Interval indexed at mid
             else:
-                break
+                break # val can be merged into Interval indexed at mid
 
         if low <= high:
             # can merge
@@ -84,7 +108,7 @@ class SummaryRanges(object):
                     self.ranges.pop(mid + 1)
         else:
             # can't merge, just insert
-            self.ranges.insert(max(low, high), Interval(val, val))
+            self.ranges.insert(low, Interval(val, val))
 
     def getIntervals(self):
         """

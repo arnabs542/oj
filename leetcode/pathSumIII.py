@@ -34,7 +34,37 @@ Return 3. The paths that sum to 8 are:
 1.  5 -> 3
 2.  5 -> 2 -> 1
 3. -3 -> 11
+
+================================================================================
+SOLUTION
+
+1. Brute force - recursion - depth first search
+
+A path contains two ends, and has O(N²) combinations. One path can at start any
+node, so we exhaust all possible paths.
+
+Complexity: O(N²)
+
+2. Recursion with prefix sum
+
+With prefix sum hash table, we can count number of paths ending with current node
+summing up to target in O(1).
+
+Complexity: O(n)
+
+################################################################################
+FOLLOW UP
+What if the path doesn't have to go downwards?
+Then there are O(N²) different paths.
+
+################################################################################
+FOLLOW UP
+Sequence sum?
+
+
 '''
+
+from _decorators import timeit
 
 # Definition for a binary tree node.
 class TreeNode(object):
@@ -46,46 +76,36 @@ class TreeNode(object):
 
 class Solution(object):
 
+    @timeit
     def pathSum(self, root: TreeNode, target: int):
         """
         :type root: TreeNode
         :type target: int
         :rtype: int
         """
-        # return self.pathSumRecursion(root, target)
-        # return self.pathSumRecursion2(root, target)
-        return self.pathSumPrefixSum(root, target)
+        # result = self.pathSumRecursionUgly(root, target)
+        result = self.pathSumRecursion(root, target)
+        # result = self.pathSumRecursion2(root, target)
+        # result = self.pathSumPrefixSum(root, target)
 
-    def pathSumRecursion(self, root: TreeNode, target: int, curr=None):
-        """
-        :type root: TreeNode
-        :type target: int
-        :rtype: int
+        print(result)
 
-        Top-down approach.
-        """
-        # FIXME: time limit exceeded, why?
-        if not root:
-            return 0
-
-        # # whether we can restart summing from scratch with children vertices
-        scratch = curr is None
-        curr = target if scratch else curr
-
-        result = 1 if root.val == curr else 0
-        # continue summing with children
-        result += (
-            self.pathSumRecursion(root.left, target, curr - root.val) +
-            self.pathSumRecursion(root.right, target, curr - root.val)
-        )
-        # restart summing from scratch with children
-        if scratch:
-            result += (self.pathSumRecursion(root.left, target) +
-                       self.pathSumRecursion(root.right, target))
-
-        print(root, target)
-        # if scratch and result: print(root, '\t', curr, target, '\t', result, 'paths')
         return result
+
+    def pathSumRecursion(self, root: TreeNode, target: int):
+        def dfs(node, s, start=False):
+            """
+            Returns
+            -------
+            int: number of paths summing to target on this subtree.
+            """
+            if not node: return 0
+            result = node.val == s
+            result += dfs(node.left, s - node.val) + dfs(node.right, s - node.val) # following a path already started
+            if start: result += dfs(node.left, target, start) + dfs(node.right, target, start) # start a new path here
+            return result
+
+        return dfs(root, target, True)
 
     def pathSumRecursion2(self, root: TreeNode, target: int, curr=None):
         """
@@ -133,18 +153,23 @@ class Solution(object):
         """
         # XXX: prefix sum solution
         def dfs(root, sum_so_far, target, prefix):
+            """
+            Traverse the binary tree and build up prefix sum hash table.
+            """
             if not root:
                 return 0
             # print('target', target, root, prefix)
             sum_so_far += root.val
-            res = prefix.get(sum_so_far - target, 0) # check subarray sum equivalence to target
+            res = prefix.get(sum_so_far - target, 0) # number of subarrays summing to target
+
             prefix[sum_so_far] = prefix.get(sum_so_far, 0) + 1
             res += dfs(root.left, sum_so_far, target, prefix) + \
                 dfs(root.right, sum_so_far, target, prefix)
-            prefix[sum_so_far] -= 1  # restore state to backtrack
+            prefix[sum_so_far] -= 1  # backtrack: restore state to backtrack
+
             return res
 
-        prefix = {0: 1}
+        prefix = {0: 1} # XXX: initialize prefix sum with {0:1}
         return dfs(root, 0, target, prefix)
 
 def test():
@@ -155,6 +180,9 @@ def test():
 
     root = Codec.deserialize("[]", int)
     assert solution.pathSum(root, 1) == 0
+
+    root = Codec.deserialize("[1,1,1]", int)
+    assert solution.pathSum(root, 1) == 3
 
     root = Codec.deserialize('[1,null,2,null,3,null,4,null,5]', int)
     assert solution.pathSum(root, 3) == 2

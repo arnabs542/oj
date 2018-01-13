@@ -23,7 +23,7 @@ For example,
 Given heights = [2,1,5,6,2,3],
 return 10.
 
-==============================================================================================
+================================================================================
 SOLUTION:
 
 1. Brute-force.
@@ -35,6 +35,11 @@ And we want to get max(f(i, j)).
 i, j pairs are of O(N²) complexity, since it involves two loops.
 (j - i + 1) is O(1) time complexity, and get query the range minimum is of O(0) because
 we can keep track of that while iterating with j index in the inner loop.
+
+Or in a bar PERSPECTIVE, exhaust all bars. For each bar, choose it as height of
+rectangle. Find the longest window containing it and with elements no smaller than it.
+Then area = height[i] * window size.
+
 
 Complexity: O(N²).
 
@@ -89,10 +94,32 @@ Complexity: O(nlogn) for both average and worst case!
 For large data set with length 20000, the speed up can be 1400 times in worst case in theory!
 15033.65/
 
-4. Linear algorithm?
+4. Monotonicity analysis - monotone stack
 
-Stack or or linear model?
-Monotonic analysis?
+In the brute force method, for each bar x, we need to compute the area with x as
+height. Then we need to know the index of first smaller bar on left and right of x.
+
+The most simple case is when the array in monotonically increasing or decreasing.
+
+1) What if it's increasing?
+Then all possible largest rectangle would literally end with the largest bar.
+Like in [1, 2, 3, 4], all candidates must end with 4.
+For each larger value to come, it become the right side of sub-optimal rectangles.
+
+2) What if it's decreasing?
+Then all possible rectangles must begin with the largest, and ends with each possible
+bar.
+
+3) What if we have a increasing sequence, then a lower value comes?
+Then it means the previously largest bar has already served its life cycle now.
+A locally optimal has shown up: rectangles ending with this bar.
+Because a smaller bar appears after the current largest one, it's impossible to
+cross the boundary.
+
+--------------------------------------------------------------------------------
+Maintain a monotonically increasing stack. For the stack top, the current bar that's
+smaller than it is the first index of smaller bar on right. And the second top element
+in the stack is the first smaller index on left.
 
 
   2 1 5 6 2 3
@@ -102,6 +129,8 @@ Monotonic analysis?
 6
 2
 3
+
+Complexity: O(n), O(n)
 
 '''
 
@@ -119,9 +148,10 @@ class Solution(object):
         # result = self._largestRectangleAreaRMQ(heights)
         # result = self._largestRectangleAreaDivideAndConquer(heights)
         # result = self._largestRectangleAreaDivideAndConquerIterative(heights)
-        result = self._largestRectangleAreaDivideAndConquerRMQ(heights)
+        # result = self._largestRectangleAreaDivideAndConquerRMQ(heights)
+        result = self._largestRectangleAreaMonotoneStack(heights)
 
-        # print(heights, ", result: ", result)
+        print(heights[:100], ", result: ", result)
         return result
 
     def _largestRectangleAreaDivideAndConquer(self, heights: list) -> int:
@@ -188,7 +218,21 @@ class Solution(object):
 
         return area
 
-    # TODO: linear algorithm
+    def _largestRectangleAreaMonotoneStack(self, heights: list) -> int:
+        area = 0
+
+        stack = []
+        heights.append(-1) # add a sentinel
+        for i, h in enumerate(heights):
+            while stack and heights[stack[-1]] > h:
+                j = stack.pop()
+                left = stack[-1] + 1 if stack else 0
+                width = i - left
+                area = max(area, width * heights[j])
+
+            stack.append(i)
+
+        return area
 
 def test():
     solution = Solution()
@@ -199,6 +243,8 @@ def test():
     assert solution.largestRectangleArea([0, 1]) == 1
     assert solution.largestRectangleArea([1, 1]) == 2
     assert solution.largestRectangleArea([1, 1]) == 2
+    assert solution.largestRectangleArea([2, 1, 2]) == 3
+    assert solution.largestRectangleArea([4, 2, 0, 3, 2, 5]) == 6
     assert solution.largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10
     assert solution.largestRectangleArea([1, 2, 3, 4, 5, 6]) == 12
 

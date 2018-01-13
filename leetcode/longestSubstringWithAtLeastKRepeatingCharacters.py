@@ -27,7 +27,7 @@ Output:
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 1. Brute force
@@ -68,19 +68,39 @@ are not eligible.
 2. Greedy strategy?
 Some greedy strategy.
 
-3. State transition - sliding window?
+3. State transition - prefix sum/count
 Prefix sum?
 
-Maintain a counter of character occurrences, initially of the whole string. And pop out those
-characters not eligible.
+Build a prefix sum of character occurrences count.
+Then, the occurrences count function is MONOTONE INCREASING!
+This means we can use BINARY SEARCH!
+
+At each position, we have 26 characters to consider.
+If a character, say it's 'a', occurs c times. Then we need to find
+the lower bound index at which 'a' occurs c - k times or c times.
+Now the search space is shrunk for next character 'b'. Repeat the process.
+
+Since binary search is guaranteed to be O(logn), the complexity is always
+O(nlogn).
 
 4. State transition - Two pointers?
 
 Initialize two pointers i = 0, j = n - 1?
 
-Initialize the window as [0, n - 1], and count the occurrences of characters.
-If any character on the window end doesn't
+A sliding window of what constraints?
+When to shrink the window?
 
+We don't know when to shrink the window because there are multiple different
+characters, and they may make up for the missing count later.
+
+The trick is to maintain a sliding window with at most specific number of
+distinct characters.
+A substring, contains at most 26 distinct characters. And it can be exhausted.
+Then we can maintain a siding window containing at most h distinct characters,
+where h is in [1, 26]. Shrink the window when distinct characters exceed h.
+And a match is found when all character occurrences in window exceed k.
+
+Complexity: O(26n).
 
 '''
 

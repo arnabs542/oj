@@ -25,9 +25,12 @@ return
    [5,4,11,2],
    [5,8,4,5]
 ]
-===============================================================================================
-SOLUTION:
-    Depth-first search, recursion
+
+================================================================================
+SOLUTION
+
+1. Depth-first search, recursion
+
 '''
 
 # Definition for a binary tree node.
@@ -50,7 +53,7 @@ class Solution(object):
         def dfs(node, target, path):
             if not node:
                 return
-            if node.val == target and not (node.left or node.right):
+            if node.val == target and not (node.left or node.right): # equal, and leaf
                 result.append(list(path + [node.val]))
             else:
                 path.append(node.val)
@@ -80,4 +83,5 @@ def test():
     print('self test passed')
     pass
 
-test()
+if __name__ == '__main__':
+    test()

@@ -60,6 +60,7 @@ abstracted into a graphical model.
         - Sliding window recurrence relation: offset and stride
 - Pointers model: two pointers, ...
 - Prefix or suffix
+- Subarray and subsequence
 - Partition
     - Pointers split: three way partition(dnf)
     - Binary split: binary search tree, segment tree
@@ -70,6 +71,7 @@ abstracted into a graphical model.
     - Monotonicity analysis(单调性): max/min function, cumulative sum/prefix sum
         - Binary search
         - Sliding window
+        - monotone stack or monotone queue
     - Extrema points analysis: often related to monotonic stacks and queues
 - combinatorics
     - PERMUTATION
@@ -141,7 +143,7 @@ Applicable scenarios:
 - Depth first search
 - Reverse problem
 - Nested structure
-- Monotonic sequence
+- Monotonic/monotone sequence
 
 #### Prefix sum 
 This linear data structure contains F(x) where F(x) is integral of f(x) given by another array.

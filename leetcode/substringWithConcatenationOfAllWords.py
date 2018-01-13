@@ -124,14 +124,14 @@ class Solution(object):
             seen = {}
             while r + wordLen <= n:
                 w = s[r:r + wordLen]
-                r += wordLen
+                r += wordLen # expand the window
                 if w not in counter:
-                    l = r
+                    l = r # skip
                     seen.clear()
                 else:
                     seen[w] = seen[w] + 1 if w in seen else 1 # more occurrence, keep removing!
                     while seen[w] > counter[w]:
-                        seen[s[l:l + wordLen]] -= 1
+                        seen[s[l:l + wordLen]] -= 1 # left shrink the window
                         l += wordLen
                     if r - l == totalLen:
                         result.append(l)

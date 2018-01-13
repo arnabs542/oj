@@ -41,6 +41,15 @@ places until at the end of string.
 Implementation:
     1. scan the list
     2. regular expression substitution
+
+1. Naive remove in place
+O(kn)
+
+2. Using monotone stack
+
+Complexity: O(n+k)
+
+
 '''
 
 class Solution(object):
