@@ -97,29 +97,31 @@ For large data set with length 20000, the speed up can be 1400 times in worst ca
 4. Monotonicity analysis - monotone stack
 
 In the brute force method, for each bar x, we need to compute the area with x as
-height. Then we need to know the index of first smaller bar on left and right of x.
+height. Then we need to know the INDEX OF FIRST SMALLER bar on left and right of x.
 
 The most simple case is when the array in monotonically increasing or decreasing.
 
 1) What if it's increasing?
 Then all possible largest rectangle would literally end with the largest bar.
-Like in [1, 2, 3, 4], all candidates must end with 4.
-For each larger value to come, it become the right side of sub-optimal rectangles.
+Like in [1, 2, 3, 4], previous position of each bar is the index of first smaller
+on the left.
 
 2) What if it's decreasing?
-Then all possible rectangles must begin with the largest, and ends with each possible
-bar.
+Then each bar has the right adjacent bar as index of first smaller on the right.
 
 3) What if we have a increasing sequence, then a lower value comes?
-Then it means the previously largest bar has already served its life cycle now.
-A locally optimal has shown up: rectangles ending with this bar.
-Because a smaller bar appears after the current largest one, it's impossible to
-cross the boundary.
+For the stack top element, the indices of first smaller element on left and right
+are all determined!
+Then we have all information needed to compute the rectangle with this bar height.
 
 --------------------------------------------------------------------------------
-Maintain a monotonically increasing stack. For the stack top, the current bar that's
-smaller than it is the first index of smaller bar on right. And the second top element
-in the stack is the first smaller index on left.
+Maintain a monotonically increasing stack.
+For the stack top, the current bar that's smaller than it is the first index of smaller
+bar on right. And the second top element in the stack is the first smaller index on left.
+The area of rectangle with stack top bar height is given by:
+    area = width * height(stack top),
+where width is determined by the gap between second top element of the stack and
+current element.
 
 
   2 1 5 6 2 3
@@ -131,6 +133,12 @@ in the stack is the first smaller index on left.
 3
 
 Complexity: O(n), O(n)
+
+5. Dynamic programming
+Keep track of three variables as state:
+    current bar height, left boundary, right boundary.
+
+TODO: figure it out...
 
 '''
 
@@ -243,6 +251,7 @@ def test():
     assert solution.largestRectangleArea([0, 1]) == 1
     assert solution.largestRectangleArea([1, 1]) == 2
     assert solution.largestRectangleArea([1, 1]) == 2
+    assert solution.largestRectangleArea([1, 1, 1]) == 3
     assert solution.largestRectangleArea([2, 1, 2]) == 3
     assert solution.largestRectangleArea([4, 2, 0, 3, 2, 5]) == 6
     assert solution.largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10
