@@ -47,26 +47,7 @@ node. And accumulate the roots with minimum tree height.
 
 Complexity: O(V(V+E)), O(logN) ~ O(N)
 
-
-2. no clue yet...
-
-A tree is a special graph with only forward edges, without backward edges and cross edges.
-Thus a tree is a undirected acyclic graph.
-
-Any two nodes are connected by an unique path.
-
-Do graph search(depth/breadth first search) on the tree, and track the depth of nodes.
-There must be a longest path.
-
-Lemma:
-The trees with minimum height must have there root at the middle of longest path during dfs.
-
-This lemma can be proved by contradict:
-  If the root R' is somewhere else, then the distance d' from node R' to the one end of the
-longest path would be larger than distance d from R to the node. This indicates that the
-height of tree rooted at R', h' >= d' > d == h. R' is not root of a minimum height tree.
-
-3. Reduce and induce - cut the leaves until reach the root(s)
+2. Reduce and induce - graph degrees analysis - cut the leaves until reach the root(s)
 
 Note that the tree is described by the edges, maybe we can find something, like degrees, about
 this problem?`
@@ -128,7 +109,7 @@ Removing an edge from a list(vector, array) is O(N) complexity, too much overhea
 
 Complexity: O(E² + V), where E is the number of edges, V is the number of vertices.
 
-4. Optimization on removing leaf nodes or edges
+3. Optimization on removing leaf nodes or edges
 Instead of removing edges, remove vertices at each time.
 
 First, represent the tree more efficiently, like variant of adjacency list.
@@ -136,7 +117,7 @@ Use an adjacency set, map<node, set<nodes>>, to store the adjacency list represe
 
 In this way, removing an edge or a leaf node, only takes O(1) complexity.
 
-5. Breadth first search - further optimization of the idea of cutting leaves
+4. Breadth first search - further optimization of the idea of cutting leaves
 
 Don't cut the leaves, just follow them to do breadth first search.
 
@@ -177,6 +158,7 @@ public:
 
     /**
      * Performance: 1000+ms
+     * Find the roots by cutting edges
      * TODO: optimize! This is way to slow...
      */
     vector<int> _findMinHeightTreesReduceNaive(int n, vector<pair<int, int>>& edges) {
@@ -303,59 +285,44 @@ public:
         return result;
     }
 
+    /**
+     *
+     * Cut tree leaves in a breadth first search approach
+     */
     vector<int> _findMinHeightTreesBfs(int n, vector<pair<int, int>>& edges) {
+        if (n == 1) {
+            return vector<int>({0});
+        }
+
         vector<unordered_set<int>> adj(n, unordered_set<int>());
-        vector<int> degrees(n, 0);
-        vector<bool> visited(n, false);
-        unordered_set<int> frontier;
-        unordered_set<int> frontierNext;
-        vector<int> result;
+        vector<int> frontier;
+        vector<int> frontierNext;
 
-        if (edges.empty()) { // corner case: one node without any edges
-            return  n == 1 ? vector<int>({0}) : vector<int>();
+        for (auto edge: edges) {
+            adj[edge.first].insert(edge.second);
+            adj[edge.second].insert(edge.first);
         }
-
-        for (pair<int, int> &edge: edges) {
-            int u = edge.first, v = edge.second;
-            adj[u].insert(v);
-            adj[v].insert(u);
-            degrees[u] += 1;
-            degrees[v] += 1;
-        }
-        // initialize frontier with leaves
         for (int i = 0; i < n; ++i) {
-            if (degrees[i] == 1) {
-                frontier.insert(i);
-                visited[i] = true;
+            if (adj[i].size() <= 1) {
+                frontierNext.push_back(i);
             }
         }
-
-        while (true) {
-        for (int v: frontier) {
-            degrees[v] =-1;
-            //degrees[*adj[v].begin()] -= 1; // XXX: problematic statement, begin element is undetermined
-        }
-            for(int v: frontier) {
-                for (int u: adj[v]) {
-                    if (!visited[u] && degrees[u] <= 1) {
-                        frontierNext.insert(u);
-                        visited[u] = true;
-                        degrees[u] -= 1;
-                    }
+        while (n > 2) {
+            frontier = std::move(frontierNext);
+            n -= frontier.size();
+            for (int i: frontier) {
+                int j = *adj[i].begin();
+                adj[i].erase(j);
+                adj[j].erase(i); // remove edge from adjacency list
+                if (adj[j].size() == 1) { // only add for 1, avoiding duplicate adding
+                    frontierNext.push_back(j); // next search frontier
                 }
             }
-            //for (int u: frontier) {
-                //degrees[u] -=1;
-                //degrees[*adj[u].begin()] -= 1;
-            //}
-            if (frontierNext.size()) {
-                frontier = std::move(frontierNext);
-            } else break;
         }
 
-        for (int v: frontier) {result.push_back(v);};
-        return result;
+        return frontierNext;
     }
+
 };
 
 void test()
