@@ -173,4 +173,5 @@ def test():
 
     print('self test passed')
 
-test()
+if __name__ == '__main__':
+    test()

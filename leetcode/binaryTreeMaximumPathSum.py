@@ -22,7 +22,8 @@ Given the below binary tree,
      2   3
 Return 6.
 
-==============================================================================================
+
+================================================================================
 SOLUTION
 
 In this problem, a path is actually composed of two branches starting with some node v,
@@ -51,6 +52,7 @@ overlapping subproblems and optimal substructure. Parent vertices depend on its 
 And the maximum path sum ending here depends on the maximum path sum ending with its direct
 descendants.
 
+--------------------------------------------------------------------------------
 DEFINE STATE to contain enough information for RECURRENCE RELATION.
 STATE AS TUPLE of (max_ending_here, max_so_far).
 
@@ -69,7 +71,7 @@ can be spared.
 Move STATE via RETURN VALUE to solve the overlapping optimal substructure in a BOTTOM-UP/
 BACKWARD manner.
 
-##############################################################################################
+################################################################################
 FOLLOW UP
 
 1. Find the maximum path distance(543. Diameter of Binary Tree)
@@ -89,6 +91,12 @@ Note that if a node's child is empty, the distance increase from the child subtr
 Define state: (max_distance_path_ending_here, max_distance_path_so_far)
 State is a tuple of list, representing path sequence.
 
+3. With negative numbers?
+Maximum subarray on tree data structure, already covered by this solution.
+
+4. Maximum sum sequence?
+Just add non-negative numbers
+
 '''
 
 # Definition for a binary tree node.
@@ -106,9 +114,13 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        return self.maxPathSumRecursion(root)
+        result = self._maxPathSumRecursion(root)
 
-    def maxPathSumRecursion(self, root):
+        print("result: ", result)
+
+        return result
+
+    def _maxPathSumRecursion(self, root):
         """
         :type root: TreeNode
         :rtype: int
@@ -130,7 +142,7 @@ class Solution(object):
         print(t, '\n')
         return t[1]
 
-    def maxPathSum2Recursion(self, root):
+    def _maxPathSum2Recursion(self, root):
         """
         :type root: TreeNode
         :rtype: int

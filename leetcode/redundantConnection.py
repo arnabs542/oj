@@ -4,7 +4,7 @@
 """
 684. Redundant Connection
 
-In this problem, a tree is an undirected graph that is connected and has no cycles.
+In this problem, A TREE IS AN UNDIRECTED GRAPH THAT IS CONNECTED AND HAS NO CYCLES.
 
 The given input is a graph that started as a tree with N nodes (with distinct values 1, 2, ..., N), with one additional edge added. The added edge has two different vertices chosen from 1 to N, and was not an edge that already existed.
 

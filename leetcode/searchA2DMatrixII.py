@@ -29,25 +29,42 @@ Given target = 5, return true.
 Given target = 20, return false.
 
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-1. Heap. Time complexity O(min(mn, k))
+1. Brute force, O(mn)
 
-2. Brute force, O(mn)
+2. Heap.
+Inspecting the matrix from top left angle, it's a heap data structure.
 
-3. Binary Search in O(MlogN)
+Time complexity O(min(mn, k))
 
-4. Binary search by shrinking the search space by two, O(log(mn)) or O(Log(max(m, n)))
-such anchor point (x0, y0), instead of the middle point, that we divide the search space evenly,
-x0 * y0 = ½ mn, x0 / y0 = m / n = r.
-So, y0^2 * r = ½ n^2 r, => y0 = f(n).
+3. Binary Search in each row
+Exhaust all rows, the binary search in each row.
 
-5. Linear solution. Treat this special matrix as a variant of BINARY SEARCH TREE with two roots:
+Complexity:  O(MlogN)
+
+4. Binary search in 2 dimension
+Shrink the search space by two.
+The problem is how to divide the space, so that the subspaces are separated evenly.
+
+To divide the space into two equal area regions, we have mathematical equation.
+We need to find such anchor point (x, y), instead of the middle point, that
+divides the search space evenly,
+x * y = ½ mn, x / y = m / n = r.
+So, y^2 * r = ½ n^2 r, => y = √2/2 n.
+
+Complexity: O(log(mn))
+
+5. Linear solution.
+
+Treat this special matrix as a variant of BINARY SEARCH TREE with two roots:
 bottom left and top right.
 
 Then we can search the binary search tree from a very root and eliminate a row
 or column depending on the comparison result between the root value and target.
+
+Complexity: O(max(m, n))
 
 '''
 

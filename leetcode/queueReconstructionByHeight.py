@@ -24,11 +24,22 @@ Input:
 Output:
 [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
 
-==============================================================================================
-SOLUTION:
-    brute-force, greedy.
+================================================================================
+SOLUTION
+
+1. Brute-force, greedy.
 
 VALUE COMPARISON involved, consider the ORDERING / MONOTONICITY and EXTREMUM.
+
+2. Insertion sort - backward induction
+Process the list in a descending height order.
+Add the elements into the result array. Then each element already in the result
+array is greater than or equal to the current one to insert.
+
+In another word, for current (h, k), k is the position to insert it!
+
+Complexity: O(n²), O(n)
+
 '''
 
 class Solution(object):
@@ -38,9 +49,14 @@ class Solution(object):
         :type people: List[List[int]]
         :rtype: List[List[int]]
         """
-        return self.reconstructQueueByHeight(people)
+        # result = self._reconstructQueueNaive(people)
+        result = self._reconstructQueueByHeight(people)
 
-    def reconstructQueueNaive(self, people):
+        print(people, " => ", result)
+
+        return result
+
+    def _reconstructQueueNaive(self, people):
         """
         :type people: List[List[int]]
         :rtype: List[List[int]]
@@ -72,7 +88,7 @@ class Solution(object):
 
         return queue
 
-    def reconstructQueueByHeight(self, people: list):
+    def _reconstructQueueByHeight(self, people: list):
         """
         :type people: List[List[int]]
         :rtype: List[List[int]]

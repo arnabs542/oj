@@ -20,6 +20,9 @@ abstracted into a graphical model.
 ### General Mathematical Models
 - Equality: Interval or ranges
 - Counting model: hash count, count as sum
+    - Duplicate check
+        - exhaust and find occurrence
+        - hash count
 - Sorting model: sorting algorithms, augmented BST with rank, monotonic analysis
     - Order statistics
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...

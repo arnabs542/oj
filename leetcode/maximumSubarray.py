@@ -18,7 +18,7 @@ More practice:
 If you have figured out the O(n) solution, try coding another solution using the divide
 and conquer approach, which is more subtle.
 
-===============================================================================================
+================================================================================
 SOLUTION
 
 1) Brute force
@@ -38,6 +38,7 @@ we simply keep track of the maximum sum we've ever seen.
 
 DEFINE STATE:
     max_ending_here: Maximum subarray sum ending at position i.
+    max_so_far: local maximum
 
 STATE TRANSITION:
     Scan through the array values, computing at each position the MAXIMUM (positive sum)
@@ -70,9 +71,9 @@ minimum sum so far.
 
 
 ##############################################################################################
-VARIANT
+FOLLOW UP & VARIANT
 
-红绿灯数目问题
+1. 红绿灯数目问题
 Q: 给出一个Char Array, 里面只有 R, G. 现在要选择一个范围，使得 R 变成G，G变成R，并使得G的个数－ R的个数最大。输出这个范围并且输出最大结果.
 
 ==============================================================================================
@@ -89,6 +90,9 @@ G = 0,
 
 
 然后，用DP一遍就可以解决了
+
+2. Maximum subarray sequence
+Just use non-negative numbers...
 
 
 '''

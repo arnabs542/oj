@@ -29,26 +29,25 @@ Refer to https://en.wikipedia.org/wiki/Cross_product for cross product.
 class Solution(object):
 
     def isConvex(self, points: list):
+
+        def _det2(u, v):
+            '''
+            compute the cross product
+            '''
+            return (u[1] * v[2] - u[2] * v[1],
+                    u[0] * u[2] - u[2] * v[0],
+                    u[0] * v[1] - u[1] * v[0])
+
         prev, curr = 0, 0 # the previous and current direction
         n = len(points)
         for i, _ in enumerate(points):
             u = (points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1], 0)
             v = (points[(i + 1) % n][0] - points[i][0], points[(i + 1) % n][1] - points[i][1], 0)
-            curr = self.det2(u, v)[2]
+            curr = _det2(u, v)[2]
             if curr * prev < 0:
                 return False
             prev = curr
         return True
-
-    @staticmethod
-    def det2(u, v):
-        '''
-        compute the cross product
-        '''
-        return (u[1] * v[2] - u[2] * v[1],
-                u[0] * u[2] - u[2] * v[0],
-                u[0] * v[1] - u[1] * v[0])
-    pass
 
 
 def test():
