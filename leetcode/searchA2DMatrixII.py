@@ -34,7 +34,7 @@ SOLUTION
 
 1. Brute force, O(mn)
 
-2. Heap.
+2. Heap - top left perspective
 Inspecting the matrix from top left angle, it's a heap data structure.
 
 Time complexity O(min(mn, k))
@@ -56,7 +56,7 @@ So, y^2 * r = ½ n^2 r, => y = √2/2 n.
 
 Complexity: O(log(mn))
 
-5. Linear solution.
+5. Binary search tree - bottom left perspective - linear solution.
 
 Treat this special matrix as a variant of BINARY SEARCH TREE with two roots:
 bottom left and top right.

@@ -35,7 +35,7 @@ Given tree t:
  1   2
 Return false.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 1. Brute force
@@ -49,10 +49,13 @@ Note that when traversing, the NULL nodes must be explicitly kept to represent t
 
 1) Rather than assuming a null value for the childern of the leaf nodes, we need to treat the
 left and right child as a lnull and rnull value respectively. To avoid substring match ambiguity.
+
 2) Adding a '#' before every considering every value. If this isn't done, the trees of the form
 s:[23, 4, 5] and t:[3, 4, 5] will also give a true result since the preorder string of the
 t("23 4 lnull rull 5 lnull rnull") will be a substring of the preorder string of
 s("3 4 lnull rull 5 lnull rnull"). Adding a '#' before the node's value solves this problem.
+
+Complexity: O(mn), O(max(m, n))
 
 """
 

@@ -28,7 +28,7 @@ SOLUTION
 
 1. Brute force - permutation
 
-The problem could be modeled as the following optimization problem :
+The problem could be modeled as the following mathematical optimization problem :
 ```latex
 \min_{x}m \\
 \text{subject to} \sum_{i=0}^{m-1}c_i = S
@@ -47,7 +47,7 @@ Permutations are too complex, we can restrict the order to reduce it to combinat
 
 --------------------------------------------------------------------------------
 Or, for your information, we can reduce the sequence length by modeling another way.
-The problem could be modeled as the following another optimization problem :
+The problem could be modeled as another mathematical optimization problem:
 
 ```latex
 \min_{x}\sum_{i=0}^{n-1}x_i \\
@@ -70,28 +70,29 @@ Space complexity: O(n).
 
 3. Dynamic programming
 
-Above brute force methods have STATE SPACE of overlapping subproblems, duplicate computation,
+Above brute force methods have STATE SPACE of overlapping subproblems,
+involving duplicate computation.
 
 Define state f(s) as the minimum number of coins need to change amount s.
 
 Complexity: O(Sn).
 
 4. Breadth first search
-Minimal number of coins can be thought as shortest path problem.
+Minimal number of coins can be thought as GRAPH SHORTEST PATH problem.
 For shortest path, breadth first search is better than depth first search.
 
 In this graph, vertices are the amount, and edges are available coins.
 
+Define state (amount, )
 In a naive BFS, edges is a static set, at each state we can choose any of the coins.
 This will involve many duplicate equivalent situations. For example, choosing coins
-"1, 2, 3" is actually equivalent to "2, 1, 3". These permutations are equivalent.
+"1, 2, 3" is actually equivalent to "2, 1, 3". These PERMUTATIONS are equivalent.
 
-Define state (amount, )
-
-To avoid duplicate computations because of permutations, restrict the order
-of selecting coins to be monotonic, since the sum of values is order invariant!
 
 Define state (amount, available coin index)
+To avoid duplicate computations because of permutations, restrict the ORDER
+of selecting coins to be monotonic, since the sum of values is order invariant!
+Then it's reduced to COMBINATION.
 
 5. Bidirectional breadth first search
 TODO:

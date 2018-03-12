@@ -61,6 +61,7 @@ Then we might want to try siblings of p.
 What if it's not found still?
 Then try siblings of parents of p, backtracking recursively.
 
+--------------------------------------------------------------------------------
 Now it seems clear to define such state:
 (
     node: found target node p or q, or the LCA of p and q

@@ -69,7 +69,7 @@ class Codec:
 
     @classmethod
     def deserialize(cls, data: str,
-                    T: type = str, NodeType: type = TreeNode, debug=False):
+                    T: type = int, NodeType: type = TreeNode, debug=False):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -105,7 +105,7 @@ class Codec:
         return '[{}]'.format(','.join(data))
 
     @classmethod
-    def _deserializeBFS(cls, data, T: type=str, NodeType: type=TreeNode):
+    def _deserializeBFS(cls, data, T: type=int, NodeType: type=TreeNode):
         """Decodes your encoded data to tree.
 
         :type data: str

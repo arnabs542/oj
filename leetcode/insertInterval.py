@@ -21,29 +21,33 @@ Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10
 
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 1. Sort and insert
-Sort the original intervals list, and iterate over the original list. Then the process is like
-merge sort.
+Sort the original intervals list, and iterate over the original list.
+Then the process is like merge sort.
+
+The merge process can be done with a monotone stack.
 
 Complexity: O(NlogN) + O(N)
 
 '''
 
 # Definition for an interval.
-class Interval(object):
+# class Interval(object):
 
-    def __init__(self, s=0, e=0):
-        self.start = s
-        self.end = e
+    # def __init__(self, s=0, e=0):
+        # self.start = s
+        # self.end = e
 
-    def __repr__(self):
-        return "[{}, {}]".format(self.start, self.end)
+    # def __repr__(self):
+        # return "[{}, {}]".format(self.start, self.end)
 
-    def __eq__(self, other):
-        return self.start == other.start and self.end == other.end
+    # def __eq__(self, other):
+        # return self.start == other.start and self.end == other.end
+
+from _type import Interval
 
 class Solution(object):
 

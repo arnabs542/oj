@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 '''
 Sqrt(x)
 
@@ -5,11 +8,23 @@ Implement int sqrt(int x).
 
 Compute and return the square root of x.
 
-==============================================================================================
+
+================================================================================
 Solution:
 
-1. Binary search for k ,for which k² <= x < (k + 1)².
+1. Binary search
+
+1) Binary search for k ,for which k² <= x < (k + 1)².
+2) Binary search for lower bound.
+
 2. Newton's method (root/zeros finding method for real-valued function).
+
+Iteration update:
+x_{n+1} = x_n - f(x_n)/f'(x_n)
+
+Geometrically, (x_{n+1}, 0) is the intersection of the x-axis and the tangent of the graph
+of f at (x_n, f (x_n)).
+
 Find square root of a number `a` is to find the root for function:
     f(x) = x² - a = 0
 and:
@@ -21,6 +36,8 @@ The iterative update:
 The vanilla stopping criterion is:
     (x[n + 1] - x[n]) <= 1
 But for this problem, we want find root² <= x <= (root + 1)²
+
+
 '''
 
 class Solution(object):
@@ -30,10 +47,15 @@ class Solution(object):
         :type x: int
         :rtype: int
         """
-        # return self.mySqrtBS(x)
-        return self.mySqrtNewton(x)
+        # result = self._mySqrtBinarySearch(x)
+        result = self._mySqrtBinarySearchBound(x)
+        # result = self._mySqrtNewton(x)
 
-    def mySqrtBS(self, x: int) -> int:
+        print("square root: ", x, result)
+
+        return result
+
+    def _mySqrtBinarySearch(self, x: int) -> int:
         low, high = 0, x
         while low <= high:
             root = (low + high) // 2
@@ -45,7 +67,23 @@ class Solution(object):
                 return root
         # return k
 
-    def mySqrtNewton(self, x: int) -> int:
+    def _mySqrtBinarySearchBound(self, x: int) -> int:
+        """
+        Binary search for bound: lower bound or upper bound
+        """
+        low, high = 0, x
+        while low <= high:
+            mid = (low + high) // 2
+            root = mid ** 2
+            if root > x:
+                high = mid - 1
+            elif root < x:
+                low = mid + 1
+            else:
+                return mid
+        return high
+
+    def _mySqrtNewton(self, x: int) -> int:
         root = x
         while root * root > x:
             root = (root + x // root) // 2
@@ -59,6 +97,8 @@ def test():
     assert Solution().mySqrt(9) == 3
     assert Solution().mySqrt(19) == 4
     assert Solution().mySqrt(26) == 5
+    assert Solution().mySqrt(50) == 7
+    assert Solution().mySqrt(100) == 10
 
     print('self test passed')
 

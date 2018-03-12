@@ -17,18 +17,23 @@ Note:
 Each element in the result must be unique.
 The result can be in any order.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-1. Hash table(set)
+1. Brute force
+For each element in nums1, check existence in nums2 and avoid duplicate.
+
+Complexity: O(mn).
+
+2. Hash table/set
 
 Complexity: O(n) + O(m).
 
-2. Sort and two pointers
+3. Sort and two pointers
 
 Complexity: O(nlogn) + O(mlogm) + O(m + n).
 
-3. Sort and binary search
+4. Sort and binary search
 
 Complexity: O(nlogn) + O(mlogm) + O(mlogn).
 

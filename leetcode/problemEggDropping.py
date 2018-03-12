@@ -21,7 +21,7 @@ Suppose that we wish to know which stories in a 36-story building are safe to dr
 
 Keep dropping the egg from lowest floor to highest, until it breaks.
 
-Complexity: O(N)
+Complexity: O(k), but not yielding the optimal solution.
 
 2. Minimax - minimize worst case loss
 
@@ -113,6 +113,8 @@ def test():
     assert solution.dropEggs(2, 1) == 1
     assert solution.dropEggs(2, 2) == 2
     assert solution.dropEggs(2, 100) == 14
+    assert solution.dropEggs(2, 256) == 23
+    assert solution.dropEggs(2, 1024) == 45
 
     print("self test passed")
 

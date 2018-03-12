@@ -40,6 +40,19 @@ In another word, for current (h, k), k is the position to insert it!
 
 Complexity: O(n²), O(n)
 
+3. Optimizing inserting with order statistics tree
+
+To enable O(logn) insert, we can augment a balanced binary search tree
+as order statistics tree.
+
+But the implementation is absolutely nontrivial.
+
+Complexity: O(nlogn), O(n)
+
+4.
+
+Complexity: O(nlogn)
+
 '''
 
 class Solution(object):

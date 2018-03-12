@@ -23,24 +23,22 @@ Follow up:
     What if elements of nums2 are stored on disk, and the memory is limited such that you
 cannot load all elements into the memory at once?
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-1. Brute force solution
-For each element in nums1, check existence in nums2, and remove if it does exist, and update
-the intersection list.
+1. Brute force
+
+For each element in nums1, check existence in nums2.
+To deal with multiple occurrences, remove if it does exist, and update the
+intersection list.
 
 Linear search takes O(n), and deleting an element from array takes O(n).
 
 Complexity: O(mn).
 
-
-2. Hash table
-
-Hash count.
+2. Hash count.
 
 Complexity: O(m + n), O(m + N).
-
 
 3. Sort and binary search
 
@@ -83,6 +81,15 @@ memory, record intersections.
     Or MapReduce paradigm could be used?
 
 Follow up 5: find the elements in nums2, that doesn't occur in nums1(set subtract).
+
+Follow up 6: union of two lists
+
+1) If elements only occur once
+brute force: concatenate and filter, O((m+n)²)
+Hash set
+Sort and two pointers
+
+2) If elements can occur multiple times: concatenate two lists!
 
 
 '''

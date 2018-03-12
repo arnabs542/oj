@@ -36,11 +36,12 @@ class Solution(object):
     # @return a list of lists of integers
 
     def permuteUnique(self, nums):
-        solutions = self._permute(nums)
-        print(solutions)
-        return solutions
+        result = self._permuteDfs(nums)
 
-    def _permute(self, nums):
+        print(nums, " => ", result)
+        return result
+
+    def _permuteDfs(self, nums):
         '''
         Method 1: Treat the problem as a DYNAMIC GRAPH
 
@@ -66,12 +67,12 @@ class Solution(object):
                         dup = True
                         break
 
-                if not dup:
-                    # swap
-                    nums[start], nums[i] = nums[i], nums[start]
-                    dfs(start + 1)
-                    # unswap to RESTORE STATES
-                    nums[start], nums[i] = nums[i], nums[start]
+                if dup: continue
+                # swap
+                nums[start], nums[i] = nums[i], nums[start]
+                dfs(start + 1)
+                # unswap to RESTORE STATES
+                nums[start], nums[i] = nums[i], nums[start]
 
         dfs(0)
         return permutations

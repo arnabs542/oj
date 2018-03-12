@@ -40,15 +40,14 @@ Since different combinations have overlapping subproblems.
 
 Define state as a tuple of:
     (
-    m: m subarrays,
+    m: m split subarrays,
     n: size of array,
     )
 representing the optimal solution at the condition (m, n).
 
 Then we have recurrence relation:
     dp[m][n] = min_x{
-        max(sum(x, ..., n), dp[m - 1][x - 1])
-        | x in [m, n]
+        max(sum(x, ..., n), dp[m - 1][x - 1]), for x in [m, n]
     }
 
 Complexity: O(mn²n) = O(mn³)
