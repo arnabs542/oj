@@ -96,8 +96,8 @@ For large data set with length 20000, the speed up can be 1400 times in worst ca
 
 4. Monotonicity analysis - monotone stack
 
-In the brute force method, for each bar x, we need to compute the area with x as
-height. Then we need to know the INDEX OF FIRST SMALLER bar on left and right of x.
+In a brute force method, for each bar x, compute the area with x as height.
+Then we need to know the INDEX OF FIRST SMALLER bar on left and right of x.
 
 The most simple case is when the array in monotonically increasing or decreasing.
 

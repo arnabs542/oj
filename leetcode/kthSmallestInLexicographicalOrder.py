@@ -68,6 +68,11 @@ and divide and conquer.
 Then, at each node, compute the number of integers starting with current integer
 as prefix. This is actually the number of integers on the right tree plus 1.
 
+How to count number of integers with specific prefix?
+This is can be done with combinatorics, without traversing:
+    summing up number of integers with m digits that begins with prefix.
+
+
 Assume the count is c, if c > k, then target number is on the right subtree(x10).
 If c < k, then target number is on the left subtree(+1).
 
@@ -127,14 +132,14 @@ class Solution(object):
         # TODO: iterative implementation
         def countSubtree(x):
             if x > n: return 0
-            y = 0
+            nDigits = 0 # number of trailing digits
             total = 0
             while x <= n:
-                c = min(10**y, n - x + 1)
+                c = min(10**nDigits, n - x + 1)
                 total += c
 
-                x *= 10
-                y += 1
+                x *= 10 # append 0, starting integer of next group
+                nDigits += 1
 
             return total
 

@@ -35,8 +35,8 @@ abstracted into a graphical model.
     - Depth first search: all paths, one path, backtracking
     - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
     - Union find: connected components
-- STATE TRANSITION RECURRENCE RELATION(递推关系)
-    - state definition
+- STATE TRANSITION
+    - state definition - PERSPECTIVE matters!
         - indexes: vertices and edges set
         - value: states bounded here
         - value: states ending here
@@ -48,19 +48,21 @@ abstracted into a graphical model.
             - combinatorial state
         - RANGE STATE: some sets form a continuous range, such as covered range during traversal, ...
     - state transition technique 
-        - divide and conquer: partition into disjoint subproblems
-        - Backward induction
-        - DYNAMIC PROGRAMMING: overlapping subproblems
         - STATE MACHINE
             - Deterministic finite automata
             - Nondeterministic finite automata
-        - Greedy strategy 
-            - monotonic stack/queue
-            - heap
+        -  RECURRENCE RELATION(递推关系)
+            - divide and conquer: partition into disjoint subproblems
+            - Backward induction
+            - DYNAMIC PROGRAMMING: overlapping subproblems
+            - Greedy strategy 
+                - monotonic stack/queue
+                - heap
     - state transition form
         - Sequential recurrence relation: one end dimensional dynamic programming
         - Partition recurrence relation: divide and conquer, two ends dynamic programming
         - Sliding window recurrence relation: offset and stride
+        - Monotonic stack/queue
 - Pointers model: two pointers, ...
 - Prefix or suffix
 - Subarray and subsequence
