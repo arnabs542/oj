@@ -14,6 +14,13 @@ access to that node.
 Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node with value 3, the
 linked list should become 1 -> 2 -> 4 after calling your function.
 
+================================================================================
+SOLUTION
+
+1. Copy next node to current node's memory
+
+How about deleting the last node in the linked list?
+
 '''
 # Definition for singly-linked list.
 class ListNode(object):
@@ -32,3 +39,5 @@ class Solution(object):
         if node.next:
             node.val = node.next.val
             node.next = node.next.next
+        else:
+            # TODO: delete the last node?

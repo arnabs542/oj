@@ -10,14 +10,15 @@ Note:
     1. There are at least 3 and at most 10,000 points.
     2. Coordinates are in the range -10,000 to 10,000.
     3. You may assume the polygon formed by given points is always a simple polygon.
-    In other words, we ensure that exactly two edges intersect each vertex, and that edges
-otherwise don't intersect each other.
+    In other words, we ensure that exactly two edges intersect each vertex, and that edges otherwise don't intersect each other.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-Observation: Convexity is equivalent to whether the adjacent edge vectors always turn to the
-same direction, clockwise or counter clockwise, i.e., cross product (pᵢ+₁-pᵢ) x (pᵢ+₂-pᵢ)
+Observation:
+  Convexity is equivalent to whether the adjacent edge vectors always turn to the
+same direction, clockwise or counter clockwise.
+  In another word, the cross product (pᵢ+₁-pᵢ) x (pᵢ+₂-pᵢ)
 does not change sign when traversing sequentially along polygon vertices.
 
 And cross product can be computed in a matrix determinant way.

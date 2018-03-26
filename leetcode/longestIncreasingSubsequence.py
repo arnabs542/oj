@@ -43,7 +43,7 @@ f(i) = max(f(j) + 1), where nums[i] > nums[j], j = 1, ..., i - 1.
 
 Time complexity: O(N²).
 
-3. Logarithmic optimization keeping track of tail element of increasing sequence.
+3. Logarithmic optimization keeping track of tail elements of increasing sequence.
 
 The number of subsequences is the number of subsets, which is exponential. It helps to
 eliminate some unnecessary candidates.
@@ -74,7 +74,7 @@ smallest end element of increasing sequence of length len(s1) is s2[-2], which i
 than s1[-1]. Apparently, this is contradiction to the definition.
     So the assumption won't hold!
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Algorithm:
 Iterate the list, when a new element shows up, there are only two scenarios:
 1) current element extend some LIS by appending it to the end of the sequence
@@ -94,9 +94,11 @@ Iterate through every integer X of the input set and do the following:
 found a new largest LIS.
 2) Otherwise find the smallest element in S, which is >= than X, and change it to X.
 
-Because S is sorted at any time, the element can be found using binary search in log(N).
-Total runtime - N integers and a binary search for each of them - N * log(N) = O(N log N)
+Because S is sorted at any time, the element can be found using binary search for
+lower bound in log(N).
 
+Complexity: O(NLogN)
+Total runtime - N integers and a binary search for each of them - N * log(N) = O(N log N)
 
 ##############################################################################################
 FOLLOW UP
@@ -195,6 +197,7 @@ class Solution(object):
         size = 0
         for i, _ in enumerate(nums):
             low, high = 0, size - 1
+            # binary search for lower bound
             while low <= high:
                 mid = (low + high) >> 1
                 if f[mid] < nums[i]: low = mid + 1

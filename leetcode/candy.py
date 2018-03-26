@@ -16,9 +16,9 @@ Children with a higher rating get more candies than their neighbors.
 What is the minimum candies you must give?
 
 ==============================================================================================
-Solution:
+Solution
 
-VALUE COMPARISON involved, consider the ORDERING / MONOTONICITY and EXTREMUM.
+VALUE COMPARISON involved, analyze the ORDERING / MONOTONICITY and EXTREMUM.
 
 Divide the array into groups of MONOTONIC (increasing or decreasing) subarray. And we
 consider those EXTREMA.
@@ -45,6 +45,17 @@ Time complexity: O(N), space complexity: O(N) or O(1).
 
 2. Two passes
 Forward and backward scanning.
+
+################################################################################
+FOLLOW UP
+
+1. Can this be solved with mathematical optimization (convex optimization)?
+Denote ratings vector as r, let vector x be candies assigned to each children.
+
+Then the objective is to:
+    minimize \sum{x}
+    subject to: x >= 1(elementwise inequality),
+                (x_i - x_{i+1})*(r_i - r_{i+1}) >= 0 ?
 
 '''
 
@@ -114,6 +125,8 @@ class Solution(object):
     def candyTwoPass(self, ratings: list) -> int:
         # TODO: forward and backward scanning
         pass
+
+    # TODO: mathematical optimization
 
 def test():
     assert Solution().candy([]) == 0

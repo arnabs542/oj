@@ -38,7 +38,7 @@ Explanation: You have 2 children and 3 cookies. The greed factors of 2 children 
 You have 3 cookies and their sizes are big enough to gratify all of the children,
 You need to output 2.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 This is similar to ASSIGNMENT PROBLEM, one of combinatoric optimization problems. It
@@ -48,7 +48,7 @@ WEIGHTED BIPARTITE GRAPH
 1. Sort the greed factors and cookie sizes. Assign children with less greed factors first(
 greedy strategy).
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 SOLUTION
 
 1. Brute force
@@ -88,8 +88,9 @@ Those results are not better than the previous one. So the greedy strategy is tr
 4. Mathematical optimization
 Linear Programming.
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Follow up
+
 1. What if you can assign more than 1 cookie to 1 child?
 Mathematical optimization? Dynamic Programming?
 

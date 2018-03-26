@@ -14,25 +14,52 @@ least recently used item before inserting a new item.
 Follow up:
 Could you do both operations in O(1) time complexity?
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-To support get, set, delete in O(1), a hash table is the key. But the problem still wants to
-delete a least recently used item.
+To support get, set, delete in O(1), a hash table is the key. But the problem
+still wants to delete a least recently used item.
 
-1. Naive solution - with time stamp
+1. Naive solution - add another state - time stamp
 Use a hash table to enable O(1) time complexity of get and set.
 Should keep the value stored with time stamp when it's used.
 
 Complexity: To invalidate least recently used item, it takes O(n) time complexity.
 O(1) for other operations.
 
-2. Ordered map(balancing binary search tree) storing value with time stamp
+--------------------------------------------------------------------------------
+AUGMENT DATA STRUCTURES.
 
+Key idea: hash table, ordered data structure.
+
+To achieve O(1) complexity insert/search/delete operation, a HASH TABLE will do.
+
+The problem is to delete an item meeting a certain condition: least recently used.
+
+Adding a STATE time stamp to the items will solve the problem, with O(n) time for
+LINEAR SEARCH.
+
+One intuition to avoid linear search is to keep the data ORDERED, making it possible
+to utilize more efficient searching algorithms:
+    binary search for any item, O(1) search for extrema item.
+
+To maintain an ordered relation, we have multiple data structures:
+    array, linked list, trees, ...
+The problem with array is that it takes O(n) to insert/delete.
+And a tree usually has amortized O(logn) complexity for insert/search/delete.
+
+Now, a LINKED LIST comes in handy, supporting O(1) insert/delete.
+
+
+--------------------------------------------------------------------------------
+
+2. Ordered map storing value with time stamp
+
+- balancing binary search tree
 Time complexity for all operations are: O(logN)
 
-----------------------------------------------------------------------------------------------
-AUGMENT DATA STRUCTURES.
+- doubly linked list with hash table
+Complexity: O(1) for all
 
 3. Array
 A LIST to maintain the least recently used property(least recently used is
@@ -48,23 +75,45 @@ This is still a bad idea
 A least recently used item can't be directly tracked, but its complement can be tracked
 easily: it's easy to know which items are used recently!
 
-4. Doubly linked list with a hash table
+4. Hash table with a linked list as ordered data structure
+
 The above problem is still with the delete operation, or invalidate.
 
-A single hash table won't do the job, it needed to be augmented. There aren't many
-data structures.
+A single hash table won't do the job, it needed to be augmented.
 
 Brainstorm: array, linked list, queue/stack, set, hash table, heap, tree, graph, ...
 Among all these data structures, linked list supports insert and delete pretty easy.
 
-The idea is, every time an item is used, we remove it from the linked list, and insert
-it at the first position of linked list. Using doubly linked list, this is O(1) complexity.
+The idea is, every time an item is used, move it to one end of linked list.
+
+Under such algorithm, the data is ordered by recently used time.
+
+4.1) Doubly linked list
+Using doubly linked list, deleting and reordering is of O(1) complexity.
 
 To support O(1) query operation, use the hash table the maintain the mapping from
 key to the corresponding linked list node.
 
+Complexity: O(1), O(1)
+
+4.2) Singly linked list with a hash table
+
+Using a singly linked list involves two more problems than doubly linked list.
+1) How to delete any node in O(1) time complexity
+Copy and replace with next node!
+Remember the edge case: moving the tail node to tail.
+
+2) Where to put the least recently used pair?
+Put/sink LRU item at the head, not the tail. Because it's not possible to delete tail element in O(1)
+while updating the tail node pointer.
+
+Complexity: O(1) in both get and put
 
 '''
+
+from _type import ListNode
+from collections import OrderedDict
+# from _utils import tolist
 
 class LRUCache:
 
@@ -72,6 +121,7 @@ class LRUCache:
         """
         :type capacity: int
         """
+        raise Exception("Not implemented")
 
 
     def get(self, key):
@@ -79,6 +129,7 @@ class LRUCache:
         :type key: int
         :rtype: int
         """
+        raise Exception("Not implemented")
 
 
     def put(self, key, value):
@@ -87,6 +138,7 @@ class LRUCache:
         :type value: int
         :rtype: void
         """
+        raise Exception("Not implemented")
 
 class LRUCacheItem(object):
 
@@ -140,14 +192,116 @@ class LRUCacheArrayList(object):
         # insert at 0
         self.items.insert(0, item)
 
+class LRUCacheSinglyLinkedListAndHashTable():
+    # DONE: test it
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.capacity = capacity
+
+        self.listHead = ListNode(0) # node val: (key, value)
+        self.listTail = self.listHead
+        self.map = {} # key to linked list node
+
+    def _move2Tail(self, node: ListNode) -> ListNode:
+        if not node or node == self.listTail: return node
+        p = node.next
+        # print("head: ", self.listHead)
+        # print('move to tail: ', node, p, self.listTail)
+        # print("before moving: ", "map: ", self.map)
+
+        nodeCopy = ListNode(node.val) # copy current value
+        # copy next value to current node
+        node.val = p.val
+        # delete next node
+        node.next = p.next
+
+        # update references to next node
+        self.map[p.val[0]] = node
+        # update tail pointer
+        if self.listTail == p:
+            self.listTail = node
+
+        # append to tail
+        self.listTail.next = nodeCopy
+        self.listTail = nodeCopy
+
+        self.map[nodeCopy.val[0]] = nodeCopy
+
+        # print('after moving: ', tolist(self.listHead), 'map: ',
+              # self.map)
+
+        return nodeCopy
+
+    def _deleteHead(self):
+        # print("deleting the first node, a.k.a least recently used item", self.listHead.next)
+        # delete map k
+        p = self.listHead.next
+        if p:
+            del self.map[p.val[0]]
+        else:
+            return
+
+        # delete the node in linked list
+        self.listHead.next = p.next
+        p.next = None
+
+        if p == self.listTail:
+            self.listTail = self.listHead
+
+    def put(self, k, v):
+        """
+        :type key: int
+        :rtype: int
+        """
+        # print("put: ", k, v)
+        if k in self.map:
+            # print("updating existing key to value: ", k, v)
+            self.map[k].val = (k, v)
+            # self.map[k] = self._move2Tail(self.map[k])
+            self._move2Tail(self.map[k])
+        else:
+            if len(self.map) >= self.capacity:
+                self._deleteHead()
+            self.map[k] = ListNode((k, v))
+
+            # append to tail
+            self.listTail.next = self.map[k]
+            # update tail
+            self.listTail = self.map[k]
+
+        # print('data: ', tolist(self.listHead), 'new: ', k, v,
+              # 'map: ', self.map)
+
+    def get(self, k):
+        """
+        :type key: int
+        :type value: int
+        :rtype: void
+        """
+        # print("get: ", k)
+        if k not in self.map:
+            return -1
+        v = self.map[k].val[1]
+
+        # refresh cache
+        # self.map[k] = self._move2Tail(self.map[k])
+        self._move2Tail(self.map[k])
+        # print('data: ', tolist(self.listHead), 'new: ',
+              # 'map: ', self.map)
+
+        return v
+
 
 # TODO: implement hash table + doubly linked list solution
-class LRUCacheLinkedListAndHashTable:
+class LRUCacheDoublyLinkedListAndHashTable:
 
     def __init__(self, capacity):
         """
         :type capacity: int
         """
+        self.orderedDict = OrderedDict()
 
 
     def get(self, key):
@@ -166,17 +320,19 @@ class LRUCacheLinkedListAndHashTable:
 
 if __name__ == "__main__":
 
-    LRUCache = LRUCacheArrayList
+    # LRUCache = LRUCacheArrayList
     # LRUCache = LRUCacheLinkedListAndHashTable
+    LRUCache = LRUCacheSinglyLinkedListAndHashTable
 
     c = LRUCache(1)
 
     c.put(2, 1)
-    print('2', c.get(2))
+    assert c.get(2) == 1
     c.put(3, 2)
-    print('2', c.get(2))
-    print('3', c.get(3))
-    print('2', c.get(2))
+    assert (c.get(2)) == -1
+    assert (c.get(3)) == 2
+    assert (c.get(2)) == -1
+
 
     c = LRUCache(10)
 
@@ -193,7 +349,9 @@ if __name__ == "__main__":
     c.get(8)
     c.put(9, 22)
     c.put(5, 5)
+    assert c.get(5) == 5
     c.put(1, 30)
+    assert c.get(1) == 30
     c.get(11)
     c.put(9, 12)
     c.get(7)
@@ -289,5 +447,7 @@ if __name__ == "__main__":
     c.put(9, 26)
     c.put(13, 28)
     c.put(11, 26)
-    for item in (c.items):
-        print(item.key, item.value)
+    # for item in (c.items):
+        # print(item.key, item.value)
+
+    print("self test passed!")
