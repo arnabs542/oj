@@ -49,7 +49,7 @@ But the implementation is absolutely nontrivial.
 
 Complexity: O(nlogn), O(n)
 
-4.
+4. Optimization on the sorting process?
 
 Complexity: O(nlogn)
 
@@ -126,4 +126,5 @@ def test():
 
     print('self test passed')
 
-test()
+if __name__ == '__main__':
+    test()

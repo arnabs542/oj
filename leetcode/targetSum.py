@@ -27,18 +27,19 @@ Note:
     2. The sum of elements in the given array will not exceed 1000.
     3. Your output answer is guaranteed to be fitted in a 32-bit integer.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 Apparently, this is a graph search problem.
 
 1. Brute force
-Enumerate all possible combination of sign symbols and verify.
+Exhaust all combinations(exponential Cartesian product) of sign symbols and verify.
 
-And the traversal process can be implemented with dfs(depth first search).
+And the GRAPH traversal process can be implemented with dfs(DEPTH FIRST SEARCH).
 
 Define state:
     (n, s) = (size of list containing available numbers, target sum)
+
 Define function f(n, s) as the number of ways to sum up to s with n numbers in the list.
 For each number, we have two branches to search: minus or plus this number.
 Then, the recurrence relation is:
@@ -71,6 +72,10 @@ is the target sum.
 
 Since the sum of elements is bounded, it's possible to traverse possible combination of (n, s).
 This indicates it can be solved with dynamic programming.
+
+A little problem is that s might be negative during the state transition.
+But a LINEAR TRANSFORM will map state s in to nonnegative space!
+
 for i in range(n):
     for s in range(-1000, 10001):
         # state transition, XXX: check out of bound!
@@ -83,10 +88,11 @@ for i in range(n):
 
 '''
 
-from _decorators import memoize
+from _decorators import memoize, timeit, memoizeMethod
 
 class Solution(object):
 
+    @timeit
     def findTargetSumWays(self, nums, S):
         """
         :type nums: List[int]
@@ -100,7 +106,7 @@ class Solution(object):
 
     def _findTargetSumWaysDfs(self, nums, S):
         '''
-        Brute force depth first search method.
+        Brute force depth first search solution.
         '''
         @memoize
         def dfs(n, s):
@@ -164,8 +170,6 @@ class Solution(object):
         pass
 
 def test():
-    import time
-    begin = time.time()
 
     solution = Solution()
 
@@ -174,10 +178,9 @@ def test():
     assert solution.findTargetSumWays([1], -1) == 1
     assert solution.findTargetSumWays([1, 1, 1, 1, 1, ], 3) == 5
     assert solution.findTargetSumWays([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 4) == 120
+    assert solution.findTargetSumWays([1] * 40, 20) == 847660528
 
-    end = time.time()
-
-    print("self test passed in {}ms".format(1000 * (end - begin)))
+    print("self test passed")
 
 if __name__ == '__main__':
     test()

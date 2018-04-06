@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 '''
 6. ZigZag Conversion
 
@@ -15,7 +16,7 @@ Write the code that will take a string and make this conversion given a number o
 string convert(string text, int nRows);
 convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 ZigZag for "ABCDEFGHI", nRows=4 is pattern:
@@ -27,7 +28,7 @@ C  E    I
 | /
 D
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Be aware of CORNER CASES!
 
 When nRows=1, we can't walk downward or top left, only rightward.

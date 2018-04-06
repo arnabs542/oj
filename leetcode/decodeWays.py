@@ -82,6 +82,7 @@ class Solution(object):
 
         Time Limit Exceeded or  maximum recursion depth error
         """
+        @memoize
         def dfs(x):
             if not s:
                 return 0

@@ -16,8 +16,9 @@ not engage in multiple transactions at the same time (ie, you must sell the stoc
 you buy again).
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
     Sum up the positive difference values in DIFFERENCE ARRAY.
+
 '''
 
 class Solution(object):
@@ -27,9 +28,9 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        return self.maxProfitShort(prices)
+        return self._maxProfitShort(prices)
 
-    def maxProfitBasic(self, prices):
+    def _maxProfitBasic(self, prices):
         """
         :type prices: List[int]
         :rtype: int
@@ -41,5 +42,5 @@ class Solution(object):
                 pass
         return result
 
-    def maxProfitShort(self, prices):
+    def _maxProfitShort(self, prices):
         return sum(j - i for (i, j) in zip(prices[:-1], prices[1:]) if j >= i)

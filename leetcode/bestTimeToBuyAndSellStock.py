@@ -26,27 +26,75 @@ Example 2:
 
     In this case, no transaction is done, i.e. max profit = 0.
 
-==============================================================================================
-SOLUTION:
+================================================================================
+SOLUTION
     Requiring to get the maximum DIFFERENCE between two number.
 
-1. Construct the DIFFERENCE ARRAY by replacing each element by the difference between itself
+1. Naive solution
+For each index to sell, exhaust all indices in front, and keep track of the
+maximum difference between sell and buy.
+
+Complexity: O(N²)
+
+2. Sliding window on difference array(differentiation) with dynamic programming
+
+Construct the DIFFERENCE ARRAY by replacing each element by the difference between itself
 and the previous element, except for the first element, which we simply ignore.
 Then the problem is reduced to "Maximum Subarray".
 
 Note: Computing the DIFFERENCE ARRAY, and a PREFIX SUM array—are the discrete equivalents
 of DIFFERENTIATION and INTEGRATION in calculus, which operates on continuous domains.
 
-2. The maximum DIFFERENCE must be obtained by subtracting a LOCAL MAXIMUM by a LOCAL MINIMUM.
-How about finding these two pointers?
+Complexity: O(N), O(N)
 
-3. In a perspective of QUANTITY CHANGE, denoted by delta, then each ACTION would cause a
+3. Dynamic programming - 1d state
+
+Define state
+f(n) as the maximum profit that can be obtained with subarray [0, ..., n].
+Then f(n) = max(f(i), prices[n] - prices[i + 1])
+
+Complexity: O(N²)
+
+4. Add another dimension of state
+The above solution is o(N²), because it needs to loop through previous values to decide
+where to buy, in average O(n) time complexity.
+
+How about trading space for time?
+Add such dimension state, keeping track of the optimal decision to buy stock!
+
+This can be thought as state machine too:
+In a perspective of QUANTITY CHANGE, denoted by delta, then each ACTION would cause a
 QUANTITY CHANGE to current profit, increase or decrease. We keep track of such state:
     state = (quantity change after buying, quantity change after selling),
-
 which means the change of profit after buying and selling respectively, and the latter depends
 on the former one. Then we have clear RECURRENCE RELATION to update the state while scanning
-the prices array. Mind the update order of the state.
+the prices array.
+
+
+Define state
+------------
+f(n, 0): maximum profit gain when buy within range [0, ..., n]
+f(n, 1): maximum profit gain when sell within range [0, ..., n]
+
+Recurrence relation:
+f(n, 1) = max(prices[n] + f(n - 1, 0))
+f(n, 0) = max(-prices[n], f(n - 1, 0))
+
+Mind the update order of the state.
+
+Complexity
+O(n)
+
+5. The maximum DIFFERENCE must be obtained by subtracting a LOCAL MAXIMUM by a LOCAL MINIMUM.
+How about finding these two pointers?
+This is similar to above solution
+
+Complexity: O(N)
+
+5. Monotonic stack
+Maintain a monotonically increasing stack of stock prices.
+
+
 '''
 
 class Solution(object):
@@ -56,11 +104,11 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        # return self.maxProfitDPSubarray(prices)
-        # return self.maxProfitTwoPointers(prices)
-        return self.maxProfitDP(prices)
+        # return self._maxProfitDPSubarray(prices)
+        # return self._maxProfitTwoPointers(prices)
+        return self._maxProfitDP(prices)
 
-    def maxProfitDPSubarray(self, prices: list) -> int:
+    def _maxProfitDPSubarray(self, prices: list) -> int:
         """
         :type prices: List[int]
         :rtype: int
@@ -77,7 +125,7 @@ class Solution(object):
         print(max_so_far)
         return max_so_far
 
-    def maxProfitTwoPointers(self, prices: list) -> int:
+    def _maxProfitTwoPointers(self, prices: list) -> int:
         """
         :type prices: List[int]
         :rtype: int
@@ -87,11 +135,10 @@ class Solution(object):
         for i in range(1, len(prices)):
             if prices[i] < prices[i - 1]: minimum = min(minimum, prices[i])
             else: max_so_far = max(max_so_far, prices[i] - minimum)
-            pass
         print(max_so_far)
         return max_so_far
 
-    def maxProfitDP(self, prices: list) -> int:
+    def _maxProfitDP(self, prices: list) -> int:
         """
         :type prices: List[int]
         :rtype: int

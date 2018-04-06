@@ -30,9 +30,9 @@ Two core relation in the problem: after and smaller. This is similar to
 
 Complexity: O(N²)
 
-2. Backward insertion sort
+2. Sort - Backward insertion sort
 
-3. Merge sort
+3. Sort - Merge sort
 
 Complexity: O(nlogn)
 
@@ -47,8 +47,8 @@ Similar to "count of smaller numbers after self"
 
 """
 
-from _decorators import timeit
 import bisect
+from _decorators import timeit
 from _tree import BinaryIndexedTree
 
 class Solution:
@@ -59,8 +59,9 @@ class Solution:
         :rtype: int
         """
         # result = self._reversePairsMergeSort(nums)
-        result = self._reversePairsMergeSortOpt(nums)
-        # result = self._reversePairsBisect(nums)
+        # result = self._reversePairsMergeSortOpt(nums)
+        # result = self._reversePairsInsertionSort(nums)
+        result = self._reversePairsBinaryIndexedTree(nums)
 
         print(nums[:100], result)
 
@@ -145,7 +146,7 @@ class Solution:
         result = mergeSort(0, len(nums) - 1)
         return result
 
-    def _reversePairsBisect(self, nums):
+    def _reversePairsInsertionSort(self, nums):
         """
         This is the inserting sort method
 

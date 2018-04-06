@@ -16,19 +16,32 @@ Note:
 You may not engage in multiple transactions at the same time (ie, you must sell the stock
 before you buy again).
 
-==============================================================================================
-SOLUTION:
-    In a perspective of DERIVATIVES: Without limit of number of transactions, we could compute
-the AREA under it first-order derivative function curve (sum up the difference) where first
+================================================================================
+SOLUTION
+
+In a perspective of DERIVATIVES:
+    Without limit of number of transactions, we could compute the AREA under its
+first-order derivative function curve (sum up the difference), where first
 order derivative is positive (along all ascending subsequences/subarrays).
 
 Optimal Substructure OBSERVATION:
     the two non-overlapping transactions must both be some maximum subarray(in difference
 array) within their non-overlapping subarray range, which can be shown by
-PROOF BY CONTRADICTION:  Because we can always get better optimized solution by replacing one
-of them with a larger subarray, otherwise.
+
+PROOF BY CONTRADICTION:  Because we can always get better optimized solution by
+replacing one of them with a larger subarray, otherwise.
 
 1. Brute-force.
+
+Exhaust all two subarrays that are not overlapping with each other.
+Then linearly search for optimal sum of two subarrays.
+
+Complexity
+There are n(n-1)/2 subarrays, choosing two of them will yield complexity of O(n⁴).
+
+
+
+I wrote these? I don't understand anymore...
 For array with length l, we define the STATE as a 3-tuple:
     (maximum subarray, maximum profit, maximum subarray ending here)
 Then, in a bottom-up approach, element at current position have two scenarios:
@@ -40,23 +53,104 @@ Maximum subarray: O(N * 1) = O(N).
 Deciding where to split: worst O(N * N) = O(N²).
 Overall time Complexity: worst O(N²).
 
-2. Divide and Conquer
-Based on the optimal substructure observation, we can divide and conquer: split the array
-into two, take the maximum subarray from left and right, and keep track of the maximum sum.
 
-3. Two dimensional Dynamic Programing.
-State = f[k, j], indicating maximum profit with at most k transactions till prices[j].
+--------------------------------------------------------------------------------
+Optimization with state transition
 
-4. One Dimensional Dynamic Programming, in a QUANTITY CHANGE perspective.
-See 'bestTimeToBuyAndSellStock.py' method 3. Define the STATE as a 4-tuple quantity change:
+2. Divide and Conquer and sliding window
+
+Exhausting subarrays will involve duplicate computations, since maximum subarray
+can be solved in linear time.
+
+Then we may resort to the process, in which we incrementally scan the list.
+
+At each position i, find the maximum subarray so far within range [0, i],
+and find the maximum subarray on the other end in [i + 1, n - 1].
+
+Then we need to pre-compute maximum subarray with in range [0, i], [i + 1, n - 1],
+for i = 0, ..., n - 1, both forward and backward.
+Compute the maximum subarray within a range [i, j]. Then the state space is O(n²).
+Fortunately this can be done in linear time with dynamic programming.
+
+Complexity: O(n)
+
+
+3. Two dimensional state dynamic programing
+
+Define state as a tuple, function f(n, k) represents maximum profit
+with at most k transactions till prices[n].
+
+STATE TRANSITION process
+------------------------
+At each position, there are two scenarios: sell here or not.
+If we sell here, then where to buy before this?
+
+Recurrence relation:
+f(n, k) = max(f(i, k - 1) + profit(i + 1, n)), where i = 0, ..., n - 1,
+    and profit(i + 1, n) = prices[n] - prices[i + 1].
+
+Two loops i in [0, n], and j in [0, i - 1] gives Cartesian product O(n²).
+
+Complexity
+----------
+Time O(kn²), where k = 2
+Space O(kn)
+
+4. ADD ANOTHER DIMENSION OF STATE to TRADE SPACE FOR TIME! - 3D state
+
+Trade space for time
+--------------------
+There are two actions to take for each transaction: buy and sell.
+Above dynamic programming state transition is O(kn²), because it
+needs to iterate all possible positions to BUY the stock in the inner loop.
+
+How about trade space for time a little bit more, to keep track of the
+optimal decision w.r.t where to buy stock?
+
+The trick is to:
+Add another dimension of state to keep track of the quantity change in profit of
+BUY and SELL stock!
+
+
+Define state
+------------
+Define 3D state f(n, k, p) as the profit gain within [0, n],
+with kₜₕ transitions, to buy if p == 0 or sell, in a QUANTITY CHANGE perspective,
+
+State transition process
+------------------------
+    f(n, k, 0) = max(f(n, k, 0), f(n - 1, k - 1, 1) - prices[n]) # buy here
+    f(n, k, 1) = max(f(n, k, 1), f(n - 1, k - 1, 0) + prices[n]) # sell here
+    # do nothing here is tracked by f(n, k - 1, 1).
+
+The recurrence relation can be traversed in O(nk) time complexity.
+
+Since f(n) only depends on f(n - 1), then the state space usage can be reduced by n.
+
+And the state can be flattened into a 4-tuple quantity change f(n, k = 2):
     (
-        quantity change after first buying,
-        quantity change after first selling,
-        quantity change after second buying,
-        quantity change after second selling,
+        quantity change after 1ₛₜ buying here,
+        quantity change after 1ₛₜ selling here,
+        quantity change after 2nd buying here,
+        quantity change after 2nd selling here,
     )
-Because we have to sell before buying again, so we need to update the 4-tuple in reverse order
+
+We have to sell before buying again, so we need to update the 4-tuple in reverse order
 while scanning the array.
+
+Note that the state must be updated in a reverse order manner to avoid overriding
+data dependent on, because the state has dependency on previous ones.
+
+Complexity: O(nk), where k = 2.
+
+################################################################################
+FOLLOW UP
+
+1. How to construct the solution?
+
+Similar to longest common subsequence problem, follow the look up table built
+with dynamic programming, and search positions where quantity changes.
+
 
 '''
 
@@ -67,31 +161,15 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        # return self.maxProfitDPNaive(prices)
-        # return self.maxProfitDivideAndConquer(prices)
-        return self.maxProfitDPQuantityChange(prices)
+        # result = self._maxProfitDivideAndConquer(prices)
+        # result = self._maxProfitDP2DState(prices)
+        result = self._maxProfitDP3DState(prices)
 
-    def maxProfitDPNaive(self, prices: list) -> int:
-        '''
-        STATE = (max subarray, max profit, max_ending_here)
+        print(prices, result)
 
-        time complexity: O(N²)
-        '''
-        diff = list(map(lambda x: x[1] - prices[x[0] - 1] if x[0] else 0,
-                        enumerate(prices)))
-        f = [[0] * 2 for _ in range(len(prices) + 1)] # max subarray, max profit
-        max_ending_here = 0
-        for i in range(1, len(prices) + 1):
-            max_ending_here = max(max_ending_here + diff[i - 1], 0)
-            f[i][0] = max(f[i - 1][0], max_ending_here)
-            f[i][1] = f[i - 1][1] # don't sell at this time
-            # FIXME(fixed): tackle time limit exceeded by filtering
-            if diff[i - 1] <= 0: continue
-            for j in range(1, i): # sell at this time
-                f[i][1] = max(f[i][1], prices[i - 1] - prices[j - 1] + f[j - 1][0])
-        return f[-1][1]
+        return result
 
-    def maxProfitDivideAndConquer(self, prices: list) -> int:
+    def _maxProfitDivideAndConquer(self, prices: list) -> int:
         '''
         Optimized dynamic programming solution:
             Split the array into two, divide and conquer with PREPROCESSING MEMOIZATION.
@@ -120,14 +198,39 @@ class Solution(object):
             max_profit = max(max_profit, left[i] + right[i])
         return max_profit
 
-    def maxProfitDPQuantityChange(self, prices: list) -> int:
+    def _maxProfitDP2DState(self, prices: list) -> int:
         '''
-        STATE =  (
-            quantity change after first buying,
-            quantity change after first selling,
-            quantity change after second buying,
-            quantity change after second selling,
-        )
+        STATE = (max subarray, max profit, max_ending_here)
+
+        time complexity: O(N²)
+        '''
+        diff = list(map(lambda x: x[1] - prices[x[0] - 1] if x[0] else 0,
+                        enumerate(prices)))
+        f = [[0] * 2 for _ in range(len(prices) + 1)] # max subarray, max profit
+        max_ending_here = 0
+        for i in range(1, len(prices) + 1):
+            max_ending_here = max(max_ending_here + diff[i - 1], 0)
+            f[i][0] = max(f[i - 1][0], max_ending_here)
+            f[i][1] = f[i - 1][1] # don't sell at this time
+            # FIXME(fixed): tackle time limit exceeded by filtering
+            if diff[i - 1] <= 0: continue
+            # FIXME: this inner loop can be eliminated by adding another dimension of state
+            # see below solution
+            for j in range(1, i): # sell at this time
+                f[i][1] = max(f[i][1], prices[i - 1] - prices[j - 1] + f[j - 1][0])
+        return f[-1][1]
+
+    def _maxProfitDP3DState(self, prices: list) -> int:
+        '''
+        Primal 3d state: f(n, k, p), flattened into this:
+            STATE =  (
+                quantity change after first buying,
+                quantity change after first selling,
+                quantity change after second buying,
+                quantity change after second selling,
+            )
+
+        Complexity: O(kn), where k = 2, n is the size of prices list.
         '''
         state = [float('-inf'), 0, float('-inf'), 0]
         for p in prices:

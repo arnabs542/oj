@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+A decorator is a callable that receives a function as argument,
+and returns a callable closure to implement decorator pattern (design pattern).
+
+A decorator can receive parameters and it must return another callable
+that takes a function as parameter, and return a callable.
+
+"""
+
 from functools import partial
 import time
 
@@ -54,12 +63,12 @@ class memoize:
     If called later with the same arguments, the cached value is returned
     (not reevaluated).
     '''
-    def __init__(self, fn):
-        self.fn = fn
+    def __init__(self, func):
+        self.func = func
         self.memo = {}
     def __call__(self, *args):
         if args not in self.memo:
-            self.memo[args] = self.fn(*args)
+            self.memo[args] = self.func(*args)
         return self.memo[args]
 
 def timeit(method):
@@ -83,6 +92,23 @@ def timeit(method):
 
     return timed
 
+def safeRun(msg):
+    """
+    Safely run a function, with try except, and print out custom message.
+
+    It need to be implemented with nested closure.
+    """
+    def f(func):
+        def decorated(*args, **kwargs):
+            try:
+                func(*args, **kwargs)
+            except Exception as e:
+                print("ERROR msg: {msg}, exception: {exception}".format(msg=msg, exception=e))
+
+        return decorated
+    return f
+
+
 def test():
 
     # TEST memoize decorator
@@ -90,7 +116,7 @@ def test():
     class Test(object):
         v = 0
 
-        @memoize
+        @memoizeMethod
         def inc_add(self, arg):
             self.v += 1
             return self.v + arg
@@ -113,7 +139,7 @@ def test():
 
     @timeit
     def f2(a):
-        time.sleep(0.2)
+        # time.sleep(0.2)
         print('f2', a)
 
     @timeit
@@ -126,7 +152,14 @@ def test():
     f3(42, 43, foo=2)
     Foo().foo()
 
+    @safeRun('ERROR CATCHED!')
+    def errorFunc():
+        raise Exception("errorFunc run error")
+
+    errorFunc()
+
     print("self test passed")
+
 
 if __name__ == "__main__":
     test()

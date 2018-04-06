@@ -227,7 +227,7 @@ class Solution(object):
             # print(low, high, i, arr)
             return i
 
-        def partitionThreeWay(arr: list, p: int, r: int):
+        def partitionThreeWay(arr: list, low: int, high: int):
             """
             Dutch national flag partition method, robust to repeated elements.
 
@@ -236,8 +236,8 @@ class Solution(object):
 
             Reference: https://en.wikipedia.org/wiki/Dutch_national_flag_problem
             """
-            pivot = arr[r]
-            smaller, j, greater = p, p, r
+            pivot = arr[high]
+            smaller, j, greater = low, low, high
             while j <= greater:
                 if arr[j] < pivot:
                     arr[smaller], arr[j] = arr[j], arr[smaller]
@@ -258,15 +258,15 @@ class Solution(object):
             return partition(arr, low, high)
 
        # DONE: quick select, partition to divide and conquer
-        k = len(nums) - k
-        p, r = 0, len(nums) - 1
-        while p <= r:
-            # q = partition(nums, p, r)
-            q = partitionRandomized(nums, p, r)
-            if q < k:
-                p = q + 1
-            elif q > k:
-                r = q - 1
+        idx = len(nums) - k # the target order statistics index
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            # q = partition(nums, low, high)
+            q = partitionRandomized(nums, low, high)
+            if q < idx:
+                low = q + 1
+            elif q > idx:
+                high = q - 1
             else:
                 return nums[q]
 

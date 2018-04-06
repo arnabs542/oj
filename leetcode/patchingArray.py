@@ -102,7 +102,7 @@ class Solution(object):
         """
         # return self.__minPatchesBruteForceCombination(nums, n)
         # return self._minPatchesCombinationOpt(nums, n)
-        return self._minPatchesGreedyRange(nums, n)
+        return self._minPatchesRangeStateTransition(nums, n)
 
     def _minPatchesBruteForceCombination(self, nums, n):
         '''
@@ -188,7 +188,7 @@ class Solution(object):
             pass
         return n_patches
 
-    def _minPatchesGreedyRange(self, nums, n):
+    def _minPatchesRangeStateTransition(self, nums, n):
         '''
         Scan from 1 to n, maintainer covered range.
         '''

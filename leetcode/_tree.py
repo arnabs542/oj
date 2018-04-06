@@ -393,8 +393,9 @@ class BinaryIndexedTree(object):
             # TODO: add a number to the end of array
             pass
 
+        n = self.size
         x += 1 # zero indexed to one indexed
-        while x <= self.size:
+        while x <= n:
             self._tree[x] += diff
             x += x & -x
         return
@@ -430,7 +431,7 @@ class BinaryIndexedTree(object):
         return b - a
 
     def lowerBound(self, target):
-        # TODO: binary search for lower bound index of cumulative value target,
+        # DONE: binary search for lower bound index of cumulative value target,
         # assuming increasing cumulative function!
         low, high = 0, self.size - 1
         while low <= high:
@@ -444,7 +445,7 @@ class BinaryIndexedTree(object):
         return low
 
     def upperBound(self, target):
-        # TODO: binary search for upper bound index of cumulative value cum,
+        # DONE: binary search for upper bound index of cumulative value cum,
         # assuming increasing cumulative function!
         low, high = 0, self.size - 1
         while low <= high:

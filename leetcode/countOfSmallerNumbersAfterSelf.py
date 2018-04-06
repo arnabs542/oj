@@ -75,9 +75,10 @@ Augment the binary search tree with rank to contain number of nodes.
 Sort backward.
 
 --------------------------------------------------------------------------------
-RANGE QUERY with COUNT AS SUM
+COUNT AS SUM, RANGE QUERY of SUM
 
-COUNT AS SUM!
+Convert counting problem into a summing problem, and use range query to query sum.
+
 Counting of event can be modeled as sum mathematically:
     count(event) = \sum_{i=0}^{N}I(event)
 where I is the binary INDICATOR FUNCTION, equal to 1 when event is true.

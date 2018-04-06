@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-48. Rotate Image Add to List
+48. Rotate Image
 
 Total Accepted: 99511
 Total Submissions: 265833
@@ -14,10 +14,11 @@ Rotate the image by 90 degrees (clockwise).
 
 Follow up:
 Could you do this in-place?
-==============================================================================================
+
+================================================================================
 SOLUTION
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 LINEAR TRANSFORMATION explained with LINEAR ALGEBRA and TRIANGLE IDENTITIES
 
 This is a linear transformation in linear algebra problem. And the transformation matrix is
@@ -27,15 +28,16 @@ Denote the original point by P(x, y), and point obtained by applying transformat
 is P'(x',y').
 
 Then we have:
-    x' = r\cos(α - β)
-    y' = r\sin(α - β)
+    x' = r\cos(α + β)
+    y' = r\sin(α + β)
 where (r, β) is the polar coordinate representation of P(x, y). And  is the rotation angle.
 
 Let β=-π/2, and
 x' = r\sin(α) = y
 y' = -r\cos(α) = -x
 
-By the way, the general rotation matrix can be written as:
+--------------------------------------------------------------------------------
+Thus the transformation can be expressed with transformation matrix:
     A = [
         [cosβ, -sinβ],
         [sinβ, cosβ],
@@ -47,7 +49,7 @@ Let β=-π/2, and then:
     ]
 P' = AP => (x', y') = (y, -x)
 
-----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 1. Brute force - with extra space
 Use extra space to cache, transform using the above coordinate transform relation.
 

@@ -28,19 +28,47 @@ Move zeroes to the end one by one like in bubble sort procedure.
 
 Time complexity: O(N²).
 
-2. TWO POINTERS(quick sort partition, Dutch National Flag problem).
+2. PARTITION ALGORITHM with TWO POINTERS (quick sort partition, Dutch National Flag problem).
 
-This partition situation resembles what's used in the quick sort: use a division point to
-divide the data. But quick sort partition uses swap, which will violate the original order.
+Lomuto partition scheme!
 
-Use two pointers p and q.
+This partition scenario resembles what's used in the quick sort:
+partition the different data into separating spaces with a division point.
+
+Define state
+------------
+Maintain state of a tuple:
+    (
+    p: partition index, representing that elements on the left are all nonzero,
+    i: iterating index,
+    )
+
+But quick sort partition uses swap, will it violate the original order?
+
+Maintenance
+-----------
+Use two pointers p and i.
 Pointer p indicating the BOUNDARY(DIVISION POINT) where the left part are non-zero
-elements, and the other pointer q keeps track of the first non-zero element after p.
-Then swap the element at p and q, and update p = p + 1, q = q + 1.
+elements, and the other pointer i keeps track of the first non-zero element after p.
+Then swap the element at p and i, and update p = p + 1, i = i + 1.
 
-The core idea is to move all non-zero elements in the front of the array.
+The core idea is to move all non-zero elements in the front of the array,
+which are perfectly separated by the partition index p, and the nonzero numbers' order
+are kept intact.
 
-To minimize the total number of operations, avoid swapping if p == q.
+To minimize the total number of operations, avoid swapping if p == i.
+
+Complexity
+O(N), O(1)
+
+################################################################################
+FOLLOW UP
+1. Remove elements in target array.
+Mark the elements to delete as "zero", as in above problem. Then move "zero" numbers
+to the end of the array. Then pop trailing "zero" elements.
+
+Complexity
+O(n), O(1)
 
 '''
 
@@ -55,7 +83,7 @@ class Solution(object):
 
     def moveZeroesTwoPointers(self, nums):
         i, j = 0, 0
-        for j in range(len(nums)):
+        for j, _ in enumerate(nums):
             if nums[j] == 0: continue
             nums[i], nums[j] = nums[j], nums[i]
             i += 1

@@ -17,8 +17,12 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
 before you buy again).
 
 ==============================================================================================
-SOLUTION:
-    Dynamic Programming.
+SOLUTION
+
+This is a generalized problem of "Best Time to Buy and Sell Stock III".
+Try to exploit the state transition with dynamic programming.
+
+The generalized solution is exploited in last section of "Best Time To Buy and Sell Stock III".
 
 1. TWO DIMENSIONAL STATE.
 
@@ -38,7 +42,14 @@ Time complexity: O(nk), space complexity: O(nk).
 
 But we can reduce the space complexity in a quantity change perspective.
 
-2. Linear dynamic programming in QUANTITY CHANGE/ STATE MACHINE perspective.
+2. Linear dynamic programming with another dimension of state.
+
+--------------------------------------------------------------------------------
+This is an optimization to reduce the inner loop for deciding where to buy,
+with the trick of TRADE SPACE FOR TIME, a.w.a add another dimension of state.
+--------------------------------------------------------------------------------
+
+View the state in a QUANTITY CHANGE/ STATE MACHINE perspective
 
 Without limit on k, to obtain the maximum profit, we just sum up the difference along all
 ascending subsequences/subarrays. And when k decreases, there might be some subsequence
@@ -104,18 +115,18 @@ class Solution(object):
         :rtype: int
         """
         # FIXED: memory error and time limit exceeded when k > len(prices) // 2
-        if k > len(prices) // 2: return self.maxProfitNoLimit(prices)
-        # return self.maxProfitDP2D(k, prices)
-        return self.maxProfitDPQuantityChange(k, prices)
-        # return self.maxProfitDPQuantityChange2(k, prices)
+        if k > len(prices) // 2: return self._maxProfitNoLimit(prices)
+        # return self._maxProfitDP2D(k, prices)
+        return self._maxProfitDPQuantityChange(k, prices)
+        # return self._maxProfitDPQuantityChange2(k, prices)
 
-    def maxProfitNoLimit(self, prices: list) -> int:
+    def _maxProfitNoLimit(self, prices: list) -> int:
         # return sum(map(
             # lambda x: max(0, x[1] - prices[x[0] - 1]) if x[0] else 0,
             # enumerate(prices)))
             return sum(j - i for (i, j) in zip(prices[:-1], prices[1:]) if j >= i)
 
-    def maxProfitDP2D(self, k, prices: list) -> int:
+    def _maxProfitDP2D(self, k, prices: list) -> int:
         '''
         f[k, j] represents the max profit up till prices[j] using at most k transactions.
         f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), jj = 0, ..., j-1
@@ -134,7 +145,7 @@ class Solution(object):
         print(f[:])
         return f[k][len(prices)]
 
-    def maxProfitDPQuantityChange(self, k, prices: list) -> int:
+    def _maxProfitDPQuantityChange(self, k, prices: list) -> int:
         '''
         STATE = (
                 quantity change after first buying,
@@ -159,7 +170,7 @@ class Solution(object):
         print(state)
         return state[2 * k - 1]
 
-    def maxProfitDPQuantityChange2(self, k, prices: list) -> int:
+    def _maxProfitDPQuantityChange2(self, k, prices: list) -> int:
         '''
         More readable version of maxProfitDPQuantityChange
         '''
