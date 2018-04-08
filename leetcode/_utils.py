@@ -47,6 +47,11 @@ def deepcopy(x, cache=None):
     cycle in graph must be resolved to avoid infinite loop.
 
     Then dfs(depth first search) with memoization will do the magic.
+
+    Inputs
+    -------
+    @cache: the mapping from old object id to new copied object.
+
     """
     if cache is None: cache = {}
     if id(x) in cache:

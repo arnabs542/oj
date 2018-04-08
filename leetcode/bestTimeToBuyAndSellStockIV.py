@@ -24,60 +24,72 @@ Try to exploit the state transition with dynamic programming.
 
 The generalized solution is exploited in last section of "Best Time To Buy and Sell Stock III".
 
-1. TWO DIMENSIONAL STATE.
+1. Dynamic programming with two dimensional state.
 
-f[k, j] represents the max profit up till prices[j] using at most k transactions.
+Define state
+------------
+f[n, k] represents the max profit up till prices[n] with at most k transactions.
 
+Recurrence relation
+-------------------
 ∵ At each point, there are two scenarios:
     1) sell at here: merge the last transaction
     2) not to sell here: use the previous state's result
 ∴
-f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), where jj = 0, ..., j - 1
-        = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
+f[n, k] = max(f[n-1, k], prices[n] - prices[j] + f[j, k-1]), where j = 0, ..., n - 1
+        = max(f[n-1, k], prices[n] + max(f[j, k-1] - prices[jj]))
 
-f[0, j] = 0; 0 transactions makes 0 profit
-f[k, 0] = 0; if there is only one price data point you can't make any transaction.
+f[n, 0] = 0; 0 transactions makes 0 profit
+f[0, k] = 0; if there is only one price data point you can't make any transaction.
 
-Time complexity: O(nk), space complexity: O(nk).
+In this recurrence relation, the algorithm needs to iterate through an inner loop,
+with index j in range [0, n], to decide the optimal choice of when to buy. And
+this loop is O(n).
+
+Time complexity: O(n²k), space complexity: O(nk).
 
 But we can reduce the space complexity in a quantity change perspective.
 
 2. Linear dynamic programming with another dimension of state.
+
+Time space trade off
+--------------------
+The core idea is to TRADE SPACE FOR TIME.
+
+Previous bottleneck
+-------------------
+In the above state transition, the algorithm needs to iterate through an inner loop,
+with index j in range [0, n], to decide the optimal choice of when to buy. And
+this loop is O(n).
+
+How about use another dimension of state to keep track of that information?
 
 --------------------------------------------------------------------------------
 This is an optimization to reduce the inner loop for deciding where to buy,
 with the trick of TRADE SPACE FOR TIME, a.w.a add another dimension of state.
 --------------------------------------------------------------------------------
 
-View the state in a QUANTITY CHANGE/ STATE MACHINE perspective
+Refer to "./bestTimeToBuyAndSellStockIII.py".
 
-Without limit on k, to obtain the maximum profit, we just sum up the difference along all
-ascending subsequences/subarrays. And when k decreases, there might be some subsequence
-merging into one larger than any of those two to save number of transactions. And the
-difference of merged subarray is smaller than the sum of two individual differences.
-Strategies:
-    1. Buy at local minimum(valley) and sell at local maximum(peak) in an ASCENDING
-subsequence.
+Define state
+------------
+Define 3D state f(n, k, p) as the profit gain within [0, n],
+with kₜₕ transition, to buy if p == 0 or sell, in a QUANTITY CHANGE perspective,
 
-In a perspective of DERIVATIVES in calculus:
-
-    The function's difference between two points, is the AREA under curve of its first-order
-derivative function between two points. Positive derivatives give positive area, and vice
-versa. And positive derivatives indicates increasing function. Derivatives indicate quantity
-change rate. In discrete domain, derivatives can be viewed as difference(quantity change).
-
-    The total profit can be defined as a function f(X), where X is a sequence of actions,
-each of which is one of buy and sell. And we want to find the max(f). Then we follow a
-path with positive derivatives(differences) to get the maximum value.
-
-----------------------------------------------------------------------------------------------
-In a perspective of STATE MACHINE:
-
-At each day, we have two possible ACTIONS giving two scenarios with STATES:
+At each day, we have 3 possible ACTIONS giving two scenarios:
     maximum profit ending with last action of buy
     maximum profit ending with last action of sell
+    do nothing(just wait)
 
-Define the STATE as a 2k-tuple profit quantity change:
+State transition recurrence relation
+------------------------------------
+    f(n, k, 0) = max(f(n, k, 0), f(n - 1, k - 1, 1) - prices[n]) # buy here
+    f(n, k, 1) = max(f(n, k, 1), f(n - 1, k - 1, 0) + prices[n]) # sell here
+    # do nothing here is tracked by f(n, k - 1, 1).
+
+Note on space optimization
+--------------------------
+The above state can be flattened into 2k-tuple profit quantity change:
     (
         quantity change after first release, # to buy is to hold
         quantity change after first hold, # to sell is to release
@@ -88,6 +100,8 @@ Define the STATE as a 2k-tuple profit quantity change:
         quantity change after kth hold,
     )
 
+Recurrence relation
+-------------------
 Recurrence relation/state transition through action:
 
     release[i] = max(release[i], hold[i] + prices[j])
@@ -104,6 +118,8 @@ buy again.
 NOTE:
     When k > len(prices) // 2, the problem is reduced to max profit without limit on number of
 transactions.
+
+
 '''
 
 class Solution(object):
@@ -115,10 +131,15 @@ class Solution(object):
         :rtype: int
         """
         # FIXED: memory error and time limit exceeded when k > len(prices) // 2
-        if k > len(prices) // 2: return self._maxProfitNoLimit(prices)
-        # return self._maxProfitDP2D(k, prices)
-        return self._maxProfitDPQuantityChange(k, prices)
-        # return self._maxProfitDPQuantityChange2(k, prices)
+        if k > len(prices) // 2: result = self._maxProfitNoLimit(prices)
+        else:
+            # result = self._maxProfitDP2D(k, prices)
+            result = self._maxProfitDPQuantityChange(k, prices)
+            # result = self._maxProfitDPQuantityChange2(k, prices)
+
+        print(prices, k, " result: ", result)
+
+        return result
 
     def _maxProfitNoLimit(self, prices: list) -> int:
         # return sum(map(
@@ -157,14 +178,13 @@ class Solution(object):
                 quantity change after kth selling,
                 )
         '''
-        # TODO: better illustration of why this algorithm would work
         # call the procedure without number of transactions limit instead
         # 2 trailing padding zeroes to neutralize the k == 0 corner case
         state = [0 if i % 2 else float('-inf') for i in range(2 * (k + 1))]
         for p in prices:
             for i in range(2 * k - 1, -1, -1):
-                # XXX: reverse/decreasing order to ensure number in prices is used only
-                # once to make sure we sell before buy
+                # XXX: reverse/decreasing topological order of dependency graph
+                # to ensure number in prices is used only once to make sure we sell before buy
                 state[i] = max(state[i], (i and state[i - 1]) + p * -pow(-1, i % 2))
 
         print(state)

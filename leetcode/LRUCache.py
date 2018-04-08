@@ -295,6 +295,7 @@ class LRUCacheSinglyLinkedListAndHashTable():
 
 
 # TODO: implement hash table + doubly linked list solution
+# refer to functools.lru_cache for hash table + circular doubly linked list implementation
 class LRUCacheDoublyLinkedListAndHashTable:
 
     def __init__(self, capacity):

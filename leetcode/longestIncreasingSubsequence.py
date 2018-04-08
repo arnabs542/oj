@@ -43,7 +43,7 @@ f(i) = max(f(j) + 1), where nums[i] > nums[j], j = 1, ..., i - 1.
 
 Time complexity: O(N²).
 
-3. Logarithmic optimization keeping track of tail elements of increasing sequence.
+3. Logarithmic optimization keeping track of TAIL ELEMENTS OF INCREASING SEQUENCE.
 
 The number of subsequences is the number of subsets, which is exponential. It helps to
 eliminate some unnecessary candidates.

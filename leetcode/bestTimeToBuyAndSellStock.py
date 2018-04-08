@@ -28,7 +28,8 @@ Example 2:
 
 ================================================================================
 SOLUTION
-    Requiring to get the maximum DIFFERENCE between two number.
+
+The whole idea is to buy low and sell high.
 
 1. Naive solution
 For each index to sell, exhaust all indices in front, and keep track of the
@@ -37,6 +38,14 @@ maximum difference between sell and buy.
 Complexity: O(N²)
 
 2. Sliding window on difference array(differentiation) with dynamic programming
+
+In a perspective of calculus - maximum (AUC)area under curve of derivative function
+--------------------------------------------------------------------------------
+The function's difference between two points, is the AREA under curve of its first-order
+derivative function between two points. Positive derivatives give positive area, and vice
+versa. And positive derivatives indicates increasing function. Derivatives indicate quantity
+change rate. In discrete domain, derivatives can be viewed as difference(quantity change).
+--------------------------------------------------------------------------------
 
 Construct the DIFFERENCE ARRAY by replacing each element by the difference between itself
 and the previous element, except for the first element, which we simply ignore.

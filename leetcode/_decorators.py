@@ -10,7 +10,7 @@ that takes a function as parameter, and return a callable.
 
 """
 
-from functools import partial
+from functools import partial, lru_cache
 import time
 
 class memoizeMethod(object):
@@ -124,6 +124,14 @@ def test():
     t = Test()
     assert t.inc_add(2) == t.inc_add(2)
     assert Test.inc_add(t, 2) != Test.inc_add(t, 2)
+
+    # test builtin lru_cache
+    @lru_cache(maxsize=None)
+    def fibonacci(n):
+        if n <= 1: return n
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+    print("fibonacci(100): ", fibonacci(100))
 
     # TEST timeit decorator
     class Foo(object):

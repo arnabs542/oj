@@ -117,8 +117,8 @@ Define state
 Define 3D state f(n, k, p) as the profit gain within [0, n],
 with kₜₕ transitions, to buy if p == 0 or sell, in a QUANTITY CHANGE perspective,
 
-State transition process
-------------------------
+State transition recurrence relation
+------------------------------------
     f(n, k, 0) = max(f(n, k, 0), f(n - 1, k - 1, 1) - prices[n]) # buy here
     f(n, k, 1) = max(f(n, k, 1), f(n - 1, k - 1, 0) + prices[n]) # sell here
     # do nothing here is tracked by f(n, k - 1, 1).
@@ -129,14 +129,15 @@ Since f(n) only depends on f(n - 1), then the state space usage can be reduced b
 
 And the state can be flattened into a 4-tuple quantity change f(n, k = 2):
     (
-        quantity change after 1ₛₜ buying here,
-        quantity change after 1ₛₜ selling here,
-        quantity change after 2nd buying here,
-        quantity change after 2nd selling here,
+        optimal quantity change after 1ₛₜ buying here,
+        optimal quantity change after 1ₛₜ selling here,
+        optimal quantity change after 2nd buying here,
+        optimal quantity change after 2nd selling here,
     )
 
 We have to sell before buying again, so we need to update the 4-tuple in reverse order
-while scanning the array.
+while scanning the array. In another word, the states must be updated in a
+REVERSE TOPOLOGICAL ORDER of the DEPENDENCY GRAPH.
 
 Note that the state must be updated in a reverse order manner to avoid overriding
 data dependent on, because the state has dependency on previous ones.
@@ -224,10 +225,10 @@ class Solution(object):
         '''
         Primal 3d state: f(n, k, p), flattened into this:
             STATE =  (
-                quantity change after first buying,
-                quantity change after first selling,
-                quantity change after second buying,
-                quantity change after second selling,
+                optimal quantity change after first buying,
+                optimal quantity change after first selling,
+                optimal quantity change after second buying,
+                optimal quantity change after second selling,
             )
 
         Complexity: O(kn), where k = 2, n is the size of prices list.
