@@ -29,10 +29,13 @@ SOLUTION
 
 1. Brute-force, greedy.
 
+In a bubble sort manner?
+
 VALUE COMPARISON involved, consider the ORDERING / MONOTONICITY and EXTREMUM.
 
-2. Insertion sort - backward induction
-Process the list in a descending height order.
+2. Sort and insert - backward induction
+
+Process the list backward, in a descending height order.
 Add the elements into the result array. Then each element already in the result
 array is greater than or equal to the current one to insert.
 
@@ -49,7 +52,23 @@ But the implementation is absolutely nontrivial.
 
 Complexity: O(nlogn), O(n)
 
-4. Optimization on the sorting process?
+4. Optimize inserting process - SQUARE ROOT DECOMPOSITION
+
+Inserting an element at a index in the list is O(N). And this why the "sort and insert"
+takes O(N²).
+
+How to optimize it?
+
+Well, the trick is to SQUARE ROOT DECOMPOSE the list into blocks.
+Inserting takes O(N) because there are average N elements to move when inserting.
+What if the number of elements to move is reduced? How about reduce the number of
+elements in a list, while keeping the same total number of elements?
+
+Decompose given array into small chunks specifically of size sqrt(n)!
+
+Complexity: O(n sqrtn) = O(n√n)
+
+5. Optimization on the sorting process?
 
 Complexity: O(nlogn)
 
@@ -63,7 +82,8 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         # result = self._reconstructQueueNaive(people)
-        result = self._reconstructQueueByHeight(people)
+        # result = self._reconstructQueueByHeightSortAndInsert(people)
+        result = self._reconstructQueueByHeightSortAndInsertWithSqrtDecomposition(people)
 
         print(people, " => ", result)
 
@@ -101,7 +121,7 @@ class Solution(object):
 
         return queue
 
-    def _reconstructQueueByHeight(self, people: list):
+    def _reconstructQueueByHeightSortAndInsert(self, people: list):
         """
         :type people: List[List[int]]
         :rtype: List[List[int]]
@@ -117,6 +137,28 @@ class Solution(object):
             queue.insert(p[1], p)
         return queue
 
+    # DONE: square root decomposition
+    def _reconstructQueueByHeightSortAndInsertWithSqrtDecomposition(self, people: list):
+        blocks = [[]]
+        # sort by descending height h, ascending k
+        for (h, k) in sorted(people, key=lambda p: (-p[0], p[1])):
+            index = k
+            block = blocks[0]
+            for i, block in enumerate(blocks):
+                m = len(block)
+                if index <= m:
+                    break
+                index -= m
+
+            block.insert(index, (h, k)) # O(sqrt(n))
+            # XXX: rebalance
+            if m * m > len(people):
+                blocks.insert(i + 1, block[m//2:]) # amortized O(sqrt(n))
+                del block[m//2:]
+
+        return [p for block in blocks for p in block]
+
+    # TODO: solution binary indexed tree with count as sum
 
 def test():
     solution = Solution()
@@ -125,6 +167,22 @@ def test():
     assert solution.reconstructQueue([]) == []
 
     print('self test passed')
+
+    # Generate a large test case and time it.
+    from bisect import bisect
+    from random import randint, shuffle
+    from timeit import timeit
+    n = 300000
+    heights = [randint(1, n) for _ in range(n)]
+    standing = []
+    people = []
+    for h in heights:
+        i = bisect(standing, -h)
+        standing.insert(i, -h)
+        people.append([h, i])
+    shuffle(people)
+    for solution in solution._reconstructQueueByHeightSortAndInsert, solution._reconstructQueueByHeightSortAndInsertWithSqrtDecomposition:
+        print(timeit(lambda: solution(people), number=1))
 
 if __name__ == '__main__':
     test()

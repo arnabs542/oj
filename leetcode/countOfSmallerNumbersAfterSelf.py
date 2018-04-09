@@ -194,24 +194,24 @@ class Solution(object):
 
     # DONE: binary indexed tree
     def _countSmallerBinaryIndexedTree(self, nums):
-        class BinaryIndexedTree:
-            def __init__(self, n: int):
-                self._tree = [0 for _ in range(n + 1)]
+        # class BinaryIndexedTree:
+            # def __init__(self, n: int):
+                # self._tree = [0 for _ in range(n + 1)]
 
-            def query(self, x):
-                s = 0
-                x += 1
-                while x:
-                    s += self._tree[x]
-                    x -= x & -x
-                return s
+            # def query(self, x):
+                # s = 0
+                # x += 1
+                # while x:
+                    # s += self._tree[x]
+                    # x -= x & -x
+                # return s
 
-            def update(self, x, diff):
-                x += 1
-                while x < len(self._tree):
-                    self._tree[x] += diff
-                    x += x & -x
-            pass
+            # def update(self, x, diff):
+                # x += 1
+                # while x < len(self._tree):
+                    # self._tree[x] += diff
+                    # x += x & -x
+            # pass
 
         rangeQueryTree = BinaryIndexedTree(len(nums))
         num2idx = {v: i for i, v in enumerate(sorted(list(set(nums))))}
