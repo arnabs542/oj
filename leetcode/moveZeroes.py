@@ -79,14 +79,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        return self.moveZeroesTwoPointers(nums)
+        return self._moveZeroesPartitionTwoPointers(nums)
 
-    def moveZeroesTwoPointers(self, nums):
-        i, j = 0, 0
+    def _moveZeroesPartitionTwoPointers(self, nums):
+        pNonzero, j = 0, 0 # pNonzero: position to write next nonzero
         for j, _ in enumerate(nums):
             if nums[j] == 0: continue
-            nums[i], nums[j] = nums[j], nums[i]
-            i += 1
+            nums[pNonzero], nums[j] = nums[j], nums[pNonzero]
+            pNonzero += 1
         return nums
 
 def test():
