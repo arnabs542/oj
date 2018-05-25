@@ -32,9 +32,9 @@ The length of accounts[i][j] will be in the range [1, 30].
 SOLUTION
 
 Many-to-many connections form a graph. And this problem can be thought as a
-undirected bipartite, where vertices are people and email addresses.
+undirected graph(bipartite), where vertices are people and email addresses.
 
-The task is to find connected components.
+The task is to find connected components in the graph(bipartite).
 
 1. Graph search - dfs or bfs
 

@@ -1,19 +1,21 @@
-# Solutions To Algorithmic Problems on Online Judge
-=================================================
+OJ - Mastering problem solving methods, algorithms and data structures
+======================================================================
 
-## LeetCode - Interview algorithm problems
-Focusing on fundamental algorithms to tackle problems with at least interview levels:
-- detailed analysis to formulate the solution
-- time complexity analysis
-- optimizations to speed up
-- one problem with multiple solutions
-- multiple problems with one solution
-- Recursive and iterative procedures are put together to comparision
-- self-contained test cases
+This repository contains solutions to algorithm and data structure problems, mostly from Leetcode.
 
-## References
-### Top Algorithm websites:
+More important than solutions is HOW TO THINK TO CRACK THE PROBLEM AND FIND THE SOLUTION.
 
+Multiple solutions, thought process to optimize from most naive to the elaborately optimized solution are included.
+
+## Contents
+- [Leetcode solutions](https://github.com/Alexoner/oj/tree/dev/leetcode)
+
+## Other Resources
+### Top Algorithm websites
+    LeetCode:interview
+    CareerUp:interview
+    Geekforgeeks:interview
+    HackerRank:comprehensive
     TopCoder:comprehensive
     CodeChef:comprehensive
     CodeForces:comprehensive
@@ -22,18 +24,12 @@ Focusing on fundamental algorithms to tackle problems with at least interview le
     ZOJ:ACM
     UVA OJ:ACM
     SGU OJ:ACM
-    HackerRank:comprehensive
     Project Euler:mathematics
-    CareerUp:interview
-    LeetCode:interview
-
     Timus Online Judge
     hackerearth
-    Geekforgeeks
 
-### Algorithm Contests:
-    ACM
-    Topcoder
-    Google Code Jam
-    Codeforces
-    LeetCode
+### Algorithm Contests
+ACM
+Topcoder
+Google Code Jam
+Codeforces

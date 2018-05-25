@@ -29,6 +29,16 @@ Maintain a state of:(
     traversing direction,
 )
 
+State transition
+----------------
+
+When traversing to right top with current coordinate (x, y), next coordinate
+will be in ((x - 1, y + 1), (x, y + 1), (x + 1, y)), with priority.
+
+When traversing to left bottom with current coordinate (x, y), next coordinate
+will be in ((x + 1, y - 1), (x + 1, y), (x, y + 1)), with priority.
+
+
 """
 
 class Solution:

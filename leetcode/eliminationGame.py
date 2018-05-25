@@ -29,6 +29,8 @@ Output:
 ================================================================================
 SOLUTION
 
+It is a certain counting-out game(https://en.wikipedia.org/wiki/Counting-out_game).
+
 1. Brute force
 Emulate the process.
 

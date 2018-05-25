@@ -35,20 +35,54 @@ A = [1, 2, 3, 4]
 
 return: 3, for 3 arithmetic slices in A: [1, 2, 3], [2, 3, 4] and [1, 2, 3, 4] itself.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
-1. Mathematical induction. Find all the arithmetic progression subarray. Then for each such
+1. Naive method: exhaust and count
+Exhaust all slices and verify.
+
+Complexity: O(n³), O(1).
+
+Optimization
+-----------
+Elaborate with by verifying the slices while incrementally exhausting.
+Then complexity is O(N²), O(1).
+
+2. Partition and calculate - mathematical calculation without counting one by one
+Partition by finding locally longest interval and mathematically calculate each
+arithmetic partition.
+
+Overlapping subproblems result in duplicate calculations, and counting one by one
+is inefficient, which can be summarized mathematically.
+
+Find all locally longest arithmetic series subarray. Then for each such
 array of length l, it has number of arithmetic slices:
-    f(l) = 1 + 2 + ... + l - 2
-         = (l - 2) * (l - 2 - 1) / 2
+    f(l) = 1 + 2 + ... + (l - 2)
+         = (l - 2) * (l - 2 + 1) / 2
          = (l - 2) * (l - 1) / 2
 
-2. Dynamic programming
+Complexity: O(n), O(1)
+
+3. State transition - dynamic programming - track state ending here
+
+Convert the objective function into a sum of terms, denoting g(i) as
+number of arithmetic slices ending index i, then objective is:
+    f = ∑g(i), where i = 0, 1, ..., N - 1.
+
 Define state:
     dp[i] = the number of arithmetic slices ending with A[i]
-Then result = ∑dp[i], i in [0, n - 1]
-And dp[i] = dp[i - 1] + 1 if in the same arithmetic progression.
+Then dp[i] = dp[i - 1] + 1 if in the same arithmetic progression.
+
+The result = ∑dp[i], i in [0, n - 1]
+
+Complexity: O(n)
+
+################################################################################
+FOLLOW UP
+
+1. Arithmetic sequences
+
+2. Geometric slices/sequences
 
 '''
 
@@ -59,9 +93,13 @@ class Solution(object):
         :type A: List[int]
         :rtype: int
         """
-        return self.numberOfArithmeticSlicesTwoPointers(A)
+        result = self._numberOfArithmeticSlicesPartitionAndCalculate(A)
 
-    def numberOfArithmeticSlicesTwoPointers(self, A):
+        print(A, " => ", result)
+
+        return result
+
+    def _numberOfArithmeticSlicesPartitionAndCalculate(self, A):
         diff0, diff1 = None, None
         start = 0
         n = 0
@@ -73,7 +111,11 @@ class Solution(object):
                     n += (l - 2) * (l - 1) // 2
                 start = i - 1
         print(n)
+
         return n
+
+    def _numberOfArithmeticSlicesDynamicProgramming(self, A):
+        pass
 
 def test():
     solution = Solution()

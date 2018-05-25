@@ -32,7 +32,7 @@ Follow up:
 SOLUTION
 
 1. Brute force verify
-Complexity: O(nlogn), worst case is O(n²)
+Complexity: O(nlogn), worst case is O(n²) for skewed tree.
 
 2. Recurrence relation
 
@@ -60,4 +60,16 @@ Complexity: O(N)
 
 
 # TODO: implementation
+
+class Solution:
+
+    pass
+
+def test():
+    solution = Solution()
+
+    print("self test passed")
+
+if __name__ == '__main__':
+    test()
 

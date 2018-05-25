@@ -15,6 +15,7 @@ Suppose that we wish to know which stories in a 36-story building are safe to dr
     If an egg survives a fall, then it would survive a shorter fall.
     It is not ruled out that the first-floor windows break eggs, nor is it ruled out that eggs can survive the 36th-floor windows.
 
+wiki: https://en.wikipedia.org/wiki/Dynamic_programming#Egg_dropping_puzzle
 ================================================================================
 
 1. Linear search
@@ -23,7 +24,7 @@ Keep dropping the egg from lowest floor to highest, until it breaks.
 
 Complexity: O(k), but not yielding the optimal solution.
 
-2. Minimax - minimize worst case loss
+2. Minimax - minimize worst case loss - with recursion / dynamic programming
 
 If only one egg is available and we wish to be sure of obtaining the right result, the experiment can be carried out in only one way. Drop the egg from the first-floor window; if it survives, drop it from the second-floor window. Continue upward until it breaks. In the worst case, this method may require 36 droppings. Suppose 2 eggs are available. What is the lowest number of egg-droppings that is guaranteed to work in all cases?
 
@@ -36,18 +37,23 @@ to find the solution.
 --------------------------------------------------------------------------------
 The idea is to MINIMIZE THE WORST CASE LOSS, using minimax!
 
+At first, we need to make an decision, with respect to what action to take,
+to split the search space.
+An action is to drop an egg at somewhere, to reduce the problem into a simpler form.
+Where to perform the first drop can be determined by the minimax strategy.
+
 To derive a dynamic programming functional equation for this puzzle, let the STATE of the dynamic programming model be a pair s = (n, k), where
 
 n = number of test eggs available, n = 0, 1, 2, 3, ..., N − 1.
 k = number of (consecutive) floors yet to be tested, k = 0, 1, 2, ..., H − 1.
 
 Now, let
-W(n,k) = minimum number of trials required to identify the value of the critical floor under the worst-case scenario given that the process is in state s = (n,k).
+f(n,k) = minimum number of trials required to identify the value of the critical floor under the worst-case scenario given that the process is in state s = (n,k).
 
 Then STATE TRANSITION RECURRENCE RELATION can be shown that
 
-W(n, k) = 1 + min{max(W(n − 1, x − 1), W(n, k − x)): x = 1, 2, ..., k }
-with W(n, 0) = 0 for all n > 0 and W(1, k) = k for all k.
+f(n, k) = 1 + min{max(f(n − 1, x − 1), f(n, k − x)): x = 1, 2, ..., k }
+with f(n, 0) = 0 for all n > 0 and f(1, k) = k for all k.
 
 Complexity: O(nk²), O(nk)
 

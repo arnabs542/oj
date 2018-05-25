@@ -24,7 +24,7 @@ Enumerate all possible subsequences, and verify.
 
 Complexity: O(2^N)
 
-2. Dynamic programming
+2. State transition with dynamic programming
 
 However, there are some issues to concern.
 
@@ -48,27 +48,36 @@ it will produce multiple copies of sequence like [1, 1].
 How to prune duplicate sequences?
 
 Use set of tuples?
-Use auxiliary space to mark visited?
+Use auxiliary space to MARK VISITED?
 
 To solve the problem of duplicates, we need to figure out how it happens!
 Duplicates occur when a shorter sequence gets appended by the same value more than once.
 
 Sequences are not easy to hash and memorize, but, their position in the output list,
-is static. So we can make visited state with tuple:
+is static. So represent visited state with tuple of:
     (i: increasing subsequence index, n: appended number)
 
 Complexity: O(2ⁿ)
 
-3. Graph search - depth first search
+3. State transition as graph search - depth first search
+Model this problem as a graph, where vertices are the integers given, and
+edges are the AFTER relation between integer positions.
+
+The problem is to find increasing path on the graph, which can be done with dfs.
+
 Define state as a tuple:
-    (s: increasing sequence, i: starting index of nums)
+    (s: increasing sequence, i: starting index of nums, a vertex)
 Then the state transition happens when we have another element no less than the
 last element of the current sequence.
 
 The problem is, how to avoid duplicates?
 How does the case of duplicates happen in this depth first search scenario?
-Remember? This scenario is similar to permutations containing duplicate number!
+Remember?
+
+This scenario is similar to permutations containing duplicate number!
 The duplicates occur when same value goes to a position more than once.
+
+Filter the duplicate paths by filtering duplicate neighbour vertices.
 
 
 '''
@@ -86,17 +95,17 @@ class Solution(object):
         return result
 
     def _findSubsequencesDP(self, nums):
-        f = []
+        slices = []
         visited = set()
         for n in nums:
-            for i in range(len(f) - 1, -1, -1):
-                if f[i] and f[i][-1] <= n and (i, n) not in visited:
+            for i in range(len(slices) - 1, -1, -1):
+                if slices[i] and slices[i][-1] <= n and (i, n) not in visited:
                     visited.add((i, n))
-                    f.append(f[i] + [n])
-            if (-1, n) not in visited: f.append([n])
+                    slices.append(slices[i] + [n])
+            if (-1, n) not in visited: slices.append([n])
             visited.add((-1, n))
-        print('f: ', f)
-        return [x for x in f if len(x) >= 2]
+        print('slices: ', slices)
+        return [x for x in slices if len(x) >= 2]
 
     def _findSubsequencesDfs(self, nums):
         def dfs(seq, i):
