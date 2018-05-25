@@ -27,22 +27,21 @@ Of course, we can split the search space by two every time.
 
 Complexity: O(log₂N)
 
+3. Minimax strategy - MINIMIZE WORST CASE LOSS with recurrence relation
+
+Reduce the problem into a simpler form and exploit the recurrence relation!
+
+To reduce it, we have to measure two groups of coins of same size first.
+Then based on the result of the balance scales, we have different decisions to make.
+
+The question is, how to split the coins to weigh for the first time?
+Do EXHAUSTIVE SEARCH, with minimax algorithm!
+
 Key observation - information gain
 ----------------------------------
 The balance provides one of three possible indications:
 the right pan is heavier, or the pans are in balance, or the left pan is heavier.
 
-3. Minimax to find the optimal strategy
-
-The core idea is to MINIMIZE WORST CASE LOSS.
-
-Give n coins, use the balance scales to weigh some coins then split the search space.
-
-The question is, how to split the coins to weigh?
-Well, if we don't know the strategy yet, we can at least do exhaustive search,
-with minimax algorithm.
-
-The idea is to harness recurrence relation.
 Select a number of coins to evenly put x coins in two arms of the balance scales.
 Use the balance scales to weigh once, then the information we can get will
 give conclusions.
@@ -58,20 +57,22 @@ Complexity
 The state space is one dimensional, within range [1, N]. Then without duplicate
 computations, the time complexity is O(N).
 
-4. Logarithm search with base 3
+4. Logarithm search with base 3 - trichotomy
 
-Split the search space into 3 disjoint sets.
+Split the search space into 3 disjoint sets, since weighing once with the balance
+will give information to classify 3 different sets of coins:
+left arm coins, right arm coins, unweighed coins.
 
 Complexity
 ----------
-The state space is one dimensional number, with range [1, logN]. When duplicate
+The state space is one dimensional number, with range [1, log₃N]. When duplicate
 computations are eliminated, with memoization, the time complexity is O(log₃N).
 
 4. Closed form formula
 A more abstraction from the above minimax optimization algorithm leads to
 variant of binary search: three way search!
 
-Divide the coins into 3 groups as evenly as possible, then there are at most
+Divide the coins into 3 groups as EVENLY as possible(balanced split), then there are at least
 two groups of same size(pigeonhole principle).
 Weigh two groups of same size, and make use of the same recurrence relation above.
 
@@ -86,6 +87,15 @@ Use recurrence relation to derive, or even a more abstract mathematical
 closed form equation: log₃N, where N is the number of total coins.
 
 2. What if we don't know whether the target coin is heavier or lighter?
+In this scenario, weighing once with the balance, with i coins on both side
+will give information:
+1) left pan is heavier: different coin is on the balance, 1 / 2i
+2) right pan is heavier: same as above, 1 / 2i
+3) balanced: different coin is not on the balance, 1 / (n - 2i)
+
+Strategy:
+Split the coins into 2 equal size groups, and distribute one group evenly on
+two sides of the balance.
 
 """
 
@@ -98,8 +108,8 @@ class Solution:
 
     def findHeavierCoin(self, n):
         # result = self._findHeavierCoinMinimax(n)
-        result = self._findHeavierCoinThreeWaySearch(n)
-        # result = self._findHeavierCoinClosedForm(n)
+        # result = self._findHeavierCoinThreeWaySearch(n)
+        result = self._findHeavierCoinClosedForm(n)
 
         print(n, result)
 
@@ -140,7 +150,7 @@ class Solution:
     def _findHeavierCoinClosedForm(self, n):
         return math.ceil(math.log(n, 3))
 
-    def _findDifferntCoinMinimax(self, n):
+    def _findDifferentCoinMinimax(self, n):
         """
         Find the coin with different weight, can be either heavier or lighter.
         """
@@ -152,14 +162,22 @@ class Solution:
             if x in (3,): return 2
             if x == 4: return 2
 
-            nSteps = float('inf')
+            loss = float('inf')
+            j = None # reduced to problem of size j
             # recurrence relation: weigh once and split
             for i in range(1, (x  + 1)// 2):
                 # minimax: minimize worst case loss
-                # nSteps = min(nSteps, 1 + max(dfs(2 * i), min(dfs(x - 2 * i), dfs(x - 2 * i))))
-                nSteps = min(nSteps, 1 + max(dfs(x - 2 * i), dfs(i)))
-            print(x, nSteps)
-            return nSteps
+                # loss = min(loss, 1 + max(dfs(2 * i), min(dfs(x - 2 * i), dfs(x - 2 * i))))
+                # worstCaseLoss = 1 + max(dfs(x - 2 * i), dfs(i))
+                worstCaseLoss = 1 + max(dfs(max(x - 2 * i, 3)), min(dfs(max(2 * i, 3)),1 + dfs(i) if x - 2*i >= i else float('inf')))
+                # if i <= x - 2 * i:
+                    # worstCaseLoss = min(worstCaseLoss, 2 + dfs(i))
+                # loss = min(loss, worstCaseLoss)
+                if worstCaseLoss < loss:
+                    loss = worstCaseLoss
+                    j = i
+            print('different coin: ', x, 'loss: ', loss, 'first weigh: ', j)
+            return loss
 
         return dfs(n)
 
@@ -182,14 +200,17 @@ def test():
     assert solution.findHeavierCoin(100) == 5 # log₃100 <= 5
     assert solution.findHeavierCoin(1000) == 7 # log₃100 = 6.28
 
-    print("test: target coin is weight unkown")
+    print("\ntest: target coin is weight unkown")
 
     # target coin's weight is known: can be heavier or lighter
-    # assert solution._findDifferentCoinMinimax(1) == 0
-    # assert solution._findDifferentCoinMinimax(2) == float('inf')
-    # assert solution._findDifferentCoinMinimax(3) == 2
-    # assert solution._findDifferentCoinMinimax(4) == 2
-    # assert solution._findDifferentCoinMinimax(12) == 3
+    assert solution._findDifferentCoinMinimax(1) == 0
+    assert solution._findDifferentCoinMinimax(2) == float('inf')
+    assert solution._findDifferentCoinMinimax(3) == 2
+    assert solution._findDifferentCoinMinimax(4) == 2
+    assert solution._findDifferentCoinMinimax(5) == 3
+    assert solution._findDifferentCoinMinimax(6) == 3
+    assert solution._findDifferentCoinMinimax(12) == 3
+    assert solution._findDifferentCoinMinimax(13) == 4
 
     print("self test passed!")
 

@@ -95,6 +95,8 @@ Try to exploit the problem in approaches like:
 
 Refer to sections for more.
 
+A powerful idea is to trade space for time with state transition recurrence relation.
+
 ### Common models for different kind of problems
 
 Basic data structures
