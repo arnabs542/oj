@@ -60,8 +60,8 @@ is static. So represent visited state with tuple of:
 Complexity: O(2ⁿ)
 
 3. State transition as graph search - depth first search
-Model this problem as a graph, where vertices are the integers given, and
-edges are the AFTER relation between integer positions.
+Model this problem as a graph, where vertices are partial sequence to construct
+with starting index i to visit, and edges are numbers after i.
 
 The problem is to find increasing path on the graph, which can be done with dfs.
 
@@ -108,6 +108,9 @@ class Solution(object):
         return [x for x in slices if len(x) >= 2]
 
     def _findSubsequencesDfs(self, nums):
+        """
+        state: (current sequence, starting index to use)
+        """
         def dfs(seq, i):
             if len(seq) >= 2: result.append(seq)
             for j in range(i, len(nums)):

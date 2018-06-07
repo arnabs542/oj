@@ -7,6 +7,7 @@ A balance puzzle or weighing puzzle is a logic puzzle about balancing items—of
 Now, we are given 12 coins, one of them is heavier than others.
 
 Reference:
+https://en.wikipedia.org/wiki/Balance_puzzle
 https://www.av8n.com/physics/twelve-coins.htm
 
 
@@ -58,6 +59,14 @@ The state space is one dimensional, within range [1, N]. Then without duplicate
 computations, the time complexity is O(N).
 
 4. Logarithm search with base 3 - trichotomy
+
+The strategy is to divide the coins as evenly as possible into 3 sets.
+
+And n = 3 * m + r, where m is the quotient and r is remainder and r = 0, 1, 2.
+
+Then it can be divided into m, m, m + r.
+If r % 2 == 0, then we can also divide it into m + r/2, m + r/2, m.
+If r % 2 == 1, then divide into m, m, m + r=m+1.
 
 Split the search space into 3 disjoint sets, since weighing once with the balance
 will give information to classify 3 different sets of coins:
@@ -136,7 +145,7 @@ class Solution:
     def _findHeavierCoinThreeWaySearch(self, n):
         """
         Variant to binary search: three way search to split the search space into
-        three disjoint sets.
+        three disjoint sets, a.k.a, trichotomy.
         """
         def dfs(x):
             if x <= 1: return 0

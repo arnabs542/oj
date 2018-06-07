@@ -65,15 +65,17 @@ Complexity: O(n), O(1)
 
 3. State transition - dynamic programming - track state ending here
 
-Convert the objective function into a sum of terms, denoting g(i) as
-number of arithmetic slices ending index i, then objective is:
-    f = ∑g(i), where i = 0, 1, ..., N - 1.
+From another perspective, the objective function can be computed
+by summing terms over all positions:
+    f = ∑g(i), where i = 0, 1, ..., N - 1,
+where g(i) denotes the number of arithmetic slices ENDING HERE at index i.
 
-Define state:
-    dp[i] = the number of arithmetic slices ending with A[i]
-Then dp[i] = dp[i - 1] + 1 if in the same arithmetic progression.
+Define state
+------------
+    dp[i] = maximum length of arithmetic slices ending with A[i]
+Then dp[i] = dp[i - 1] + 1 if in the same arithmetic series.
 
-The result = ∑dp[i], i in [0, n - 1]
+The result = ∑sum(1, 2, ..., dp[i]-2), i in [0, n - 1]
 
 Complexity: O(n)
 
@@ -93,9 +95,10 @@ class Solution(object):
         :type A: List[int]
         :rtype: int
         """
-        result = self._numberOfArithmeticSlicesPartitionAndCalculate(A)
+        # result = self._numberOfArithmeticSlicesPartitionAndCalculate(A)
+        result = self._numberOfArithmeticSlicesDP(A)
 
-        print(A, " => ", result)
+        print(A[:100]+["..."], " => ", result)
 
         return result
 
@@ -114,8 +117,22 @@ class Solution(object):
 
         return n
 
-    def _numberOfArithmeticSlicesDynamicProgramming(self, A):
-        pass
+    def _numberOfArithmeticSlicesDP(self, A):
+        result = 0
+        dp = 0 # maximum length ending here
+        for i, a in enumerate(A):
+            if dp <= 1:
+                dp += 1
+                continue
+            # check difference
+            if a - A[i - 1] == A[i - 1] - A[i - 2]:
+                dp += 1
+            else:
+                dp = 2 # new start
+            # accumulate
+            result += max(dp - 2, 0)
+
+        return result
 
 def test():
     solution = Solution()
@@ -125,6 +142,12 @@ def test():
     assert solution.numberOfArithmeticSlices([1, 3, 5, 7, 9]) == 6
     assert solution.numberOfArithmeticSlices([1, 2, 3, 4]) == 3
     assert solution.numberOfArithmeticSlices([1, 2, 3, 4, 1, 2, 3, 4]) == 6
+
+    import yaml
+    with open("arithmeticSlices.json", "r") as f:
+        data = yaml.load(f)
+    for record in data:
+        assert solution.numberOfArithmeticSlices(record['input']) == record['output']
 
     print("self test passed")
 
