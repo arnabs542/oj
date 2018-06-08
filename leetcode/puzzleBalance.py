@@ -93,7 +93,7 @@ FOLLOW UP
 we can find the heavier one from?
 
 Use recurrence relation to derive, or even a more abstract mathematical
-closed form equation: log₃N, where N is the number of total coins.
+closed form equation: 3ⁿ, where n is the number of total coins.
 
 2. What if we don't know whether the target coin is heavier or lighter?
 In this scenario, weighing once with the balance, with i coins on both side
@@ -115,16 +115,16 @@ from _decorators import memoize
 
 class Solution:
 
-    def findHeavierCoin(self, n):
-        # result = self._findHeavierCoinMinimax(n)
-        # result = self._findHeavierCoinThreeWaySearch(n)
-        result = self._findHeavierCoinClosedForm(n)
+    def findCoinHeavier(self, n):
+        # result = self._findCoinHeavierMinimax(n)
+        # result = self._findCoinHeavierThreeWaySearch(n)
+        result = self._findCoinHeavierClosedForm(n)
 
         print(n, result)
 
         return result
 
-    def _findHeavierCoinMinimax(self, n):
+    def _findCoinHeavierMinimax(self, n):
         @lru_cache(maxsize=None)
         # @memoize
         def dfs(x):
@@ -142,7 +142,7 @@ class Solution:
 
         return dfs(n)
 
-    def _findHeavierCoinThreeWaySearch(self, n):
+    def _findCoinHeavierThreeWaySearch(self, n):
         """
         Variant to binary search: three way search to split the search space into
         three disjoint sets, a.k.a, trichotomy.
@@ -156,10 +156,13 @@ class Solution:
 
         return dfs(n)
 
-    def _findHeavierCoinClosedForm(self, n):
+    def _findCoinHeavierClosedForm(self, n):
         return math.ceil(math.log(n, 3))
 
-    def _findDifferentCoinMinimax(self, n):
+    def _findCoinDifferentThreeWaySearch(self, n):
+        pass
+
+    def _findCoinDifferentMinimax(self, n):
         """
         Find the coin with different weight, can be either heavier or lighter.
         """
@@ -196,30 +199,30 @@ def test():
     print("test: target coin is heavier")
 
     # target coin is heavier
-    assert solution.findHeavierCoin(1) == 0
-    assert solution.findHeavierCoin(2) == 1
-    assert solution.findHeavierCoin(3) == 1 # log₃3 = 1
-    assert solution.findHeavierCoin(4) == 2 # log₃3 = 1
-    assert solution.findHeavierCoin(9) == 2 # log₃9 = 2
-    assert solution.findHeavierCoin(12) == 3
-    assert solution.findHeavierCoin(16) == 3
-    assert solution.findHeavierCoin(27) == 3 # log₃27 = 3
-    assert solution.findHeavierCoin(28) == 4 # log₃27 = 3
-    assert solution.findHeavierCoin(81) == 4 # log₃81 = 4
-    assert solution.findHeavierCoin(100) == 5 # log₃100 <= 5
-    assert solution.findHeavierCoin(1000) == 7 # log₃100 = 6.28
+    assert solution.findCoinHeavier(1) == 0
+    assert solution.findCoinHeavier(2) == 1
+    assert solution.findCoinHeavier(3) == 1 # log₃3 = 1
+    assert solution.findCoinHeavier(4) == 2 # log₃3 = 1
+    assert solution.findCoinHeavier(9) == 2 # log₃9 = 2
+    assert solution.findCoinHeavier(12) == 3
+    assert solution.findCoinHeavier(16) == 3
+    assert solution.findCoinHeavier(27) == 3 # log₃27 = 3
+    assert solution.findCoinHeavier(28) == 4 # log₃27 = 3
+    assert solution.findCoinHeavier(81) == 4 # log₃81 = 4
+    assert solution.findCoinHeavier(100) == 5 # log₃100 <= 5
+    assert solution.findCoinHeavier(1000) == 7 # log₃100 = 6.28
 
     print("\ntest: target coin is weight unkown")
 
     # target coin's weight is known: can be heavier or lighter
-    assert solution._findDifferentCoinMinimax(1) == 0
-    assert solution._findDifferentCoinMinimax(2) == float('inf')
-    assert solution._findDifferentCoinMinimax(3) == 2
-    assert solution._findDifferentCoinMinimax(4) == 2
-    assert solution._findDifferentCoinMinimax(5) == 3
-    assert solution._findDifferentCoinMinimax(6) == 3
-    assert solution._findDifferentCoinMinimax(12) == 3
-    assert solution._findDifferentCoinMinimax(13) == 4
+    assert solution._findCoinDifferentMinimax(1) == 0
+    assert solution._findCoinDifferentMinimax(2) == float('inf')
+    assert solution._findCoinDifferentMinimax(3) == 2
+    assert solution._findCoinDifferentMinimax(4) == 2
+    assert solution._findCoinDifferentMinimax(5) == 3
+    assert solution._findCoinDifferentMinimax(6) == 3
+    assert solution._findCoinDifferentMinimax(12) == 3
+    assert solution._findCoinDifferentMinimax(13) == 4
 
     print("self test passed!")
 
