@@ -20,69 +20,81 @@ SOLUTION
 To support get, set, delete in O(1), a hash table is the key. But the problem
 still wants to delete a least recently used item.
 
-1. Naive solution - add another state - time stamp
+1. Naive solution - single hash table: add another state - time stamp
 Use a hash table to enable O(1) time complexity of get and set.
 Should keep the value stored with time stamp when it's used.
 
 Complexity: To invalidate least recently used item, it takes O(n) time complexity.
 O(1) for other operations.
 
+2. Single array/list
+
+Of course, it's bad idea.
+
 --------------------------------------------------------------------------------
 AUGMENT DATA STRUCTURES.
 
-Key idea: hash table, ordered data structure.
+Naive augmented data structures.
+--------------------------------------------------------------------------------
+
+3. Array and a hash table - bad idea!
+An array to maintain the least recently used property(least recently used is
+at the end of list) with a HASH TABLE to store <key, item> for O(1) get operation.
+
+Complexity:
+get - O(n)
+set - O(n)
+invalidate - O(n)
+
+4. Self balancing binary search tree implemented key value data structure
+Time complexity for all operations are: O(logN)
+
+--------------------------------------------------------------------------------
+More efficient augmented data structure
+
+Requirements
+------------
+Key idea: O(1) insert/query for all elements, O(1) delete for a specific element.
+
+Related basic data structure: hash table, ordered data structure.
 
 To achieve O(1) complexity insert/search/delete operation, a HASH TABLE will do.
 
-The problem is to delete an item meeting a certain condition: least recently used.
+Problem
+-------
+To DELETE an item with certain QUERY condition - least recently used in O(1).
 
-Adding a STATE time stamp to the items will solve the problem, with O(n) time for
-LINEAR SEARCH.
+Naive augmentation: add another state
+-------------------
+Adding a STATE time stamp to the hash table items will solve the problem,
+with O(n) time for LINEAR SEARCH.
 
+Better augmentation: combine hash table with linked list
+------------
 One intuition to avoid linear search is to keep the data ORDERED, making it possible
 to utilize more efficient searching algorithms:
     binary search for any item, O(1) search for extrema item.
 
-To maintain an ordered relation, we have multiple data structures:
-    array, linked list, trees, ...
+To maintain an ORDERED relation, we brainstorm data structures:
+    array, linked list, queue/stack, set, hash table, heap, tree, graph, ...
+
 The problem with array is that it takes O(n) to insert/delete.
 And a tree usually has amortized O(logn) complexity for insert/search/delete.
+Among all these data structures, linked list supports insert and delete in O(1).
 
-Now, a LINKED LIST comes in handy, supporting O(1) insert/delete.
+Augment hash table with linked list:
+    supports O(1) insert/delete/query for all elements.
 
-
+See below.
 --------------------------------------------------------------------------------
 
-2. Ordered map storing value with time stamp
+5. Ordered key value data structure by HASH TABLE AND LINKED LIST
 
-- balancing binary search tree
-Time complexity for all operations are: O(logN)
-
-- doubly linked list with hash table
-Complexity: O(1) for all
-
-3. Array
-A LIST to maintain the least recently used property(least recently used is
-at the end of list) with a HASH TABLE to store <key, item> for O(1) get operation.
-
-Complexity:
-get - O(1)
-set - O(1)
-invalidate - O(n)
-
-This is still a bad idea
-
-A least recently used item can't be directly tracked, but its complement can be tracked
-easily: it's easy to know which items are used recently!
-
-4. Hash table with a linked list as ordered data structure
-
-The above problem is still with the delete operation, or invalidate.
-
-A single hash table won't do the job, it needed to be augmented.
-
-Brainstorm: array, linked list, queue/stack, set, hash table, heap, tree, graph, ...
-Among all these data structures, linked list supports insert and delete pretty easy.
+Implicit representation of least recently used
+-------------------------------------
+A least recently used item can't be directly tracked(not accessed at all),
+but its COMPLEMENT can be tracked easily:
+    it's easy to track which items are used recently!
 
 The idea is, every time an item is used, move it to one end of linked list.
 
@@ -90,6 +102,8 @@ Under such algorithm, the data is ordered by recently used time.
 
 4.1) Doubly linked list
 Using doubly linked list, deleting and reordering is of O(1) complexity.
+
+Insert at the end, delete at the beginning of the linked list.
 
 To support O(1) query operation, use the hash table the maintain the mapping from
 key to the corresponding linked list node.
@@ -104,10 +118,21 @@ Copy and replace with next node!
 Remember the edge case: moving the tail node to tail.
 
 2) Where to put the least recently used pair?
-Put/sink LRU item at the head, not the tail. Because it's not possible to delete tail element in O(1)
-while updating the tail node pointer.
+
+Put/sink LRU item at the head, not the tail.
+Because it's not possible to delete tail element in O(1) while updating the tail node pointer.
 
 Complexity: O(1) in both get and put
+
+Representation
+--------------
+Hash table: key to linked list node
+
+Linked list: each node must have linked list pointers plus key and value.
+Storing key in node is to retrieve corresponding hash table key when deleting
+element from the end of the linked list.
+
+4.3) use builtin ordered hash table implementation: OrderedDict.
 
 '''
 
@@ -294,23 +319,48 @@ class LRUCacheSinglyLinkedListAndHashTable():
         return v
 
 
-# TODO: implement hash table + doubly linked list solution
+# TODO: implement hash table + circular doubly linked list
 # refer to functools.lru_cache for hash table + circular doubly linked list implementation
+
+PREV, NEXT, KEY, VALUE = 0, 1, 2, 3   # names for the link fields
 class LRUCacheDoublyLinkedListAndHashTable:
 
     def __init__(self, capacity):
         """
         :type capacity: int
         """
-        self.orderedDict = OrderedDict()
+        head = [] # circular doubly linked list head
+        head[:] = [head, head, None, None] # self referencing: previous, next, key, value
+        self._head = head
+        assert id(self._head) == id(head)
+        self._map = {} # hash table
 
+        self.capacity = capacity
 
     def get(self, key):
         """
         :type key: int
         :rtype: int
         """
+        if key not in self._map:
+            return -1
 
+        p = self._map[key]
+        # TODO: delete and insert
+        self._delete(key)
+        self.put(key, p[VALUE])
+
+        return p[VALUE]
+
+    def _delete(self, key):
+        if key is None: # empty yet
+            return
+        p = self._map[key]
+        # delete in linked list
+        p[PREV][NEXT] = p[NEXT]
+        p[NEXT][PREV] = p[PREV]
+        # delete in hash table
+        del self._map[key]
 
     def put(self, key, value):
         """
@@ -318,15 +368,28 @@ class LRUCacheDoublyLinkedListAndHashTable:
         :type value: int
         :rtype: void
         """
+        if key in self._map:
+            # DONE: already exist, update: delete & insert later
+            self._delete(key)
+        elif len(self._map) >= self.capacity:
+            # DONE: delete the beginning element
+            self._delete(self._head[NEXT][KEY])
+
+        # DONE: insert at end of linked list
+        node = [self._head[PREV], self._head, key, value]
+        # print(self._head, node)
+        self._head[PREV] = node
+        node[PREV][NEXT] = node
+        self._map[key] = node
 
 if __name__ == "__main__":
 
     # LRUCache = LRUCacheArrayList
     # LRUCache = LRUCacheLinkedListAndHashTable
-    LRUCache = LRUCacheSinglyLinkedListAndHashTable
+    # LRUCache = LRUCacheSinglyLinkedListAndHashTable
+    LRUCache = LRUCacheDoublyLinkedListAndHashTable
 
     c = LRUCache(1)
-
     c.put(2, 1)
     assert c.get(2) == 1
     c.put(3, 2)
@@ -334,9 +397,33 @@ if __name__ == "__main__":
     assert (c.get(3)) == 2
     assert (c.get(2)) == -1
 
+    c = LRUCache(2)
+    c.put(1, 1)
+    c.put(2, 2)
+    assert c.get(1) == 1
+    c.put(3, 3)
+    # assert len(c._map) == 2
+    assert c.get(2) == -1
+    c.put(4, 4)
+    assert c.get(1) == -1
+    assert c.get(3) == 3
+    assert c.get(4) == 4
+
+    c = LRUCache(2)
+    assert c.get(2) == -1
+    c.put(2, 6)
+    assert c.get(1) == -1
+    c.put(1, 5)
+    c.put(1, 2)
+    # print(c.get(1))
+    assert c.get(1) == 2
+    # print('\nmap: ', c._map)
+    assert c.get(2) == 6
+# ["LRUCache","get","put","get","put","put","get","get"]
+# [[2],[2],[2,6],[1],[1,5],[1,2],[1],[2]]
+# [null,-1,null,-1,null,null,2,6]
 
     c = LRUCache(10)
-
     c.put(10, 13)
     c.put(3, 17)
     c.put(6, 11)
