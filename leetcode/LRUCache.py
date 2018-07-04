@@ -319,10 +319,10 @@ class LRUCacheSinglyLinkedListAndHashTable():
         return v
 
 
-# TODO: implement hash table + circular doubly linked list
+# DONE: implement hash table + circular doubly linked list
 # refer to functools.lru_cache for hash table + circular doubly linked list implementation
 
-PREV, NEXT, KEY, VALUE = 0, 1, 2, 3   # names for the link fields
+_PREV, _NEXT, _KEY, _VALUE = 0, 1, 2, 3   # names for the link fields
 class LRUCacheDoublyLinkedListAndHashTable:
 
     def __init__(self, capacity):
@@ -346,19 +346,19 @@ class LRUCacheDoublyLinkedListAndHashTable:
             return -1
 
         p = self._map[key]
-        # TODO: delete and insert
+        # DONE: delete and insert
         self._delete(key)
-        self.put(key, p[VALUE])
+        self.put(key, p[_VALUE])
 
-        return p[VALUE]
+        return p[_VALUE]
 
     def _delete(self, key):
         if key is None: # empty yet
             return
         p = self._map[key]
         # delete in linked list
-        p[PREV][NEXT] = p[NEXT]
-        p[NEXT][PREV] = p[PREV]
+        p[_PREV][_NEXT] = p[_NEXT]
+        p[_NEXT][_PREV] = p[_PREV]
         # delete in hash table
         del self._map[key]
 
@@ -373,21 +373,74 @@ class LRUCacheDoublyLinkedListAndHashTable:
             self._delete(key)
         elif len(self._map) >= self.capacity:
             # DONE: delete the beginning element
-            self._delete(self._head[NEXT][KEY])
+            self._delete(self._head[_NEXT][_KEY])
 
         # DONE: insert at end of linked list
-        node = [self._head[PREV], self._head, key, value]
+        node = [self._head[_PREV], self._head, key, value]
         # print(self._head, node)
-        self._head[PREV] = node
-        node[PREV][NEXT] = node
+        self._head[_PREV] = node
+        node[_PREV][_NEXT] = node
         self._map[key] = node
+
+from _type import CircularDoublyLinkedList, DoublyLinkedListNode
+class LRUCacheDoublyLinkedListAndHashTableOpt:
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self._map = {}
+        self._list = CircularDoublyLinkedList()
+        self.capacity = capacity
+
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key not in self._map:
+            return -1
+        print(self._list)
+        p = self._map[key]
+        self._list.delete(p)
+        self._list.insertAfter(self._list.head, p)
+
+        return p.data[1]
+
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: void
+        """
+        if key in self._map:
+            p = self._map[key]
+            p.data[1] = value
+            self._list.delete(p)
+            self._list.insertAfter(self._list.head, p)
+            return
+        elif max(1, self.capacity) <= len(self._map):
+            p = self._list.head.prev
+            self._list.delete(p)
+            del self._map[p.data[0]]
+
+        if len(self._map) + 1 > self.capacity:
+            return
+
+        p = DoublyLinkedListNode([key, value])
+        self._map[key] = p
+        self._list.insertAfter(self._list.head, p)
+
 
 if __name__ == "__main__":
 
     # LRUCache = LRUCacheArrayList
     # LRUCache = LRUCacheLinkedListAndHashTable
     # LRUCache = LRUCacheSinglyLinkedListAndHashTable
-    LRUCache = LRUCacheDoublyLinkedListAndHashTable
+    # LRUCache = LRUCacheDoublyLinkedListAndHashTable
+    LRUCache = LRUCacheDoublyLinkedListAndHashTableOpt
 
     c = LRUCache(1)
     c.put(2, 1)
