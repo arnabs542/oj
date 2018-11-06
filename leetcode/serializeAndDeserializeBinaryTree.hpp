@@ -98,6 +98,7 @@ public:
         TreeNode *root, *treeNode, *treeNodeNew = NULL;
         string sval;
 
+        // XXX: of course, memory leaks here. Use smart pointers in production.
         root = treeNodeNew = _getNode(in);
         if (treeNodeNew) q.push(treeNodeNew);
 

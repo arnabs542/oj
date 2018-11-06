@@ -49,6 +49,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 #=======================================BUILD TARGETS==========================================
 
 # add the executable target
+add_executable(regularExpressionMatching regularExpressionMatching.cpp)
 add_executable(wildcardMatching wildcardMatching.cpp)
 #add_executable(wordBreakII wordBreakII.cpp)
 add_executable(minimumWindowString minimumWindowString.cpp)

@@ -75,7 +75,7 @@ state(int c, State *out, State *out1)
     State *s;
 
     nstate++;
-    s           = malloc(sizeof *s);
+    s           = (State*)malloc(sizeof *s);
     s->lastlist = 0;
     s->c        = c;
     s->out      = out;
@@ -292,8 +292,8 @@ rematch(char *re, char *s)
     char *post   = re2post(re);
     State *start = post2nfa(post);
 
-    l1.s = malloc(nstate * sizeof l1.s[0]);
-    l2.s = malloc(nstate * sizeof l2.s[0]);
+    l1.s = (State**)malloc(nstate * sizeof l1.s[0]);
+    l2.s = (State**)malloc(nstate * sizeof l2.s[0]);
 
     bool result = match(start, s);
 

@@ -149,6 +149,10 @@ class Solution(object):
 
     def _maxProfitDP2D(self, k, prices: list) -> int:
         '''
+        Dynamic programming state transition in recurrence relation
+
+        Define state two dimensional f(k, j)
+        ------------------------------------
         f[k, j] represents the max profit up till prices[j] using at most k transactions.
         f[k, j] = max(f[k, j-1], prices[j] - prices[jj] + f[k-1, jj]), jj = 0, ..., j-1
                  = max(f[k, j-1], prices[j] + max(f[k-1, jj] - prices[jj]))
@@ -168,6 +172,10 @@ class Solution(object):
 
     def _maxProfitDPQuantityChange(self, k, prices: list) -> int:
         '''
+        Space optimized:
+            State transition table reduced from 2-dimension to 1-dimension,
+        since the recurrence relation only last 1 column.
+
         STATE = (
                 quantity change after first buying,
                 quantity change after first selling,

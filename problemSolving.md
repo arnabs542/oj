@@ -1,58 +1,61 @@
-# [General Problem Solving Approaches and Techniques](https://en.wikipedia.org/wiki/Problem_solving)
+# [Problem Solving Approaches and Techniques](https://en.wikipedia.org/wiki/Problem_solving)
 Problems you have never heard before may be hard to solve, so fact it, embrace it!
 
 TAKE THE CHALLENGE!
 
-## Examplify and INDUCE
+### Examplify and INDUCE
 Enumerate test cases/examples, to understand the problem, and maybe INDUCTIVELY REASON FROM EXAMPLES.
 
-Backward induction.
+### Abstraction and MODELING - convert a problem into a model
 
-## Abstraction and MODELING - solving the problem in a model of the system before applying it to the real system
-
-### Observe, State, Model
+#### Observe, State, Model
 Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
 
 Convert practical problems into mathematical/algorithmic MODELS.
 For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are all problems that can be
 abstracted into a graphical model.
 
-### General Mathematical Models
+#### General Mathematical Models
 - Equality: Interval or ranges
-- Counting model: hash count, count as sum
-    - Duplicate check
-        - exhaust and find occurrence
-        - hash count
-- Sorting model: sorting algorithms, augmented BST with rank, monotonic analysis
+- Counting model
+    - exhaust and find occurrence: O(n) time, O(1) space
+    - hash count: O(n) time/space
+    - count as sum: range sum query...
+- Ordering model
+    - Sorting algorithms
+    - Ordered data structure: augmented BST with rank
+    - Monotonic analysis
     - Order statistics
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear: array, linked list, stack, queue(deque), priority queue, 
     - Associative/mapping: hash table, buckets, inverted index
-    - tree: (balanced)binary search tree, kd-tree, range query tree, implicit representation of heap
+    - Tree: (balanced)binary search tree, kd-tree, range query tree, implicit representation of heap
     - Range query: segment tree, binary indexed tree
-    - graph
+    - Graph: vertexes and edges/connections
 - GRAPH model: multiple branches, many to many connections
     - Depth first search: all paths, one path, backtracking
     - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
     - Union find: connected components
 - STATE TRANSITION
     - state definition - PERSPECTIVE matters!
-        - indexes: vertices and edges set
-        - value: states bounded here
-        - value: states ending here
-        - value: states locally optimal(optimal so far)
-    - states representation 
+        - collection
+            - range
+            - indexes: vertices and edges set
+            - ...
+        - numerical value
+    - states representation
         - bits
         - integers: target number,
         - sets state: vertices, edges, 
             - combinatorial state
         - RANGE STATE: some sets form a continuous range, such as covered range during traversal, ...
+        - Define local optimal bounded here(starting/ending here, within range)
     - state transition technique 
         - STATE MACHINE
-            - Deterministic finite automata
-            - Nondeterministic finite automata
+            - Deterministic finite automata(DFA)
+            - Nondeterministic finite automata(NFA: regular expression, ...)
         -  RECURRENCE RELATION(递推关系)
-            - divide and conquer: partition into disjoint subproblems
+            - Divide and conquer: partition into disjoint subproblems
             - Backward induction
             - DYNAMIC PROGRAMMING: overlapping subproblems
             - Greedy strategy 
@@ -162,24 +165,23 @@ Delete: O(n)
 
 #### Bucket
 
-Tree data structure - special graph with only tree edges
-===================
+#### Tree data structure - special graph with only tree edges
 The core idea of tree is divide and conquer: structure data in properly partitioned spaces.
 
-#### Aspects of trees
+##### Aspects of trees
 - General tree search: preorder, inorder, postorder, level order.
 - Tree degrees
 
-#### Heap
+##### Heap
 Tree structure with implicit data structure: array.
 
-#### Binary search tree
+##### Binary search tree
 
-#### Balanced binary search tree
+##### Balanced binary search tree
 
-#### Segment tree - range query
+##### Segment tree - range query
 
-#### Binary indexed tree - range query
+##### Binary indexed tree - range query
 A tree structure dealing with prefix sum.
 
 #### Disjoint set
@@ -200,7 +202,7 @@ algorithm, then try to OPTIMIZE by resolving that.
 
 Remember, every problem has a naive brute force solution, regardless of complexity.
 
-### Optimization directions
+#### Optimization directions
 - Brute force method: GRAPH SEARCH(permutation, combination subsets), naive count
 - Avoid duplicate computation: order invariant, overlapping subproblem
     - Solve it by brute force permutation:  O(P(n, k)), special case is O(P(n, n)) = O(n!).
@@ -234,9 +236,9 @@ For example, refer to "course schedule III", "knapsack problems". In 0-1 knapsac
 items have different cost(weight) and gain(value), so it should be solved with dynamic programming.
 But if each item have same cost, then it can be done with greedy strategy to maximize sum of gain.
 
-## To analyze a problem, the key is to DEFINE STATE that exploits the problem structure!
+### To analyze a problem, the key is to DEFINE STATE that exploits the problem structure!
 
-## Reduce and Generalize - Transforming the problem into another problem for which solutions exist
+### Reduce and Generalize - Transforming the problem into another problem for which solutions exist
 Some problems may be so complicated that it's not easy to analyze the underlying
 model with above approaches.
 1. Reduce to the simpler form: divide and conquer, or to its simplest form
@@ -246,7 +248,7 @@ model with above approaches.
 
 In this stage, we may ship naive solutions.
 
-## BRAINSTORM
+### Brainstorm
 When having no clue, BRAINSTORM.
 
 Run algorithm brainstorm.
@@ -255,14 +257,14 @@ Exhaust all possible decisions.
 To address a specific complexity problem, we can Hit and Try. Run through possible
 solutions with specific time/space complexity, and try.
 
-## Inspect in another perspective - Think Out of the Box
+### Inspect in another perspective - Think Out of the Box
+...
 
-## To sum it up
-In general APPROACH is to examplify and optimize from naive solution. 
-To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
+### To sum it up
+Examplify and optimize from naive solution by ANALYZING, MODELING, REDUCING and INDUCING the problem.
 
 
-## General bugs in code
+# General bugs in code
 - off-by-one bug
 - edge case failure
 - using 'if' instead of expected loop should be used
@@ -270,3 +272,10 @@ To ANALYZE the problem, MODEL it, REDUCE and INDUCE.
 - wrong order of statements of assigning values
 - missing bound check while incrementing 
 
+# How to debug code
+- Run it under difference scenarios(in your thinking)!
+
+# How to read code
+- Read the *STATE/DATA* representation, layout, concurrent logic
+- Understand how data is manipulated, transferred between functions, threads
+- The same way as debugging it: run the code in different scenarios from simple to complex one, in your thinking!

@@ -378,7 +378,8 @@ class Solution(object):
 
 def test():
     import json
-    with open('./wordLadder.json', 'r') as f:
+    import os
+    with open(os.path.dirname(__file__) + '/wordLadder.json', 'r') as f:
         params = json.load(f)
     solution = Solution()
     for param in params[:]:

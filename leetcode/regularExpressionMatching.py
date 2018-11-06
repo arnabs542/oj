@@ -48,7 +48,6 @@ class Solution(object):
         # return self.isMatchBacktrackRecursive(s, p)
         return self.isMatchDPRecursive(s, p)
 
-    @memoize
     def isMatchDPRecursive(self, s, p):
         '''
         Top-down dynamic programming, actually.
@@ -57,6 +56,7 @@ class Solution(object):
         than FORWARD MATCHING.
         '''
         # print(s, p)
+        @memoize
         def dfs(s, p):
 
             if not p:

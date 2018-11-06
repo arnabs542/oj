@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Definition for a binary tree node.
+
+
 class TreeNode(object):
 
     def __init__(self, x):
@@ -14,7 +16,7 @@ class TreeNode(object):
         return y.val == self.val
 
     def __lt__(self, y):
-        return self.val is None or (not y is None) or self.val < y.val
+        return self.val is None or (y is not None) or self.val < y.val
 
     def __repr__(self):
         return 'val = {}'.format(self.val)
@@ -42,6 +44,7 @@ class Interval:
     def __eq__(self, other):
         return self.start == other.start and self.end == other.end
 
+
 class DoublyLinkedListNode(object):
     def __init__(self, data):
         self.data = data
@@ -51,10 +54,11 @@ class DoublyLinkedListNode(object):
     def __repr__(self):
         return str(self.data)
 
+
 class CircularDoublyLinkedList(object):
     def __init__(self):
         self.head = DoublyLinkedListNode(None)
-        self.head.prev = self.head.next = self.head # make circular!
+        self.head.prev = self.head.next = self.head  # make circular!
 
     def insertAfter(self, node: DoublyLinkedListNode, p: DoublyLinkedListNode):
         """
@@ -82,6 +86,7 @@ class CircularDoublyLinkedList(object):
             p = p.next
         return f'linkedlist{result}'
 
+
 def testCircularLinkedList():
     container = CircularDoublyLinkedList()
     print(container)
@@ -95,14 +100,16 @@ def testCircularLinkedList():
     assert str(container) == 'linkedlist[]'
 
     container.insertAfter(container.head, DoublyLinkedListNode(1))
-    container.append(DoublyLinkedListNode(2)) # append
+    container.append(DoublyLinkedListNode(2))  # append
     print(container)
     assert str(container) == 'linkedlist[1, 2]'
+
 
 def test():
     testCircularLinkedList()
 
     pass
+
 
 if __name__ == "__main__":
     test()
