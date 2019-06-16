@@ -34,7 +34,7 @@ with respect to k, sum to  multiple of k. Then we can replace the element with t
 Then the sum of array will be at most NK, then we have n search goals: K, 1K, ..., NK.
 The worst case is degraded to complexity O(N²).
 
-3. Prefix sum
+3. Prefix sum - With MODULO operation!
 Compute prefix sums, and storing them with into buckets representing remainder modulo by k.
 
 Input:           [23, 2, 4, 6, 7], k = 6

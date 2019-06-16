@@ -62,6 +62,12 @@ Time complexity: O(n)
     x XOR x == 0
 
 Complexity: O(N), O(1).
+Space complexity: O(N).
+
+5. Binary search
+All elements appear twice except for one, then the size of array must be odd. And if
+the array is already SORTED, the target single number can be found by modified binary search
+by comparing with adjacent numbers.
 
 '''
 
@@ -72,10 +78,10 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        # return self.singleNumberBitCounting(nums)
-        return self.singleNumberXOR(nums)
+        # return self._singleNumberBitCounting(nums)
+        return self._singleNumberXOR(nums)
 
-    def singleNumberBitCounting(self, nums):
+    def _singleNumberBitCounting(self, nums):
         # TODO: won't work for negative numbers, for Python's integer have infinite bits
         count = [0] * 32
         for i in range(32):
@@ -89,12 +95,17 @@ class Solution(object):
         print(count, y)
         return y
 
-    def singleNumberXOR(self, nums):
+    def _singleNumberXOR(self, nums):
         x = 0
         for i in nums:
             x ^= i
 
         return x
+
+    # TODO: binary search
+    def _singleNumberBinarySearch(self, nums: list):
+        nums.sort()
+        pass
 
 def test():
     solution = Solution()

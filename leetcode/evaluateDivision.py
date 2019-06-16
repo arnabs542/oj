@@ -43,15 +43,15 @@ class Solution(object):
         :type queries: List[List[str]]
         :rtype: List[float]
         """
-        adj = self.buildGraph(equations, values, queries)
+        adj = self._buildGraph(equations, values, queries)
         result = []
         for query in queries:
-            result.append(self.BFS(query, adj))
+            result.append(self._BFS(query, adj))
 
         print(result)
         return result
 
-    def BFS(self, query, adj):
+    def _BFS(self, query, adj):
         '''
         Graph search with BFS
 
@@ -61,7 +61,7 @@ class Solution(object):
         if not (i in adj and j in adj):
             return -1.0
         # search
-        frontier, visited = [i], set([i])
+        frontier, visited = [i], {i}
 
         while frontier:
             v = frontier.pop(0)
@@ -70,7 +70,7 @@ class Solution(object):
             for u in adj[v].keys():
                 # push
                 if u not in visited:
-                    adj[i][u] = adj[i][v] * adj[v][u]
+                    adj[i][u] = adj[i][v] * adj[v][u] # path compression & memoize
                     frontier.append(u)
                     visited.add(u)
                 pass
@@ -92,9 +92,9 @@ class Solution(object):
         '''
         # TODO: union-find algorithm?
 
-    def buildGraph(self, equations, values, queries):
+    def _buildGraph(self, equations, values, queries):
         '''
-        Build the graph represented by matrix(actually it's a dictionary)
+        Build the graph represented by sparse matrix(actually it's a dictionary)
         '''
         adj = {}
         for i, equation in enumerate(equations):
