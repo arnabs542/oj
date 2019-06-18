@@ -271,11 +271,16 @@ Examplify and optimize from naive solution by ANALYZING, MODELING, REDUCING and 
 - missing TAIL INCREMENT STATEMENT in iteration
 - wrong order of statements of assigning values
 - missing bound check while incrementing 
+- Multithreaded
+    - Exception causes sub-thread to exit without core dump
+    - illegal memory writes(dangling reference/pointer)
+    - data race
 
 # How to debug code
 - Run it under difference scenarios(in your thinking)!
 
 # How to read code
 - Read the *STATE/DATA* representation, layout, concurrent logic
+- Keep track *variables*(core state): input arguments, return result, etc. Don't read line by line all the time.
 - Understand how data is manipulated, transferred between functions, threads
 - The same way as debugging it: run the code in different scenarios from simple to complex one, in your thinking!

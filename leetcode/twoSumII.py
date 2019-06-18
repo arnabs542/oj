@@ -33,7 +33,7 @@ Complexity: O(N), O(N)
 
 Complexity: O(NlogN), O(1)
 
-3. Two pointers - Graph search, ordered tree, pruning
+3. Two pointers - Graph search, Binary search tree model, pruning
 Think this as a graph search process, but with some pruning process with some greedy strategy.
 
 The target indices i, j must satisfy 0 <= i, j <= n - 1, where n is the length of the array.
@@ -59,7 +59,42 @@ This is similar to "container with most water".
 5 x x x x x |
 6 x x x x x x
 
-The solution correctness can be proved with SET THEORY.
+--------------------------------------------------------------------------------
+The search process can be modeled as a graph, where each vertex is coordinate (i, j),
+indicating summing a[i] and a[j], and the edges are the state transition relation.
+Each vertex has as most four adjacent vertices: (i-1, j), (i+1, j), (i, j-1), (i, j+1).
+sum(i, j) >= sum(i - k, j), for every 0 <= k <= i, and
+sum(i, j) <= sum(i - k, j), for every 0 <= k <= i, since the array is sorted.
+Then each vertex can be viewed as a root node of a binary search tree!
+The left branch of (i, j) is {(x, j) | x < i}, and right branch is {(x, j) |x > i}.
+
+Then here comes binary search!
+
+To illustrate the idea, the graph forms a square(actually it's the right upper triangle,
+since i and j are interchangeable).
+
+We start at (0, n-1), which is apparently the root of the whole binary search tree,
+then traverse the graph/tree!
+Arrow points to larger direction.
+
+(0, 0)    (0, n-1)
+---------->
+|         |
+|         |
+|         |
+|         |
+|         v
+v--------->
+(n-1, 0)  (n-1, n - 1)
+
+
+1) Connectivity:
+any point can be reached from (0, n-1).
+2) Prune
+Paths pruned belong to the non-solution set.
+
+
+To wrap it up:
 - The combination coordinates compose of vertices set of a GRAPH.
 - The graph is a CONNECTED COMPONENT itself: each pair of vertices are connected by paths.
 - At each vertex (i, j) there are four directions/edges to go:
@@ -68,7 +103,7 @@ The solution correctness can be proved with SET THEORY.
     and below/right branch {(x, j)| x > j} yields larger result.
     This has a similar structure to binary search tree, because the array is ORDERED.
 - Start traversing with (0, n - 1), as the root of the TREE, then this tree
-    is like a BINARY SEARCH TREE.
+    is like a BINARY SEARCH TREE with left branch going left and right branch going down.
     1) Every node can be reached from the ROOT by traversing leftward and downward.
     2) To not traverse backward, only left and below directions are followed.
     3) At each time without a match of target sum, the of left/below branch of set

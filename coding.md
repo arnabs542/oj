@@ -1,8 +1,8 @@
 # Tips on white board coding or paper coding
 
-## Reserver space
+## Reserve space
 Don't crowd the code.
-For example, start writing like this.
+For example, start writing like this, reserving space.
 ```cpp
 bool        dfs(string word, Node *p)                           {
     Node *q;
