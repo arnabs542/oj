@@ -84,6 +84,64 @@ Time Complexity: O(Nα(N))≈O(N), where N is the number of vertices (and also t
 
 Space Complexity: O(N). The current construction of the graph (embedded in our dsu structure) has at most N nodes.
 
+##################
+FOLLOW UP
+1. Given a binary tree with redundant connection, remove the redundant edge.
+Input is list of tree edges, and root is not determined. (Google onsite)
+
+(Binary) Tree definition
+-------------------------
+- A TREE IS AN UNDIRECTED ACYCLIC GRAPH
+- Any node with degrees less than 3 can be a root
+- redundant edge creates a CYCLE in the graph
+- A cycle can be detected with graph traversal(depth first search or breadth first search),
+  or UNION FIND algorithm.
+
+Degrees of graph/tree node
+--------------------------
+For a "binary" tree, the degrees of a node lies in set {1, 2, 3}.
+If the degree is 4, then the node must be a entry for the cycle.
+If the degree is 2, the node may or may not  be in the cycle.
+To restore the binary tree, the MAXIMUM degree of nodes must be less than 4.
+And we can always solve the problem by cutting an edge from the NODE WITH MOST DEGREE.
+
+5 - 1 - 2
+    |   |
+    4 - 3
+
+1) dfs
+
+The node to start traversing with
+---------------------------------
+Since the graph isn't given a ROOT to traverse from, we must find such node.
+
+If we traverse from 2, then edge 2-3 may be the back edge, but cutting it won't
+turn the graph into a BINARY tree.
+So we must traverse from the OUTSIDE or the ENTRY of the cycle!
+
+Hypothesis
+----------
+Any node with most degrees must be the ENTRY or outside of the cycle,
+except all nodes have degrees of 2, forming a pure cycle.
+
+Proof
+------
+- Any node must be in or out of the cycle, it's binary scenario.
+- An entry of the cycle means it has DIRECT connection to a node out of the cycle.
+- If the cycle has an entry, then the entry must have degree of at least 3.
+- A node only need to edges to form a cycle, so a third edge definitely connects to
+  a node out of the cycle.
+- So, the node with most degrees to start traversing with will
+
+Find any node with most degrees, and traverse the graph beginning with it.
+In a DFS approach, the first back edge that detects a CYCLE is the redundant edge.
+
+2) Union find
+Enumerate all of its edges, try remove it and check whether cycle still exists.
+If not, that edge is the target edge.
+
+Complexity: O(4n)=O(n).
+
 
 """
 

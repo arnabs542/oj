@@ -60,6 +60,11 @@ Complexity: O(N²), O(N)
 
 3. Combination state to RANGE state
 
+To patch elements, this can be inspected in an element-wise approach,
+like generating permutations in an incremental element-wise process.
+
+Start with one element, and maintain the state of covered range.
+
 The combination sums must form a interval, why not track the range state covered?
 
 The COVERED RANGE can be represented by interval [0, high].
@@ -102,7 +107,7 @@ class Solution(object):
         """
         # return self.__minPatchesBruteForceCombination(nums, n)
         # return self._minPatchesCombinationOpt(nums, n)
-        return self._minPatchesRangeStateTransition(nums, n)
+        return self._minPatchesRangeState(nums, n)
 
     def _minPatchesBruteForceCombination(self, nums, n):
         '''
@@ -188,7 +193,7 @@ class Solution(object):
             pass
         return n_patches
 
-    def _minPatchesRangeStateTransition(self, nums, n):
+    def _minPatchesRangeState(self, nums, n):
         '''
         Scan from 1 to n, maintainer covered range.
         '''

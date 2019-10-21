@@ -22,14 +22,27 @@ Follow up: arrangements of m of n numbers. ( m <= n)
 ================================================================================
 SOLUTION
 
-For a general partial permutation can be obtained in a slot filling manner:
-    generate the permutation position by position, slot by slot.
-
-The generating process forms a DYNAMIC GRAPH, in which the vertices and edges are
-corresponding available elements in the collection.
+The process of generating permutation forms a DYNAMIC GRAPH, i
+n which the vertices and edges are corresponding available elements in the collection.
 
 For the state transition, we have several difference recurrence relation,
 depending on the definition of STATE.
+
+Approach 1 - positionwise state - Slot filling process
+----------
+Generate the permutation position by position, slot by slot.
+
+For example, given sequence [1, 2], the graph grows like this:
+
+Position_1         1 ------- 2 ------- 3
+                   |         |         |
+Position_2         12 - 13   21 - 23   31 - 32
+                   |    |    |     |   |    |
+Position_3         123  132  213  231  321  321
+dead end
+
+Vertex: permutation of first k positions, given the whole set of elements
+Edge: unused element of given set {x | x in input; x not in first k positions}
 
 --------------------------------------------------------------------------------
 1. Dynamic Programming - bottom up breadth first search
@@ -87,6 +100,21 @@ To sum it up, we have to search algorithms: dfs and bfs. For dfs, we can:
     2) Pass indices, for states represented with large objects
     2) Backtrack: mutate state in place, do dfs, restore when dfs subroutine returns.
 
+Approach 2 - elementwise state - Adding elements one by one
+--------------------------------------------------------------------------------
+element_1          1
+                   |
+element_1          12 ------------  21
+                   |                |
+element_1          123 - 132 - 312  213 - 231 - 321
+dead end
+
+Vertex: permutation given by subset of first k elements
+Edge: (k+1)th element
+
+
+
+Approach 3 - Lexicographical generation
 --------------------------------------------------------------------------------
 3. Generative method: Lexicographical order next permutation
 Define the state as one possible partial permutation of K numbers. At each step, find
@@ -122,12 +150,12 @@ Then general procedure skeleton for this would be like
 STOP CRITERIA correspond to the regions where the recursive dfs procedure function returns.
 3) Repeat 1) and 2)
 
-2. Complex case - with backtracking - define states with full information
+2. General case - backtracking - STACK FRAME - define states with full information
 
-Emulate the RECURSION mechanism with STACK.
+Emulate the RECURSION mechanism with STACK FRAME.
 
 --------------------------------------------------------------------------------
-First and most importantly, define the STATE with full information.
+First and most importantly, define the STATE with full STACK FRAME information.
 
 Aggregate the variables used in the recursive procedure, and define the state as a tuple of:
     state = (
@@ -139,34 +167,35 @@ store them as STACK FRAME.
 
 --------------------------------------------------------------------------------
 Second, convert the state transition recurrence relation from recursion to iteration.
-1) Recursive call: pushing stack frame into the stack
-2) Recursive procedure returns: popping out from the stack
-3) Local variable modified: pop out from the stack, and modify the state,
-and push again. This is actually the backtracking.
+1) Recursive CALL => PUSH stack frame into the stack
+2) Recursive procedure RETURN => POP out from the stack
+3) Local variable modified => POP out from the stack, and MODIFY, then PUSH again.
+This is usually the case of the backtracking.
 
 --------------------------------------------------------------------------------
 Operate on the stack, at each frame, we determine whether to PUSH a new frame or POP out
 an existing frame that has already been finished exploring.
 
-Psuedocode to emulate recursion with stack in iterative manner:
+Pseudocode to emulate recursion with stack in iterative manner:
 
 ```
 stack = [(state0)]# Initialize stack with initial state
 while stack is not empty:
     frame = top element of the stack
-    if condition pop is satisfied:
-        # pop to emulate recursive procedure returns
-        if condition a solution is satisfied:
+    if reaches dead end:
+        # pop == recursive procedure returns
+        if solution is found:
             collect current solution
+        # pop and push to explore SIBLING vertex in the graph
         stack.pop()
         if stack: # backtrack, a higher level stack frame
             frame = stack.pop()
-            backtrack: restore state of the frame
-            new_frame = T(frame) # state transition from old to new state
+            restore state of the frame # backtrack
+            new_frame = NextSibling(frame) # state transition: next step, for(;;++i)
             stack.append(new_frame) # push new state
-    else: # push stack to emulate recursive call
-        mutate state of the frame
-        new_frame = T(frame) # state transition from old to new state
+    else: # keep pushing stack, exploring child/adjacent vertices == recursive call
+        mutate state with respect to current frame
+        new_frame = FirstChild(frame) # state transition: first child of next depth
         stack.append(new_frame) # push new state/frame
 return result
 
