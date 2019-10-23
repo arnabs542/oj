@@ -1,17 +1,25 @@
 #include <debug.hpp>
 
+#include <vector>
+#include <map>
+#include <set>
+#include <unordered_set>
+#include <algorithm>
+#include <iostream>
+#include <assert.h>
+
+using namespace std;
 
 class Solution {
 public:
     int findMaximumXOR(vector<int>& nums) {
-        int result = findMaximumXORDfs(nums);
+        int result = findMaximumXORBitwiseGreedy(nums);
 
-        cout << result << endl;
-
+        cout << nums << " => " << result << endl;
         return result;
     }
 
-    int findMaximumXORDfs(vector<int>& nums) {
+    int findMaximumXORBitwiseGreedy(vector<int>& nums) {
         int prefix = 0, mask = 0; // prefix: xor result prefix, mask: bitwise mask
         set<int> exist; // for verifying existence in linear time
         for (int i = 31; i >= 0; --i) // dfs with pruning, without backtracking!
@@ -33,22 +41,47 @@ public:
 
         return prefix;
     }
+
 };
 
-int main(int argc, char *argv[])
+int test()
 {
     Solution solution;
     vector<int> input;
     int result;
-    vector<pair<vector<int>, int>> cases {
-        {make_pair(vector<int>{}, 0)},
-        {make_pair(vector<int>{1}, 0)},
-        {make_pair(vector<int>{1, 2}, 3)},
-        {make_pair(vector<int>{3, 10, 5, 25, 2, 8}, 28)},
-    };
-    for (auto item: cases)
-    {
-        assert(solution.findMaximumXOR(item.first) == item.second);
-    }
+    //vector<pair<vector<int>, int>> cases {
+        //{make_pair(vector<int>{}, 0)},
+        //{make_pair(vector<int>{1}, 0)},
+        //{make_pair(vector<int>{1, 2}, 3)},
+        //{make_pair(vector<int>{3, 10, 5, 25, 2, 8}, 28)},
+    //};
+    //for (auto item: cases)
+    //{
+        //assert(solution.findMaximumXOR(item.first) == item.second);
+    //}
+
+    input = vector<int>{};
+    result = 0;
+    assert(solution.findMaximumXOR(input) == 0);
+
+    input = vector<int>{1};
+    result = 0;
+    assert(solution.findMaximumXOR(input) == result);
+
+    input = vector<int>{1, 2};
+    result = 3;
+    assert(solution.findMaximumXOR(input) == result);
+
+    input = vector<int>{3, 10, 5, 25, 2, 8};
+    result = 28;
+    assert(solution.findMaximumXOR(input) == result);
+
     return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    int rtn = test();
+
+    return rtn;
 }

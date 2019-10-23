@@ -84,25 +84,20 @@ group by next significant bit:
 How to represent the idea???
 ================================================================================
 
-3. Bitwise prefix tree - trie
+3. Bitwise prefix tree - trie - bitwise greedy search
 
-The brute force solution is O(N²), because for each number in the array, we have to
-match it against every other number in the array, which is O(N).
+The brute force solution is O(N²), because for each number in the array,
+we have to match it against every other number in the array, which is O(N).
+
+The maximum integer can be constructed in a bitwise greedy strategy manner:
+    construct the number from most significant bit to least significant bit.
 
 Is there a data structure to reduce this O(N) complexity?
-Well, the numbers in the array can be treated as words in dictionary, and we want to
-match a number against the dictionary.
+Represent the number list with a bitwise TRIE - storing binary representation!
+Yes, the key is still representation.
 
-By matching, I mean constructing the maximum XOR result.
-The maximum integer can be constructed in a greedy strategy manner:
-    choose the maximum significant bits first.
-
-In this situation, apparently, it is a prefix problem in a bitwise perspective:
-    construct the result from most significant bit to least significant bit.
-
-Build a TRIE - PREFIX TREE storing binary representation of all numbers.
 For each number try to find the largest XOR while searching on the tree
-with elaborated matching.
+with greedy choice.
 
 For each number n in nums, we want to find the other number giving largest XOR.
 To achieve so, for each bit b in n, we choose the other number with that bit of ~b,
@@ -126,14 +121,24 @@ if we can.
 Complexity
 O(32N)=O(N), O(1) ~ O(N)
 
-4. Another bitwise solution without trie - prefix state transition & set
+4. Another bitwise - GREEDY VERIFY - prefix mask testing & HASH set
 
-Based on above reasoning, the key to the solution is to construct a maximal prefix.
-And a prefix problem can be solved with trie, in a bitwise perspective.
+Objective: find c such that c = argmax_{a,b}(a ^ b), where a and b are in input.
 
-Note that there are only two digits: 0 and 1, in finite constant space!
-Then it's possible to EXHAUSTED SEARCH for whether the next possible maximal prefix
-"x...x1" can be obtained, with XOR regarding to each of the given numbers.
+To solve the problem, one approach is to EXHAUST ALL PAIRS of (a, b),
+another approach is to EXHAUST ALL TARGET VALUES c and VERIFY and problem.
+The first approach has an optimal solution with bitwise trie.
+
+XOR has identities:
+    If x ^ a = b, then x ^ b = a.
+For any number x, whether x can be obtained with XOR of two numbers in array
+can be verified in O(N) time with HASH set.
+
+But target XOR value has a SEARCH SPACE of O(2^logM), i.e. O(M), M is maximum integer.
+Fortunately, such numerical problem has BITWISE GREEDY property:
+    Target value can be generated in a bitwise greedy way, thus PRUNING THE SEARCH TREE.
+Then the search process is reduced from O(2^logM) to O(logM)=O(32).
+
 
 --------------------------------------------------------------------------------
 Maximum prefix state transition
@@ -143,16 +148,41 @@ next optimal prefix with 1 more bit can only be obtained by appending 0 or 1.
 Then check whether the prefix appended with 1 can be found with XOR.
 
 The recurrence relation is:
-    prefix(k) = prefix(k - 1) | (1 << k), if such prefix can be obtained with XOR,
+    prefix(k) = prefix(k - 1) | (1 << (31-k)), if such prefix can be obtained with XOR,
     else prefix(k - 1).
 
-This means that if prefix(k - 1) | (1 << k) can be found with XOR, then current
-maximum prefix is obtained by setting current bit to 1.
-
-If a ^ b = c, then c ^ a = b.
-
 Complexity
-O(N), O(1) ~ O(N)
+O(NlogM) where M is pow(2,32), O(1) ~ O(N)
+
+Bit manipulation
+================
+
+Set a bit
+x |= (1 << n)
+
+Clear a bit
+x &= ~(1 << n)
+
+Toggle a bit
+x ^= (1 << n)
+
+Test a bit
+x & (1 << n)
+
+Get rightmost set bit
+x & (~x + 1)
+x & -x
+
+Unset rightmost set bit
+x & (x-1)
+
+
+Reference: https://en.wikipedia.org/wiki/Bit_manipulation
+
+
+FOLLOW UP
+================================================================================
+1. Maximum and of two numbers in an array.
 
 
 '''

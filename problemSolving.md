@@ -17,20 +17,30 @@ abstracted into a graphical model.
 
 #### General Mathematical Models
 - Equality: Interval or ranges
+- Bitwise operation: identities, manipulation
 - Counting model
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space
     - count as sum: range sum query...
 - Ordering model
     - Sorting algorithms
+        - brute force: bubble sort, insert sort
+        - bucket: bucket sort
+        - divide and conquer: quick sort, merge sort
+        - tree: bst, heap
+        - lexicographical sort: prefix tree, radix sort
     - Ordered data structure: augmented BST with rank
     - Monotonic analysis
     - Order statistics
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
-    - Linear: array, linked list, stack, queue(deque), priority queue, 
+    - Linear: array, linked list, stack, queue(deque), priority queue, double ended queue
     - Associative/mapping: hash table, buckets, inverted index
-    - Tree: (balanced)binary search tree, kd-tree, range query tree, implicit representation of heap
-    - Range query: segment tree, binary indexed tree
+    - Tree:
+        - (self-balancing)binary search tree, augmented self-balancing bst
+        - Range query: segment tree, binary indexed tree
+        - prefix tree(trie): suffix tree, bitwise prefix tree
+        - kd-tree
+        - implicit array representation of heap
     - Graph: vertexes and edges/connections
 - GRAPH model: multiple branches, many to many connections
     - Depth first search: all paths, one path, backtracking
@@ -68,7 +78,13 @@ abstracted into a graphical model.
         - Monotonic stack/queue
 - Pointers model: two pointers, ...
 - Prefix or suffix
-- Subarray and subsequence
+- Substring and subsequence
+    - search substring: brute force, finite automate, kmp, rolling hash, trie?
+    - longest common substring: brute force, dynamic programming, suffix tree
+    - longest common subsequence
+    - longest repeated substring
+    - palindrome substring
+    - regular expression: dynamic programming, backtracking(dfs), finite automate
 - Partition
     - Pointers split: three way partition(dnf)
     - Binary split: binary search tree, segment tree
@@ -165,8 +181,15 @@ Delete: O(n)
 
 #### Bucket
 
-#### Tree data structure - special graph with only tree edges
+#### Tree data structure - special graph with only tree edges - graph without cycle!
 The core idea of tree is divide and conquer: structure data in properly partitioned spaces.
+
+Traversal:
+- dfs(N)
+    - preorder: NLH
+    - inorder: LNH
+    - postorder: LHN
+- bfs
 
 ##### Aspects of trees
 - General tree search: preorder, inorder, postorder, level order.
@@ -177,14 +200,36 @@ Tree structure with implicit data structure: array.
 
 ##### Binary search tree
 
-##### Balanced binary search tree
+##### Self balancing binary search tree
+- Red black tree
+- AVL tree
+- Order statistics tree
 
 ##### Segment tree - range query
 
 ##### Binary indexed tree - range query
 A tree structure dealing with prefix sum.
+parent(x) = x - (x&-x), removing least significant bit 1
+update sibling(x) = x + (x&-x)
+
+2D binary indexed tree: Cartesian product of 1d binary indexed tree.
+Complexity: O(MNlog(M+N))
+
+#### Prefix tree
+- string prefix tree(trie)
+- bitwise trie
+- suffix tree: build a trie with suffixes
+
+Optimization:
+- compression
+
 
 #### Disjoint set
+- union(u, v)
+- find(v)
+
+Optimization:
+- compression
 
 
 ### Analytical models
