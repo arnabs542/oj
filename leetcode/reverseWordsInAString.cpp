@@ -17,7 +17,7 @@ public:
      */
     void _reverseWordsTwoPassesReverse(string &s) {
         // DONE: remove extra white spaces by overwriting with non-spaces.
-        uint i = 0, j = 0; // i: next pointer to write, pointer to read
+        unsigned int i = 0, j = 0; // i: next pointer to write, pointer to read
         while (j < s.size() && s[j] == ' ') ++j; // first non empty character
         for (; j < s.size(); ++j) {
             if (s[j] == ' ' && j && s[j - 1] == ' ') continue; // don't copy extra space
@@ -41,7 +41,7 @@ public:
     // the pass to reverse characters each word.
     void _reverseWordsTwoPassesReverseOpt(string &s) {
         reverse(s.begin(), s.end()); // 1 pass: reverse the whole string
-        uint pWrite = 0, pRead = 0, wordLen = 0;
+        unsigned int pWrite = 0, pRead = 0, wordLen = 0;
         while (pRead < s.size()) { // 2 pass: revers each word
             wordLen = 0;
             while(pRead < s.size() && s[pRead] == ' ') pRead++; // to word begin

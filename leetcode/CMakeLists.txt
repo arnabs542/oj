@@ -81,6 +81,7 @@ add_executable(longestPalindromicSubsequence longestPalindromicSubsequence.cpp)
 add_executable(palindromicSubstrings palindromicSubstrings.cpp)
 add_executable(reverseWordsInAString reverseWordsInAString.cpp)
 add_executable(maximumXOROfTwoNumbersInAnArray maximumXOROfTwoNumbersInAnArray.cpp)
+add_executable(expressionAddOperators expressionAddOperators.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)

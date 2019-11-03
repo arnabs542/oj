@@ -202,7 +202,7 @@ public:
                 ++si;
                 ++pi;
             } else if (p[pi] == '*') {
-                for (uint k = si; k <= s.length(); ++k) {
+                for (unsigned int k = si; k <= s.length(); ++k) {
                     if (dfs(s, p, k, pi + 1)) {
                         return true;
                     } // XXX: exhausted searching for negative, of course slow
@@ -234,7 +234,7 @@ public:
                 ++pi;
             } else if (p[pi] == '*') {
                 while (pi < p.size() - 1 && p[pi + 1] == '*') ++pi; // skip successive '*'
-                for (uint k = si; k <= s.length(); ++k) {
+                for (unsigned int k = si; k <= s.length(); ++k) {
                     int ret = dfs(s, p, k, pi + 1);
                     if (ret == -1 || ret == 1) { return ret; } // avoid exhaustive search for negative
                 }
