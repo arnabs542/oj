@@ -22,6 +22,7 @@ abstracted into a graphical model.
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space
     - count as sum: range sum query...
+    - all condition converted maximum or minimum
 - Ordering model
     - Sorting algorithms
         - brute force: bubble sort, insert sort

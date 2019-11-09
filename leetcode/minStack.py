@@ -33,7 +33,7 @@ Example:
 ==============================================================================================
 SOLUTION
 
-1. Use TWO STACKS.
+1. Use TWO STACKS - monotonic stack.
 
 This data structure supports all operations of stack, as well as getMin.
 To meet the first requirement, we need a stack to store raw data.

@@ -19,12 +19,14 @@ For example, given the following matrix:
 1 0 0 1 0
 Return 4.
 
-===============================================================================================
+================================================================================
 SOLUTION:
-    1. In a brute-force way, we need to check m*n points in the matrix, for which we have to
-verify the valid square in amortized min(m, n) time complexity, giving overall O(m*n(min(m, n))).
-    2. Dynamic Programming, keep track of side length of squares with a bottom-right point at
-(i, j) in the matrix. Then we have state transition solved in O(1) time complexity:
+    1. In a brute-force way, we need to check m*n points in the matrix, for which
+we have to verify the valid square in amortized min(m, n) time complexity,
+giving overall O(m*n(min(m, n)^2)).
+    2. Dynamic Programming, keep track of side length of maximum square with
+a bottom-right vetex at (i, j) in the matrix.
+Then we have state transition solved in O(1) time complexity.
 
 '''
 
