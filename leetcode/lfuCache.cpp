@@ -84,6 +84,18 @@ Maintain such two data structure:
    Each node represents frequency, a linked list of nodes(key, value).
    And the linked list of nodes can implement the least recently used cache.
 
+"frequency"    "separate chained (key, value) nodes"
+1: x -> y
+2: z -> a
+5: b
+9: c
+
+After hit x,
+1: y
+2: z -> a -> x
+5: b
+9: c
+
 And also, hash table can be used to contain the nested linked list, since remove key freq
 and insert key freq+1 both take O(1) time complexity.
 
@@ -142,7 +154,7 @@ public:
         return value;
     }
 
-    int incrementFrequency(int key) {
+    inline int incrementFrequency(int key) {
         DataNode *pNode = *mKeyToItr.at(key);
         int &freq = pNode->freq;
         int &value = pNode->value;
@@ -151,18 +163,15 @@ public:
         mFreqToNodes[++freq].push_back(pNode); // frequency+1, append to adjacent list
         mKeyToItr[key] = --mFreqToNodes[freq].end(); // update key to list iterator
 
-        if (mMinFreq == freq - 1) {
-            if (mFreqToNodes[mMinFreq].empty()) {
-                ++mMinFreq; // update min frequency
-                // TODO: trim map size?
-            }
+        if (mFreqToNodes[mMinFreq].empty()) {
+            ++mMinFreq; // update min frequency. TODO: trim map size?
         }
 
         return value;
     }
 
     void put(int key, int value) {
-        if (0 == mCapacity) return; // capacity = 0
+        if (mCapacity <= 0) return; // capacity = 0
         if (mKeyToItr.find(key) != mKeyToItr.end()) {
             (*mKeyToItr[key])->value = value;
             incrementFrequency(key); // hit! key value already exists, increment only
@@ -170,10 +179,7 @@ public:
         } else {
             // edge case: capacity 0
             // evict, reaches capacity limit
-            if ((int)mKeyToItr.size() >= mCapacity
-                    && mFreqToNodes.count(mMinFreq)
-                    && !mFreqToNodes[mMinFreq].empty()
-                    ) {
+            if ((int)mKeyToItr.size() >= mCapacity && !mFreqToNodes[mMinFreq].empty()) {
                 DataNode *pNode = mFreqToNodes[mMinFreq].front(); // pop from list
                 mFreqToNodes[mMinFreq].pop_front();
                 mKeyToItr.erase(pNode->key); // remove from map
@@ -185,7 +191,7 @@ public:
             pNode->freq = mMinFreq = 1; // update frequency
 
             mFreqToNodes[1].push_back(pNode); // insert key, value
-            mKeyToItr[key] = --mFreqToNodes[1].end(); // ERROR: miswritten 1 as key.
+            mKeyToItr[key] = --mFreqToNodes[1].end(); // [BUG] miswritten 1 as key.
         }
     }
 
@@ -249,6 +255,11 @@ int main(int argc, char *argv[])
     ops = {"LFUCache","put","put","get","put","get","get","put","get","get","get"};
     nums = {{2},      {1,1},{2,2},{1},  {3,3},{2},  {3},  {4,4},{1},  {3},  {4}};
     values = {1, -1, 3, -1, 3, 4};
+    assert(test(ops, nums) == values);
+
+    ops = {"LFUCache","put","put","get","get","get","put","get", "get"};
+    nums = {{2},      {1,1},{2,2},{2},  {2},  {1},  {3,3},{1},{3}};
+    values = {2, 2, 1, -1, 3};
     assert(test(ops, nums) == values);
 
     cout << "self test passed" << endl;
