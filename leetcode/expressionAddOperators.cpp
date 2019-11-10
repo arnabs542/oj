@@ -65,6 +65,8 @@ Then the problem is reduced to:
 Apparently, g(s) can be done with dfs(depth first search) too, with memoization.
 g(s) -> int(s[0:i]) * g(s[i:]), for i = 0, ..., m-1, where len(s) == m.
 
+DEBUG
+Compile with -fsanitize=address,undefined to detect runtime errors.
 
  *
  */
@@ -117,6 +119,7 @@ public:
                 string expr = num.substr(p, k - p + 1) + '*' + partialResults[i].first;
                 try {
                     int operand = stoi(num.substr(p, k - p + 1));
+                    // FIXME: handle division by zero
                     if (operand  < 1.0 * numeric_limits<int>::max() / partialResults[i].second)
                         products.push_back(make_pair(expr, operand * partialResults[i].second));
                 }catch(exception e) {
@@ -160,21 +163,22 @@ public:
         for (int i = k; i >= 0; --i) { // 2
             vector<pair<string, int>> lastProducts = findProducts(num, i, k); // list of <expression, number>. {<3,3>}
             for (size_t j = 0; j < lastProducts.size(); ++j) {
-                if (numeric_limits<int>::max() >= lastProducts[j].second + target) {
+                if (numeric_limits<int>::max() - lastProducts[j].second  >= target) {
                     const vector<string> &partialResults1 = dfs(num, i - 1, target + lastProducts[j].second); // -
                     for (const string &partialExpr: partialResults1) {
                         results.push_back(partialExpr + "-" + lastProducts[j].first);
                     }
                 }
-                else cout << "overflow: " << target << "+" << lastProducts[j].second << " " << numeric_limits<int>::max() - target;
+                //else cout << "overflow: " << target << "+" << lastProducts[j].second << " " << numeric_limits<int>::max() - target;
 
-                if (target - lastProducts[j].second >= numeric_limits<int>::min()) {
+                // XXX: deal with overflow/underflow elegantly?
+                if (target >= numeric_limits<int>::min() + lastProducts[j].second) {
                     const vector<string> &partialResults2 = dfs(num, i - 1, target - lastProducts[j].second); // +
                     for (const string &partialExpr: partialResults2) {
                         results.push_back(partialExpr + "+" + lastProducts[j].first);
                     }
                 }
-                else cout << "underflow: " << target << "-" << lastProducts[j].second << " " << (-numeric_limits<int>::min() + target);
+                //else cout << "underflow: " << target << "-" << lastProducts[j].second << " " << (-numeric_limits<int>::min() + target);
                 // XXX: dead end. i == 0? check solution!
                 if (i == 0 && lastProducts[j].second == target)
                     results.push_back(lastProducts[j].first);

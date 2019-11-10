@@ -59,7 +59,7 @@ Complexity:
 put: O(logN)
 get: O(logN)
 
-3. Separate chaining - Hash table with nested linked list
+3. Separate chaining - bucket duplicate items - hash table with nested linked list
 
 The difficulty is to maintain ordered frequency list. And the core idea is:
     CHANGE BY ONE property: frequency is changed by 1 every time accessed!
@@ -139,9 +139,9 @@ public:
     virtual ~LFUCache() {};
 };
 
-class LFUCacheHashAnd2DLinkedLists: public LFUCache {
+class LFUCacheSeparateChain: public LFUCache {
 public:
-    LFUCacheHashAnd2DLinkedLists(int capacity): LFUCache(capacity) {
+    LFUCacheSeparateChain(int capacity): LFUCache(capacity) {
         mCapacity = capacity;
     }
 
@@ -159,11 +159,11 @@ public:
         int &freq = pNode->freq;
         int &value = pNode->value;
 
-        mFreqToNodes.at(freq).erase(mKeyToItr.at(key)); // remove from old list
-        mFreqToNodes[++freq].push_back(pNode); // frequency+1, append to adjacent list
-        mKeyToItr[key] = --mFreqToNodes[freq].end(); // update key to list iterator
+        mFreqToList.at(freq).erase(mKeyToItr.at(key)); // remove from old list
+        mFreqToList[++freq].push_back(pNode); // frequency+1, append to adjacent list
+        mKeyToItr[key] = --mFreqToList[freq].end(); // update key to list iterator
 
-        if (mFreqToNodes[mMinFreq].empty()) {
+        if (mFreqToList[mMinFreq].empty()) {
             ++mMinFreq; // update min frequency. TODO: trim map size?
         }
 
@@ -179,9 +179,9 @@ public:
         } else {
             // edge case: capacity 0
             // evict, reaches capacity limit
-            if ((int)mKeyToItr.size() >= mCapacity && !mFreqToNodes[mMinFreq].empty()) {
-                DataNode *pNode = mFreqToNodes[mMinFreq].front(); // pop from list
-                mFreqToNodes[mMinFreq].pop_front();
+            if ((int)mKeyToItr.size() >= mCapacity && !mFreqToList[mMinFreq].empty()) {
+                DataNode *pNode = mFreqToList[mMinFreq].front(); // pop from list
+                mFreqToList[mMinFreq].pop_front();
                 mKeyToItr.erase(pNode->key); // remove from map
                 delete pNode;
             }
@@ -190,8 +190,8 @@ public:
             pNode->value = value;
             pNode->freq = mMinFreq = 1; // update frequency
 
-            mFreqToNodes[1].push_back(pNode); // insert key, value
-            mKeyToItr[key] = --mFreqToNodes[1].end(); // [BUG] miswritten 1 as key.
+            mFreqToList[1].push_back(pNode); // insert key, value
+            mKeyToItr[key] = --mFreqToList[1].end(); // [BUG] miswritten 1 as key.
         }
     }
 
@@ -204,7 +204,7 @@ public:
 
     int mCapacity = 0;
 
-    unordered_map<int, list<DataNode*>> mFreqToNodes; //<freq, list<node>>
+    unordered_map<int, list<DataNode*>> mFreqToList; //<freq, list<node>>
     unordered_map<int, list<DataNode*>::iterator> mKeyToItr; // <key, iterator>
     int mMinFreq = 0;
 
@@ -218,7 +218,7 @@ vector<int> test(const vector<string> &ops, const vector<vector<int>> &nums)
 
     int capacity = nums[0][0];
 
-    LFUCache *obj = new LFUCacheHashAnd2DLinkedLists(capacity);
+    LFUCache *obj = new LFUCacheSeparateChain(capacity);
 
     for (size_t i = 1; i < ops.size(); ++i)
     {

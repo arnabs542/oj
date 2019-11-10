@@ -22,8 +22,8 @@ endif (NOT CMAKE_BUILD_TYPE)
 #set(CMAKE_CXX_FLAGS_MINSIZEREL "put your flags")
 #set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "put your flags")
 #set(CMAKE_CXX_FLAGS_RELEASE "put your flags")
-# enable address sanitizer with -fsanitize=address
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11 -fsanitize=address")
+# enable sanitizer: -fsanitize=address,undefined,integer
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11 -fsanitize=address,undefined")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -std=c++11")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11")
 
@@ -84,6 +84,7 @@ add_executable(reverseWordsInAString reverseWordsInAString.cpp)
 add_executable(maximumXOROfTwoNumbersInAnArray maximumXOROfTwoNumbersInAnArray.cpp)
 add_executable(expressionAddOperators expressionAddOperators.cpp)
 add_executable(lfuCache lfuCache.cpp)
+add_executable(allOoneDataStructure allOoneDataStructure.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
