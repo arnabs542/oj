@@ -34,7 +34,13 @@ This means that the first dimension data structure has to be ordered linked list
 
 Maintain two data structure:
 - linked list: <frequency, list of a bucket>
-- bucket: list, unordered set that support O(1) insert/delete
+- bucket(separate chaining): list or hash set that supports O(1) insert/delete
+
+Optimize
+--------
+Data structure for bucket list can be implemented with hash set, then we don't
+need to maintain the mapping from value to bucket.
+
 
 */
 
@@ -79,31 +85,22 @@ public:
     /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
     virtual void inc(string key) {
         pair<string, int> item {key, 1};
-        // already exists
-        if (mKeyToItr.find(key) != mKeyToItr.end()) {
+        list<Bucket>::iterator it;
+        if (mKeyToItr.find(key) != mKeyToItr.end()) { // already exists
             item.second = mKeyToItr.at(key)->second;
-            list<Bucket>::iterator it = mValueToBucket[item.second++];
-            list<Bucket>::iterator it1 = next(it);
-            it->nodes.erase(mKeyToItr.at(key)); // remove from old list
-            if (it->nodes.empty()) mBucketList.erase(it); // delete empty bucket
-
-            if (it1 == mBucketList.end() || (it1->value != item.second)) {
-                it1 = mBucketList.insert(it1, Bucket()); // new bucket
-                it1->value = item.second;
-                mValueToBucket[item.second] = it1;
+            list<Bucket>::iterator it0 = mValueToBucket[item.second++];
+            it = next(it0);
+            it0->nodes.erase(mKeyToItr.at(key)); // remove from old list
+            if (it0->nodes.empty()) {
+                mBucketList.erase(it0); // delete empty bucket
+                mValueToBucket.erase(item.second-1);
             }
-            mKeyToItr[key] = it1->nodes.insert(it1->nodes.end(), item); // update mapping
+        } else { it = mBucketList.begin(); }
 
-        } else {
-            list<Bucket>::iterator it = mBucketList.begin();
-            if (it == mBucketList.end() || it->value != 1) {
-                mBucketList.insert(mBucketList.begin(), Bucket()); // new bucket
-                mBucketList.front().value = item.second;
-            }
-
-            mValueToBucket[item.second] = mBucketList.begin(); // update map to itr
-            mKeyToItr[key] = mBucketList.front().nodes.insert(mBucketList.front().nodes.end(), item);
+        if (it == mBucketList.end() || (it->value != item.second)) { // found the bucket
+            mValueToBucket[item.second] = it = mBucketList.insert(it, {item.second, {}}); // new bucket
         }
+        mKeyToItr[key] = it->nodes.insert(it->nodes.end(), item); // update mapping
     }
 
     /** Decrements an existing key by 1. If Key's value is 1, remove it from the data structure. */
@@ -119,14 +116,16 @@ public:
             mKeyToItr.erase(key); //  remove 0 value
         } else {
             if (it1 == mBucketList.end() || it1->value != item.second) {
-                it1 = mBucketList.insert(it, Bucket()); // construct bucket first
-                it1->value = item.second;
+                it1 = mBucketList.insert(it, Bucket{item.second, {}}); // new bucket
             }
             mValueToBucket[item.second] = it1;
             mKeyToItr[key] = it1->nodes.insert(it1->nodes.end(), item);
         }
 
-        if (it->nodes.empty()) mBucketList.erase(it); // delete bucket?
+        if (it->nodes.empty()) {
+            mValueToBucket.erase(it->value);
+            mBucketList.erase(it); // delete bucket?
+        }
     }
 
     /** Returns one of the keys with maximal value. */
