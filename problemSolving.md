@@ -1,4 +1,4 @@
-# [Problem Solving Approaches and Techniques](https://en.wikipedia.org/wiki/Problem_solving)
+# Problem Solving Approaches and Techniques
 Problems you have never heard before may be hard to solve, so fact it, embrace it!
 
 TAKE THE CHALLENGE!
@@ -17,7 +17,7 @@ abstracted into a graphical model.
 
 #### General Mathematical Models
 - Equality: Interval or ranges
-- Bitwise operation: identities, manipulation
+- Binary representation: bitwise identities, manipulation
 - Counting model
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space
@@ -27,67 +27,22 @@ abstracted into a graphical model.
     - Sorting algorithms
         - brute force: bubble sort, insert sort
         - bucket: bucket sort
-        - divide and conquer: quick sort, merge sort
+        - divide and conquer: quick sort, quick select partitioning, merge sort
         - tree: bst, heap
         - lexicographical sort: prefix tree, radix sort
     - Ordered data structure: augmented BST with rank
     - Monotonic analysis
     - Order statistics
-- Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
-    - Linear: array, linked list, stack, queue(deque), priority queue, double ended queue
-    - Associative/mapping: hash table, buckets, inverted index
-    - Tree:
-        - (self-balancing)binary search tree, augmented self-balancing bst
-        - Range query: segment tree, binary indexed tree
-        - prefix tree(trie): suffix tree, bitwise prefix tree
-        - kd-tree
-        - implicit array representation of heap
-    - Graph: vertexes and edges/connections
-- GRAPH model: multiple branches, many to many connections
-    - Depth first search: all paths, one path, backtracking
-    - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
-    - Union find: connected components
-- STATE TRANSITION
-    - state definition - PERSPECTIVE matters!
-        - collection
-            - range
-            - indexes: vertices and edges set
-            - ...
-        - numerical value
-    - states representation
-        - bits
-        - integers: target number,
-        - sets state: vertices, edges, 
-            - combinatorial state
-        - RANGE STATE: some sets form a continuous range, such as covered range during traversal, ...
-        - Define local optimal bounded here(starting/ending here, within range)
-    - state transition technique 
-        - STATE MACHINE
-            - Deterministic finite automata(DFA)
-            - Nondeterministic finite automata(NFA: regular expression, ...)
-        -  RECURRENCE RELATION(递推关系)
-            - Divide and conquer: partition into disjoint subproblems
-            - Backward induction
-            - DYNAMIC PROGRAMMING: overlapping subproblems
-            - Greedy strategy 
-                - monotonic stack/queue
-                - heap
-    - state transition form
-        - Sequential recurrence relation: one end dimensional dynamic programming
-        - Partition recurrence relation: divide and conquer, two ends dynamic programming
-        - Sliding window recurrence relation: offset and stride
-        - Monotonic stack/queue
-- Pointers model: two pointers, ...
-- Prefix or suffix
 - Substring and subsequence
+    - Prefix or suffix
     - search substring: brute force, finite automate, kmp, rolling hash, trie?
     - longest common substring: brute force, dynamic programming, suffix tree
     - longest common subsequence
     - longest repeated substring
     - palindrome substring
     - regular expression: dynamic programming, backtracking(dfs), finite automate
-- Partition
-    - Pointers split: three way partition(dnf)
+- Partition model
+    - Pointers partition: quick sort partition, three way partition(dnf), divide and conquer
     - Binary split: binary search tree, segment tree
     - Exponential split: binary indexed tree
 - Calculus: change rate
@@ -104,6 +59,62 @@ abstracted into a graphical model.
     - CARTESIAN PRODUCT
 - probability: pdf, cdf, pmf, ...
     - joint, marginal, conditional probability
+
+
+Data structures
+- Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
+    - Linear: array, linked list, stack, queue(deque), priority queue, double ended queue
+    - Associative/mapping: hash table, buckets, inverted index
+    - Tree:
+        - (self-balancing)binary search tree, augmented self-balancing bst
+        - Range query: segment tree, binary indexed tree
+        - prefix tree(trie): suffix tree, bitwise prefix tree
+        - kd-tree
+        - implicit array representation of heap
+    - Graph: vertexes and edges/connections
+        - Characteristics: multiple branches, many to many connections
+        - Algorithm
+            - Depth first search: all paths, one path, backtracking
+            - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
+            - Union find: connected components
+            - Cycle detection: dfs, bfs, tortoise and hare
+
+State transition technique
+- STATE TRANSITION - the key is to model the problem and define proper state
+    - state representation - PERSPECTIVE matters!
+        - single variable state
+            - integers: target number,
+            - bits
+            - string
+        - interval state
+            - Two ended interval state:
+            - One ended interval state: optimal solution ending here(kmp, maximum subarray, covered range)
+        - combinatorial state
+            - sets state: vertices, edges, 
+            - combination
+            - permutation (most complex)
+    - state definition
+        - optimal solution so far
+        - optimal solution ending here
+        - optimal solution within range
+    - state transition technique 
+        - STATE MACHINE
+            - Deterministic finite automata(DFA)
+            - Nondeterministic finite automata(NFA: regular expression, ...)
+        -  RECURRENCE RELATION(递推关系)
+            - Divide and conquer: partition into disjoint subproblems
+            - Backward induction
+            - DYNAMIC PROGRAMMING: overlapping subproblems
+                - f(n): optimal solution of substructure ending here
+                - f(p, q): optimal solution of substructure within range (p, q)
+            - Greedy strategy
+                - monotonic stack/queue
+                - heap
+    - state transition form
+        - Sequential recurrence relation: one end dimensional dynamic programming
+        - Partition recurrence relation: divide and conquer, two ends dynamic programming
+        - Sliding window recurrence relation: offset and stride
+        - Monotonic stack/queue
 
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES: backward induction, ...
@@ -210,8 +221,9 @@ Tree structure with implicit data structure: array.
 
 ##### Binary indexed tree - range query
 A tree structure dealing with prefix sum.
-parent(x) = x - (x&-x), removing least significant bit 1
-update sibling(x) = x + (x&-x)
+- Get last significant bit 1 mask(x) = x & (-x)
+- parent(x) = x - (x&-x), removing least significant bit 1
+- update sibling(x) = x + (x&-x), adding least significant bit 1
 
 2D binary indexed tree: Cartesian product of 1d binary indexed tree.
 Complexity: O(MNlog(M+N))
