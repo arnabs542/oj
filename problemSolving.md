@@ -223,7 +223,7 @@ Tree structure with implicit data structure: array.
 ##### Binary indexed tree - range query
 A tree structure dealing with prefix sum.
 - Get last significant bit 1 mask(x) = x & (-x)
-- parent(x) = x - (x&-x), removing least significant bit 1
+- parent(x) = x - (x&-x) = x & (x-1), removing least significant bit 1
 - update sibling(x) = x + (x&-x), adding least significant bit 1
 
 2D binary indexed tree: Cartesian product of 1d binary indexed tree.

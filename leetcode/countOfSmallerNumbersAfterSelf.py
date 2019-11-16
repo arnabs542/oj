@@ -25,7 +25,8 @@ Return the array [2, 1, 1, 0].
 ==============================================================================================
 SOLUTION
 
-1. Brute force. for each element, count the smaller numbers after self.
+1. Brute force
+For each element, count the smaller numbers after self.
 Complexity: O(N²)
 
 --------------------------------------------------------------------------------
@@ -50,11 +51,11 @@ Use binary search for lower bound, where the new element will be inserted.
 Finding lower bound is because the problem requires number smaller than, without equality.
 
 Complexity: O(NlogN) ?
-The array inserting operation is O(N), so the  complexity is O(N²).
+The array inserting operation is O(N), so the  complexity is still O(N²).
 
 TODO: using builtin bisect module will be faster.
 
-3. Sort - Merge sort
+3. Divide and conquer - Sort - Merge sort
 
 With merge sort, the array is always partitioned into two parts: the front part and
 back part. And the back part elements are always AFTER the front part elements.
@@ -65,9 +66,10 @@ Since they are already sorted, it's easy to find the upper bound with linear sca
 
 Backward merging is a similar idea like in "./MergeSortedArray.py".
 
-Sort the indices.
+Sort the indices array while comparing array values pointed by indices.
 
-O(nlogn)
+Complexity:
+O(NlogN)
 
 4. Sort - augmented binary search tree
 Augment the binary search tree with rank to contain number of nodes.
@@ -76,6 +78,8 @@ Sort backward.
 
 --------------------------------------------------------------------------------
 COUNT AS SUM, RANGE QUERY of SUM
+
+Range smaller => range sum query.
 
 Convert counting problem into a summing problem, and use range query to query sum.
 
@@ -86,7 +90,10 @@ where I is the binary INDICATOR FUNCTION, equal to 1 when event is true.
 Then, to count the numbers smaller, the count can be quantified as
 count(nums[j] < nums[i], j > i| i)
     = \sum_{j=i + 1}^{N}I(nums[j] < nums[i])
-    = \sum_{j=min(nums)}^{nums[i] - 1}I(j \in nums[i + 1:])
+    = \sum_{k=min(nums)}^{nums[i] - 1}I(k \in nums[i + 1:])
+
+In this way, problem of count of smaller numbers after self is transformed to
+range sum, and the range interval is [min(nums), nums[i] -1]
 
 Then the counting problem is converted to RANGE SUM QUERY!
 Range sum query can be efficiently done with trees:
@@ -99,6 +106,12 @@ the indicator function of elements, where the range is
 
 Process the array backward, for each element, the indicator function
 has value 1, and update the range query tree.
+
+Procedure
+---------
+for i = n, ..., 1:
+    rangeSumQuery.update(nums[i], 1)
+    rangeSumQuery.query(nums[i] - 1)
 
 Since only the relative order of numbers matter, we can map the values
 in nums to their order index. Then the maximum range is [1, N].
@@ -163,25 +176,24 @@ class Solution(object):
         return count
 
     def _countSmallerMergeSort(self, nums: list) -> list:
-        # TODO: merge sort
         def mergeSort(arr, low, high):
+            """
+            sort arr in ascending order
+            """
             if low >= high: return
             mid = (low + high) // 2
-            mergeSort(arr, low, mid)
+            mergeSort(arr, low, mid) # divide and conquer
             mergeSort(arr, mid + 1, high)
 
-            left = list(arr[low:mid+1])
+            left = list(arr[low:mid+1]) # copy lists
             right = list(arr[mid+1:high+1])
-            # print('left, right', left,right)
 
             top = high
-            i, j = mid - low, high - mid - 1
+            i, j = mid - low, high - mid - 1 # largest index in subarray
             while i >= 0 and j >= 0:
-                # print(left[i], right[j], nums[left[i]] > nums[right[j]])
                 if nums[left[i]] > nums[right[j]]: # compare with indices
                     arr[top] = left[i]
                     count[left[i]] += j + 1
-
                     i -= 1 # XXX: decrement it last...
                 else:
                     arr[top] = right[j]
@@ -197,7 +209,6 @@ class Solution(object):
                 top -= 1
                 pass
 
-        # count = [0] * len(nums)
         count = [0 for _ in range(len(nums))]
         indices = list(range(len(nums)))
         mergeSort(indices, 0, len(nums) - 1)
