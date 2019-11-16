@@ -86,6 +86,7 @@ add_executable(expressionAddOperators expressionAddOperators.cpp)
 add_executable(lfuCache lfuCache.cpp)
 add_executable(allOoneDataStructure allOoneDataStructure.cpp)
 add_executable(constructQuadTree constructQuadTree.cpp)
+add_executable(wiggleSort wiggleSort.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
