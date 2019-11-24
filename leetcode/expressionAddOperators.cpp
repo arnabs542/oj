@@ -68,6 +68,8 @@ g(s) -> int(s[0:i]) * g(s[i:]), for i = 0, ..., m-1, where len(s) == m.
 DEBUG
 Compile with -fsanitize=address,undefined to detect runtime errors.
 
+Complexity: O(3^(n-1)).
+
  *
  */
 
@@ -155,6 +157,7 @@ public:
         }
         if (k == 0 && num[0] - '0' == target) // careful: char to int
             return vector<string> {string(1, num[0])};
+        cout << num[-1];
 
         // memoization
         if (cachedExpressions.find(make_pair(k, target)) != cachedExpressions.end()) return cachedExpressions[make_pair(k, target)];

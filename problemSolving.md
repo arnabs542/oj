@@ -18,6 +18,7 @@ abstracted into a graphical model.
 #### General Mathematical Models
 - Equality: Interval or ranges
 - Binary representation: bitwise identities, manipulation
+- Modulo operation: modulo can contain two information: a, r = div(n, b)
 - Counting model
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space

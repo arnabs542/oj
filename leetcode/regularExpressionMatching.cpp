@@ -306,6 +306,11 @@ isMatch(char *s, char *p)
     return rematch(p, s);
 }
 
+bool isMatch(string s, string p)
+{
+    return isMatch(s.c_str(), p.c_str());
+}
+
 void test()
 {
     assert(isMatch("", ""));

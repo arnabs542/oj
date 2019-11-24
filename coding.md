@@ -19,6 +19,7 @@ Use a top down approach.
 - Check INITIALIZATION
 - Check OFF BY ONE error
 - Check overflow/underflow
+- Check return and break state!
 - Run TEST cases
 
 

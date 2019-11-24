@@ -89,6 +89,8 @@ add_executable(constructQuadTree constructQuadTree.cpp)
 add_executable(wiggleSort wiggleSort.cpp)
 add_executable(implementRand10UsingRand7 implementRand10UsingRand7.cpp)
 add_executable(generateRandomPointInACircle generateRandomPointInACircle.cpp)
+add_executable(circularArrayLoop circularArrayLoop.cpp)
+add_executable(minimumGeneticMutation minimumGeneticMutation.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
