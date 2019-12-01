@@ -92,6 +92,8 @@ add_executable(generateRandomPointInACircle generateRandomPointInACircle.cpp)
 add_executable(circularArrayLoop circularArrayLoop.cpp)
 add_executable(minimumGeneticMutation minimumGeneticMutation.cpp)
 add_executable(poorPigs poorPigs.cpp)
+add_executable(stoneGame stoneGame.cpp)
+add_executable(stoneGameII stoneGameII.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)

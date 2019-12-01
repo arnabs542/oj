@@ -100,7 +100,7 @@ public:
 
     int poorPigsKBasedRepresentation(int buckets, int minutesToDie, int minutesToTest) {
         int &n = buckets;
-        int t = (minutesToTest / minutesToDie); // t tests
+        const int &t = (minutesToTest / minutesToDie); // t tests
         return std::ceil(std::log(n)/std::log(t+1));
     }
 };

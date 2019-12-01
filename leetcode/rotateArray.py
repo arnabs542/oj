@@ -28,13 +28,17 @@ class Solution(object):
         :type k: int
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        return self.rotateSlice(nums, k)
+        # return self.rotateSlice(nums, k)
+        # return self.rotateInsert(nums, k)
+        return self.rotateReverse(nums, k)
 
     def rotateInsert(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
         :rtype: void Do not return anything, modify nums in-place instead.
+
+        This approach is better suited for linked list rotation.
         """
         for i in range(k):
             nums.insert(0, nums.pop())
@@ -49,9 +53,26 @@ class Solution(object):
         nums[:] = nums[-k:] + nums[:-k]
 
     # TODO: linear space(in-place)?
+    def rotateReverse(self, nums, k):
+        if not nums: return
+        n = len(nums)
+        def reverse(start, end):
+            while start < end:
+                nums[start], nums[end] = nums[end], nums[start]
+                start += 1
+                end -= 1
+        k %= len(nums)
+        reverse(n - k, n - 1) # AB -> Ar(B)
+        reverse(0, n - k - 1) # r(A)r(B)
+        reverse(0, n - 1)     # BA
 
 def test():
     solution = Solution()
+
+    nums = []
+    k = 2
+    solution.rotate(nums, k)
+    assert(nums == [])
 
     nums = [1, 2, 3, 4, 5, 6, 7]
     solution.rotate(nums, 3)
