@@ -17,7 +17,51 @@ this problem.
 Hint:
 Could you do it in-place with O(1) extra space?
 
-Related problem: Reverse Words in a String II
+SOLUTION
+================================================================================
+
+1. Copy and input
+
+Complexity: O(n), O(n)
+
+2. Shift one, repeat for k times
+
+Complexity: O(kn), O(1)
+
+3. Chain iterative rotate - doesn't work
+
+i -> i - k -> i - k -k.
+The problem is it may not be able to traverse all the points.
+
+4. Reverse
+Reverse is an operation we can carry out inplace.
+
+Let AB are the two parts of the input array where A = arr[0..k-1] and B = arr[k..n-1]. The idea of the algorithm is :
+
+- Reverse A to get ArB, where Ar is reverse of A.
+- Reverse B to get ArBr, where Br is reverse of B.
+- Reverse all to get (ArBr) r = BA.
+
+(ArBr)r = BA is the key property of reverse operation.
+
+A[0] -> A[-k] -> A[n-k].
+A[n-k] symmetric to A[k].
+And A[0] is symmetric to A[k].
+
+Reference:
+https://www.geeksforgeeks.org/program-for-array-rotation-continued-reversal-algorithm/
+
+5. Block swap
+
+Reference:
+https://www.geeksforgeeks.org/block-swap-algorithm-for-array-rotation/
+
+
+
+Related problem:
+Reverse Words in a String II
+Rotate Image
+
 '''
 
 class Solution(object):
@@ -28,9 +72,11 @@ class Solution(object):
         :type k: int
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        # return self.rotateSlice(nums, k)
-        # return self.rotateInsert(nums, k)
-        return self.rotateReverse(nums, k)
+        # self.rotateInsert(nums, k)
+        # self.rotateSlice(nums, k)
+        self.rotateReverse(nums, k)
+
+        print (nums)
 
     def rotateInsert(self, nums, k):
         """
@@ -77,6 +123,11 @@ def test():
     nums = [1, 2, 3, 4, 5, 6, 7]
     solution.rotate(nums, 3)
     assert nums == [5, 6, 7, 1, 2, 3, 4]
+
+    nums = [1, 2, 3, 4, 5, 6, 7]
+    solution.rotate(nums, 2)
+    assert nums == [6, 7, 1, 2, 3, 4, 5]
+
     print('self test passed')
     pass
 

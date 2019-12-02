@@ -14,6 +14,7 @@ Define utility functions to make the code modular, and reduce the risk of writin
 ## Review code
 Use a top down approach.
 - Check modular logic
+- Write function return statement first, since compiler may not warn you that.
 - Write COMMENTS first for to clarify program logic
 - Check VARIABLE name misuse
 - Check INITIALIZATION

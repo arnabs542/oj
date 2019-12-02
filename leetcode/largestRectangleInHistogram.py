@@ -43,6 +43,10 @@ Then area = height[i] * window size.
 
 Complexity: O(N²).
 
+
+The rectangle must have a smallest bar, and that's the height of this rectangle.
+--------------------------------------------------------------------------------
+
 2. Divide and conquer
 
 The above solution involves duplicate computations.
@@ -99,15 +103,26 @@ For large data set with length 20000, the speed up can be 1400 times in worst ca
 In a brute force method, for each bar x, compute the area with x as height.
 Then we need to know the INDEX OF FIRST SMALLER bar on left and right of x.
 
-The most simple case is when the array in monotonically increasing or decreasing.
+The simplest case is when the array in monotonically increasing or decreasing.
 
 1) What if it's increasing?
 Then all possible largest rectangle would literally end with the largest bar.
 Like in [1, 2, 3, 4], previous position of each bar is the index of first smaller
 on the left.
+Areas candidates:
+1*4 = 4
+2*3 = 6
+3*2 = 6
+4*1 = 1,
+for each index i, it is area = a[i] * (n-i).
+This means, we can't determine the largest rectangle with height a[i] until the
+last one. So we have to process BACKWARD.
+
+Processing BACKWARD means using a STACK, and accumulate results when popping!
+--------------------------------------------------------------------------------
 
 2) What if it's decreasing?
-Then each bar has the right adjacent bar as index of first smaller on the right.
+Then each bar can form a potentially largest rectangle starting with the first bar.
 
 3) What if we have a increasing sequence, then a lower value comes?
 For the stack top element, the indices of first smaller element on left and right
@@ -116,6 +131,13 @@ Then we have all information needed to compute the rectangle with this bar heigh
 
 --------------------------------------------------------------------------------
 Maintain a monotonically increasing stack.
+
+- Push for increasing subsequence.
+- Pop until stack empty of stack top is smaller than current element.
+Remember: The bottom element of the stack means every element before it is larger
+than it!
+When popping i, calculate largest rectangle area with height a[i].
+
 For the stack top, the current bar that's smaller than it is the first index of smaller
 bar on right. And the second top element in the stack is the first smaller index on left.
 The area of rectangle with stack top bar height is given by:
