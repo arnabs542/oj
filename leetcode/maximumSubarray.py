@@ -25,7 +25,31 @@ SOLUTION
 
 Complexity: O(N³) or O(N²) if calculating sum incrementally.
 
-2) Dynamic Programming.
+2) Sliding window
+
+Since we only care about maximum solution, we don't need to exhaust all possible
+subarrays.
+
+Then we can keep track of the LOCALLY OPTIMAL ENDING HERE, and update it.
+To update locally optimal subarray, there are two operations in this 1D array:
+  - shrink the window from left: previous 'max ending here' is negative
+  - expand the window to right: previous 'max ending here' is positive
+
+Define state: f(j) = (max ending here, window left index) = (s, i)
+State transition:
+  f(j-1).s < 0: f(j).s = nums[j], i = j,
+  f(j-1).s >= 0: f(j).s = f(j-1).s + nums[j].
+
+
+Complexity:
+O(n), O(1)
+
+3) Dynamic Programming - track only max sum ending here
+
+Since we only care about maximum subarray, we don't need to exhaust all
+possible intervals actually.
+
+Then we can keep track of state of locally optimal solution ENDING HERE.
 
 A subarray window must end somewhere, assuming position i.
 Kadane's algorithm begins with a simple INDUCTIVE question:
@@ -104,7 +128,12 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        return self._maxSubArrayDP(nums)
+        # result = self._maxSubArrayDP(nums)
+        result = sum(self.maxSubArraySlidingWindow(nums))
+
+        print(nums, " => ", result)
+
+        return result
 
     def _maxSubArrayDP(self, nums: list) -> int:
         """
@@ -130,33 +159,36 @@ class Solution(object):
             max_so_far = max(max_so_far, max_ending_here)
         return max_so_far
 
-    def _maxSubArrayDP2(self, nums: list) -> list:
+    def maxSubArraySlidingWindow(self, nums: list) -> list:
         """
         :type nums: List[int]
         :rtype: list
 
-        Keep track of two pointers: starting and ending indices of the maximum subarray.
-        Returning the corresponding subarray.
+        Keep track of sliding window: starting and ending indices represent
+        locally optimal solution .
+
+        Returns the corresponding subarray.
         """
         n = len(nums)
-        max_so_far, max_ending_here = nums[0], nums[0]
-        i, begin, end = 0, 0, 1
-        for j in range(1, n):
+        # max_so_far, max_ending_here = nums[0], nums[0]
+        max_so_far, max_ending_here = float("-inf"), float("-inf")
+        begin, end = 0, 0 # globally optimal window solution
+        i = 0 # (i, j) sliding window
+        for j in range(0, n):
             if max_ending_here <= 0:
-                i = j
+                i = j # shrink
                 max_ending_here = nums[j]
             else:
-                max_ending_here += nums[j]
+                max_ending_here += nums[j] # expand
 
-            if max_ending_here >= max_so_far:
-                begin = i
-                end = j + 1
+            if max_ending_here >= max_so_far: # update the globally optimal
+                begin, end = i, j
                 max_so_far = max_ending_here
 
-        print('maximum subarray', nums[begin:end])
-        return nums[begin:end]
+        print('maximum subarray', nums[begin:end+1])
+        return nums[begin:end+1]
 
-      def _maxSubArrayPrefixSum(self, nums: list) -> int:
+    def _maxSubArrayPrefixSum(self, nums: list) -> int:
           # TODO: prefix sum solution
           pass
 
@@ -166,10 +198,11 @@ def test():
     solution = Solution()
 
     assert solution.maxSubArray([1]) == 1
+    assert solution.maxSubArray([-1, -2]) == -1
     assert solution.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6
 
-    assert solution.maxSubArrayDP2([1]) == [1]
-    assert solution.maxSubArrayDP2(
+    assert solution.maxSubArraySlidingWindow([1]) == [1]
+    assert solution.maxSubArraySlidingWindow(
         [-2, 1, -3, 4, -1, 2, 1, -5, 4]) == [4, -1, 2, 1]
 
     print('self test passed')

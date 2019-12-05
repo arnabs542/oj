@@ -19,14 +19,39 @@ For example, given the following matrix:
 1 0 0 1 0
 Return 4.
 
+
+SOLUTION
 ================================================================================
-SOLUTION:
-    1. In a brute-force way, we need to check m*n points in the matrix, for which
-we have to verify the valid square in amortized min(m, n) time complexity,
-giving overall O(m*n(min(m, n)^2)).
-    2. Dynamic Programming, keep track of side length of maximum square with
+
+1. In a brute-force way.
+We need to check m*n points in the matrix, for which
+we have to verify the valid square in amortized min(m, n)^2 time complexity,
+
+Complexity: O(M^2N^2min(M,N)^2)
+
+2. 2D Prefix sum optimization
+
+Optimize brute force method by build a 2D prefix sum array,
+to check rectangle (x0,y0) and (x0+h, y0+h) form a square in O(1),
+
+Complexity:
+O(M^2*N^2).
+
+3. Prefix sum with binary search
+
+It takes O(log(M+N)) to iterate all possible rectangles, if we do
+binary search.
+
+Complexity:
+O(MNlog(M+N))
+
+4. Dynamic Programming - locally optimal state ending here
+
+Keep track of side length of maximum square with
 a bottom-right vetex at (i, j) in the matrix.
 Then we have state transition solved in O(1) time complexity.
+
+Complexity: O(MN)
 
 '''
 

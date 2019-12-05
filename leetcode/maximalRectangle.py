@@ -34,8 +34,9 @@ To verify it, complexity is O(area of rectangle).
 
 Complexity: O(MNxMNxMN) = O(M³N³)
 
-2. Dynamic Programming - counting as summing - prefix sum
 
+Prefix sum - counting as summing
+--------------------------------
 The counting 1s process takes too much complexity, O(MN).
 
 ----------------------------------------------------------------------------------------------
@@ -53,9 +54,13 @@ Just choose one...
 
 Using prefix sum, the range sum can be obtained in O(1) complexity.
 
-Complexity: O(M²N²)
 
-Optimization? Prune?
+2. Prefix sum - dynamic programming - binary search
+
+With only prefix sum optimization, time complexity is O(M²N²)
+
+With binary search, time complexity:
+O(MNlog(M+N))
 
 3. Dynamic programming without inner loop state transition?
 
@@ -81,6 +86,10 @@ dp[i][j] and dp[i-1][j], dp[i][j-1].
     height[i][j] = min(height[i-1][j]+1, height[i][j-1])
 2) But how about cases like [[0, 1], [0, 1]]?
 
+We don't have simple state transition like in the 'maximum square', because
+width and height may not be the same.
+
+
 4. Stack - similar to largest rectangle in histogram
 
 In the matrix, each column can be thought of a histogram bar.
@@ -88,6 +97,8 @@ In the matrix, each column can be thought of a histogram bar.
 Yeah, iterate the matrix row by row, column by column. And build a matrix containing
 bar height starting at cell matrix[i][j].
 While scanning a row from left to right, the problem is reduced to "largest rectangle in histogram".
+
+Process the histogram row by row, find maximum rectangle on current level.
 
 Maintain a monotonic stack for heights, and starting computing locally optimal values
 when a bar with smaller height occurs.
@@ -145,7 +156,7 @@ class Solution:
             matrix[i].append('0') # add sentinel
             for j in range(n + 1):
                 if matrix[i][j] == '1':
-                    height[i][j] = height[i - 1][j] + 1 if i else 1 # only depends on last row, space optimization possible
+                  height[i][j] = height[i - 1][j] + 1 if i else 1 # TODO: only depends on last row, space optimization possible
                 while stack and height[i][stack[-1]] > height[i][j]:
                     h = stack.pop()
                     left = stack[-1] + 1 if stack else 0
