@@ -12,11 +12,19 @@ Implement strStr().
 Returns the index of the first occurrence of needle in haystack, or -1 if needle
 is not part of haystack.
 
-==============================================================================================
-SOLUTION:
-    KMP string matching algorithm.
+SOLUTION
+================================================================================
+1. Brute force
+
+O(mn)
+
+2. KMP string matching algorithm - state machine with respect to max matched ending here
+
     The LPS(longest prefix that is also suffix) construction process is of amortized O(N) time
 complexity.
+
+Complexity: O(N)
+
 '''
 
 class Solution(object):
