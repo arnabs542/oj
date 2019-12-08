@@ -99,6 +99,7 @@ add_executable(meetingRoomsII meetingRoomsII.cpp)
 add_executable(kthLargestElementInAnArray kthLargestElementInAnArray.cpp)
 add_executable(heaters heaters.cpp)
 add_executable(NaryTreeLevelOrderTraversal NaryTreeLevelOrderTraversal.cpp)
+add_executable(licenseKeyFormatting licenseKeyFormatting.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
