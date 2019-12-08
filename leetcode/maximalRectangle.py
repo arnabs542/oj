@@ -64,6 +64,11 @@ O(MNlog(M+N))
 
 3. Dynamic programming without inner loop state transition?
 
+The difference with "max square" problem is, in the problem, we need to keep track of
+every possible rectangles ending here.  Optimal substructure solution doesn't necessarily
+yield optimal solution for the problem, thus adding complexity of dynamic programming
+approach.
+
 NO CLUE...
 
 Although counting is now O(1), but, of course, duplicate calculations are involved, while

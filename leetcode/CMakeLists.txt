@@ -95,6 +95,8 @@ add_executable(poorPigs poorPigs.cpp)
 add_executable(stoneGame stoneGame.cpp)
 add_executable(stoneGameII stoneGameII.cpp)
 add_executable(meetingRooms meetingRooms.cpp)
+add_executable(meetingRoomsII meetingRoomsII.cpp)
+add_executable(kthLargestElementInAnArray kthLargestElementInAnArray.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
