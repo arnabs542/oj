@@ -55,9 +55,13 @@ The problem can be transformed into:
 This can be solved with methods:
     - brute force comparing O(n^2)
     - sweeping line (TODO:)
-    - maximum prefix sum
+    - maximum prefix sum: count as sum
 
 3. State machine - Maximum prefix sum - maximum OVERLAPPING INTERVALS
+
+To find maximum overlapping interval, scan all the end times, and for each
+end time, and check how many intervals have opened but not closed.
+
 The start and end of an interval can be represent with +1 and -1.
 With +1, it means an interval started, and with -1, it means an interval ended.
 
@@ -93,6 +97,12 @@ intervals, and when it closes, we remove it.
 Data structure:
     - list of (sᵢ, i), (eᵢ, i).
     - data structure to add & remove intervals efficiently, heap?
+
+Complexity: O(NlogN)
+
+5. Start time and end time alignment - overlapping intervals
+
+Complexity: O(NlogN)
 
  *
  */
