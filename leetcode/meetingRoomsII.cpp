@@ -53,9 +53,11 @@ In ANOTHER PERSPECTIVE, we can exploit the overlapping intervals state transitio
 The problem can be transformed into:
     finding the MAXIMUM NUMBER OF OVERLAPPING INTERVALS, of a all the time.
 This can be solved with methods:
-    - brute force comparing O(n^2)
-    - sweeping line (TODO:)
-    - maximum prefix sum: count as sum
+    - BRUTE FORCE comparing O(n^2)
+    - sort, MIN HEAP to keep track of intervals overlapping with each other.
+  Intervals can be represented by finish time only.
+    - COUNT AS SUM: maximum PREFIX SUM(similar to sweep line scanning)
+    - sweep line scan(TODO:)
 
 3. State machine - Maximum prefix sum - maximum OVERLAPPING INTERVALS
 
@@ -85,9 +87,15 @@ prefix sum. Thus the prefix sum indicates how many intervals open right now.
 [1,  1,   -1,  1,   -1, -1] => max prefix sum is 2
 
 Since the prefix sum is always larger or equal to 0, so maximum prefix sum is
-equivalent to maximum prefix sum.
+equivalent to maximum subarray here.
 
 Complexity: O(NlogN)
+
+This approached can be optimized to O(N) using buckets to store
+ordered interval ends.
+Since open/close ends of all intervals are in finite space [min(s), max(e)],
+we don't need a self-balancing tree to keep them ordered. Just put the values
+in buckets of an array of size (max(e)-min(s) + 1).
 
 4. Sweep line - overlapping intervals
 Put start times and end times along with which job they belong to in to array.
@@ -114,12 +122,19 @@ class Solution {
 public:
     int minMeetingRooms(vector<vector<int>>& intervals) {
         int result;
-        //result = minMeetingRoomsGreedyWithHeap(intervals);
-        result = minMeetingRoomsOverlappingIntervalsMaxPrefixSum(intervals);
+        //result = minMeetingRoomsGreedyNonoverlappingIntervalsWithHeap(intervals);
+        //result = minMeetingRoomsOverlappingIntervalsMaxPrefixSum(intervals);
+        result = minMeetingRoomsOverlappingIntervalsWithHeap(intervals);
+
+        cout << intervals << " => " << result << endl;
+
         return result;
     }
 
-    int minMeetingRoomsGreedyWithHeap(vector<vector<int>>& intervals) {
+    /**
+     * group non-overlapping intervals with heap
+     */
+    int minMeetingRoomsGreedyNonoverlappingIntervalsWithHeap(vector<vector<int>>& intervals) {
         sort(intervals.begin(), intervals.end(), [](const vector<int> &a, const vector<int> &b){
                 if (a[0] < b[0]) return true;
                 else if (a[0] == b[0]) return (a[1] < b[1]);
@@ -144,6 +159,9 @@ public:
         return heap.size();
     }
 
+    /**
+     * Find maximum number of intervals overlapping with each other, with prefix sum(count as sum).
+     */
     int minMeetingRoomsOverlappingIntervalsMaxPrefixSum(
             vector<vector<int>> &intervals) {
         map<int, int> timeToValue; // sorted pairs of <time, v>, where v in [-1, 1]
@@ -159,6 +177,24 @@ public:
             maxPrefixSum = max(maxPrefixSum, prefixSum);
         }
         return maxPrefixSum;
+    }
+
+    /**
+     * Find maximum number of intervals overlapping with each other, with a heap.
+     */
+    int minMeetingRoomsOverlappingIntervalsWithHeap(vector<vector<int>> &intervals) {
+        std::sort(intervals.begin(), intervals.end(),
+                [](const vector<int> &a, const vector<int> &b){ return a[0] < b[0]; });
+        int maxNumOverlapping = 0;
+        priority_queue<int, vector<int>, std::greater<int>> heap;
+        for (const vector<int> &interval: intervals) {
+            while (!heap.empty() && heap.top() <= interval[0]) {
+                heap.pop(); // a new interval opens
+            }
+            heap.push(interval[1]);
+            maxNumOverlapping = max(maxNumOverlapping, (int)heap.size());
+        }
+        return maxNumOverlapping;
     }
 
 };
@@ -191,6 +227,7 @@ int test() {
 
 int main(int argc, char *argv[])
 {
+    // TODO: submit
     test();
     return 0;
 }
