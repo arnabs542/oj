@@ -87,6 +87,8 @@ with logarithm base (T+1) >= 2, which is binary search in approach 1.
  */
 
 #include <debug.hpp>
+#include <algorithm>
+#include <cmath>
 
 class Solution {
 public:

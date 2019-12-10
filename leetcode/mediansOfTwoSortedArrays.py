@@ -25,7 +25,28 @@ The median is (2 + 3)/2 = 2.5
 [2, 3, 9]
 [1, 7]
 
-SOLUTION:
+SOLUTION
+================================================================================
+
+1. Brute force - sort
+
+Complexity:
+O((M+N)log(M+N))
+
+2. Brute force - binary search verify
+Exhaust all numbers in nums1, find lower bound in nums2. Then verify whether that
+evenly partitions two arrays.
+If not found, repeat to exhaust all numbers in nums2.
+
+Complexity:
+O(MlogN+NlogM)
+
+3. Brute force optimization - use binary search to exhaust all numbers in nums1/nums2
+
+Complexity:
+O(logMxlogN)
+
+4. Single level of binary search
     For logarithm time complexity, we may adopt BINARY SEARCH related algorithm to DIVIDE and CONQUER.
     In statistics, the median is used for dividing a set into two EQUAL LENGTH
 subsets, that one subset is always greater than the other

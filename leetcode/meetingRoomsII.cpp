@@ -50,6 +50,7 @@ Complexity: O(NlogN)
 
 
 In ANOTHER PERSPECTIVE, we can exploit the overlapping intervals state transition.
+--------------------------------------------------------------------------------
 The problem can be transformed into:
     finding the MAXIMUM NUMBER OF OVERLAPPING INTERVALS, of a all the time.
 This can be solved with methods:
@@ -91,11 +92,13 @@ equivalent to maximum subarray here.
 
 Complexity: O(NlogN)
 
-This approached can be optimized to O(N) using buckets to store
+This approached can be optimized to O(N) using BUCKETS to store
 ordered interval ends.
 Since open/close ends of all intervals are in finite space [min(s), max(e)],
 we don't need a self-balancing tree to keep them ordered. Just put the values
 in buckets of an array of size (max(e)-min(s) + 1).
+
+Complexity: O(N)
 
 4. Sweep line - overlapping intervals
 Put start times and end times along with which job they belong to in to array.

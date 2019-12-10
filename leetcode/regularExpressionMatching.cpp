@@ -4,10 +4,13 @@
 #include <string.h>
 #include <assert.h>
 #include <unistd.h>
+#include <string>
 
 #define CAT_SYMBOLE  '\xFF'
 
 #pragma mark - convert regular expression to NFA
+
+using namespace std;
 
 char*
 re2post(char *re)
