@@ -88,7 +88,7 @@ count(nums[j] < nums[i], j > i| i)
     = \sum_{j=i + 1}^{N}I(nums[j] < nums[i])
     = \sum_{j=min(nums)}^{nums[i] - 1}I(j \in nums[i + 1:])
 
-Then the counting problem is converted to range sum query!
+Then the counting problem is converted to RANGE SUM QUERY!
 Range sum query can be efficiently done with trees:
     binary indexed tree or segment tree.
 
@@ -102,6 +102,17 @@ has value 1, and update the range query tree.
 
 Since only the relative order of numbers matter, we can map the values
 in nums to their order index. Then the maximum range is [1, N].
+
+Procedure:
+1) (Optional) Map input values to range [1, n], to space overhead
+caused by sparsity of data.
+2) Process the input backwards, for each value:
+    - Use the value v as indices for range sum query. For each occurrence
+count as 1.
+    - count smaller: do range sum query for q(v-1).
+
+Complexity:
+O(NlogN)
 
 
 4. Range query - Segment tree

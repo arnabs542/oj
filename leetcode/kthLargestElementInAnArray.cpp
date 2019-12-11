@@ -31,17 +31,13 @@ class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
         int result;
-        result = findKthLargestMinHeap(nums, k);
+        //result = findKthLargestMinHeap(nums, k);
+        result = findKthLargestMinHeapIndex(nums, k);
 
         return result;
     }
 
     int findKthLargestMinHeap(vector<int>& nums, int k) {
-        //auto f = [&nums](int a, int b) {
-            //return nums[a] > nums[b];
-        //};
-        //priority_queue<int, vector<int>, decltype(&f)> heap{f};
-
         priority_queue<int, vector<int>, std::greater<int>> heap;
         // assume k valid
         for (int i = 0; i < (int) nums.size(); ++i) {
@@ -54,6 +50,25 @@ public:
         }
 
         return heap.top();
+    }
+
+    int findKthLargestMinHeapIndex(vector<int>& nums, int k) {
+        auto f = [&nums](int a, int b) {
+            return nums[a] > nums[b];
+        };
+        priority_queue<int, vector<int>, decltype(f)> heap(f);
+
+        // assume k valid
+        for (int i = 0; i < (int) nums.size(); ++i) {
+            if ((int)heap.size() < k) {
+                heap.push(i); // push when heap size less than k
+            } else if (nums[heap.top()] < nums[i]) {
+                heap.pop(); // pop and push to replace top element
+                heap.push(i);
+            }
+        }
+
+        return nums[heap.top()];
     }
 };
 
