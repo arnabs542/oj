@@ -115,6 +115,17 @@ Complexity: O(NlogN)
 
 Complexity: O(NlogN)
 
+FOLLOW UP
+================================================================================
+What if [1, 2] and [2, 3] are considered overlapping?
+In this case, sᵢ=p and eᵢ=p has different meaning for p: eᵢ=p<sᵢ=p.
+
+- Then heap approach still works, only needing to modify heap pop condition(<).
+- The prefix sum method loses information about whether p is start or end.
+We need to modify the code to put eᵢ before sᵢ if there are equal!
+- Align method: modify the condition(to <=) about when to increase number of overlapping
+intervals.
+
  *
  */
 
@@ -127,8 +138,8 @@ public:
         int result;
         //result = minMeetingRoomsGreedyNonoverlappingIntervalsWithHeap(intervals);
         //result = minMeetingRoomsOverlappingIntervalsMaxPrefixSum(intervals);
-        result = minMeetingRoomsOverlappingIntervalsWithHeap(intervals);
-        //result = minMeetingRoomsOverlappingIntervalsAlign(intervals);
+        //result = minMeetingRoomsOverlappingIntervalsWithHeap(intervals);
+        result = minMeetingRoomsOverlappingIntervalsAlign(intervals);
 
         cout << "input: " << intervals << " => " << result << endl;
 
@@ -216,8 +227,8 @@ public:
         sort(starts.begin(), starts.end());
         sort(ends.begin(), ends.end());
 
-        cout << starts << endl;
-        cout << ends << endl;
+        //cout << starts << endl;
+        //cout << ends << endl;
 
         int i = 0, j = 0;
         int currentOverlapping = 0, maxOverlapping = 0; // number of overlapping
@@ -229,9 +240,9 @@ public:
                 ++j;
                 --currentOverlapping;
             }
-            //else {
-                //++i; ++j;
-            //}
+            else {
+                ++i; ++j;
+            }
 
             maxOverlapping = std::max(maxOverlapping, currentOverlapping);
         }
