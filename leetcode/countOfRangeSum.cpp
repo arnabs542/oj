@@ -114,7 +114,7 @@ public:
         mData.resize(n+1);
     }
 
-    int update(int i, int value) {
+    inline int update(int i, int value) {
         while (i <= mSize) {
             mData[i] += value;
             i += i & (-i);
@@ -122,7 +122,7 @@ public:
         return 0;
     }
 
-    int query(int i) {
+    inline int query(int i) {
         int rangeSum = 0;
         while (i > 0) {
             rangeSum += mData[i];
@@ -166,14 +166,14 @@ public:
 
     int countRangeSumPrefixSumRangeQuery(vector<int> &nums, int lower, int upper) {
         // build prefix sum
-        vector<int> prefixSums(nums.size() + 1, 0); // length indexed prefix sum array
+        vector<long> prefixSums(nums.size() + 1, 0); // length indexed prefix sum array
         for (int i = 1; i <= (int)nums.size(); ++i) {
             prefixSums[i] = prefixSums[i-1] + nums[i-1];
         }
 
         // buckets mapping values to finite continuous space [1, 3N].
-        map<int, int> buckets; // ordered values
-        for (int ps: prefixSums) {
+        map<long, int> buckets; // ordered values, beware of overflow
+        for (long ps: prefixSums) {
             buckets[ps] = 1;
             buckets[ps+upper] = 1;
             buckets[ps+lower-1] = 1;
@@ -185,7 +185,7 @@ public:
 
         // count as sum, range query sum
         int nRanges = 0;
-        BitTree rsq(buckets.size()); // range sum query
+        BitTree rsq(buckets.size()); // range sum query, [1, n]
         for (int i = nums.size(); i >= 1;--i) {
             rsq.update(buckets.at(prefixSums[i]), 1);
             int nUpper = rsq.query(buckets.at(upper + prefixSums[i-1])); // query for number of such j that ps[j] - ps[i-1] <= upper
@@ -228,6 +228,11 @@ int main(int argc, char *argv[])
 
     nums = {-2, 5, -1};
     lower = -2; upper = 2;
+    result = 3;
+    assert(solution.countRangeSum(nums, lower, upper) == result);
+
+    nums = {-2147483647,0,-2147483647,2147483647};
+    lower = -564, upper = 3864;
     result = 3;
     assert(solution.countRangeSum(nums, lower, upper) == result);
 

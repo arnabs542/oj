@@ -128,8 +128,9 @@ public:
         //result = minMeetingRoomsGreedyNonoverlappingIntervalsWithHeap(intervals);
         //result = minMeetingRoomsOverlappingIntervalsMaxPrefixSum(intervals);
         result = minMeetingRoomsOverlappingIntervalsWithHeap(intervals);
+        //result = minMeetingRoomsOverlappingIntervalsAlign(intervals);
 
-        cout << intervals << " => " << result << endl;
+        cout << "input: " << intervals << " => " << result << endl;
 
         return result;
     }
@@ -143,15 +144,14 @@ public:
                 else if (a[0] == b[0]) return (a[1] < b[1]);
                 else return false;
                 });
-        priority_queue<int, vector<int>, std::greater<int>> heap; // min heap
+        priority_queue<int, vector<int>, std::greater<int>> heap; // min heap, containing number of rooms
         for (const vector<int> &interval: intervals) {
             if (!heap.empty() && heap.top() <= interval[0]) { // reuse room
                 heap.pop();
             }
             heap.push(interval[1]); // update room, top element
 
-            //continue;
-            //
+            // another form
             //if (heap.empty() || heap.top() > interval[0]) heap.push(interval[1]);
             //else {
                 //heap.pop();
@@ -163,27 +163,9 @@ public:
     }
 
     /**
-     * Find maximum number of intervals overlapping with each other, with prefix sum(count as sum).
-     */
-    int minMeetingRoomsOverlappingIntervalsMaxPrefixSum(
-            vector<vector<int>> &intervals) {
-        map<int, int> timeToValue; // sorted pairs of <time, v>, where v in [-1, 1]
-        for (vector<int> &interval: intervals) {
-            timeToValue[interval[0]] += 1;
-            timeToValue[interval[1]] -= 1;
-        }
-        int maxPrefixSum = 0; // max prefix sum
-        int prefixSum = 0; // prefix sum ending here
-        for (pair<const int, int> &item: timeToValue) {
-            //prefixSum = max(item.second, item.second + prefixSum);
-            prefixSum += item.second;
-            maxPrefixSum = max(maxPrefixSum, prefixSum);
-        }
-        return maxPrefixSum;
-    }
-
-    /**
      * Find maximum number of intervals overlapping with each other, with a heap.
+     * Actually it's the same algorithm with above heap approach, which tries to
+     * group non-overlapping intervals together.
      */
     int minMeetingRoomsOverlappingIntervalsWithHeap(vector<vector<int>> &intervals) {
         std::sort(intervals.begin(), intervals.end(),
@@ -195,9 +177,70 @@ public:
                 heap.pop(); // a new interval opens
             }
             heap.push(interval[1]);
-            maxNumOverlapping = max(maxNumOverlapping, (int)heap.size());
+            maxNumOverlapping = max(maxNumOverlapping, (int)heap.size()); // heap size is number of current overlapping intervals
         }
         return maxNumOverlapping;
+    }
+
+    /**
+     * Find maximum number of intervals overlapping with each other, with prefix sum(count as sum).
+     */
+    int minMeetingRoomsOverlappingIntervalsMaxPrefixSum(
+            vector<vector<int>> &intervals) {
+        map<int, int> timeToValue; // sorted pairs of <time, v>, where v in [-1, 1]
+        for (vector<int> &interval: intervals) {
+            timeToValue[interval[0]] += 1;
+            timeToValue[interval[1]] -= 1; // XXX: how about (s₁, e), (e, e₂)?
+        }
+        int prefixSum = 0, maxPrefixSum = 0; //  prefix sum ending here, max prefix sum
+        for (pair<const int, int> &item: timeToValue) {
+            //prefixSum = max(item.second, item.second + prefixSum);
+            prefixSum += item.second;
+            maxPrefixSum = max(maxPrefixSum, prefixSum);
+        }
+        return maxPrefixSum;
+    }
+
+    /**
+     * Line sweeping with aligning separate starts and ends points.
+     */
+    int minMeetingRoomsOverlappingIntervalsAlign(
+            vector<vector<int>> &intervals) {
+        vector<int> starts;
+        vector<int> ends;
+        for (int i = 0; i < (int)intervals.size(); ++i) {
+            starts.push_back(intervals[i][0]);
+            ends.push_back(intervals[i][1]);
+        }
+
+        sort(starts.begin(), starts.end());
+        sort(ends.begin(), ends.end());
+
+        cout << starts << endl;
+        cout << ends << endl;
+
+        int i = 0, j = 0;
+        int currentOverlapping = 0, maxOverlapping = 0; // number of overlapping
+        while (i < (int)intervals.size() && j < (int)intervals.size()) {
+            if (starts[i] < ends[j]) {
+                ++currentOverlapping;
+                ++i;
+            } else if (starts[i] > ends[j]){
+                ++j;
+                --currentOverlapping;
+            }
+            //else {
+                //++i; ++j;
+            //}
+
+            maxOverlapping = std::max(maxOverlapping, currentOverlapping);
+        }
+
+        // XXX:
+        currentOverlapping += std::max(0, (int)intervals.size() - i);
+        currentOverlapping -= std::max(0, (int)intervals.size() - j);
+
+        return maxOverlapping;
     }
 
 };
@@ -221,6 +264,14 @@ int test() {
 
     intervals = {{0, 30}, {5, 10}, {15, 20}};
     result = 2;
+    assert(solution.minMeetingRooms(intervals) == result);
+
+    intervals = {{1, 2}, {1, 2}};
+    result = 2;
+    assert(solution.minMeetingRooms(intervals) == result);
+
+    intervals = {{1, 2}, {2, 3}};
+    result = 1; // XXX: 1 or 2?
     assert(solution.minMeetingRooms(intervals) == result);
 
     cout << "self test passed!" << endl;
