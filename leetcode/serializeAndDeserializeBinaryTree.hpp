@@ -44,7 +44,23 @@ Special thanks to @Louis1992 for adding this problem and creating all test cases
 //#include <string>
 
 using namespace std;
-class Codec {
+
+TreeNode* _getNode(istringstream& s)
+{
+    //if (s.rdbuf()->in_avail() == 0) return NULL; // empty stream
+    if (s.eof()) { return NULL; } // empty stream
+
+    string sval;
+    //s >> sval;
+    getline(s, sval, ',');
+
+    if (sval.compare("") && sval.compare("#") && sval.compare("null") && sval.compare("NULL")) {
+        return new TreeNode(stoi(sval));
+    }
+    return NULL;
+}
+
+class CodecBfs {
 public:
     // Encodes a tree to a single string.
     string serialize(TreeNode* root)
@@ -68,12 +84,12 @@ public:
         if (root) { q.push(root); }
 
         while (q.size()) { // search frontier queue is not empty
-            treeNode = q.front(); // first element of the queue
-            q.pop();
+            treeNode = q.front();
+            q.pop(); // pop out of search frontier
 
             if (treeNode) {
                 q.push(treeNode->left); // add connected nodes(children) to search frontier
-                q.push(treeNode->right);
+                q.push(treeNode->right); // must push NULL children!
             }
             out << (treeNode ? to_string(treeNode->val):"#") << ",";
         }
@@ -102,33 +118,119 @@ public:
         root = treeNodeNew = _getNode(in);
         if (treeNodeNew) q.push(treeNodeNew);
 
-        while (q.size()) {
+        while (q.size()) { // search frontier queue is not empty
             treeNode = q.front();
-            q.pop();
-            treeNodeNew = _getNode(in);
-            if (treeNodeNew) q.push(treeNodeNew);
-            treeNode->left = treeNodeNew;
+            q.pop(); // pop out of search frontier
 
+            if (!treeNode) continue;
+
+            // the only difference between serialize & deserialize
             treeNodeNew = _getNode(in);
-            if (treeNodeNew) q.push(treeNodeNew);
+            treeNode->left = treeNodeNew;
+            treeNodeNew = _getNode(in);
             treeNode->right = treeNodeNew;
+
+            q.push(treeNode->left); // add connected nodes(children) to search frontier
+            q.push(treeNode->right);
         }
 
         return root;
     }
 
-    TreeNode* _getNode(istringstream& s)
-    {
-        //if (s.rdbuf()->in_avail() == 0) return NULL; // empty stream
-        if (s.eof()) { return NULL; } // empty stream
 
-        string sval;
-        //s >> sval;
-        getline(s, sval, ',');
+};
 
-        if (sval.compare("") && sval.compare("#") && sval.compare("null") && sval.compare("NULL")) {
-            return new TreeNode(stoi(sval));
+class CodecDfsPreorder {
+public:
+    string serialize(TreeNode *root) {
+        ostringstream sout;
+
+        stack<TreeNode*> frontier;
+        frontier.push(root);
+        while (frontier.size()) {
+            TreeNode *pNode = frontier.top(); frontier.pop();
+            if (pNode) {
+                frontier.push(pNode->right); // preorder: root, left, right
+                frontier.push(pNode->left);
+                sout << pNode->val << ",";
+            } else {
+                sout << "#,";
+            }
         }
-        return NULL;
+
+        string output = sout.str();
+        // trim trailing #
+        auto it = output.rbegin();
+        for (it = output.rbegin(); it != output.rend() && (*it == ',' || *it =='#'); ++it);
+        output.erase(it.base(), output.end());
+        cout << "serialized tree: " << output << endl;
+
+        return output;
+    }
+
+    TreeNode* deserialize(string data) {
+        //TreeNode *root = deserializeRecursive(data);
+        TreeNode *root = deserializeIterative(data);
+
+        return root;
+    }
+
+    TreeNode* dfs(istringstream &sin) {
+        TreeNode *pRoot = _getNode(sin);
+
+        if (pRoot) {
+            pRoot->left = dfs(sin);
+            pRoot->right = dfs(sin);
+        }
+
+        return pRoot;
+    }
+
+    TreeNode* deserializeRecursive(string data) {
+        istringstream sin(data);
+
+        TreeNode *pRoot = dfs(sin);
+
+        return pRoot;
+    }
+
+
+    /**
+     * XXX: how to convert the recursive implementation to iterative?
+     * Construct the STACK FRAME manually!
+     * 1) Add another implicit state: children index to stack frame
+     * 2) Or we can just use multilevel pointers of tree nodes
+     *
+     */
+    TreeNode* deserializeIterative(string data) {
+        istringstream sin(data);
+
+        TreeNode *pNode = _getNode(sin);
+        TreeNode *pRoot = pNode;
+        stack<pair<TreeNode*, int>> frontier; // stack frame: [tree node, children index]
+        frontier.push({pNode, 0});
+        while (frontier.size()) {
+            pNode = frontier.top().first;
+            int &index = frontier.top().second;
+
+            if (!pNode) {
+                frontier.pop();
+                continue;
+            }
+            if (index == 0) {
+                pNode->left = _getNode(sin);
+                frontier.push({pNode->left, 0});
+            } else if (index == 1) {
+                pNode->right = _getNode(sin);
+                frontier.push({pNode->right, 0});
+            } else if (index == 2) { // index == 1, end of children
+                frontier.pop();
+            }
+            ++index;
+        }
+
+        return pRoot;
     }
 };
+
+using Codec = CodecBfs;

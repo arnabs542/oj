@@ -24,25 +24,54 @@ Note: Do not use class member/global/static variables to store states. Your seri
 
 Credits:
 Special thanks to @Louis1992 for adding this problem and creating all test cases.
-==============================================================================================
+
+
 SOLUTION
+================================================================================
 
-A tree structure can be deserialized using tree traveral(graph search). But the problem is
-how to convert it from tree to string, back and forth.
+A tree structure can be deserialized using tree traversal(graph search with
+breadth first search or depth first search).
+But the problem is how to convert it from tree to string, back and forth.
 
-Producing serialized string with tree traversing is straightforward. To make it possible
-to convert it back to deserialized tree, the serialized string must leave the tree structure
-intact!
+Producing serialized string with tree traversing is straightforward.
+To make it possible to convert it back to deserialized tree:
+- Save NULL pointer nodes in the serialized string!
+- Save 'end of children' marker in the serialized string(Space optimization)!
 
 Explicitly keep the NULL nodes while serializing, so that different tree structure can't
 have same traversal serialization. Then the ambiguity is resolved.
 
+Procedure[serialize]:
+The idea is to traverse the tree with dfs or bfs
+For each vertex u,
+    For each unvisited adjacent vertex v FROM THE TREE
+      Put vertex v into the search frontier.
+      Serialize vertex v.
+
+Procedure[serialize]:
+The idea is to traverse the tree with dfs or bfs
+For each vertex u,
+    For each unvisited adjacent vertex v constructed FROM THE STRING
+      Put vertex v into the search frontier.
+
+Takeaway
+--------------------------------------------------------------------------------
+Serialize and Deserialize are the same way to TRAVERSE the tree with bfs or dfs,
+except the difference that in serialize adjacent nodes are retrieved FROM TREE
+while in deserialize adjacent nodes must be constructed FROM THE STRING first.
+
 1. Breadth-first search traversal
 Complexity: O(n), O(N)
 
-2. Depth-first search traversal
+2. Depth-first search traversal - preorder
 It can be done in both iterative and recursive approach.
 Complexity: O(n), O(N)
+
+TODO: dfs with inorder and postorder?
+
+Reference:
+https://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/
+
 
 '''
 

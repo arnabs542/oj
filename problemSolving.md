@@ -36,11 +36,11 @@ abstracted into a graphical model.
     - Order statistics
 - Substring and subsequence
     - Prefix or suffix
-    - search substring: brute force, finite automate, kmp, rolling hash, trie?
-    - longest common substring: brute force, dynamic programming, suffix tree
-    - longest common subsequence
+    - string searching: brute force, finite automate, kmp, rolling hash, trie?
+    - longest common substring: brute force, dynamic programming(locally optimal ending here), suffix tree
+    - longest common subsequence: dynamic programming(locally optimal within bound)
     - longest repeated substring
-    - palindrome substring
+    - palindrome substring: brute force, dynamic programming 2D(locally optimal within bound of interval)
     - regular expression: dynamic programming, backtracking(dfs), finite automate
 - Partition model
     - Pointers partition: quick sort partition, three way partition(dnf), divide and conquer
@@ -65,13 +65,16 @@ abstracted into a graphical model.
 Data structures
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear: array, linked list, stack, queue(deque), priority queue, double ended queue
+        - Stack: FILO(First In Last Out). Backward processing, priority, monotonicity, depth first search.
+        - Queue: FIFO(First In First Out). Breadth first search frontier.
     - Associative/mapping: hash table, buckets, inverted index
-    - Tree:
+    - Tree: undirected ACYCLIC GRAPH, has RECURSIVE structure
         - (self-balancing)binary search tree, augmented self-balancing bst
         - Range query: segment tree, binary indexed tree
         - prefix tree(trie): suffix tree, bitwise prefix tree
         - kd-tree
         - implicit array representation of heap
+        - Augment tree: order statistics tree, tree node contains number of child
     - Graph: vertexes and edges/connections
         - Characteristics: multiple branches, many to many connections
         - Algorithm
@@ -95,9 +98,9 @@ State transition technique
             - combination
             - permutation (most complex)
     - state definition
-        - optimal solution so far
-        - optimal solution ending here
-        - optimal solution within range
+        - optimal solution so far (keep track of globally optimal so far)
+        - optimal solution ending here: window, string problem
+        - optimal solution within range: sequence problem
     - state transition technique 
         - STATE MACHINE
             - Deterministic finite automata(DFA)
