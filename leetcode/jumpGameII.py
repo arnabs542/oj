@@ -26,14 +26,28 @@ SOLUTION
 
 Minimum number of jumps, is equivalent to shortest path, use breadth first search!
 
-1. Treated as an Graph problem
+1. Treated as an Graph problem shortest path - breadth first search
+
+Define state: step[i] as the minimums steps to reach index i.
+State transition:
+    step[i] = min(step[j] + 1) if j + nums[j] >= i, for any 0<=j<i;
+
+Complexity:
+O(V + E)=O(N²)
+
+Optimization
+------------
+An observation is that, steps[i] <= step[j] for i <= j.
+    Maintain a RANGE STATE as implicit search frontier and avoid exhaust every
+possible previous index.
+
+Complexity:
+O(n), where n is the array size, and m is the average
+array value.
 
 Naive BREADTH FIRST SEARCH will exceed the time limit.
 
-Complexity: O(V + E) = O(mn), where n is the array size, and m is the average
-array value.
-
-2. Keep track of RANGE STATE
+2. RANGE STATE bfs with further space optimization
 
 In a bottom-up manner, update the furthest index that we can reach by
 jumping.
@@ -55,25 +69,25 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        # return self._jumpGreedyBFS(nums)
-        return self._jumpGreedyBFSOpt(nums)
+        return self._jumpGreedyBFS(nums)
+        # return self._jumpGreedyBFSOpt(nums)
 
     def _jumpGreedyBFS(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        stepEnd, steps = 0, [0] * len(nums)
+        rangeEnd, steps = 0, [0] * len(nums)
         for i, num in enumerate(nums):
-            if i > stepEnd:
+            if i > rangeEnd: # can't reach so far
                 return -1
-            if stepEnd >= len(nums) - 1:
+            if rangeEnd >= len(nums) - 1: # already here
                 break
 
-            if i + num > stepEnd:
-                for j in range(stepEnd + 1, min(i + num + 1, len(nums))):
+            if i + num > rangeEnd: # range expands, state transition
+                for j in range(rangeEnd + 1, min(i + num + 1, len(nums))):
                     steps[j] = steps[i] + 1
-                stepEnd = i + num
+                rangeEnd = i + num
             pass
         print(steps)
         return steps[-1]
@@ -104,6 +118,7 @@ def test():
 
     assert solution.jump([3, 4, 3, 2, 5, 4, 3]) == 3
     assert solution.jump([1]) == 0
+    assert solution.jump([3, 3, 3, 3, 1]) == 2
     assert solution.jump([2, 3, 1, 1, 4]) == 2
     assert solution.jump([4, 1, 1, 3, 1, 1, 1]) == 2
     assert solution.jump([2, 1, 1, 1, 1]) == 3
