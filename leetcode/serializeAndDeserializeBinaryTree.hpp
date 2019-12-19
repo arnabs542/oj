@@ -21,6 +21,10 @@ Note: Do not use class member/global/static variables to store states. Your seri
 Credits:
 Special thanks to @Louis1992 for adding this problem and creating all test cases.
 
+CRITICAL:
+Serialize and deserialize is the same tree traversal process, except the difference that
+in deserialize, tree nodes must be constructed from input string first!
+
 */
 
 /**
@@ -60,6 +64,21 @@ TreeNode* _getNode(istringstream& s)
     return NULL;
 }
 
+/**
+ * trim leading and trailing "#,"
+ *
+ */
+void trimTrailing(string &s) {
+        // trim trailing #
+    auto rit = s.rbegin();
+    for (rit = s.rbegin(); rit != s.rend() && (*rit == ',' || *rit =='#'); ++rit);
+    s.erase(rit.base(), s.end());
+
+    auto it = s.begin();
+    for (it = s.begin(); it != s.end() && (*it == ',' || *it == '#'); ++it);
+    s.erase(s.begin(), it);
+}
+
 class CodecBfs {
 public:
     // Encodes a tree to a single string.
@@ -95,19 +114,19 @@ public:
         }
         string result = out.str();
 
-        // TODO: trim trailing "#"
+        // trim trailing "#"
         string::iterator it = result.end() - 1;
         while (it >= result.begin() && ( *it == ',' || *it == '#')) --it;
         result.erase(it + 1, result.end());
 
-        cout << "serialized tree: " << result << endl;
+        cout << "bfs serialized tree: " << result << endl;
 
         return result;
     }
 
     TreeNode* deserializeBfs(string data)
     {
-        cout << "deserialize data: " << data << endl;
+        //cout << "deserialize data: " << data << endl;
         istringstream in(data);
         queue<TreeNode*> q;
 
@@ -136,8 +155,6 @@ public:
 
         return root;
     }
-
-
 };
 
 class CodecDfsPreorder {
@@ -163,7 +180,7 @@ public:
         auto it = output.rbegin();
         for (it = output.rbegin(); it != output.rend() && (*it == ',' || *it =='#'); ++it);
         output.erase(it.base(), output.end());
-        cout << "serialized tree: " << output << endl;
+        cout << "preorder dfs serialized tree: " << output << endl;
 
         return output;
     }
@@ -230,6 +247,72 @@ public:
         }
 
         return pRoot;
+    }
+};
+
+/**
+ *
+ * Postorder serialize and deserialize.
+ *
+ * Postorder is recursively visit left, right then current node,
+ * while preorder is recursively visit node, left then right.
+ *
+ * 1) So if the serialized string of postorder is reversed, the tree
+ * can be deserialized in a similar way to preorder traversal:
+ *    visit node, right then left!
+ *
+ * 2) Can we deserialize without reversing the input string?
+ *
+ */
+class CodecDfsPostorder {
+public:
+    string serialize(TreeNode *root) {
+        const string &output = serializeRecursive(root);
+        cout << "postorder serialized: " << output << endl;
+
+        return output;
+    }
+
+    void serializeDfs(const TreeNode *pNode, ostringstream &sout) {
+        if (!pNode) {
+            sout << "#,";
+        } else {
+            serializeDfs(pNode->left, sout); // left, right, node
+            serializeDfs(pNode->right, sout);
+            sout << pNode->val << ",";
+        }
+    }
+
+    string serializeRecursive(TreeNode *root) {
+        ostringstream sout;
+        serializeDfs(root, sout);
+
+        string output = sout.str();
+        trimTrailing(output);
+
+        return output;
+    }
+
+    TreeNode* deserialize(string data) {
+        TreeNode *pRoot = deserializeRecursiveLikePreorder(data);
+
+        return pRoot;
+    }
+
+    TreeNode* deserializeDfs(istringstream &sin) {
+        TreeNode *pNode = _getNode(sin);
+        if (pNode) {
+            pNode->right = deserializeDfs(sin);
+            pNode->left = deserializeDfs(sin);
+        }
+        return pNode;
+    }
+
+    TreeNode* deserializeRecursiveLikePreorder(string data) {
+        std::reverse(data.begin(), data.end());
+        istringstream sin(data);
+
+        return deserializeDfs(sin);
     }
 };
 
