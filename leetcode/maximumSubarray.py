@@ -118,6 +118,34 @@ G = 0,
 2. Maximum subarray sequence
 Just use non-negative numbers...
 
+3. Maximum subarray sum no larger than K
+Input: [2, 100, -99], k = 100
+1) Brute force: exhaust and verify with prefix sum array. O(n²)
+2) Dynamic programming: keep track of max ending here
+
+The idea is to find maximum sum of subarray ending here first, then
+shrink the window if sum larger than k.
+But the problem is how much should we shrink the subarray from left.
+Well we can exhaust all possible situation, but then overall complexity
+is O(N²).
+
+Define State:
+Add another state to keep track of (
+  max sum of subarray ending here,
+  max sum that's no larger than k of subarray ending here,
+), represented with maxEndingHere[2], array of size 2.
+State transition:
+  maxEndingHere[0] = max(maxEndingHere + nums[i], nums[i])
+  maxEndingHere[1] = max()
+
+4. Longest subarray with sum no larger than K
+If numbers are all positive, then prefix sum is monotonic.
+In such case, we can use sliding window state transition with
+complexity O(N).
+
+But what if numbers can be positive or negative?
+1) Brute force: O(N²)
+
 
 '''
 

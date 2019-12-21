@@ -184,6 +184,10 @@ FOLLOW UP
 ================================================================================
 1. Maximum and of two numbers in an array.
 
+2. Maximum subarray XOR less than k
+https://www.geeksforgeeks.org/subarray-xor-less-k/
+- Prefix XOR
+- Trie tree with count of leaves
 
 '''
 
