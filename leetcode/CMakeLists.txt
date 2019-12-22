@@ -104,6 +104,7 @@ add_executable(countOfRangeSum countOfRangeSum.cpp)
 add_executable(maxConsecutiveOnes maxConsecutiveOnes.cpp)
 add_executable(maxConsecutiveOnesII maxConsecutiveOnesII.cpp)
 add_executable(maxConsecutiveOnesIII maxConsecutiveOnesIII.cpp)
+add_executable(maxSumOfRectangleNoLargerThanK maxSumOfRectangleNoLargerThanK.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)

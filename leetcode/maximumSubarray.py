@@ -129,6 +129,7 @@ But the problem is how much should we shrink the subarray from left.
 Well we can exhaust all possible situation, but then overall complexity
 is O(N²).
 
+Is there a linear solution?
 Define State:
 Add another state to keep track of (
   max sum of subarray ending here,
@@ -136,7 +137,21 @@ Add another state to keep track of (
 ), represented with maxEndingHere[2], array of size 2.
 State transition:
   maxEndingHere[0] = max(maxEndingHere + nums[i], nums[i])
-  maxEndingHere[1] = max()
+  maxEndingHere[1] = max(??)
+
+[1, 2, 100, -100, 2], k = 4.
+
+[1, 2, -100, 100, 2], k = 4.
+[1, 2, -97, 100, 102]
+[1, 2, -97, 3, 4]
+Actually it DOESN'T WORK, because the state transition involves
+shrinking and expanding the sliding window anyway.
+
+Well, we can find a NlogN solution with prefix sum binary search tree.
+- Compute the prefix sum array
+- for i = 1, ..., N, put prefix sum ending at i to bst. And query for
+lower bound position for value ps[i] - k.
+
 
 4. Longest subarray with sum no larger than K
 If numbers are all positive, then prefix sum is monotonic.

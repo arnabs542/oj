@@ -221,8 +221,8 @@ public:
         TreeNode *pRoot = _getNode(sin);
 
         if (pRoot) {
-            pRoot->left = dfs(sin);
-            pRoot->right = dfs(sin);
+            pRoot->left = deserializeDfs(sin);
+            pRoot->right = deserializeDfs(sin);
         }
 
         return pRoot;
