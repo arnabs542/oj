@@ -49,7 +49,7 @@ in deserialize, tree nodes must be constructed from input string first!
 
 using namespace std;
 
-TreeNode* _getNode(istringstream& s)
+inline TreeNode* _getNode(istringstream& s)
 {
     //if (s.rdbuf()->in_avail() == 0) return NULL; // empty stream
     if (s.eof()) { return NULL; } // empty stream
@@ -160,6 +160,31 @@ public:
 class CodecDfsPreorder {
 public:
     string serialize(TreeNode *root) {
+        //string output = serializeIterative(root);
+        string output = serializeRecursive(root);
+        trimTrailing(output);
+
+        return output;
+    }
+
+    void serializeDfs(TreeNode *root, ostringstream &sout) {
+        if (!root) {
+            sout << "#,";
+            return;
+        }
+        sout << root->val << ",";
+        serializeDfs(root->left, sout);
+        serializeDfs(root->right, sout);
+    }
+
+    string serializeRecursive(TreeNode *root) {
+        ostringstream sout;
+        serializeDfs(root, sout);
+
+        return sout.str();
+    }
+
+    string serializeIterative(TreeNode *root) {
         ostringstream sout;
 
         stack<TreeNode*> frontier;
@@ -192,7 +217,7 @@ public:
         return root;
     }
 
-    TreeNode* dfs(istringstream &sin) {
+    TreeNode* deserializeDfs(istringstream &sin) {
         TreeNode *pRoot = _getNode(sin);
 
         if (pRoot) {
@@ -206,7 +231,7 @@ public:
     TreeNode* deserializeRecursive(string data) {
         istringstream sin(data);
 
-        TreeNode *pRoot = dfs(sin);
+        TreeNode *pRoot = deserializeDfs(sin);
 
         return pRoot;
     }

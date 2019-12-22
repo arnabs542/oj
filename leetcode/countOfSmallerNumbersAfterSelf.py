@@ -63,6 +63,7 @@ back part. And the back part elements are always AFTER the front part elements.
 Then, the task is: for every element in the front part, count number of elements
 smaller than it.
 Since they are already sorted, it's easy to find the upper bound with linear scan.
+For each merging process, count first then merge sorted arrays.
 
 Backward merging is a similar idea like in "./MergeSortedArray.py".
 

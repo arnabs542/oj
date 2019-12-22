@@ -14,6 +14,10 @@ Note:
 2. The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 
 
+Hints:
+
+sum(i,j)=sum(0,j)-sum(0,i), where sum(i,j) represents the sum of all the elements from index i to j-1. Can we use this property to optimize it.
+
 ==============================================================================================
 SOLUTION
 
@@ -31,7 +35,7 @@ Complexity: O(N²), O(1)
 
 No clue yet.
 
-2. Prefix sum
+3. Prefix sum
 Subarray sum, is kind of range sum query, PREFIX SUM may help.
 
 Build the prefix sum array by integrating, and maintain INVERTED INDEX hash table <sum, list<index>>.
@@ -42,6 +46,13 @@ NOTE: to speed up when only number of solutions is expected, inverted index hash
 contain number of indices.
 
 Complexity: O(N), O(N)
+
+FOLLOW UP
+================================================================================
+1. Subarray sum less than K.
+1) Brute force: O(N²)
+2) Prefix sum with self balancing binary search tree: O(NlogN).
+
 
 """
 
