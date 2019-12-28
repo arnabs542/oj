@@ -27,13 +27,14 @@ SOLUTION
 
 1. Brute force
 
+Search space of a rectangle represented with 4-tuple (x1, y1, x2, y2) is O(m²n²).
 Complexity: O(m²n²)
 
 Reduce to a simpler situation
 -----------------------------
 How about a 1D max subarray sum no larger than k?
 This is a follow up of 'max subarray sum', which can be transformed to
-find range sum, then to finding prefix sum. And it can be solved with finding
+find RANGE SUM, then to finding PREFIX SUM. And it can be solved with finding
 lower bound in a self-balancing binary search tree storing prefix sums, with
 complexity: O(NlogN).
 
@@ -62,11 +63,25 @@ given a specific rectangle left and right side.
 
 Complexity: O(N²MlogM)
 
-4. Prefix sum - merge sort
+4. Prefix sum - range sum - merge sort
 This problem can be transformed to range sum smaller than k.
 Then it's similar to 'count of range sum'.
 
+A RANGE SUM PROBLEM CAN BE TRANSFORMED INTO PREFIX SUM, AND THEN TO
+RANGE QUERY, BINARY SEARCH TREE OR MERGE SORT.
+
+Merge sort process along rows is O(MlogM).
+
 TODO: merge sort solution
+Complexity: O(N²MlogM)
+
+FOLLOW UP
+================================================================================
+1. Max sum of square no larger than k
+1) Brute force: O(N²) squares represented with 3-tuple (x, y, h).
+
+
+2. Max sum of square
 
  *
  *
@@ -97,13 +112,16 @@ public:
                 ps[i][j] = ps[i-1][j] + ps[i][j-1] - ps[i-1][j-1] + matrix[i-1][j-1];
             }
         }
-
         // build binary search tree along one dimension and find lower bound of prefix sum
         for (int l = 1; l <= n; ++l) { // left side of rectangle
             for (int r = l; r <= n; ++r) { // right side of rectangle
+                // TODO: early stop
+                if (result == k) return k;
                 set<int> previousSums; // build a binary search along one dimension (row)
                 previousSums.insert(0);
                 for (int i = 1; i <= m; ++i) {
+                    // TODO: try dynamic programming if range sum no larger than k?
+                    // TODO: space optimize with rolling prefix sum array?
                     int s = ps[i][r] - ps[i][l-1];
                     auto it = std::lower_bound(previousSums.begin(), previousSums.end(), s - k);
                     if (it != previousSums.end()) {

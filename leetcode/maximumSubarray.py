@@ -104,6 +104,7 @@ Q: 给出一个Char Array, 里面只有 R, G. 现在要选择一个范围，使�
 SOLUTION
 
 Maximum subarray problem -  COUNT AS SUM
+--------------------------------------------------------------------------------
 
 要求的的是一个范围，就是一个subarray。这个subarray的#R - #G 要足够大。
 
@@ -116,9 +117,11 @@ G = 0,
 然后，用DP一遍就可以解决了
 
 2. Maximum subarray sequence
+--------------------------------------------------------------------------------
 Just use non-negative numbers...
 
 3. Maximum subarray sum no larger than K
+-----------------------------------------
 Input: [2, 100, -99], k = 100
 1) Brute force: exhaust and verify with prefix sum array. O(n²)
 2) Dynamic programming: keep track of max ending here
@@ -147,19 +150,55 @@ State transition:
 Actually it DOESN'T WORK, because the state transition involves
 shrinking and expanding the sliding window anyway.
 
-Well, we can find a NlogN solution with prefix sum binary search tree.
+PREFIX SUM BINARY SEARCH TREE LOWER BOUND
+--------------------------------------------------------------------------------
+Well, we can find a NlogN solution with PREFIX SUM binary search tree.
 - Compute the prefix sum array
 - for i = 1, ..., N, put prefix sum ending at i to bst. And query for
-lower bound position for value ps[i] - k.
+LOWER BOUND position for value ps[i] - k.
 
 
 4. Longest subarray with sum no larger than K
+--------------------------------------------------------------------------------
 If numbers are all positive, then prefix sum is monotonic.
 In such case, we can use sliding window state transition with
 complexity O(N).
 
 But what if numbers can be positive or negative?
 1) Brute force: O(N²)
+
+TODO: optimize
+
+5. Maximum subarray sum with minimum k length - generalized kadane's algorithm
+--------------------------------------------------------------------------------
+1) Brute force: O(N²), exhaust and verify
+2) Dynamic programming with sliding window tracking max ending here:
+Define state f(i) as (s: subarray maximum sum ending here at i, l: length l where l>= k).
+Then the state transition is a variant of maximum subarray sum.
+If f(i-1).l >= k, we can shrink the window by popping out leftmost negative numbers
+until l == k-1, and update f(i).
+Otherwise, f(i).s = f(i-1).s + nums[i].
+
+State transition can be simplified:
+  max_ending_here[i] = max(max_ending_here[i-1] + nums[i],
+            max_ending_here[i-1]+nums[i] - nums[i-k])
+
+TODO: test
+Complexity: O(N)
+
+
+6. Maximum subarray sum with maximum length k
+--------------------------------------------------------------------------------
+Same as maximum subarray sum with window shrinking. Once the window is oversized,
+we need to shrink the window by 1, keep shrinking leftmost negative numbers in the window.
+
+Complexity: O(N)
+
+7. Maximum subarray product
+If there are negative numbers, we need to keep track of another state: minimum ending here.
+Define state f[i] = (maximum product ending here, minimum product ending here).
+
+Complexity: O(N)
 
 
 '''

@@ -1,19 +1,35 @@
 # -*- encoding:utf-8 -*-
 '''
-Climbing Stairs
+70. Climbing Stairs
 
 You are climbing a stair case. It takes n steps to reach to the top.
 
 Each time you can either climb 1 or 2 steps. In how many distinct ways can
 you climb to the top?
 
-'''
 
-'''
-Solution:
-    Fibonacci problem,Dynamic Programming.
-    Best algorithm is to use matrix recurrence.
+Solution
+================================================================================
+
+1. Fibonacci problem - dynamic Programming.
+Define state f[n]: number of distinct ways to climb to the top.
+State transition:
     F[n] = F[n-1] + F[n-2],F[0] = 1,F[1] = 1
+
+How to compute?
+1) Just normal dynamic probramming
+
+2) State transition matrix
+Define state vector s[n] = [f[n], f[n-1]], then
+State transition matrix:
+[
+    [1, 1],
+    [0, 1]
+]
+Best algorithm is to use matrix recurrence.
+
+Complexity: O(N)
+
 '''
 
 

@@ -26,25 +26,32 @@ Return 6.
 ================================================================================
 SOLUTION
 
-In this problem, a path is actually composed of two branches starting with some node v,
-each of which is a path from v to its some distant child(neighbor).
+Such a path starts from one node and ends at another node, so there are O(N²)
+combinations. Given a tree, any two nodes have a COMMON ANCESTOR! And such path
+must be connected through their common ancestor.
+And such path can be DECOMPOSED of two simple paths starting with some node v,
+each of which is a path from ancestor v to its some distant child(neighbor).
 
-The problem STATE is composite, it would be easier to decompose it into a tuple of
+The problem STATE is composite, it would be easier to DECOMPOSE it into a tuple of
 simpler ones with respect to a particular root node.
 Define simple path as any path starting from a predecessor to a descendant node.
 
 Simple STATE:
     (maximum left simple path sum ending here, maximum right simple path sum ending here)
 
-1. Basic BRUTE-FORCE solution:
+1. Basic BRUTE-FORCE - enumerate all possible ancestors
     The start node could be any of all nodes.
     Traverse ALL THE NODES, and check their maximum sum left and right paths starting
-there. This procedure involves lots of repeated computation.
+there. This procedure involves repeated computation.
 
 Check maximum sum of left and right paths takes average O(N). So the overall
 time complexity is O(N²).
 
-2. Bottom-up state transition.
+2. Depth first search - exhaust all ancestors with recurrence relation
+
+So we can enumerate all possible ancestors and construct the target path
+with some recurrence relation.
+
 A path sum problem shares some similarity with maximum subarray problem, which both have
 overlapping subproblems and optimal substructure. Parent vertices depend on its neighbors
 (children). So there is a Dynamic Programming solution.
@@ -96,6 +103,8 @@ Maximum subarray on tree data structure, already covered by this solution.
 
 4. Maximum sum sequence?
 Just add non-negative numbers
+
+5. Binary tree maximum path product
 
 '''
 

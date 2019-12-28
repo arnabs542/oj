@@ -19,6 +19,12 @@ Here are few examples.
 [1,3,5,6], 7 → 4
 [1,3,5,6], 0 → 0
 
+SOLUTION
+================================================================================
+
+This is to find lower bound position in a sorted array.
+Use binary search!
+
 '''
 
 class Solution(object):
@@ -29,6 +35,11 @@ class Solution(object):
         :type target: int
         :rtype: int
 
+        """
+        return self.searchInsertBinarySearch(nums, target)
+
+    def searchInsertBinarySearch(self, nums, target):
+        """
         Binary search
         """
         low, high = 0, len(nums) - 1

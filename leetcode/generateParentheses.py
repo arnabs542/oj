@@ -33,7 +33,18 @@ So the VERTEX(STATE) is defined as a three-tuple:
     STATE = (#'(', #')', current output string),
 where '#' denotes number of
 
+1. Depth first search
+There are two approaches:
+1) n -> 1 + n-1, 2 + n-2, ..., n-1 + 1. A divide and conquer approach, catalan number.
+2) Define state (current partial combination, number of open parentheses, number of close parentheses).
+And generate one by one.
+
+2. Breadth first search
+Define state:
+  (current partial combination, number of open parentheses, number of close parentheses)
+
 Time Complexity: Catalan number.
+
 '''
 
 class Solution(object):

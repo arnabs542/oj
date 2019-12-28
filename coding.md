@@ -1,8 +1,9 @@
 # Tips on white board coding or paper coding
 
 ## Ask questions to clarify
-- How big is the size of the input?
-- How big is the RANGE of values?
+- How big is the SIZE of the input?
+- How is input data represented?
+- How big is the RANGE of values? Positive values or negative values?
 - What kind of values are there? Are there negative numbers? Floating points? Will there be empty inputs?
 - Are there DUPLICATES within the input?
 - What are some EXTREME cases of the input?
@@ -14,6 +15,9 @@ Define utility functions to make the code modular, and reduce the risk of writin
 ## Review code
 Use a top down approach.
 - Check modular logic
+- Check INITIALIZATION
+- Check STATE TRANSITION: initialization in a loop, break state
+- CHECK TERMINATION STATE
 - Write function return statement first, since compiler may not warn you that.
 - Write COMMENTS first for to clarify program logic
 - Check VARIABLE name misuse
