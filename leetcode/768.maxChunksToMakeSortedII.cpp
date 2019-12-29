@@ -70,6 +70,22 @@ just apply greedy strategy.
 
 Complexity: O(N)
 
+5. Interval merging - monotonic stack(increasing)
+We can keep track of each chunk represented with a interval.
+And the intervals require merging, so a stack will help.
+
+Maintain a monotonic increasing stack of intervals.
+
+Iterate all the numbers, for each number e:
+    1) Construct a new interval (e, e)
+    2) If stack top (l, h) meets e < h then pop and insert (min(l, e), h).
+    Else push (e, e).
+Then stack size is max number of chunks.
+
+TODO:
+
+Complexity: O(N)
+
  *
  *
  */
@@ -82,6 +98,7 @@ public:
         int result;
         //result = maxChunksToSortedDynamicProgramming(arr);
         result = maxChunksToSortedGreedyLeftMaxRightMin(arr);
+        result = maxChunksToSortedStack(arr);
 
         cout << arr << " => " << result << endl;
 
@@ -135,6 +152,21 @@ public:
         }
 
         return result;
+    }
+
+    int maxChunksToSortedStack(vector<int> &arr) {
+        stack<pair<int, int>> filo;
+        int n = arr.size();
+        for (int i = 0; i < n; ++i) {
+            int high = arr[i];
+            while (!filo.empty() && filo.top().second > arr[i]) {
+                pair<int, int> interval0 = filo.top(); filo.pop();
+                high = std::max(high, interval0.second);
+            }
+            filo.push({arr[i], high});
+        }
+
+        return filo.size();
     }
 };
 

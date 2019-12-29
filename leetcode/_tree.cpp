@@ -97,21 +97,21 @@ void inorderTraversalDfs(TreeNode *root, vector<int>& result) {
  *
  */
 void inorderTraversalIterative(TreeNode *root, vector<int>& result) {
-    stack<TreeNode*> nodeStack;
+    stack<TreeNode*> filo;
     TreeNode *p;
 
-    if (root) nodeStack.push(root);
-    while (!nodeStack.empty()) { // while the stack is not empty
-        p = nodeStack.top(); // for each stack frame in the stack
+    if (root) filo.push(root);
+    while (!filo.empty()) { // while the stack is not empty
+        p = filo.top(); // for each stack frame in the stack
         if (p) { // recursive call:  push
-            nodeStack.push(p->left);
+            filo.push(p->left);
         } else {   // recursive call returns: base case
-            nodeStack.pop();
-            if(nodeStack.empty()) break;
-            p = nodeStack.top();
-            nodeStack.pop();
+            filo.pop();
+            if(filo.empty()) break;
+            p = filo.top();
+            filo.pop();
             result.push_back(p->val);
-            nodeStack.push(p->right); // recursive call returns and BACKTRACK: push
+            filo.push(p->right); // recursive call returns and BACKTRACK: push
         }
     }
 
