@@ -231,7 +231,5 @@ int test() {
 
 int main() {
 
-    // TODO: submit
-
     return test();
 }
