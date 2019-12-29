@@ -108,6 +108,7 @@ add_executable(maxSumOfRectangleNoLargerThanK maxSumOfRectangleNoLargerThanK.cpp
 add_executable(maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold.cpp)
 add_executable(769.maxChunksToMakeSorted 769.maxChunksToMakeSorted.cpp)
 add_executable(768.maxChunksToMakeSortedII 768.maxChunksToMakeSortedII.cpp)
+add_executable(canIWin canIWin.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
