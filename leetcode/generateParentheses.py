@@ -20,24 +20,34 @@ For example, given n = 3, a solution set is:
   "()(())",
   "()()()"
 ]
-===============================================================================================
-SOLUTION:
-    Treated as a GRAPH problem, it can be solved with BREADTH-FIRST SEARCH or DEPTH-FIRST SEARCH.
 
-The well-formed combination is a string of length 2n. Then we can generate a character for 2n times.
-
-At each time, there are two BRANCHES: generate open parenthese '(' or close parenthese ')'. And the
-number of ')' can not be more than #'(' in any substring starting from 0.
-
-So the VERTEX(STATE) is defined as a three-tuple:
-    STATE = (#'(', #')', current output string),
-where '#' denotes number of
+SOLUTION
+================================================================================
+Treated as a GRAPH problem, it can be solved with BREADTH-FIRST SEARCH or
+DEPTH-FIRST SEARCH. The key is to define proper state with RECURRENCE RELATION.
 
 1. Depth first search
 There are two approaches:
-1) n -> 1 + n-1, 2 + n-2, ..., n-1 + 1. A divide and conquer approach, catalan number.
-2) Define state (current partial combination, number of open parentheses, number of close parentheses).
-And generate one by one.
+1) Bottom up adding new element approach
+The well-formed combination is a string of length 2n. Then the process is to
+generate 2n symbols.
+
+Define state(vertex):
+    (current string of parentheses, number of open and close parenthesis)
+State transition: adding a new symbol '(' or ')'.
+
+At each time, there are two BRANCHES: generate open '(' or close parenthesis ')'.
+And the number of ')' can not be more than #'(' at any position.
+
+2) Top down decomposing approach
+Problem of N pairs can be decomposed into n different subproblems:
+  n -> 1 + n-1, 2 + n-2, ..., n-1 + 1.
+A divide and conquer approach, and this catalan number:
+  C(n) = Σ{i=0,n-1}C(i)C(n-i).
+
+
+Define state vertex: set of n pairs of parentheses.
+State transition: decomposition like above.
 
 2. Breadth first search
 Define state:
@@ -135,6 +145,7 @@ def test():
         "()(())",
         "()()()"
     ]
+    assert solution.generateParenthesis(5)
     print('self test passed')
     pass
 

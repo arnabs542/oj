@@ -79,8 +79,8 @@ public:
     }
 
     TreeNode* _deleteNode(TreeNode* root, int key) {
-        TreeNode *target, *parent, *p, *pp, *root1 = root;
-        target = parent = p = pp = NULL;
+        TreeNode *target, *parent, *successor, *pp, *root1 = root;
+        target = parent = successor = pp = NULL;
         target = root;
         if (!root) { return NULL; }
         // find target
@@ -91,25 +91,25 @@ public:
         if (!target)  return root1;
         // find successor
         pp = target;
-        p = target->right;
-        while (p && p->left)  {
-            pp = p;
-            p = p->left;
+        successor = target->right;
+        while (successor && successor->left)  {
+            pp = successor;
+            successor = successor->left;
         }
-        p = p ? p : target->left;
+        successor = successor ? successor : target->left;
         // update target's parent:
-        if (!parent) { root1 = p; }
-        else if (parent->left == target) { parent->left = p; }
-        else { parent->right = p; }
+        if (!parent) { root1 = successor; }
+        else if (parent->left == target) { parent->left = successor; }
+        else { parent->right = successor; }
         // update successor
-        TreeNode *q = p ? p->right : NULL;
-        if (p) {
-            if (target->left == p) {
-            } else if (target->right == p) {
-                p->left = target->left;
+        TreeNode *q = successor ? successor->right : NULL;
+        if (successor) {
+            if (target->left == successor) {
+            } else if (target->right == successor) {
+                successor->left = target->left;
             } else {
-                p->left = target->left;
-                p->right = target->right;
+                successor->left = target->left;
+                successor->right = target->right;
             }
 
             target->left = NULL;
@@ -117,7 +117,7 @@ public:
         }
         // last step: update successor's old parent's children reference
         if (pp) {
-            if (pp->left == p) { pp->left = q; }
+            if (pp->left == successor) { pp->left = q; }
             else { pp->right = q; }
         }
 
