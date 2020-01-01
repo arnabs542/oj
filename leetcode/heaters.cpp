@@ -7,7 +7,7 @@ Winter is coming! Your first job during the contest is to design a standard heat
 
 Now, you are given positions of houses and heaters on a horizontal line, find out minimum radius of heaters so that all houses could be covered by those heaters.
 
-So, your input will be the positions of houses and heaters seperately, and your expected output will be the minimum radius standard of heaters.
+So, your input will be the positions of houses and heaters separately, and your expected output will be the minimum radius standard of heaters.
 
 Note:
 
@@ -37,7 +37,7 @@ SOLUTION
 1. Linear scan
 For each pair of adjacent heaters, scan houses in between.
 
-Complexity: O(NlogN)
+Complexity: O(NlogN+MlogM)
 
 2. Binary search
 For each house

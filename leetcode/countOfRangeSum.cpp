@@ -85,14 +85,38 @@ Return number of eligible ranges.
 Complexity
 O(NlogN), O(N)
 
-3. Merge sort
+3. Divide and conquer - Merge sort
 
 Merge sort is stable sort.
 Merge sort can be used for finding numbers SMALLER THAN AFTER self.
 
+If we divide the array into two even subarray A and B, there are
+four possible cases for range interval [i, j]:
+- i, j both in A: solved in recursive subproblem
+- i, j both in B: solved in recursive subproblem
+- i in A, j in B: solved in the merge process
+- i in B, j in A (not valid since i must no larger than j)
+
+In the merge process, we want to find such [i, j] that
+lower <= ps(j) - ps(i-1) <= upper.
+
+And since both subarrays are already sorted, we can use the transitivity
+property of inequality relation. In another word, counting process
+is linear complexity since we don't need to move pointers backward!
+
+In each stage of merging, count the ranges first then do real merge.
+
+Procedure
+- Partition prefix sum array into two even parts A and B
+- merge sort two subarrays, and accumulate number of eligible ranges
+- Count of number of pairs (i, j) of range sum within bound, where
+i in A and j in B.
+- Do real merge
+
 TODO: ?
 
 Complexity
+T(n) = 2T(n-1)+n
 O(NlogN), O(N)
 
 
@@ -147,18 +171,25 @@ public:
         return result;
     }
 
+    int mergeSort(vector<long> &arr, int p, int q, int lower, int upper) {
+        int nRanges = 0;
+        if (p == q) return 0;
+
+        return nRanges;
+    }
+
     int countRangeSumPrefixSumAndMergeSort(vector<int>& nums, int lower, int upper) {
-        vector<int> ps(nums.size() + 1, 0); // prefix sum array
+        vector<long> ps(nums.size() + 1, 0); // prefix sum array
         for (size_t i = 1; i <= nums.size(); ++i) {
             ps[i] = ps[i-1] + nums[i - 1];
         }
 
-        int result = 0;
-        vector<int> indices(nums.size());
-        for (int i = 0; i < (int)nums.size(); ++i) indices[i] = i;
+        //int result = 0;
+        //vector<int> indices(nums.size());
+        //for (int i = 0; i < (int)nums.size(); ++i) indices[i] = i;
 
         // TODO:
-        //result = mergeSort(lower, upper, ps, indices); // merge sort?
+        int result = mergeSort(ps, 0, nums.size(), lower, upper); // merge sort?
 
         return result;
 
