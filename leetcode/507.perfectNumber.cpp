@@ -34,6 +34,11 @@ public:
         return result;
     }
 
+    bool checkPerfectNumberHarCode(int num) {
+        static unordered_set<long> hitSet = {6, 28, 496, 8128, 33550336, 8589869056};
+        return hitSet.count(num) > 0;
+    }
+
     bool checkPerfectNumberBruteForce(int num) {
         if (num == 0) return false;
         int x = num;

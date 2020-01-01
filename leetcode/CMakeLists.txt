@@ -112,6 +112,7 @@ add_executable(canIWin canIWin.cpp)
 add_executable(359.loggerRateLimiter 359.loggerRateLimiter.cpp)
 add_executable(932.beautifulArray 932.beautifulArray.cpp)
 add_executable(507.perfectNumber 507.perfectNumber.cpp)
+add_executable(812.largestTriangleArea 812.largestTriangleArea.cpp)
 
 add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
 add_library(intersectionOfTwoLinkedLists SHARED intersectionOfTwoLinkedLists.cpp)
