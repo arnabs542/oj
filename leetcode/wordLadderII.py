@@ -46,8 +46,8 @@ Worst case complexity: O(exp(E)), O(E)
 
 2. dfs with pruning
 
-In this problem requires all SHORTEST paths. Naive dfs without pruning will take account of
-all paths.
+In this problem requires all SHORTEST paths in an unweighted graph.
+Naive dfs without pruning will take account of all paths.
 
 To reduce the time complexity, we need to PRUNE LONGER PATH THAN THE SHORTEST found
 so far, we shall have to traverse almost all paths. Thus, this may
@@ -225,7 +225,7 @@ class Solution(object):
                         predecessors.setdefault(neighbor, [])
                         distance[neighbor] = distance[word] + 1
 
-                    # update predecessors list and distance
+                    # edge relaxation: update predecessors list and distance
                     if distance[word] + 1 < distance[neighbor]:
                         # not used for this graph
                         print('A general graph BFS case, not supposed to occur here')

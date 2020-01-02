@@ -29,10 +29,21 @@ SOLUTION
 ================================================================================
 
 1. Brute force - vector product
+          (i,  j,  k)
+\vec{a} = (x1, y1, z1)
+\vec{b| = (x2, y2, z2)
+Vector product:
+    \vec{a}×\vec{b} = (
+        y1*z2-z1*y2, // x: yz, right hand rule
+        z1*x2-x1*z2, // y: zx
+        x1*y2-y1*x2, // z: xy
+    )
+In 2D space, z1=z2=0, so vector product =(0, 0, x1*y2-y1*x2).
+Then, vector product magnitude: |x1y2-x2y1| = |x₁y₂-x₂y₁|.
 
 Area = 1/2*|AB×AC| # vector product
      = 1/2*|(xb-xa, yb-ya)×(xc-xa, yc-ya)|
-     = 1/2*|(xb-xa)(yc-ya)-(yb-ya)(xc-xa)|
+     = 1/2*|(xb-xa)(yc-ya)-(xc-xa)(yb-ya)|
      = 1/2*|xb*yc-xb*ya-xa*yc-xc*yb+xa*yb+xc*ya|
 
 Complexity: O(N³)
