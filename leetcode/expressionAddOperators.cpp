@@ -122,6 +122,7 @@ public:
                 try {
                     int operand = stoi(num.substr(p, k - p + 1));
                     // FIXME: handle division by zero
+                    // XXX: what if two large intermediate numbers(larger than int max) difference equal to target?
                     if (operand  < 1.0 * numeric_limits<int>::max() / partialResults[i].second)
                         products.push_back(make_pair(expr, operand * partialResults[i].second));
                 }catch(exception e) {

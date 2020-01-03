@@ -28,12 +28,20 @@ values = [2.0, 3.0],
 queries = [ ["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"] ].
 The input is always valid. You may assume that evaluating the queries will
 result in no division by zero and there is no contradiction.
-===============================================================================================
-SOLUTION:
-    The problem can be converted/treated as a GRAPH problem where variables are graph VERTICES
+
+SOLUTION
+================================================================================
+The problem can be modeled as a GRAPH problem where variables are graph VERTICES
 and the quotients are EDGES connecting vertices.
-    Then it can be solved by search the graph with depth-first search or breadth-first search.
+
+Then it can be solved by search the graph with depth-first search or breadth-first search.
+1. Graph search traversal
+
+2. Floyd-warshall
+We are to find vertex to vertex path in a directed graph.
+
 '''
+
 class Solution(object):
 
     def calcEquation(self, equations, values, queries):
@@ -43,12 +51,19 @@ class Solution(object):
         :type queries: List[List[str]]
         :rtype: List[float]
         """
+        # result = self.calcEquationBFS(equations, values, queries)
+        result = self.calcEquationFloydWarshall(equations, values, queries)
+
+        print(result)
+
+        return result
+
+    def calcEquationBFS(self, equations, values, queries):
         adj = self._buildGraph(equations, values, queries)
         result = []
         for query in queries:
             result.append(self._BFS(query, adj))
 
-        print(result)
         return result
 
     def _BFS(self, query, adj):
@@ -78,12 +93,42 @@ class Solution(object):
 
         return -1.0
 
-    def floydWarshall(self, query, adj):
+    def calcEquationFloydWarshall(self, equations, values, queries):
+
+        # TODO: submit
+        adj = self._buildGraph(equations, values, queries)
+        adj = self.floydWarshall(adj)
+
+        result = []
+        for query in queries:
+            if query[0] not in adj or query[1] not in adj:
+                result.append(-1)
+            else:
+                result.append(adj[query[0]][query[1]])
+
+        return result
+
+    def floydWarshall(self, adj):
         '''
-        Graph search with BFS
+        Adapt floyd warshall dynamic programming algorithm for all pairs shortest path in graph.
+
+        Process is like a matrix multiplication.
 
         '''
-        # TODO: floyd-warshall algorithm
+        # floyd-warshall algorithm
+        # adj = self._buildGraph(equations, values, queries)
+        result = []
+        for k in adj.keys(): # increase intermediate vertices set when tracking state
+            # changed = False
+            for i in adj.keys(): # vertex i
+                for j in adj.keys(): # possible edge from i to j
+                    if j in adj[i]: continue # already computed, and no contradiction, no need to compare
+                    if k in adj[i] and j in adj[k]:
+                        adj[i][j] = adj[i][k] * adj[k][j]
+                        adj[j][i] = 1/adj[i][j]
+                        # changed = True
+            # if not changed: break
+        return adj
 
     def unionFind(self, query, adj):
         '''
@@ -95,6 +140,8 @@ class Solution(object):
     def _buildGraph(self, equations, values, queries):
         '''
         Build the graph represented by sparse matrix(actually it's a dictionary)
+
+        adj[i][j] = v: means (variable i/variable j = v)
         '''
         adj = {}
         for i, equation in enumerate(equations):
