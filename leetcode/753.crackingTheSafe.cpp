@@ -53,6 +53,8 @@ Submissions
  * Whether Euler path exists can be determined within O(V+E):
  *      every vertex must have indegree equal to outdegree.
  *
+ * Apparently in such directed graph each vertex has its indegree equal to outdegree.
+ *
  * Complexity:
  *
  * O()
@@ -80,12 +82,13 @@ public:
                 continue; // Euler path: visit each edge just once
             }
             //cout << "combination:  " << combination << endl;
-            visited.insert(combination);
-            trail.push_back(edge); // trial
+            vector<char> u(combination.begin(), combination.end()); // neighbour vertex
+            u.erase(u.begin());
+
             //vector<char> u(vertex.begin() + 1, vertex.end()); // new vertex
             //u.push_back(edge); // n == 1?
-            vector<char> u(combination.begin(), combination.end());
-            u.erase(u.begin());
+            visited.insert(combination); // color: visit state
+            trail.push_back(edge); // trial
             if (dfsEulerPath(u, visited, trail)) return true; // found a Euler path
             trail.erase(trail.end()-1); // backtrack, restoring state
             visited.erase(combination);
@@ -96,19 +99,18 @@ public:
 
     string crackSafeEulerPath(int n, int k) {
         if (k <= 0 || n <= 0) return "";
-        vector<char> trail; // digits, form a combination with a vertex
+        this->n = n, this->k = k;
+
+        vector<char> trail; // single digit, form a combination with a vertex
         unordered_set<string> visited; // visited edges
         vector<char> vertex(n-1, '0');
-        this->n = n, this->k = k;
         // TODO: faster Euler path algorithm?
         dfsEulerPath(vertex, visited, trail);
 
         //cout << trail << endl;
         //cout << visited << endl;
 
-        // concatenate result
-        string result;
-        result = string(vertex.begin(), vertex.end());
+        string result = string(vertex.begin(), vertex.end()); // concatenate result
         result.insert(result.end(), trail.begin(), trail.end());
 
         return result;
@@ -146,7 +148,13 @@ int test() {
     n = 2, k = 10;
     (solution.crackSafe(n, k) == output);
     //assert(solution.crackSafe(n, k) == output);
+
+    //n = 4, k = 10;
+    //(solution.crackSafe(n, k) == output);
+    //assert(solution.crackSafe(n, k) == output);
+
     cout << "test passed" << endl;
+
     return 0;
 }
 
