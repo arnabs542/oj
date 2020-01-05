@@ -48,6 +48,8 @@ State transition:
 
 Complexity: O(kE), where E is number of edges.
 
+2. Dijkstra's algorithm
+
  *
  */
 
@@ -57,7 +59,8 @@ class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>> edges, int src, int dst, int k) {
         int result;
-        result = findCheapestPriceDPBellmanFord(n, edges, src, dst, k);
+        //result = findCheapestPriceDPBellmanFord(n, edges, src, dst, k);
+        result = findCheapestPriceBfs(n, edges, src, dst, k);
 
         cout << n << " " << edges << " " << src << "->" << dst << " " << k << ": " << result << endl;
 
@@ -84,6 +87,43 @@ public:
             //cost[dst] = -1;
 
         return cost[dst];
+    }
+
+    int findCheapestPriceBfs(int n, vector<vector<int>> edges, int src, int dst, int k) {
+        if (src < 0 || src >= n || dst < 0 || dst >= n) return -1; // bounds checking can be optimized
+        k = std::min(k, n - 2);
+
+        // build graph
+        //vector<vector<int>>
+        unordered_map<int, vector<vector<int>>> adj; // v, {{u, w}, ...}
+        for (auto const &edge: edges) {
+            adj[edge[0]].push_back({edge[1], edge[2]});
+        }
+
+        // initialize distance
+        vector<int> cost(n + 1, std::numeric_limits<int>::max());
+        cost[src] = 0;
+
+        queue<int> frontier;
+        frontier.push(src);
+        for (int i = 0; i <= k && frontier.size(); ++i) {
+            queue<int> frontier1;
+            vector<int> cost1 = cost;
+            while (frontier.size()) { // make one step
+                int v = frontier.front(); frontier.pop();
+                for (auto &edge: adj[v]) {
+                    int &u = edge[0];
+                    if (cost1[u] > cost[v] + edge[1]) { // path relaxation
+                        cost1[u] = cost[v] + edge[1]; // XXX: resolve the topological dependency!
+                        frontier1.push(u); // add neighbour to search frontier once distance updated!
+                    }
+                }
+            }
+            frontier = std::move(frontier1);
+            cost = std::move(cost1);
+        }
+
+        return cost[dst] == std::numeric_limits<int>::max() ? -1: cost[dst];
     }
 };
 
@@ -122,12 +162,18 @@ int test() {
     output = 500;
     assert(solution.findCheapestPrice(n, edges, src, dst, k) == output);
 
+    n = 4, edges = {{0,1,1},{0,2,5},{1,2,1},{2,3,1}};
+    src = 0, dst = 3, k = 1;
+    output = 6;
+    assert(solution.findCheapestPrice(n, edges, src, dst, k) == output);
+
+    cout << "test passed" << endl;
+
     return 0;
 }
 
 int main(int argc, char **argv) {
 
-    // TODO: submit
     test();
     return 0;
 }

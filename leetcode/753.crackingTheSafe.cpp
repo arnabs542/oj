@@ -32,6 +32,10 @@ k will be in the range [1, 10].
 k^n will be at most 4096.
 
 
+Hints
+We can think of this problem as the problem of finding an Euler path (a path visiting every edge exactly once) on the following graph: there are $$k^{n-1}$$ nodes with each node having $$k$$ edges. It turns out this graph always has an Eulerian circuit (path starting where it ends.) We should visit each node in "post-order" so as to not get stuck in the graph prematurely.
+
+
 Accepted
 22,270
 Submissions
@@ -59,6 +63,9 @@ Submissions
  *
  * O()
  *
+ * Reference:
+ * This is actually De Bruijn sequence(https://en.wikipedia.org/wiki/De_Bruijn_sequence).
+ *
  */
 
 #include <debug.hpp>
@@ -73,8 +80,9 @@ public:
         return result;
     }
 
-    int dfsEulerPath(vector<char> vertex, unordered_set<string> &visited, vector<char> &trail) {
-        if (trail.size() == pow(k, n)) return true;
+    int dfsEulerPath(vector<char> vertex, vector<char> &trail) {
+        // FIXME: not that fast, took 36ms
+        if (trail.size() == lenTrail) return true;
         for (int i = 0; i < k; ++i) {
             char edge = '0' + i; // a single digit
             string combination = string(vertex.begin(), vertex.end()) + edge;
@@ -89,7 +97,7 @@ public:
             //u.push_back(edge); // n == 1?
             visited.insert(combination); // color: visit state
             trail.push_back(edge); // trial
-            if (dfsEulerPath(u, visited, trail)) return true; // found a Euler path
+            if (dfsEulerPath(u, trail)) return true; // found a Euler path
             trail.erase(trail.end()-1); // backtrack, restoring state
             visited.erase(combination);
         }
@@ -100,12 +108,14 @@ public:
     string crackSafeEulerPath(int n, int k) {
         if (k <= 0 || n <= 0) return "";
         this->n = n, this->k = k;
+        this->lenTrail = pow(k, n);
+        this->visited.clear();
 
         vector<char> trail; // single digit, form a combination with a vertex
-        unordered_set<string> visited; // visited edges
+        //unordered_set<string> visited; // visited edges
         vector<char> vertex(n-1, '0');
         // TODO: faster Euler path algorithm?
-        dfsEulerPath(vertex, visited, trail);
+        dfsEulerPath(vertex, trail);
 
         //cout << trail << endl;
         //cout << visited << endl;
@@ -116,7 +126,9 @@ public:
         return result;
     }
 
-    int n, k;
+    int n = 0, k = 0;
+    unordered_set<string> visited;
+    unsigned int lenTrail = 0;
 };
 
 int test() {
