@@ -9,6 +9,8 @@
 - What are some EXTREME cases of the input?
 - How is the input stored? If you are given a dictionary of words, is it a list of strings or a trie?
 
+## Analyze STATE TRANSITION first
+
 ## Use modular design
 Define utility functions to make the code modular, and reduce the risk of writing crowded code.
 

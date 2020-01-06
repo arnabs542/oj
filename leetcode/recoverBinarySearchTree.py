@@ -15,11 +15,13 @@ Recover the tree without changing its structure.
 Note:
 A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
 
-==============================================================================================
-SOLUTION:
+================================================================================
+SOLUTION
 
 MONOTONICITY analysis: the swapped nodes can be identified as first peak(local maximum)
 and last valley(local minimum)
+
+A binary search tree produces ordered sequence when traversed in-order.
 
 1. recursive?
 

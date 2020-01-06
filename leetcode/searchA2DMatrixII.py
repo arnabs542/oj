@@ -66,6 +66,12 @@ or column depending on the comparison result between the root value and target.
 
 Complexity: O(max(m, n))
 
+================================================================================
+FOLLOW UP
+
+1. Find k smallest number
+View it as min heap, and maintain a heap?
+
 '''
 
 class Solution(object):
