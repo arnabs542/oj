@@ -56,7 +56,7 @@ class Solution(object):
 
 
 def test():
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
 
     solution = Solution()
     root = Codec.deserialize('[3,9,20,null,null,15,7]', int)

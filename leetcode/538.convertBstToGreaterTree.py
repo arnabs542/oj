@@ -92,7 +92,7 @@ class Solution:
 def test():
     solution = Solution()
 
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
 
     root = Codec.deserialize("[]", int)
     assert Codec.serialize(solution.convertBST(root), debug=True) == "[]"

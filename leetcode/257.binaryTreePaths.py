@@ -30,7 +30,7 @@ The recurrence relation is about the all sub-paths starting from a node to left.
 
 '''
 
-from serializeAndDeserializeBinaryTree import TreeNode, Codec
+from _tree import TreeNode, Codec
 
 # Definition for a binary tree node.
 # class TreeNode(object):

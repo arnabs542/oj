@@ -78,10 +78,16 @@ Data structures
     - Graph: vertexes and edges/connections
         - Characteristics: multiple branches, many to many connections
         - Algorithm
-            - Depth first search: all paths, one path, backtracking
+            - Depth first search: all paths, one path, backtracking. Don't mix visited state and result memoization if cycle exists!
             - Breadth first search: all paths, shortest path, bidirectional search, backtracking with copies of state 
             - Union find: connected components
-            - Cycle detection: dfs, bfs, tortoise and hare
+            - Cycle detection: dfs, bfs, tortoise and hare, union find
+            - Shortest path
+                - allowing repetitive vertex: dynamic programming with edge relaxation
+                    - single source: bellman-ford
+                    - all pairs: floyd-warshall
+                - simple path: NP hard, exhaust
+
 
 State transition technique
 - STATE TRANSITION - the key is to model the problem and define proper state

@@ -68,7 +68,7 @@ class Solution(object):
             else: return root.val if root else None
         return None
 
-from serializeAndDeserializeBinaryTree import Codec
+from _tree import Codec
 
 def test():
     solution = Solution()

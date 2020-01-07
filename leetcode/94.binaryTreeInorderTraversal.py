@@ -184,7 +184,7 @@ class Solution:
 
 def test():
 
-    # from serializeAndDeserializeBinaryTree import Codec
+    # from _tree import Codec
     from _tree import Codec
 
     solution = Solution()

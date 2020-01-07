@@ -40,7 +40,7 @@ into the stack. state = (node)
 
 '''
 
-from serializeAndDeserializeBinaryTree import Codec, TreeNode
+from _tree import Codec, TreeNode
 
 # Definition for a binary tree node.
 # class TreeNode(object):

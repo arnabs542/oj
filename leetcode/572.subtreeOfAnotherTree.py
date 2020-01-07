@@ -60,7 +60,7 @@ Complexity: O(mn), O(max(m, n))
 """
 
 from _type import TreeNode
-from serializeAndDeserializeBinaryTree import Codec
+from _tree import Codec
 
 class Solution:
     def isSubtree(self, s, t):

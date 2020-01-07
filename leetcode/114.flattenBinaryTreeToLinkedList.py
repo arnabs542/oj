@@ -36,7 +36,7 @@ Hints:
     If you notice carefully in the flattened tree, each node's right child points
 to the next node of a pre-order traversal.
 '''
-from serializeAndDeserializeBinaryTree import TreeNode, Codec
+from _tree import TreeNode, Codec
 
 # Definition for a binary tree node.
 # class TreeNode(object):

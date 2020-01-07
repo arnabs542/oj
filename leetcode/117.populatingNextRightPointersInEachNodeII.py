@@ -73,7 +73,7 @@ class Solution:
             head = head.left or head.right
 
 def test():
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
     from _utils import levelOrder
 
     solution = Solution()

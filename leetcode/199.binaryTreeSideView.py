@@ -80,7 +80,7 @@ class Solution(object):
         return result
 
 def test():
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
 
     solution = Solution()
 

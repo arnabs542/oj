@@ -125,7 +125,7 @@ class Solution:
         return result
 
 def test():
-    from serializeAndDeserializeBinaryTree import Codec, TreeNode
+    from _tree import Codec, TreeNode
 
     solution = Solution()
 

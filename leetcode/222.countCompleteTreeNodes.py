@@ -94,7 +94,7 @@ class Solution(object):
         return 2 ** (lh + 1) + self.countNodesOpt(root.right) if lh == rh else \
                 2 ** (rh + 1) + self.countNodesOpt(root.left)
 
-from serializeAndDeserializeBinaryTree import Codec
+from _tree import Codec
 
 def test():
     solution = Solution()

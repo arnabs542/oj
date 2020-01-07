@@ -41,7 +41,7 @@ in the bottom-up procedure, the right subtrees(n - 1 - j) can be obtained by clo
 with value offset j + 1.
 '''
 
-from serializeAndDeserializeBinaryTree import Codec
+from _tree import Codec
 
 # Definition for a binary tree node.
 class TreeNode(object):

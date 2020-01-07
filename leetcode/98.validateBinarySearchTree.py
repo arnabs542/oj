@@ -55,7 +55,7 @@ class Solution(object):
                             self.isValidBST(root.left, low=low, high=root.val) and
                             self.isValidBST(root.right, low=root.val, high=high))
 
-from serializeAndDeserializeBinaryTree import Codec, TreeNode
+from _tree import Codec, TreeNode
 
 def test():
     solution = Solution()

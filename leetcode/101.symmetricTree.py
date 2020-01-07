@@ -115,7 +115,7 @@ class Solution(object):
         return True
 
 def test():
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
     solution = Solution()
 
     root = Codec.deserialize('[]', int)
