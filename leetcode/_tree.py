@@ -10,6 +10,119 @@ A tree is a recursive, or hierarchical data structure, a graph without back edge
 """
 import math
 
+# class TreeNode(object):
+    # def __init__(self, x):
+        # self.val = x
+        # self.left = None
+        # self.right = None
+
+from _type import TreeNode
+
+class Codec:
+
+    debug = False
+
+    @classmethod
+    def serialize(cls, root, debug=False):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        cls.debug = debug
+        serializedTree = cls._serializeBFS(root)
+        if cls.debug:
+            print(serializedTree)
+        return serializedTree
+
+    @classmethod
+    def deserialize(cls, data: str,
+                    T: type = int, NodeType: type = TreeNode, debug=False):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        cls.debug = debug
+        root = cls._deserializeBFS(data, T, NodeType)
+        if debug:
+            cls.drawtree(root)
+        return root
+
+    @classmethod
+    def _serializeBFS(cls, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+
+        Breadth-first search.
+        """
+        data = []
+        frontier = [root]
+        while frontier:
+            vertex = frontier.pop(0)
+            data.append(str(vertex.val) if vertex else 'null')
+            if vertex:
+                frontier.append(vertex.left)
+                frontier.append(vertex.right)
+            pass
+
+        while data and data[-1] == 'null': data.pop()
+        # print('BFS result:', data)
+        return '[{}]'.format(','.join(data))
+
+    @classmethod
+    def _deserializeBFS(cls, data, T: type=int, NodeType: type=TreeNode):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+
+        Breadth-first search.
+        """
+        # strip the parentheses
+        vertices = [NodeType(T(x.strip())) if x not in ('', 'null', ' null', '#', ' #') else None
+                    for x in data.strip("[]").split(',')]
+
+        root = vertices.pop(0) if vertices else None
+        frontier = [root] if root else []
+        while frontier and vertices:
+            vertex = frontier.pop(0)
+            vertex.left, vertex.right = (vertices.pop(0) if vertices else None,
+                                         vertices.pop(0) if vertices else None)
+            for child in (vertex.left, vertex.right):
+                if child: frontier.append(child)
+
+        return root
+
+    @classmethod
+    def _serializeDFS(cls, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        # TODO: depth-first solution
+
+    @classmethod
+    def _deserializeInorder(cls, root: TreeNode) -> TreeNode:
+        # guess at least another traversal sequence is necessary
+        pass
+
+    @classmethod
+    def _serializeInorder(cls, root):
+        pass
+
+    @staticmethod
+    def drawtree(root):
+        # DONE: visualize tree
+        print("visualize tree:")
+        # prettyPrintTree(root, "🌲   ")
+        prettyPrintTree(root, "")
+
+
+
 # TODO: representation of segment tree to make the interface simpler, maybe?
 class SegmentTree(object):
     """

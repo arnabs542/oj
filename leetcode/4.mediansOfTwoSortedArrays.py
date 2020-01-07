@@ -87,6 +87,13 @@ For example, if i=0, then A[i-1] doesn't exist, then we don't need to check A[i-
 
 Note that, if we constrain `i + j = k`, then this algorithm could generalize to find kth element.
 The time complexity is O(log(min(m, n))).
+
+FOLLOW UP
+================================================================================
+
+1. kth largest given two sorted array
+
+
 '''
 
 class Solution(object):

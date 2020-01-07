@@ -18,20 +18,29 @@ A solution using O(n) space is pretty straight forward. Could you devise a const
 ================================================================================
 SOLUTION
 
-MONOTONICITY analysis: the swapped nodes can be identified as first peak(local maximum)
-and last valley(local minimum)
-
 A binary search tree produces ordered sequence when traversed in-order.
+How to recover a increasingly sorted array if two numbers are swapped?
+Input:   [1,2,3,4,5,6]
+Swapped: [1,2,4,3,5,6], swap 4, 3
+Swapped: [1,5,3,4,2,6], swap 5, 2
+Swapped: [4,2,3,1,5,6], swap 1, 1
+
+Since the array is INCREASING, except two numbers are swapped, if we scan
+the array from left to right, we will find violations:
+    current value smaller than previous one.
+Where is the right number that's swapped? Just before first violation!
+Where is the left number that's swapped? It could be the first violation, or
+it could be the second violation!
 
 1. recursive?
 
 2. inorder traversal to find first peak(local maximum) and last valley(local minimum)?
 
-3. Morris traversal?
+3. morris traversal?
 
 '''
 
-from serializeAndDeserializeBinaryTree import Codec, TreeNode
+from _tree import Codec, TreeNode
 
 # Definition for a binary tree node.
 # class TreeNode(object):
@@ -47,9 +56,56 @@ class Solution(object):
         :type root: TreeNode
         :rtype: void Do not return anything, modify root in-place instead.
         """
-        self.recoverTreeInorder(root)
+        # self.recoverTreeInorder(root)
+        # self.recorverTreeRecursive(root)
+        self.recorverTreeStackFrame(root)
+
         return root
-        # [nodes] = self.wrongNode(root)
+
+    def recorverTreeRecursive(self, root):
+        # recursive implementation(figure out recurrent relation first!)
+        pair = [None, None]
+        def dfs(prev, node):
+            if node.left: # visit left
+                prev = dfs(prev, node.left)
+            if prev and prev.val > node.val: # visit current
+                pair[0] = pair[0] or prev
+                pair[1] = node # TODO: early stop
+            prev = node
+            if node.right: # visit right
+                prev = dfs(prev, node.right)
+
+            return prev # previous node for next successor
+
+        if root: dfs(None, root) # maintain: prev, current. return last node
+        if pair[0] and pair[1]:
+            pair[0].val, pair[1].val = pair[1].val, pair[0].val
+
+    def recorverTreeStackFrame(self, root):
+        pair = [None, None]
+        stack = [(None, root, 0)] if root else []
+        prev = None
+        ret = None # return value corresponding recursive procedure call
+        while stack:
+            prev, node, address = stack.pop()
+            if address == 0:
+                stack.append((prev, node, address+1))
+                if node.left: stack.append((prev, node.left, 0))
+                else: ret = None # reset return value
+            elif address == 1:
+                prev = ret or prev
+                if prev and prev.val > node.val:
+                    pair[0] = pair[0] or prev
+                    pair[1] = node # TODO: early stop
+                prev = node
+                stack.append((prev, node, address+1))
+                if node.right: stack.append((node, node.right, 0))
+                else: ret = None
+            else:
+                ret = ret or prev # XXX
+
+        if pair[0] and pair[1]:
+            pair[0].val, pair[1].val = pair[1].val, pair[0].val
 
     def recoverTreeInorder(self, root: TreeNode):
         prev, curr = None, None
@@ -58,15 +114,15 @@ class Solution(object):
         while stack:
             node = stack.pop()
             if node:
-                stack.append(node)
+                stack.append(node) # XXX?
                 stack.append(node.left)
             elif stack:
                 node = stack.pop()
                 stack.append(node.right)
                 # check peak and valley
                 prev, curr = curr, node
-                if prev and prev.val > curr.val:
-                    peak, valley = peak or prev, curr
+                if prev and prev.val > curr.val: # violation of order
+                    peak, valley = peak or prev, curr # at most two violation!
         print(peak, valley)
         if peak and valley:
             peak.val, valley.val = valley.val, peak.val
@@ -80,6 +136,9 @@ def test():
 
     root = Codec.deserialize('[0,1]', int)
     assert Codec.serialize(solution.recoverTree(root)) == '[1,0]'
+
+    root = Codec.deserialize('[1,2,#,3,#,0,#]', int)
+    # assert Codec.serialize(solution.recoverTree(root)) == '[0,1,2,3]'
 
     # inorder: 1,2,3,4,5,6,7
     root = Codec.deserialize('[4,2,6,1,3,5,7]', int)

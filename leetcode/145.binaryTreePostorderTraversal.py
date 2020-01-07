@@ -57,7 +57,8 @@ class Solution:
         :rtype: List[int]
         """
         # return self.postorderTraversalRecursive(root)
-        return self.postorderTraversalStack(root)
+        # return self.postorderTraversalStack(root)
+        return self.postorderTraversalStackFrame(root)
 
     def postorderTraversalRecursive(self, root, visit=None):
         if visit is None: visit = []
@@ -66,6 +67,23 @@ class Solution:
             self.postorderTraversalRecursive(root.right, visit)
             visit.append(root.val)
         return visit
+
+    def postorderTraversalStackFrame(self, root):
+        visited = []
+        stack = [(root, 0)] if root else []
+        while stack:
+           v, address = stack.pop()
+           if address == 0:
+              stack.append((v, address + 1))
+              if v.left: stack.append((v.left, 0))
+           elif address == 1:
+              stack.append((v, address + 1))
+              if v.right: stack.append((v.right, 0))
+           else:
+              visited.append(v.val)
+           pass
+
+        return visited
 
     def postorderTraversalStack(self, root: TreeNode):
         """
@@ -95,7 +113,7 @@ class Solution:
 
 def test():
 
-    from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
 
     solution = Solution()
 

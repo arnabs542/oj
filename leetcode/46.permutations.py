@@ -130,7 +130,7 @@ Complexity: P(n, k), P(n, k) for permutations of k given n.
 If k = n, then complexity is O(n!), O(n!).
 
 ================================================================================
-CONVERT RECURSIVE CALL TO ITERATIVE
+CONVERT RECURSIVE PROCEDURE CALL TO ITERATIVE
 
 To convert recursive depth-first search call to iterative, we have two
 difference approaches.
@@ -150,7 +150,7 @@ Then general procedure skeleton for this would be like
 STOP CRITERIA correspond to the regions where the recursive dfs procedure function returns.
 3) Repeat 1) and 2)
 
-2. General case - backtracking - STACK FRAME - define states with full information
+2. General case - STACK FRAME - like procedure call in assembly language
 
 Emulate the RECURSION mechanism with STACK FRAME.
 
@@ -161,9 +161,11 @@ Aggregate the variables used in the recursive procedure, and define the state as
     state = (
     INPUT: function PARAMETERS,
     LOCAL VARIABLES: search branch control variables, value accumulator, ...,
+    RETURN ADDRESS: where to resume execution,
     OUTPUT: function RETURN VALUE,
     )
-store them as STACK FRAME.
+store them as STACK FRAME. And determine what to execute based on the STACK FRAME
+top return address, calculate state transition for next frame.
 
 --------------------------------------------------------------------------------
 Second, convert the state transition recurrence relation from recursion to iteration.
@@ -178,26 +180,45 @@ an existing frame that has already been finished exploring.
 
 Pseudocode to emulate recursion with stack in iterative manner:
 
+General procedure is like this:
+def iterative(input):
+    stack = [(data=(input, local variables), address=0,)] # initial data, return address
+    returnValue = None
+    while stack:
+        data, address = stack.pop()
+        if address != TERMINAL:
+            proceed with current stack frame execution
+            update address += 1
+            update returnValue
+            stack.push((data, address)) # proceed with current stack frame
+            maybe stack.push(new frame) # maybe spawn another recursive call
+        else:
+            update returnValue # end of execution of current stack frame
+
+    process returnValue
+
+A special case:
 ```
-stack = [(state0)]# Initialize stack with initial state
-while stack is not empty:
-    frame = top element of the stack
-    if reaches dead end:
-        # pop == recursive procedure returns
-        if solution is found:
-            collect current solution
-        # pop and push to explore SIBLING vertex in the graph
-        stack.pop()
-        if stack: # backtrack, a higher level stack frame
-            frame = stack.pop()
-            restore state of the frame # backtrack
-            new_frame = NextSibling(frame) # state transition: next step, for(;;++i)
-            stack.append(new_frame) # push new state
-    else: # keep pushing stack, exploring child/adjacent vertices == recursive call
-        mutate state with respect to current frame
-        new_frame = FirstChild(frame) # state transition: first child of next depth
-        stack.append(new_frame) # push new state/frame
-return result
+def iterative:
+    stack = [(state0)]# Initialize stack with initial state
+    while stack is not empty:
+        frame = top element of the stack
+        if reaches dead end:
+            # pop == recursive procedure returns
+            if solution is found:
+                collect current solution
+            # pop and push to explore SIBLING vertex in the graph
+            stack.pop()
+            if stack: # backtrack, a higher level stack frame
+                frame = stack.pop()
+                restore state of the frame # backtrack
+                new_frame = NextSibling(frame) # state transition: next step, for(;;++i)
+                stack.append(new_frame) # push new state
+        else: # keep pushing stack, exploring child/adjacent vertices == recursive call
+            mutate state with respect to current frame
+            new_frame = FirstChild(frame) # state transition: first child of next depth
+            stack.append(new_frame) # push new state/frame
+    return result
 
 ```
 

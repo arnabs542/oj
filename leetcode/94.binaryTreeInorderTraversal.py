@@ -61,45 +61,101 @@ class Solution:
         :type root: TreeNode
         :rtype: List[int]
         """
-        # return self.inorderTraversalRecursive(root)
-        # return self.inorderTraversalStack(root)
-        return self.inorderTraversalStack2(root)
+        # result =  self.inorderTraversalRecursive(root)
+        # result =  self.inorderTraversalStackFrame(root)
+        # result = self.inorderTraversalStack(root)
+        # result = self.inorderTraversalStack2(root)
+        result = self.inorderTraversalStackFrameSimplified(root)
+
+        print(root, result)
+        return result
 
     def inorderTraversalRecursive(self, root):
         """
         :type root: treenode
         :rtype: list[int]
         """
-        if root is not None:
-            self.inorderTraversal(root.left)
-            self.visit.append(root.val)
-            self.inorderTraversal(root.right)
-        return self.visit
+        visited = []
+        def dfs(node):
+            if not node: return
+            dfs(node.left) # call, return address 1
+            visited.append(node.val)
+            dfs(node.right) # return address 2, not needed, current stack frame cleared
 
-    def inorderTraversalStack(self, root):
+        dfs(root)
+
+        return visited
+
+    def inorderTraversalStackFrame(self, root):
         """
         :type root: treenode
         :rtype: list[int]
 
-        PUSH the right child when root is popped and visited.
+        Emulate the stack frame with explicit return address
         """
-        vertices = []
-        stack = [root] if root else []
+        visited = [] # return result
+        stack = [(root, 0)] if root else []
         while stack:
-            vertex = stack.pop()
-            # XXX: avoid duplicate PUSHING the same node, giving infinite loop
-            if vertex:
-                stack.append(vertex)
-                # PUSH left adjacent vertex
-                stack.append(vertex.left)
-            elif stack:
-                # POP root vertex, because there is no left adjacent vertices anymore
-                vertex = stack.pop()
-                vertices.append(vertex.val)
-                # XXX: and PUSH right vertices AFTER finishing EXPLORING ROOT
-                stack.append(vertex.right)
+            v, address = stack.pop()
+            if not v: continue
+            if address == 0:
+                stack.append((v, address + 1)) # update RETURN ADDRESS
+                if v.left: stack.append((v.left, 0)) # keep PUSHING stack
+            elif address == 1: # POP. Trigger condition: above v.left is NULL
+                visited.append(v.val)
+                if v.right: stack.append((v.right, 0))
+            # elif address == 2: pass
+        return visited
 
-        return vertices
+    def inorderTraversalStackFrameSimplified(self, root):
+        """
+        :type root: treenode
+        :rtype: list[int]
+
+        Based on the stack frame implementation, the iterative procedure can be
+        simplified to following implementations, according to the comments.
+
+        Emulate the stack frame with implicit return address
+        """
+        visited = [] # return result
+        # stack = [(root)] if root else []
+        stack = []
+        while stack or root:
+            # root = stack.pop()
+            while root:
+                stack.append(root)
+                root = root.left # have to push NULL nodes into stack, implicitly indicating return address
+            if stack: # trigger condition: found a NULL v.left, return address 1
+               root = stack.pop()
+               visited.append(root.val)
+               root = root.right
+
+        return visited
+
+
+    def inorderTraversalStack(self, root):
+       """
+       :type root: treenode
+        :rtype: list[int]
+
+        PUSH the right child when root is popped and visited.
+       """
+       visited = []
+       stack = [root] if root else []
+       while stack:
+          vertex = stack.pop()
+          # XXX: avoid duplicate PUSHING the same node, giving infinite loop
+          if vertex:
+             stack.append(vertex)
+             stack.append(vertex.left) # keep pushing left child
+          elif stack: # trigger condition: found a NULL v.left, return address 1
+             # POP root vertex, because there is no left adjacent visited anymore
+             vertex = stack.pop()
+             visited.append(vertex.val)
+             # XXX: and PUSH right visited AFTER finishing EXPLORING ROOT
+             stack.append(vertex.right)
+
+       return visited
 
     def inorderTraversalStack2(self, root):
         """
@@ -110,25 +166,26 @@ class Solution:
 
         PUSH where we can, POP when there is no more to explore
         """
-        vertices = []
+        visited = []
         stack = [root] if root else []
         while stack:
-            vertex = stack.pop()
-            if vertex:
-                stack.append(vertex.right)
-                stack.append(vertex)
-                # PUSH left adjacent vertex
-                stack.append(vertex.left)
-            elif stack:
-                # POP root vertex, because there is no left adjacent vertices anymore
-                vertex = stack.pop()
-                vertices.append(vertex.val)
+           vertex = stack.pop()
+           if vertex:
+               stack.append(vertex.right)
+               stack.append(vertex)
+               # PUSH left adjacent vertex
+               stack.append(vertex.left)
+           elif stack:
+               # POP root vertex, because there is no left adjacent visited anymore
+               vertex = stack.pop()
+               visited.append(vertex.val)
 
-        return vertices
+        return visited
 
 def test():
 
-    from serializeAndDeserializeBinaryTree import Codec
+    # from serializeAndDeserializeBinaryTree import Codec
+    from _tree import Codec
 
     solution = Solution()
 

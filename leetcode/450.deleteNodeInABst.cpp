@@ -55,6 +55,11 @@ Update children pointers of successor's previous parent node
 
 2. Recursive solution
 
+================================================================================
+FOLLOW UP
+
+1. Delete range of nodes?
+
 */
 
 /**
