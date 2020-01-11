@@ -65,7 +65,7 @@ class Solution:
         # result =  self.inorderTraversalStackFrame(root)
         # result = self.inorderTraversalStack(root)
         # result = self.inorderTraversalStack2(root)
-        result = self.inorderTraversalStackFrameSimplified(root)
+        result = self.inorderTraversalStackFrameImplicitAddress(root)
 
         print(root, result)
         return result
@@ -107,7 +107,7 @@ class Solution:
             # elif address == 2: pass
         return visited
 
-    def inorderTraversalStackFrameSimplified(self, root):
+    def inorderTraversalStackFrameImplicitAddress(self, root):
         """
         :type root: treenode
         :rtype: list[int]
@@ -115,7 +115,10 @@ class Solution:
         Based on the stack frame implementation, the iterative procedure can be
         simplified to following implementations, according to the comments.
 
-        Emulate the stack frame with implicit return address
+        Emulate the stack frame with implicit return address, triggered with NULL left child.
+
+        INTUITION:
+        Always find next inorder successor, keeping all nodes along the path in the stack!
         """
         visited = [] # return result
         # stack = [(root)] if root else []
@@ -123,7 +126,7 @@ class Solution:
         while stack or root:
             # root = stack.pop()
             while root:
-                stack.append(root)
+                stack.append(root) # stack top is the inorder successor
                 root = root.left # have to push NULL nodes into stack, implicitly indicating return address
             if stack: # trigger condition: found a NULL v.left, return address 1
                root = stack.pop()

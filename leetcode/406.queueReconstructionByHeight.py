@@ -27,13 +27,15 @@ Output:
 ================================================================================
 SOLUTION
 
+This problem has "larger than and before relation" involved.
+
 1. Brute-force, greedy.
 
 In a bubble sort manner?
 
 VALUE COMPARISON involved, consider the ORDERING / MONOTONICITY and EXTREMUM.
 
-2. Sort and insert - backward induction
+2. Sort and insert - backward, decreasing order
 
 Process the list backward, in a descending height order.
 Add the elements into the result array. Then each element already in the result
@@ -42,6 +44,33 @@ array is greater than or equal to the current one to insert.
 In another word, for current (h, k), k is the position to insert it!
 
 Complexity: O(n²), O(n)
+
+3. Sort and insert - increasing order
+
+We can sort the array with height first, and then insert in an increasing order.
+For the first element, k is its index in output array.
+An increasing order, empty slots indicates larger or equal elements coming after.
+So, for each element (h, k), it should be placed at the kth EMPTY SLOT.
+
+How about elements with same height?
+Insert one with larger k first will be easier since same h with smaller k can
+take empty slots before larger k!
+
+And finding such empty slots takes O(n).
+
+Complexity: O(N²), O(N²)
+
+4. Sort and insert - increasing order - binary search - range sum as count
+The above solution takes O(N) to find right empty slot position.
+Can we use binary search to speed up?
+To use binary search, we need to know how many positions are taken before,
+for each index i in [0,n-1].
+And, this is RANGE QUERY! We can count as sum, with range query data structure!
+We can use a binary indexed tree to store range sum(count of take positions).
+
+Then for each element, finding an empty slot to insert takes O(log²N).
+
+Complexity: O(Nlog²N)
 
 3. Optimizing inserting with order statistics tree
 
@@ -61,14 +90,13 @@ How to optimize it?
 
 Well, the trick is to SQUARE ROOT DECOMPOSE the list into blocks.
 Inserting takes O(N) because there are average N elements to move when inserting.
-What if the number of elements to move is reduced? How about reduce the number of
-elements in a list, while keeping the same total number of elements?
+But how to keep the buckets balanced?
 
 Decompose given array into small chunks specifically of size sqrt(n)!
 
 Complexity: O(n sqrtn) = O(n√n)
 
-5. Optimization on the sorting process?
+5. Divide and conquer - merge sort - number of larger elements before self
 
 Complexity: O(nlogn)
 

@@ -48,7 +48,7 @@ than the target.
 
 1. Iterative solution
 Find the target node.
-Find the successor node
+Find the inorder successor node.
 Update children pointers of parent node of target node
 Update children pointers of successor node
 Update children pointers of successor's previous parent node
@@ -85,7 +85,7 @@ public:
 
     TreeNode* _deleteNode(TreeNode* root, int key) {
         TreeNode *target, *parent, *successor, *pp, *root1 = root;
-        target = parent = successor = pp = NULL;
+        parent = successor = pp = NULL;
         target = root;
         if (!root) { return NULL; }
         // find target

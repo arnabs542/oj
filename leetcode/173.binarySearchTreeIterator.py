@@ -19,6 +19,15 @@ is the height of the tree.
 ==============================================================================================
 SOLUTION:
     Binary search? Binary tree inorder traversal.
+
+1. Stack frame adding break
+
+Complexity: O(n), O(h)
+
+2. Intuition: keep finding inorder successor
+
+Complexity: O(n), O(h)
+
 '''
 
 # Definition for a  binary tree node
@@ -87,7 +96,7 @@ class BSTIteratorStackFrame(object):
         return val
 
 
-class BSTIteratorStackFrameSimplified(object):
+class BSTIteratorStackFrameInorderSucessor(object):
 
     def __init__(self, root: TreeNode):
         """
@@ -123,7 +132,7 @@ def test():
     from _tree import Codec
 
     # BSTIterator = BSTIteratorStackFrame
-    BSTIterator = BSTIteratorStackFrameSimplified
+    BSTIterator = BSTIteratorStackFrameInorderSucessor
 
     # Your BSTIterator will be called like this:
     root = Codec.deserialize("[]", int)

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-189. Rotate Array   QuestionEditorial Solution  My Submissions
+189. Rotate Array
+
 Total Accepted: 96377
 Total Submissions: 420656
 Difficulty: Easy
 Contributors: Admin
+
 Rotate an array of n elements to the right by k steps.
 
 For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
@@ -33,10 +35,14 @@ Complexity: O(kn), O(1)
 i -> i - k -> i - k -k.
 The problem is it may not be able to traverse all the points.
 
-4. Reverse
+4. Reverse by swap
 Reverse is an operation we can carry out inplace.
 
-Let AB are the two parts of the input array where A = arr[0..k-1] and B = arr[k..n-1]. The idea of the algorithm is :
+Suppose we will shift the array to the left by k steps.
+Divide the array into two parts AB, where A = arr[0..k-1] and B = arr[k..n-1].
+Then Input is AB, after rotating, it must be BA.
+
+The idea of the algorithm is:
 
 - Reverse A to get ArB, where Ar is reverse of A.
 - Reverse B to get ArBr, where Br is reverse of B.
@@ -98,7 +104,7 @@ class Solution(object):
         k %= len(nums)
         nums[:] = nums[-k:] + nums[:-k]
 
-    # TODO: linear space(in-place)?
+    # DONE: linear space(in-place)?
     def rotateReverse(self, nums, k):
         if not nums: return
         n = len(nums)

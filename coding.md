@@ -10,6 +10,8 @@
 - How is the input stored? If you are given a dictionary of words, is it a list of strings or a trie?
 
 ## Analyze STATE TRANSITION first
+- Be clear input data, function signature
+- Write state transition RECURRENCE RELATION before writing code!
 
 ## Use modular design
 Define utility functions to make the code modular, and reduce the risk of writing crowded code.
