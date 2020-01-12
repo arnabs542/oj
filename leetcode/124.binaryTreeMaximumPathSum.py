@@ -26,6 +26,8 @@ Return 6.
 ================================================================================
 SOLUTION
 
+This is a longest path on an undirected acyclic graph(tree) problem.
+
 Such a path starts from one node and ends at another node, so there are O(N²)
 combinations. Given a tree, any two nodes have a COMMON ANCESTOR! And such path
 must be connected through their common ancestor.

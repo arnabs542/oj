@@ -50,6 +50,22 @@ Complexity: O(kE), where E is number of edges.
 
 2. Dijkstra's algorithm
 
+Dijkstra algorithm maintains a data structure to query/update minimum for current
+search frontier.
+But how to incorporate the constraint of k stops?
+Maintain a tuple (vertex, distance, number of stops remaining)!
+
+Complexity:
+O(klogV+E), where k is the number of stops.
+
+3. Breadth first search modified - actually it's bellman-ford
+Modify the bfs algorithm to add a vertex into search frontier once its distance
+is reduced by edge relaxation.
+And this is actually Bellman-ford algorithm modified to keep tracking of updated
+vertices only instead of all vertices at each step of edge relaxation.
+
+Complexity: O(kE)
+
  *
  */
 
@@ -60,7 +76,8 @@ public:
     int findCheapestPrice(int n, vector<vector<int>> edges, int src, int dst, int k) {
         int result;
         //result = findCheapestPriceDPBellmanFord(n, edges, src, dst, k);
-        result = findCheapestPriceBfs(n, edges, src, dst, k);
+        //result = findCheapestPriceBfs(n, edges, src, dst, k);
+        result = findCheapestPriceDijkstra(n, edges, src, dst, k);
 
         cout << n << " " << edges << " " << src << "->" << dst << " " << k << ": " << result << endl;
 
@@ -89,6 +106,7 @@ public:
         return cost[dst];
     }
 
+    // actually another centralized implementation of bellman-ford
     int findCheapestPriceBfs(int n, vector<vector<int>> edges, int src, int dst, int k) {
         if (src < 0 || src >= n || dst < 0 || dst >= n) return -1; // bounds checking can be optimized
         k = std::min(k, n - 2);
@@ -124,6 +142,29 @@ public:
         }
 
         return cost[dst] == std::numeric_limits<int>::max() ? -1: cost[dst];
+    }
+
+    int findCheapestPriceDijkstra(int n, vector<vector<int>> edges, int src, int dst, int k) {
+        if (src < 0 || src >= n || dst < 0 || dst >= n) return -1; // bounds checking can be optimized
+        vector<vector<pair<int, int>>> adj(n, {}); // [u:[v, weight]]
+        for (const vector<int> &edge: edges) {
+            //adj[edge[0]].push_back({edge[1], edge[2]});
+            adj[edge[0]].emplace_back(edge[1], edge[2]);
+        }
+        typedef tuple<int, int, int> ti3;
+        priority_queue<ti3, vector<ti3>, std::greater<ti3>> frontier; //cost, allowed steps, vertex,
+        frontier.push({0, k+1, src});
+        while (!frontier.empty()) {
+            int v, cost, step;
+            std::tie(cost, step, v) = frontier.top(); frontier.pop();
+            if (v == dst) return cost;
+            if (step == 0) continue; // no more steps allowed
+            for (pair<int, int> connection: adj[v]) {
+                frontier.emplace(cost + connection.second, step-1, connection.first); // could result in O(V²) space of frontier
+            }
+        }
+
+        return -1;
     }
 };
 
