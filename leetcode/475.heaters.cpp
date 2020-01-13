@@ -39,10 +39,27 @@ For each pair of adjacent heaters, scan houses in between.
 
 Complexity: O(NlogN+MlogM)
 
-2. Binary search
-For each house
+2. Linear scan - keep tracking of individual house and heater pair
+Above solution tracks two adjacent heaters, making it more complex!
+Since the houses and heaters can be sorted first, there are some
+TRANSITIVE PROPERTY DUE TO THE ORDERING of elements!
 
-Complexity: O(NlogN + MlogM + NlogM)
+Complexity:
+O(NlogN + MlogM)
+
+2. Binary search
+For each house find nearest heater in logarithm time.
+
+Sort, and for each house, do binary search on heaters.
+
+TODO:
+
+Complexity: O(MlogM + NlogM)
+
+3. Lower bound with map
+
+Complexity:
+
 
  *
  */
@@ -53,11 +70,18 @@ class Solution {
 public:
     int findRadius(vector<int>& houses, vector<int>& heaters) {
         int result = 0;
-        result = findRadiusLinearScan(houses, heaters);
+        //result = findRadiusLinearScan(houses, heaters);
+        result = findRadiusLinearScanSimple(houses, heaters);
+
+        cout << houses << " " << heaters << " " << result << endl;
 
         return result;
     }
 
+    /**
+     * Too complex!
+     *
+     */
     int findRadiusLinearScan(vector<int> &houses, vector<int> &heaters) {
         sort(houses.begin(), houses.end());
         sort(heaters.begin(), heaters.end());
@@ -89,6 +113,35 @@ public:
         }
 
         return r;
+    }
+
+    int findRadiusLinearScanSimple(vector<int> &houses, vector<int> &heaters) {
+        sort(houses.begin(), houses.end());
+        sort(heaters.begin(), heaters.end());
+
+        uint i = 0, j = 0; // house, heater index
+        int radius = 0;
+        while (i < houses.size() && j < heaters.size()) { // for each house
+            while (j < heaters.size() - 1 && abs(houses[i] - heaters[j]) >= abs(houses[i] - heaters[j+1])) ++j; // XXX: search for nearest heater
+            radius = max(radius, abs(houses[i] - heaters[j]));
+            //if (j == heaters.size() - 1) break;
+            ++i;
+        }
+
+        return radius;
+    }
+
+    int findRadiusBinarySearch(vector<int> &houses, vector<int> &heaters) {
+        sort(heaters.begin(), heaters.end());
+        int radius = 0;
+        for (int house: houses) {
+            int h = 0, l = heaters.size();
+            while (h <= l) {
+                int mid = (l+h) >> 1;
+                // TODO: binary search
+                //if ()
+            }
+        }
     }
 };
 
@@ -132,6 +185,22 @@ int test() {
     heaters = {1, 4};
     result = 0;
     assert(solution.findRadius(houses, heaters) == result);
+
+    houses = {1, 2, 3, 4, 5, 6, 7};
+    heaters = {1, 1, 2, 3, 4, 5, 6, 7};
+    result = 0;
+    assert(solution.findRadius(houses, heaters) == result);
+
+    houses = {};
+    heaters = {};
+    for (int i = 0; i < 15225; ++i) {
+        houses.push_back(i+1);
+        houses.push_back(i+1);
+        heaters.push_back(i+1);
+        heaters.push_back(i+1);
+    }
+    result = 0;
+    //assert(solution.findRadius(houses, heaters) == result);
 
     houses = {474833169,264817709,998097157,817129560};
     heaters = {197493099,404280278,893351816,505795335};

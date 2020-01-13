@@ -19,19 +19,40 @@ right-hand column.
 3,2,1 → 1,2,3
 1,1,5 → 1,5,1
 
-SOLUTION:
-    brute-force: TLE...
-    lexicographical order:
-        Find the first pair of two successive ascending numbers a[i] and a[i−1], from the right,
-        which satisfy a[i] > a[i-1].
-        Swap a[j] and a[i-1] where a[j]>a[i-1] and j >= i, a[j+1] < a[i-1].
-        Reverse a[i:].
+SOLUTION
+================================================================================
+1. Brute-force: TLE...
+Generate all permutations and select kth.
 
-VARIANT:
-    How about permutations of m given n numbers? A_{4}^{2}
-    1,2,3 → 1,2,4
-    1,3,2 → 1,3,4
-    1,3,4 → 1,4,2
+Complexity:
+O(n!)
+
+2. Lexicographical order
+
+Take '123' for example:
+123, + 1 -> 124 -> 132
+132, + 1 -> 133
+213
+231
+312
+321
+
+If the sequence is lexicographically decreasing, then it's the largest permutation.
+To find a next permutation, we need to find a rightmost non-decreasing sequence, since
+right positions are less significant as for lexicographical order.
+
+Procedure:
+- Find the largest index k such that a[k] < a[k + 1]. If no such index exists, the permutation is the last permutation.
+- Find the largest index l greater than k such that a[k] < a[l].
+- Swap the value of a[k] with that of a[l].
+- Reverse the sequence from a[k + 1] up to and including the final element a[n].
+
+FOLLOW UP
+================================================================================
+1. How about permutations of m given n numbers? A_{4}^{2}
+1,2,3 → 1,2,4
+1,3,2 → 1,3,4
+1,3,4 → 1,4,2
 
 """
 

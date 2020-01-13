@@ -20,6 +20,12 @@ Given numerator = 2, denominator = 3, return "0.(6)".
 ==============================================================================================
 SOLUTION
 
+1. Perform division and modular arithmetic, maintaining a remainder occurrence index
+1) Get quotient and remainder before dot.
+2) Initialize a remainder occurrence index.
+3) keep processing until remainder is duplicate or 0:
+    - division and modulo.
+
 '''
 
 class Solution(object):

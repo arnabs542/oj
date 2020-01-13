@@ -15,11 +15,14 @@ Each rectangle is defined by its bottom left corner and top right corner as show
 Rectangle Area
 Assume that the total area is never beyond the maximum possible value of int.
 
-==============================================================================================
+
 SOLUTION
+================================================================================
 
 Sum areas of individual rectangles, and subtract overlapping area.
 
+How to get intersection of two rectangles?
+This can be viewed in a line sweeping perspective.
 To get the INTERSECTION border points, we just need to get the INNER MOST COORDINATE.
 
 
@@ -39,10 +42,10 @@ class Solution(object):
         :type H: int
         :rtype: int
         """
-        x1 = max(A, E)
-        y1 = max(B, F)
-        x2 = min(C, G)
-        y2 = min(D, H)
+        x1 = max(A, E) # intersection bottom left
+        y1 = max(B, F) # intersection bottom left
+        x2 = min(C, G) # intersection top right
+        y2 = min(D, H) # intersection top right
         # print('intersection:', (x1, y1), (x2, y2))
         # might be negative area if no intersection
         overlapped = (x2 - x1) * (y2 - y1) if x2 > x1 and y2 > y1 else 0
