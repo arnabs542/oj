@@ -56,9 +56,9 @@ class Solution(object):
         :type root: TreeNode
         :rtype: void Do not return anything, modify root in-place instead.
         """
-        # self.recoverTreeInorder(root)
+        self.recoverTreeInorderSuccessor(root)
         # self.recorverTreeRecursive(root)
-        self.recorverTreeStackFrame(root)
+        # self.recorverTreeStackFrame(root)
 
         return root
 
@@ -83,16 +83,16 @@ class Solution(object):
 
     def recorverTreeStackFrame(self, root):
         pair = [None, None]
-        stack = [(None, root, 0)] if root else []
+        stack = [(None, root, 0)] if root else [] # prev, node, return address
         prev = None
-        ret = None # return value corresponding recursive procedure call
+        ret = None # corresponding return value of recursive procedure call
         while stack:
             prev, node, address = stack.pop()
             if address == 0:
                 stack.append((prev, node, address+1))
                 if node.left: stack.append((prev, node.left, 0))
                 else: ret = None # reset return value
-            elif address == 1:
+            elif address == 1: # this branch is triggered with NULL node.left from above
                 prev = ret or prev
                 if prev and prev.val > node.val:
                     pair[0] = pair[0] or prev
@@ -107,22 +107,23 @@ class Solution(object):
         if pair[0] and pair[1]:
             pair[0].val, pair[1].val = pair[1].val, pair[0].val
 
-    def recoverTreeInorder(self, root: TreeNode):
-        prev, curr = None, None
+    def recoverTreeInorderSuccessor(self, root: TreeNode):
+        prev = None
         peak, valley = None, None
         stack = [root] if root else []
         while stack:
             node = stack.pop()
             if node:
-                stack.append(node) # XXX?
-                stack.append(node.left)
+                stack.append(node)
+                stack.append(node.left) # successor: push NULL left child as trigger for stack pop
             elif stack:
                 node = stack.pop()
                 stack.append(node.right)
-                # check peak and valley
-                prev, curr = curr, node
-                if prev and prev.val > curr.val: # violation of order
-                    peak, valley = peak or prev, curr # at most two violation!
+                # prev, curr = curr, node
+                # check violation of increasing order
+                if prev and prev.val > node.val: # violation of order
+                    peak, valley = peak or prev, node # at most two violation!
+                prev = node
         print(peak, valley)
         if peak and valley:
             peak.val, valley.val = valley.val, peak.val

@@ -10,9 +10,11 @@ Compute and return the square root of x.
 
 
 ================================================================================
-Solution:
+Solution
 
-1. Binary search
+This is a root-finding problem.
+
+1. Binary search(bisect)
 
 1) Binary search for k ,for which k² <= x < (k + 1)².
 2) Binary search for lower bound.

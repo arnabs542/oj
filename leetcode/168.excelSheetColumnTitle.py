@@ -24,6 +24,8 @@ SOLUTION:
 
 Base 26 number system. The difference is that the valid symbol ranges from [1, 26], not [0, 25]
 
+n = Σaₖ26^(k-1), where k = 0, 1, ..., m.
+
 Generate the title from the least significant place.
 '''
 
@@ -52,7 +54,7 @@ class Solution(object):
 def test():
     solution = Solution()
 
-    assert solution.convertToTitle(26) == 'Z'
+    assert solution.convertToTitle(26) == 'Z' # n = 1, r = 0
     assert solution.convertToTitle(1 * 26 + 1) == 'AA'
     assert solution.convertToTitle(1 * 26 + 2) == 'AB'
     assert solution.convertToTitle(1 * 26 + 26) == 'AZ'

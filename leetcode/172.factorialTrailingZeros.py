@@ -11,16 +11,29 @@ Contributors: Admin
 Given an integer n, return the number of trailing zeroes in n!.
 
 Note: Your solution should be in logarithmic time complexity.
-===============================================================================================
-SOLUTION:
-1. Naive solution: Compute the factorial, and then count trailing zeroes.
-Exponential complexity.
 
-2. FACTORIZATION and recurrence relation
-    The factorial result can be factorized into products of prime factors. Zeroes occur when
-prime factor 5 and 2 get multiplied, one zero for each pair. In a factorial's prime factors,
-occurrences of 2 would literally be more than 5. So we just need to compute the number of 5s in
-prime factors.
+SOLUTION
+===============================================================================================
+
+1. Naive solution: Compute the factorial, and then count trailing zeroes.
+
+Complexity: O(n!)
+
+
+--------------------------------------------------------------------------------
+The factorial result can be factorized into products of prime factors. Zeroes occur
+when prime factor 5 and 2 get multiplied, one zero for each pair. In a factorial's
+prime factors, occurrences of 2 would literally be more than 5. So we just need
+to compute the number of 5s in prime factors.
+
+2. Iterate and count number of factor of 5s
+For each i in range(1, n):
+    count number of factor 5s in i, and add up
+
+Complexity:
+O(NlogN)=O(Nlog₅N)
+
+3. Logarithm recurrence relation - f(n) -> f(n/5)
 
 Denote the trailing zeroes of factorial of n by g(n).
 Numbers with 5s as a factors must be 5's MULTIPLES, showing the 5's multiples:

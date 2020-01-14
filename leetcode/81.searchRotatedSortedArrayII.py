@@ -20,6 +20,11 @@ SOLUTION
 
 Binary Search with duplicate number.
 
+What does duplicate number cause?
+The first part and second part of the array may overlap(nums[0] == nums[n-1]).
+If nums[low] == nums[mid] == nums[high], it's not possible to know which part
+mid belongs to.
+
 Pay attention to the scenario where the middle value is equal to an end value. In this
 case, the range division is undetermined, but we can at least reduce the range by one,
 moving the right end left by one.
@@ -35,6 +40,12 @@ class Solution(object):
         :type target: int
         :rtype: bool
         """
+        result = self.searchBinarySearch(nums, target)
+
+        print(nums, target, result)
+        return result
+
+    def searchBinarySearch(self, nums, target):
         low, high = 0, len(nums) - 1
         while low <= high:
             mid = (low + high) >> 1
@@ -47,7 +58,7 @@ class Solution(object):
                     high = mid - 1
             elif nums[mid] == nums[high]:
                 high -= 1
-            else:
+            elif nums[mid] > nums[high]:
                 if nums[low] <= target < nums[mid]:
                     high = mid - 1
                 else:
@@ -59,7 +70,9 @@ class Solution(object):
 def test():
     assert Solution().search([4, 5, 6, 7, 0, 1, 2], 2) == bool(6)
     assert Solution().search([5, 1, 2, 3, 4], 1) == bool(1)
+    assert Solution().search([5, 1, 2, 3, 4, 5], 1) == bool(1)
     assert Solution().search([5, 6, 7, 8, 9, 1, 2, 3, 4], 2) == bool(6)
+    assert Solution().search([2, 2, 2, 2, 2, 2, 2, 2, 0, 2], 0 == True)
 
     print("self test passed")
 

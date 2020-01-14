@@ -84,7 +84,7 @@ public:
     }
 
     TreeNode* _deleteNode(TreeNode* root, int key) {
-        TreeNode *target, *parent, *successor, *pp, *root1 = root;
+        TreeNode *target, *parent, *successor, *pp, *root1 = root; // new root
         parent = successor = pp = NULL;
         target = root;
         if (!root) { return NULL; }
@@ -101,7 +101,7 @@ public:
             pp = successor;
             successor = successor->left;
         }
-        successor = successor ? successor : target->left;
+        successor = successor ? successor : target->left; // successor or just left child if no right child
         // update target's parent:
         if (!parent) { root1 = successor; }
         else if (parent->left == target) { parent->left = successor; }
