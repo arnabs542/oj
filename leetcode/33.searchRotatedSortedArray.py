@@ -23,7 +23,7 @@ SOLUTION
 
 1. Binary search with more condition
 
-Analyze the sub-spaces while we are dividing the array.
+Analyze the divided sub-spaces while we are dividing the array.
 
 A sorted array is divided into TWO DISJOINT INCREASING subarrays after rotated:
     a₁a₂...aₘb₁b₂...bₚ, where a₁ >= b₂.

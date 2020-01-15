@@ -21,13 +21,13 @@ Some examples:
 "(1+(4+5+2)-3)+(6+8)" = 23
 Note: Do not use the eval built-in library function.
 
-===================================================================================================
+
 SOLUTION
+================================================================================
 
 A STACK structure is associated with two characteristics of problems:
-    1) nested structure
-    2)
-STACK data structure.
+    1) Nested structure
+    2) Backward processing due to priority, ordering.
 
 1. Two STACKS: operators and operands, compute on the fly
 Assume the infix expression is a string of tokens delimited by spaces. The operator tokens
