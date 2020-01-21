@@ -83,18 +83,21 @@ Data structures
             - Union find: connected components
             - Cycle detection: dfs, bfs, tortoise and hare, union find
             - Shortest path
-                - allowing repetitive vertex: dynamic programming with edge relaxation
-                    - single source: bellman-ford
-                    - all pairs: floyd-warshall
-                - simple path: NP hard, exhaust
+                - allowing repetitive vertex: DYNAMIC PROGRAMMING with EDGE RELAXATION
+                    - single source: bellman-ford(O(VE)), dijkstra(greedy, O(VlogV+E))
+                    - all pairs: floyd-warshall(matrix multiply, O(V³))
+                - shortest simple path: NP hard, need to exhaust all paths
 
 
 State transition technique
 - STATE TRANSITION - the key is to model the problem and define proper state
     - state representation - PERSPECTIVE matters!
         - single variable state
-            - integers: target number,
-            - bits
+            - index(domain): index of elements in [0, n-1], index space of function domain
+            - value(range): value space of function range
+            - count: number of elements, characters, length of string in [0, n].
+            - interval: a single point divides array into two parts, like quick sort partition.
+            - bits: hash table, combination can be represented with bits.
             - string
         - interval state
             - Two ended interval state:

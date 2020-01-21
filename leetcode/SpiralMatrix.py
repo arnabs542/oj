@@ -12,11 +12,29 @@ Given the following matrix:
  [ 7, 8, 9 ]
 ]
 You should return [1,2,3,6,9,8,7,4,5].
-'''
 
-'''
-SOLUTION:
-    Similar to Spiral Matrix II.Just loop!.
+================================================================================
+SOLUTION
+
+There are two approaches to implement:
+- Rule based
+- State machine based
+
+And what's the stop criterion?
+- Count steps taken in total
+- Check available next coordinates.
+
+
+1. State machine
+Similar to Spiral Matrix II.Just loop!.
+
+Write a state transition function to compute next coordination.
+
+Complexity: O(mn)
+
+2. Write out four direction visiting logic manually
+Complexity: O(mn)
+
 '''
 
 
@@ -25,6 +43,16 @@ class Solution:
     # @return a list of integers
 
     def spiralOrder(self, matrix):
+        result = self.spiralOrderStateMachine(matrix)
+
+        print(matrix, result)
+        return result
+
+    def spiaralOrderRule(self, matrix):
+        pass
+
+    def spiralOrderStateMachine(self, matrix):
+        # FIXME: maintaining visited cell, too slow
         # the correct way to initialize python multi-dimensional array!!!
         if len(matrix) == 0:
             return []

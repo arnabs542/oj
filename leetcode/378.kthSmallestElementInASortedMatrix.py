@@ -29,23 +29,53 @@ You may assume k is always valid, 1 ≤ k ≤ n².
 ==============================================================================================
 SOLUTION
 
-1. Brute-force, O(n²).
+1. Brute-force
+Sort: O(n²logn²)
+Merge sort: O(n²logn), logn for retrieving smallest of n rows.
 
-2. Breadth-first search with heap, O(k). Such matrix is naturally a min heap, with heap relation:
+--------------------------------------------------------------------------------
+Transform to "kth element of n sorted arrays"
+
+2. Search with heap from top left or along rows
+Such matrix is naturally a min heap, with heap relation:
     matrix[i][j] < matrix[i + 1][j],
     matrix[i][j] < matrix[i][j + 1]
 So we can do BFS starting with (0, 0). But expanding search frontier in multiple directions
 will require auxiliary storage to filter duplicate
 
+Complexity: O(klogn+nlogn), worst O(n²logn)
+
+Or we can search along rows, with a heap, like in merge sort.
+Complexity: O(klogn), worst O(n²logn)
+
 3. Expand search frontier in one direction: from up to down.
 
-4. Binary search - SEARCH in VALUE SPACE
-Since the matrix has a monotonicity property, we can use binary search. But the little trick
-here is not to search in the INDEX SPACE, but in the VALUE SPACE.
+4. Binary search - SEARCH in VALUE SPACE INSTEAD OF INDEX SPACE and VERIFY
+Since the matrix has a monotonicity property, we can use binary search.
+But the trick here is not to search in the INDEX SPACE, but in the VALUE SPACE.
 
 At each time, we search for the value that has k values no greater than it.
+And the verify process can be done in O(NlogN),
 
-Time complexity O(Nlog(max - min)).
+Time complexity O(NlogNlog(max - min)) = O(Nlog²N).
+
+5. Binary search - index space ?
+Divide the search space into three regions:
+top left rectangle S1, bottom rectangle S2, top right rectangle S3.
+where area(S1) = area(S2) + area(S3)
+
+6. Binary search tree perspective
+If viewed from bottom left, it looks like a binary search tree.
+At each time we can rule out one row or column!
+
+State: (i, j).
+State transition: (i-1, j), (i, j+1), kth element.
+
+Complexity: O(n+n)=O(n)
+
+================================================================================
+SIMILAR PROBLEM
+Median of two sorted arrays.
 
 '''
 
@@ -66,7 +96,7 @@ class Solution(object):
         if not (matrix and k):
             return 0
         heap = []
-        for i in range(len(matrix)):
+        for i in range(len(matrix)): # push first values in each column
             heappush(heap, (matrix[0][i], 0, i))
         while k and heap:
             _, i, j = heappop(heap)
@@ -92,6 +122,8 @@ class Solution(object):
             if count_no_less >= k: high = mid - 1
             else: low = mid + 1
         return low
+
+     # TODO: binary search tree method, rule out rows and columns.
 
 
 def test():

@@ -21,9 +21,38 @@ Note: Do not use class member/global/static variables to store states. Your seri
 Credits:
 Special thanks to @Louis1992 for adding this problem and creating all test cases.
 
+================================================================================
+SOLUTION
+
 CRITICAL:
 Serialize and deserialize is the same tree traversal process, except the difference that
 in deserialize, tree nodes must be constructed from input string first!
+
+But what kind of traversal order?
+
+In order traversal will fail for the following:
+
+0
+/
+0
+and
+0
+\
+0
+
+as both will be treated as #0#0#, because (left,root) and (root, right) can't be
+differentiated.
+
+Preorder and postorder traversal will do by storing NULL child nodes.
+preorder: 00#, 0#0
+postorder: 0#0, #00.
+Actually postorder is almost the same as preorder if inspected backward!
+
+FOLLOW UP
+--------------------------------------------------------------------------------
+Can we adapt inorder traversal to serialize the tree?
+(0)0)
+(0(0))
 
 */
 
@@ -340,5 +369,113 @@ public:
         return deserializeDfs(sin);
     }
 };
+
+class CodecDfsInorder {
+public:
+
+    // TODO: implementation
+    string serialize(TreeNode *root) {
+        //string output = serializeIterative(root);
+        string output = serializeRecursive(root);
+        //trimTrailing(output);
+
+        cout << "inorder serialized: " << output << endl;
+        return output;
+    }
+
+    void serializeDfs(TreeNode *root, ostringstream &sout) {
+        if (!root) {
+            //sout << "#,";
+            return;
+        }
+        sout << "(";
+        if (root->left) {
+            serializeDfs(root->left, sout);
+            //sout << " ";
+        }
+        sout << root->val;
+        if (root->right) {
+            serializeDfs(root->right, sout);
+            //sout << " ";
+        }
+        sout << ")";
+    }
+
+    string serializeRecursive(TreeNode *root) {
+        ostringstream sout;
+        serializeDfs(root, sout);
+
+        return sout.str();
+    }
+
+    string serializeIterative(TreeNode *root) {
+    }
+
+    TreeNode* deserialize(string data) {
+        TreeNode *root = deserializeRecursive(data);
+        //TreeNode *root = deserializeIterative(data);
+
+        return root;
+    }
+
+    TreeNode* deserializeDfs(istringstream &sin) {
+        TreeNode *pRoot = _getNode(sin);
+
+        if (pRoot) {
+            pRoot->left = deserializeDfs(sin);
+            pRoot->right = deserializeDfs(sin);
+        }
+
+        return pRoot;
+    }
+
+    TreeNode* deserializeRecursive(string data) {
+        istringstream sin(data);
+
+        TreeNode *pRoot = deserializeDfs(sin);
+
+        return pRoot;
+    }
+
+
+    /**
+     * XXX: how to convert the recursive implementation to iterative?
+     * Construct the STACK FRAME manually!
+     * 1) Add another implicit state: children index to stack frame
+     * 2) Or we can just use multilevel pointers of tree nodes
+     *
+     */
+    TreeNode* deserializeIterative(string data) {
+        istringstream sin(data);
+
+        TreeNode *pNode = _getNode(sin);
+        TreeNode *pRoot = pNode;
+        stack<pair<TreeNode*, int>> frontier; // stack frame: [tree node, children index]
+        frontier.push({pNode, 0});
+        while (frontier.size()) {
+            pNode = frontier.top().first;
+            int &index = frontier.top().second;
+
+            if (!pNode) {
+                frontier.pop();
+                continue;
+            }
+            if (index == 0) {
+                pNode->left = _getNode(sin);
+                frontier.push({pNode->left, 0});
+            } else if (index == 1) {
+                pNode->right = _getNode(sin);
+                frontier.push({pNode->right, 0});
+            } else if (index == 2) { // index == 1, end of children
+                frontier.pop();
+            }
+            ++index;
+        }
+
+        return pRoot;
+    }
+};
+
+
 
 using Codec = CodecBfs;

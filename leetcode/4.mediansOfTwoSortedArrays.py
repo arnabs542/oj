@@ -33,6 +33,9 @@ SOLUTION
 Complexity:
 O((M+N)log(M+N))
 
+Brute force count (m+n)/2 numbers in a way like merge sort.
+Complexity: O(M+N).
+
 2. Brute force - binary search verify
 Exhaust all numbers in nums1, find lower bound in nums2. Then verify whether that
 evenly partitions two arrays.
@@ -45,6 +48,35 @@ O(MlogN+NlogM)
 
 Complexity:
 O(logMxlogN)
+
+--------------------------------------------------------------------------------
+Sorted array, divide and conquer!
+
+How do we get a median from two sorted arrays?
+The median can be determined by kth number of the sorted array, where
+k = ceil((m+n)/2), or the average with its neighbour. Given one array,
+median may depend on two numbers(if array size is even).
+Now given two arrays, median may depend on four numbers.
+
+And such kth element must be a partition point that divides two arrays into parts:
+First k elements, and last (m+n-k) elements, where first part is no smaller than
+second part.
+And k numbers can be decomposed to:
+    k = k+0=k-1+1=...= 0+k = i + j.
+First k numbers can be composed of i numbers from first array, and j numbers from
+second array.
+And we need to determine the value of i and j(j = k-i).
+And two arrays are all sorted, use a divide and conquer technique: binary search!
+
+Keep track of (
+    i: number of elements from first array,
+    j: number of elements from second array,
+    ), where i+j = k.
+
+State transition in binary search:
+...
+
+--------------------------------------------------------------------------------
 
 4. Single level of binary search
     For logarithm time complexity, we may adopt BINARY SEARCH related algorithm to DIVIDE and CONQUER.
@@ -92,6 +124,30 @@ FOLLOW UP
 ================================================================================
 
 1. kth largest given two sorted array
+1) merge sort: O(m+n). Quick select O(m+n).
+2) Divide and conquer
+Decompose k into k = i+j, and perform binary search for i.
+Complexity: O(log(min(m,n,k)))
+
+2. Find median in in row wise sorted matrix
+1) Brute force: sort O(MNlogMN), or use heap to find kth.
+2) Divide and conquer like above, decompose k = p1+p2+...+pm.
+But this is a m-tuple, searching for such state is complex.
+
+3) VALUE SPACE SEARCH AND VERIFY: search in the VALUE SPACE and VERIFY!
+Such matrix has MN values, and we can search in the value space and verify
+whether there are k numbers in the matrix no larger than it.
+
+Complexity: O(MlogNlogMN) = O(32MlogMN)
+
+4) HEAP: Maintain a min heap of size m, containing (i, j) coordinates from each row.
+The process is like merge sort comparing to retrieve the minimal so far.
+
+Complexity: O((m+n)/2logM)
+To find kth element in row wise sorted matrix, pop and insert for k times.
+Complexity: O(klogM)
+
+
 
 
 '''
@@ -99,6 +155,13 @@ FOLLOW UP
 class Solution(object):
 
     def findMedianSortedArrays(self, nums1, nums2):
+        result = self.findMedianSortedArraysDivideAndConquerForK(nums1, nums2)
+
+        print(nums1, nums2, result)
+
+        return result
+
+    def findMedianSortedArraysDivideAndConquerForK(self, nums1, nums2):
         """
         :type nums1: List[int]
         :type nums2: List[int]
@@ -109,24 +172,21 @@ class Solution(object):
             # return self.findMedianSortedArrays(nums2, nums1)
             m, n = n, m
             nums1, nums2 = nums2, nums1
-        half_length = (m + n + 1) // 2
-        low, high = 0, m
+        k = (m + n + 1) // 2 # ceil((m+n)/2)
+        low, high = 0, m # m <= k, [0, m], m-k ∈ [,]
 
         while low <= high:
-            # XXX(done): binary search here
-            mid = (low + high) >> 1
-            i = mid
-            j = half_length - i
+            i = (low + high) >> 1
+            j = k - i
             # conditions about median properties are satisfied
             # print(low, high, i, j, m, n)
             # XXX(done): edge cases when i=0,m; j=0,n
-            if i > 0 and nums1[i - 1] > nums2[j]:
-                # nums[i] is large, decrease it
-                high = mid - 1
-            elif i < m and nums1[i] < nums2[j - 1]:
-                # nums[i] is small, decrease it
-                low = mid + 1
-            else:
+            if i > 0 and nums1[i - 1] > nums2[j]: # too many numbers from first array
+                high = i - 1
+            elif i < m and nums2[j - 1] > nums1[i]: # j > 0 and nums1[i] < nums2[j-1]
+                # too few numbers from second array
+                low = i + 1
+            else: # found (i+j=k)th element, compute median
                 # matching i and j
                 if i == 0:
                     left_max = nums2[j - 1]
@@ -149,6 +209,29 @@ class Solution(object):
 
                 return 0.5 * (left_max + right_min)
 
+    def findKthSortedArrays(self, nums1, nums2, k):
+        m, n = len(nums1), len(nums2)
+        result = float('-inf')
+        if not 0 < k <= m + n: return float('-inf')
+        low, high = 0, min(k, m) # [0, min(m,k)]
+        while low <= high:
+            i = (low + high) >> 1 # binary search divide evenly
+            j = k - i
+            if j > n: # too few from first array
+                low = i + 1
+            elif 0<=i< m and n>=j>=1 and nums2[j-1] > nums1[i]: # too few from first array
+                low = i + 1 # go right
+            elif m>=i>=1 and 0<=j<n and nums1[i-1] > nums2[j]: # too many from first array
+                high = i - 1 # go left
+            else:
+                # print('found', i, j, k)
+                result = max(nums1[i-1] if i >= 1 else float('-inf'),
+                           nums2[j-1] if j >= 1 else float('-inf')
+                           )
+                break
+        print(nums1, nums2, k, result)
+        return result
+
 def test():
     solution = Solution()
     # edge cases
@@ -163,6 +246,19 @@ def test():
     assert solution.findMedianSortedArrays([7], [1, 3]) == 3
     assert solution.findMedianSortedArrays([1, 3, 4], [7]) == 3.5
     assert solution.findMedianSortedArrays([1, 3, 4], [7, 9, 10]) == 5.5
+
+    nums1 = [1, 3, 4]
+    nums2 = [7, 9, 10]
+    nums = list(sorted(nums1+nums2))
+    for i, e in enumerate(nums):
+        assert solution.findKthSortedArrays(nums1, nums2, i+1) == e
+
+    nums1 = []
+    nums2 = [7, 9, 10]
+    nums = list(sorted(nums1+nums2))
+    for i, e in enumerate(nums):
+        assert solution.findKthSortedArrays(nums1, nums2, i+1) == e
+
     print('self tests passed!')
 
 if __name__ == '__main__':

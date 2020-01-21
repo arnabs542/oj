@@ -12,11 +12,11 @@ You should return the following matrix:
  [ 8, 9, 4 ],
  [ 7, 6, 5 ]
 ]
-'''
 
-'''
-SOLUTION:
+================================================================================
+SOLUTION
     There four direction in spiral order.
+
 '''
 
 
