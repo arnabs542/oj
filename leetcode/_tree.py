@@ -544,8 +544,16 @@ class BinaryIndexedTree(object):
         return b - a
 
     def lowerBound(self, target):
-        # DONE: binary search for lower bound index of cumulative value target,
-        # assuming increasing cumulative function!
+        """
+        DONE: binary search for lower bound index of cumulative value target,
+        assuming increasing cumulative function!
+
+        Objective: find such index i that prefix sum f[i-1] < target <= f[i];
+
+        The TERMINATION STATE after binary search is:
+        1) found exact match where f[mid] == target, not reachable;
+        2) high = low - 1, where f[high] < target <= f[low], so i = low, and i+1 may be out of bound.
+        """
         low, high = 0, self.size - 1
         while low <= high:
             mid = (low + high) // 2
@@ -558,8 +566,18 @@ class BinaryIndexedTree(object):
         return low
 
     def upperBound(self, target):
-        # DONE: binary search for upper bound index of cumulative value cum,
-        # assuming increasing cumulative function!
+        """
+        DONE: binary search for upper bound index of cumulative value cum,
+        assuming increasing cumulative function!
+
+
+        Objective: find such index i that prefix sum f[i] <= target < f[i+1];
+
+        The TERMINATION STATE after binary search is:
+        1) found exact match where f[mid] == target, not reachable;
+        2) high = low - 1, where f[high] <= target < f[low], so i = high and i+1 may be out of bound.
+
+        """
         low, high = 0, self.size - 1
         while low <= high:
             mid = (low + high) // 2

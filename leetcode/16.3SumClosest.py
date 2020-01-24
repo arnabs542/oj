@@ -74,6 +74,10 @@ def test():
     solution = Solution()
 
     assert solution.threeSumClosest([0, 0, 0], 1) == 0
+    assert solution.threeSumClosest([1,1,-1,-1,3], 1) == 1
+    assert solution.threeSumClosest([0, 2, 1, -3], 1) == 0
+    assert solution.threeSumClosest([-1, 2, 1, -4], 1) == 2
+    print('self test passed!')
 
     print("self test passed!")
 

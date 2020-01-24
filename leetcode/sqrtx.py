@@ -83,7 +83,7 @@ class Solution(object):
                 low = mid + 1
             else:
                 return mid
-        return high
+        return high # high = low - 1, indicating low**2 > x > high**2, return high
 
     def _mySqrtNewton(self, x: int) -> int:
         root = x

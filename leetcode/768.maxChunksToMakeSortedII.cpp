@@ -98,7 +98,7 @@ public:
         int result;
         //result = maxChunksToSortedDynamicProgramming(arr);
         result = maxChunksToSortedGreedyLeftMaxRightMin(arr);
-        result = maxChunksToSortedStack(arr);
+        result = maxChunksToSortedIntervalStack(arr);
 
         cout << arr << " => " << result << endl;
 
@@ -154,7 +154,7 @@ public:
         return result;
     }
 
-    int maxChunksToSortedStack(vector<int> &arr) {
+    int maxChunksToSortedIntervalStack(vector<int> &arr) {
         stack<pair<int, int>> filo;
         int n = arr.size();
         for (int i = 0; i < n; ++i) {

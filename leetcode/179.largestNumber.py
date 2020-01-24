@@ -16,14 +16,16 @@ Note: The result may be very large, so you need to return a string instead of
 an integer.
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
+
 1. Greedy and Sorting.
 Sort according to a specific Lexicographical order.
 
-The Lexicographical order of two number x, y is considered with respect to their catenation's
+The lexicographical order of two number x, y is considered with respect to their catenation's
 lexicographical order:
     def cmp(x, y):
         return str(x) + str(y) > str(y) + str(x)
+
 '''
 
 
@@ -51,6 +53,8 @@ def test():
     assert Solution.largestNumber([3, 30, 34, 5, 9]) == '9534330'
     assert Solution.largestNumber([0, 0]) == '0'
     assert Solution.largestNumber([0, 1, 0]) == '100'
+    assert Solution.largestNumber([2, 23]) == '232'
+    assert Solution.largestNumber([3, 32]) == '332'
     print('self test passed')
 
 if __name__  == '__main__':

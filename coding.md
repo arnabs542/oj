@@ -1,16 +1,22 @@
 # Tips on white board coding or paper coding
 
-## Ask questions to clarify
+## Ask questions to CLARIFY
+- How is input data REPRESENTATION?
 - How big is the SIZE of the input?
-- How is input data represented?
 - How big is the RANGE of values? Positive values or negative values?
 - What kind of values are there? Are there negative numbers? Floating points? Will there be empty inputs?
 - Are there DUPLICATES within the input?
 - What are some EXTREME cases of the input?
 - How is the input stored? If you are given a dictionary of words, is it a list of strings or a trie?
 
-## Analyze STATE TRANSITION first
+## Write down TEST CASES, examples
+Develop algorithm based on these test cases or examples.
+
+## To implement the algorithm: INITIALIZATION, MAINTENANCE, TERMINATION.
 - Be clear input data, function signature
+- Initialization logic
+- Maintenance: STATE TRANSITION recurrence relation before writing
+- Termination condition
 - Write state transition RECURRENCE RELATION before writing code!
 
 ## Use modular design
@@ -18,17 +24,20 @@ Define utility functions to make the code modular, and reduce the risk of writin
 
 ## Review code
 Use a top down approach.
-- Check modular logic
+- Check modular design
 - Check INITIALIZATION
-- Check STATE TRANSITION: initialization in a loop, break state
-- CHECK TERMINATION STATE
+- Check STATE TRANSITION(maintenance of procedure): initialization in a loop, jump/break state
+    - Check BRANCHES
+    - Check DUPLICATE VALUES
+    - Check OUT OF BOUND errors
+    - Check infinite loop
+- Check TERMINATION STATE
+- Check TYPO, VARIABLE name misuse
+- Check OFF BY ONE error
+- Check numeric pitfalls: unsigned int arithmetic, overflow/underflow
+- Check return and break state!
 - Write function return statement first, since compiler may not warn you that.
 - Write COMMENTS first for to clarify program logic
-- Check VARIABLE name misuse
-- Check INITIALIZATION
-- Check OFF BY ONE error
-- Check overflow/underflow
-- Check return and break state!
 - Run TEST cases
 
 

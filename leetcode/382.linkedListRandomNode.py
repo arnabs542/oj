@@ -38,7 +38,7 @@ Problem:
 Basic idea:
 1) Create an array reservoir[0..k-1] and copy first k items to it.
 2) Now one by one consider all items from (k+1)th item to nth item.
-    a) Generate a random number from 0 to i where i is index of current item in stream[]. Let
+    a) Generate a random number from [0, i+1] where i is index of current item in stream[]. Let
 the generated random number is j.
     b) If j is in range 0 to k-1, replace reservoir[j] with arr[i]
 

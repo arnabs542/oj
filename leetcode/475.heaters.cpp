@@ -32,7 +32,7 @@ Explanation: The two heater was placed in the position 1 and 4. We need to use r
 
 SOLUTION
 ================================================================================
-
+Objective: (MAXMIN) find closest heater to each house for minimal distance, and
 
 1. Linear scan
 For each pair of adjacent heaters, scan houses in between.
@@ -71,7 +71,8 @@ public:
     int findRadius(vector<int>& houses, vector<int>& heaters) {
         int result = 0;
         //result = findRadiusLinearScan(houses, heaters);
-        result = findRadiusLinearScanSimple(houses, heaters);
+        //result = findRadiusLinearScanSimple(houses, heaters);
+        result = findRadiusBinarySearch(houses, heaters);
 
         cout << houses << " " << heaters << " " << result << endl;
 
@@ -134,14 +135,37 @@ public:
     int findRadiusBinarySearch(vector<int> &houses, vector<int> &heaters) {
         sort(heaters.begin(), heaters.end());
         int radius = 0;
+        //map<int, vector<int>> a{{1,{2,3,4}}};
+        //cout << a << endl;
         for (int house: houses) {
-            int h = 0, l = heaters.size();
-            while (h <= l) {
-                int mid = (l+h) >> 1;
-                // TODO: binary search
-                //if ()
+            int low = 0, high = heaters.size() - 1; // XXX: high = 0,  low = heaters.size() - 1;
+            int bestH = -1, minR = std::numeric_limits<int>::max(); // best index, value
+            while (low <= high) {
+                int mid = (low+high) >> 1;
+                // binary search
+                int diff = house - heaters[mid];
+                if (diff > 0) {
+                    low = mid + 1;
+                } else if (diff < 0) {
+                    high = mid - 1;
+                } else {
+                    bestH = mid;
+                    minR = 0;
+                    break;
+                }
+
+                int dis = std::abs(diff);
+                //cout << "DDDD: " << house << " " << mid << " " << dis << " " << minR << endl;
+                if (dis < minR) {
+                    bestH = mid;
+                    minR = dis;
+                }
+                //cout << "DDDD: " << house << " " << mid << " " << dis << " " << minR << endl;
             }
+            radius = std::max(radius, minR); // max min
         }
+
+        return radius;
     }
 };
 

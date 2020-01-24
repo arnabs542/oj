@@ -33,6 +33,11 @@ This is a stochastic process.
 
 1. Reservoir sampling, refer to '382. Linked List Random Node'.
 
+Pick number i-th indexed with probability k/(i), where k is the number of elements to
+sample without repetition.
+
+Complexity: O(N)
+
 2. Preprocess the input numbers into a list of tuples (value, index). O(nlogn)
 And binary search for the bound item, O(logn)
 Generate a random number, O(1)

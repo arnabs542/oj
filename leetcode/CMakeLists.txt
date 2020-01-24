@@ -50,6 +50,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 #=======================================BUILD TARGETS==========================================
 
 # add the executable target
+add_executable(179.largestNumber 179.largestNumber.cpp)
 add_executable(1140.stoneGameII 1140.stoneGameII.cpp)
 add_executable(1292.maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold 1292.maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold.cpp)
 #add_executable(160.intersectionOfTwoLinkedLists 160.intersectionOfTwoLinkedLists.cpp)
@@ -86,8 +87,10 @@ add_executable(481.magicalString 481.magicalString.cpp)
 add_executable(482.licenseKeyFormatting 482.licenseKeyFormatting.cpp)
 add_executable(485.maxConsecutiveOnes 485.maxConsecutiveOnes.cpp)
 add_executable(5.longestPalindromicSubstring 5.longestPalindromicSubstring.cpp)
+add_executable(54.spiralMatrix 54.spiralMatrix.cpp)
 add_executable(507.perfectNumber 507.perfectNumber.cpp)
 add_executable(523.continuousSubarraySum 523.continuousSubarraySum.cpp)
+add_executable(528.randomPickWithWeight 528.randomPickWithWeight.cpp)
 #add_executable(568.maximumVacationDays 568.maximumVacationDays.cpp)
 add_executable(591.tagValidator 591.tagValidator.cpp)
 add_executable(621.taskScheduler 621.taskScheduler.cpp)
