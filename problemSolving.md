@@ -7,6 +7,7 @@ TAKE THE CHALLENGE!
 Enumerate test cases/examples, to understand the problem, and maybe INDUCTIVELY REASON FROM EXAMPLES.
 
 ### Abstraction and MODELING - convert a problem into a model
+MODEL the problem and define the mathematical OBJECTIVE.
 
 #### Observe, State, Model
 Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
@@ -15,7 +16,7 @@ Convert practical problems into mathematical/algorithmic MODELS.
 For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are all problems that can be
 abstracted into a graphical model.
 
-#### General Mathematical Models
+#### General Mathematical Models or Mathematical Objective
 - Equality: Interval or ranges
 - Binary representation: bitwise identities, manipulation
 - Modulo operation: modulo can contain two information: a, r = div(n, b)
@@ -54,10 +55,11 @@ abstracted into a graphical model.
         - Sliding window
         - monotone stack or monotone queue
     - Extrema points analysis: often related to monotonic stacks and queues
-- combinatorics
+- combinatorics: combinatorics problems can be usually modelled as a graph
     - PERMUTATION
     - COMBINATION: permutation without order
     - CARTESIAN PRODUCT
+    - combinatorial optimization: knapsack problem
 - probability: pdf, cdf, pmf, ...
     - joint, marginal, conditional probability
 

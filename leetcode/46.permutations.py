@@ -41,8 +41,11 @@ Position_2         12 - 13   21 - 23   31 - 32
 Position_3         123  132  213  231  321  321
 dead end
 
+Graph model
+------------
 Vertex: permutation of first k positions, given the whole set of elements
 Edge: unused element of given set {x | x in input; x not in first k positions}
+Full permutation: sequence of edges (equivalent to terminal vertices)
 
 --------------------------------------------------------------------------------
 1. Dynamic Programming - bottom up breadth first search

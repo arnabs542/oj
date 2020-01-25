@@ -64,7 +64,7 @@ class Solution(object):
                 # NOTE: when start == i, this loop will not execute
                 for j in range(start, i):
                     if nums[j] == nums[i]:
-                        dup = True
+                        dup = True # TODO: avoid duplicate more efficiently?
                         break
 
                 if dup: continue
@@ -80,4 +80,6 @@ class Solution(object):
 if __name__ == "__main__":
     Solution().permuteUnique([1, 1, 2, 2])
     Solution().permuteUnique([1, 2, 3])
+    assert Solution().permuteUnique([1, 2, 2]) == [[1, 2, 2], [2, 1, 2], [2, 2, 1]]
+    # 1 [2,1,2], 1 [2,2,1]
     Solution().permuteUnique([1, 1])
