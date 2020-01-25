@@ -77,6 +77,9 @@ Complexity: O(logN)
 4. Build weight prefix sum with zero weights, represented by blacklist
 To save space, we can store information in sparse representation.
 
+Prefix sum: 1,2,3,...,k1,k1,k1,...,k2,k2,...,N-B. Size is N
+Sample v in [0, N-B-1], find its upper bound.
+
 Maintain a weight prefix sum of blacklist size.
 Still, sample target in range [1, N-B], find upper bound i in the prefix sum array.
 Then the real index is (target-1 + i).
@@ -163,7 +166,7 @@ public:
 
     int pick() {
         int v = dis(gen); // sample in [0, n - 1]
-        int offset = upper_bound(ps.begin(), ps.end(), v)-ps.begin();
+        int offset = upper_bound(ps.begin(), ps.end(), v)-ps.begin(); // v == ps[i]?
 
         return v + offset; // offset: number of blacklist numbers less than v
     }

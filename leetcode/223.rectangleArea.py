@@ -24,16 +24,16 @@ Sum areas of individual rectangles, and subtract overlapping area.
 To get the INTERSECTION border points, we just need to get the INNER MOST COORDINATE.
 This can be viewed in a line sweeping perspective.
 
-How to get intersection of two rectangles with a closed-form formula?
+How to come up with the intersection of two rectangles with a closed-form formula?
 
-1) Analyze a general case where two rectangles intersect, regardless of
+1) Analyze a SPECIFIC CASE where two rectangles intersect, regardless of
 relative positions of them:
     (x1,y1,x2,y2), (x3, y3, x4, y4). Refer to the image
 2) Compute the intersection rectangle coordinates:
     bottom left: (max(x1, x3), max(y1, y3))
     top right:   (min(x2, x4), min(y2, y4))
 3) Examine the SYMMETRY of variables: rectangle 1 and rectangle 2 are INTERCHANGEABLE!
-That means the equation for such specific case will generalize to a general case,
+That means the equation for such specific case will generalize to a GENERAL CASE,
 for arbitrary relation positions of two rectangles!
 
 
