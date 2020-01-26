@@ -9,6 +9,10 @@
  * Complexity:
  * O(NlogK)
  *
+ * 2. Quick select partition
+ *
+ * To deal with duplicate numbers, use three way partitioning(Dutch national flag).
+ *
  * Follow up
  * ===============================================================================
  * How to implement priority_queue to support push, pop, top?
@@ -32,7 +36,10 @@ public:
     int findKthLargest(vector<int>& nums, int k) {
         int result;
         //result = findKthLargestMinHeap(nums, k);
-        result = findKthLargestMinHeapIndex(nums, k);
+        //result = findKthLargestMinHeapIndex(nums, k);
+        result = findKthLargestPartition(nums, k);
+
+        cout << nums << " " << k << endl;
 
         return result;
     }
@@ -70,6 +77,40 @@ public:
 
         return nums[heap.top()];
     }
+
+    pair<int, int> partition(vector<int> &nums, int l, int h) {
+        int pivot = nums[h];
+        int p = l, q = h; // left of p smaller, right of q is greater than pivot
+        int i = l; //i and q starts at same position.
+        while (i <= q) { // must reach q, since q is not processed yet
+            if (nums[i] < pivot) {
+                swap(nums[i++], nums[p++]);
+            } else if (nums[i] > pivot) {
+                swap(nums[i], nums[q--]);
+            } else {
+                ++i;
+            }
+        }
+
+        return {p, q};
+    }
+
+    int findKthLargestPartition(vector<int> &nums, int k) {
+        k = nums.size() - k; // kth smallest
+        int l = 0, h = nums.size() - 1;
+        while (l <= h) {
+            int p, q;
+            std::tie(p, q) = partition(nums, l, h);
+            if (p <= k && k <= q) {
+                return nums[p];
+            } else if (k < p) {
+                h = p - 1;
+            } else if (k > q) {
+                l = q + 1; // XXX: q - 1
+            }
+        }
+        return -1;
+    }
 };
 
 int test() {
@@ -87,6 +128,17 @@ int test() {
     nums = {2, 1};
     k = 2;
     result = 1;
+    assert(solution.findKthLargest(nums, k) == result);
+
+    nums = {2, 1};
+    k = 1;
+    result = 2;
+    assert(solution.findKthLargest(nums, k) == result);
+
+
+    nums = {2, 2, 2, 2, 2};
+    k = 2;
+    result = 2;
     assert(solution.findKthLargest(nums, k) == result);
 
     nums = {3, 2, 1, 5, 6, 4};

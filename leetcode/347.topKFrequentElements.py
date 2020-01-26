@@ -18,20 +18,26 @@ You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
 Your algorithm's time complexity must be better than O(n log n), where n is the
 array's size.
 
-==============================================================================================
+================================================================================
 SOLUTION
 
 1. Hash to store elements' occurrence frequency. And, for top K problem, use HEAP.
 
-Complexity: O(n + klogk)
+Complexity: O(n + nlogk)
 
 2. Hash and sort according to occurrence count.
 
 Complexity: O(NlogN)
 
-3. Bucket
+3. Bucket - separate chaining in hash table collision resolution method
 The possible values for the occurrence are in range [0, n].
 Maintain the occurrence count in the buckets, and get the largest k buckets.
+
+================================================================================
+FOLLOW UP
+1. Top k frequent elements in data stream?
+Solution: separate chaining, like least frequently used cache implementation.
+Refer to the cpp implementation.
 
 '''
 
