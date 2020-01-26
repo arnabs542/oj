@@ -139,7 +139,8 @@ public:
         //result = minMeetingRoomsGreedyNonoverlappingIntervalsWithHeap(intervals);
         //result = minMeetingRoomsOverlappingIntervalsMaxPrefixSum(intervals);
         //result = minMeetingRoomsOverlappingIntervalsWithHeap(intervals);
-        result = minMeetingRoomsOverlappingIntervalsAlign(intervals);
+        //result = minMeetingRoomsOverlappingIntervalsAlign(intervals);
+        result = minMeetingRoomsOverlappingIntervalsLineSweep(intervals);
 
         cout << "input: " << intervals << " => " << result << endl;
 
@@ -252,6 +253,29 @@ public:
         currentOverlapping -= std::max(0, (int)intervals.size() - j);
 
         return maxOverlapping;
+    }
+
+    int minMeetingRoomsOverlappingIntervalsLineSweep(vector<vector<int>> &intervals) {
+        int result = 0;
+        vector<vector<int>> points; // line sweep points: (point, +-interval index)
+        for (int i = 0; i < (int)intervals.size(); ++i) {
+            points.push_back({intervals[i][0], +1, i});
+            points.push_back({intervals[i][1], -1, i}); // XXX: same time, end time comes first
+        }
+
+        sort(points.begin(), points.end());
+        multiset<int> tree; // ree
+        for (auto p: points) {
+            int flag = p[1], i = p[2];
+            if (flag > 0) { // interval opens
+                tree.insert(i);
+                result = std::max(result, (int)tree.size());
+            } else if (flag < 0) { // interval ends
+                tree.erase(tree.find(i));
+            }
+        }
+
+        return result;
     }
 
 };

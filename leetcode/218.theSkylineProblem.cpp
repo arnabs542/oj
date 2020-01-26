@@ -102,7 +102,7 @@ public:
         }
         sort(points.begin(), points.end());
 
-        multiset<int> tree; // keep track of overlapping intervals
+        multiset<int> tree; // keep track of overlapping intervals heights
         //cout << points << endl;
         //int preH = 0, currH = 0;
         for (vector<int> &xy: points) {
