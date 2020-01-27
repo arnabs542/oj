@@ -53,7 +53,7 @@ Complexity: O(m), O(n), where m is the length of sentence and n in the size of d
  *
  */
 #include <debug.hpp>
-#include "_tree.hpp"
+#include "tree.hpp"
 
 class Solution {
 public:

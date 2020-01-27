@@ -141,7 +141,7 @@ add_executable(sortslist sortslist.cpp)
 add_executable(sumOfTwoIntegers sumOfTwoIntegers.cpp)
 #add_executable(tests tests.cpp)
 
-add_library(_type SHARED _type.cpp _tree.cpp _trieTree.cpp)
+add_library(_type SHARED _type.cpp tree.cpp trieTree.cpp)
 add_library(160.intersectionOfTwoLinkedLists SHARED 160.intersectionOfTwoLinkedLists.cpp)
 add_library(maxPoints-anchor-hash SHARED maxPoints-anchor-hash.cpp)
 

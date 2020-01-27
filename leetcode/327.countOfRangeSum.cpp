@@ -132,33 +132,10 @@ O(NlogN), O(N)
  * Easier to understand by considering ONE-BASED array.
  *
  */
-class BitTree {
-public:
-    BitTree(int n): mSize(n) {
-        mData.resize(n+1);
-    }
 
-    inline int update(int i, int value) {
-        while (i <= mSize) {
-            mData[i] += value;
-            i += i & (-i);
-        }
-        return 0;
-    }
+#include "tree.hpp"
 
-    inline int query(int i) {
-        int rangeSum = 0;
-        while (i > 0) {
-            rangeSum += mData[i];
-            i &= (i-1); //i -= i & (-i);
-        }
-
-        return rangeSum;
-    }
-
-    vector<int> mData; // [0, 1, ..., n];
-    int mSize; // n
-};
+// binary indexed tree implementation: tree.hpp
 
 class Solution {
 public:

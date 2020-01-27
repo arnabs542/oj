@@ -72,6 +72,13 @@ point, pop out its start point.
 
 Complexity: O(NlogN)
 
+4. Divide and conquer - like merge sort
+
+The tricky part is how to merge.
+TODO:
+
+Complexity: O(NlogN)
+
  *
  */
 

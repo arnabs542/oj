@@ -71,7 +71,7 @@ search("hello"), true or false?
  */
 
 #include <debug.hpp>
-//#include "_tree.hpp"
+//#include "tree.hpp"
 
 struct TrieNode {
     TrieNode *m_children[26] = {NULL};

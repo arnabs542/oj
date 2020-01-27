@@ -27,8 +27,8 @@ Use a top down approach.
 - Check modular design
 - Check INITIALIZATION
 - Check STATE TRANSITION(maintenance of procedure): initialization in a loop, jump/break state
-    - Check BRANCHES
-    - Check DUPLICATE VALUES
+    - Check BRANCHES: use nested branch or logical AND condition?
+    - Check DUPLICATE VALUES: cycle, swap two equal addresses
     - Check OUT OF BOUND errors
     - Check infinite loop
 - Check TERMINATION STATE

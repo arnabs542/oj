@@ -1,6 +1,6 @@
 #include <debug.hpp>
 #include <iostream>
-#include "_tree.hpp"
+#include "tree.hpp"
 
 using namespace std;
 

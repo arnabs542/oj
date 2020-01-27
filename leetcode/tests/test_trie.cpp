@@ -1,5 +1,5 @@
 #include <debug.hpp>
-#include "../_tree.hpp"
+#include "../tree.hpp"
 
 void test() {
     Trie trie;
