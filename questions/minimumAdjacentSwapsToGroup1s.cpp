@@ -57,6 +57,15 @@
  *
  * The MEDIAN MINIMIZES THE SUM OF ABSOLUTE DEVIATIONS(L1 norm)
  *
+ * Objective:
+ *     \arg \min_{x} \sum_{i = 1}^{N} \left| {s}_{i} - x \right|
+ * Note:
+ *     \frac{\mathrm{d} \left | x \right | }{\mathrm{d} x} = \operatorname{sign} \left( x \right)
+ * (Being more rigorous would say it is a Sub Gradient of the non smooth 𝐿1 Norm function)
+ * Taking the derivative:
+ *     \sum_{i = 1}^{N} \operatorname{sign} \left( {s}_{i} - x \right)
+ * This equals to zero only when the number of positive items equals the number of negative which happens when x=median{s1,s2,⋯,s𝑁}
+ *
  * -------------------------------------------------------------------------------
  * Second REDUCE TO THE SIMPLEST FORM AND DERIVE PATTERNS, RECURRENCE OR GREEDY.
  *
