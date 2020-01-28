@@ -26,11 +26,13 @@ Define utility functions to make the code modular, and reduce the risk of writin
 Use a top down approach.
 - Check modular design
 - Check INITIALIZATION
+    - larger value initialization and corner case(following for not executed)
 - Check STATE TRANSITION(maintenance of procedure): initialization in a loop, jump/break state
     - Check BRANCHES: use nested branch or logical AND condition?
     - Check DUPLICATE VALUES: cycle, swap two equal addresses
     - Check OUT OF BOUND errors
     - Check infinite loop
+    - Check statements after break/continue
 - Check TERMINATION STATE
 - Check TYPO, VARIABLE name misuse
 - Check OFF BY ONE error

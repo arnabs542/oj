@@ -1,0 +1,1 @@
+add_executable(minimumAdjacentSwapsToGroup1s minimumAdjacentSwapsToGroup1s.cpp)
