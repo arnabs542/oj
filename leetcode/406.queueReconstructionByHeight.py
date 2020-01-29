@@ -24,6 +24,13 @@ Input:
 Output:
 [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
 
+
+Hints:
+What can you say about the position of the shortest person?
+If the position of the shortest person is i, how many people would be in front of the shortest person?
+
+Once you fix the position of the shortest person, what can you say about the position of the second shortest person?
+
 ================================================================================
 SOLUTION
 

@@ -52,6 +52,10 @@ Time Complexity: Amortized O(n).
 By the way, we can define the STATE to be the begin and end of the current subarray.
 
 3. Prefix sum with Binary Search?
+Build a prefix sum array, and iterate over it, for each value ps[i], search for
+upper bound of (ps[i]-s).
+
+Complexity: O(NlogN)
 
 '''
 

@@ -131,6 +131,19 @@ State transition technique
         - Sliding window recurrence relation: offset and stride
         - Monotonic stack/queue
 
+For optimization problems(minimum or maximum operations), there are several approaches:
+- Simulate it: simulate the process
+    - simulation and count(avoid unnecessary cost)
+- Analyze the lower bound or upper bound, to see if there exists a solution to meet the bounds requirements
+    - Examples: minimum swaps to make array sorted(hard to come up with a solution directly and to prove it).
+- Model it: describe it with a mathematical model, transform to a mathematical objective function to optimize
+    - Graph
+        - shortest path in graph(dynamic programming, breadth first search)
+        - graph cycle: minimum swaps to make sorted 
+    - Combinatorics: knapsack
+    - Loss function: solution to minimize sum of squares(L2 norm), sum of absolute difference(L1 norm)
+- Greedy strategy
+
 Try to exploit the problem in approaches like:
 - Change PERSPECTIVES: backward induction, ...
 - Domain and range 

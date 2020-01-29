@@ -51,6 +51,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # add the executable target
 add_executable(179.largestNumber 179.largestNumber.cpp)
+add_executable(189.rotateArray 189.rotateArray.cpp)
 add_executable(1140.stoneGameII 1140.stoneGameII.cpp)
 add_executable(1292.maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold 1292.maximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold.cpp)
 #add_executable(160.intersectionOfTwoLinkedLists 160.intersectionOfTwoLinkedLists.cpp)
