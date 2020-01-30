@@ -20,7 +20,17 @@ SOLUTION
 
 1. Recursively divide by 4, check whether the result is 1.
 
-2. Number theory and bit manipulation.
+2. Bit manipulation - function mapping - square of power of 2
+Every power of 4 has a corresponding power of 2, which is the square root.
+4ⁿ = 2ⁿ*2ⁿ
+
+And for each power of 2,
+2ⁿ = 0b10...0, where there are n zeroes after 1. Removing last bit 1 gives 0.
+4ⁿ = 2ⁿ*2ⁿ = 0b10...0,  2n zeroes after 1.
+2n zeroes after 1, which means bit 1 is on odd bits!
+Then use mask 0b0101=0x5!
+
+3. Bit manipulation - power of 2 and modulo 3 .
 
 '''
 
@@ -32,14 +42,21 @@ class Solution(object):
         :rtype: bool
         """
         # return self.isPowerOfFourRecursion(num)
-        return self.isPowerOfFourBit(num)
+        return self.isPowerOfFourBitSquareOfPowerOfTwo(num)
+        # return self.isPowerOfFourBit2(num)
 
     def isPowerOfFourRecursion(self, num):
         while num > 1:
             num /= 4.0
         return num == 1
 
-    def isPowerOfFourBit(self, num):
+    def isPowerOfFourBitSquareOfPowerOfTwo(self, num):
+        """
+        Validate only one bit 1, and it's on odd position.
+        """
+        return num > 0 and (num & (num-1)) == 0 and (num & 0x55555555) == num
+
+    def isPowerOfFourBit2(self, num):
         '''
         Use n & (n - 1) to eliminate the trailing 1, validating whether it's
         power of 2.
@@ -49,9 +66,6 @@ class Solution(object):
         If 2^x % 3 = 1, then 2^x - 1 % 3 = 0, proved. And it's likewise with 2.
         '''
         return (num & (num - 1) == 0) and (num - 1) % 3 == 0
-
-    def isPowerOfFourBit2(self, num):
-        pass
 
 def test():
     solution = Solution()

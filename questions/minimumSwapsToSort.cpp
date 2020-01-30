@@ -48,6 +48,15 @@ How to deal with a duplicate values
 If there are duplicate values and some of them are already in position, we can
 skip swapping during depth first search in the graph cycle.
 
+1. Sort - follow dependency graph cycle to sort
+
+Complexity: O(NlogN)
+
+2. Sort - but try to restore to original order given list of {value, index}
+
+Scan for sorted list of pair, if a pair is not the same as its original place,
+then swap to its original index. Count number of swaps to restore.
+
 Complexity: O(NlogN)
 
 
