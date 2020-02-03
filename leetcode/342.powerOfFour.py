@@ -30,7 +30,11 @@ And for each power of 2,
 2n zeroes after 1, which means bit 1 is on odd bits!
 Then use mask 0b0101=0x5!
 
+Complexity: O(32)
+
 3. Bit manipulation - power of 2 and modulo 3 .
+
+4. Bit manipulation - convert to double and check
 
 '''
 
@@ -54,7 +58,8 @@ class Solution(object):
         """
         Validate only one bit 1, and it's on odd position.
         """
-        return num > 0 and (num & (num-1)) == 0 and (num & 0x55555555) == num
+        # return num > 0 and (num & (num-1)) == 0 and (num & 0x55555555) == num
+        return num > 0 and (num & (num-1)) == 0 and (num & 0b01010101010101010101010101010101) == num
 
     def isPowerOfFourBit2(self, num):
         '''

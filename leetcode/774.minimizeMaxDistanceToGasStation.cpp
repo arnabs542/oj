@@ -41,8 +41,9 @@ So this is a combinatorial optimization problem!
 1. Graph search on search space (k₁, k₂, ..., k_{n-1}).
 
 The search process can be performed with depth first search or breadth first search.
+This is brute force search involving lots of duplicate computations.
 
-Complexity:
+Complexity: O(2ⁿ)
 To reduce the combinatorial complexity, we can memoize on state (n, k).
 
 2. Dynamic programming - memoization
@@ -52,7 +53,47 @@ State transition: f(n, k) = min{max(f(n-1, k-m), d_n/(1+m))}, where 0<=m<=k.
 
 Complexity: O(nk²)
 
-3. Greedy strategy?
+3. Greedy strategy
+Dynamic programming solution can be optimized to greedy strategy, by
+exploiting optimal substructure, making a locally optimal choice instead of
+iterating all possible choices.
+
+Greedy strategy: add a station between two stations of max distance so far.
+
+Why it works?
+Suppose we have k gas stations added so far, and we need to add more stations.
+Then the optimal solution must be adding one station between two stations of
+maximum distance.
+
+Proof
+Suppose the adjacent two stations of maximum distance is:
+    max(d[])=dⱼ=(stations[j]-stations[j-1])/(m+1), where m is stations added between before.
+If we don't add station between j-1 and j, and there is a better solution by not
+adding a station between j-1 and j.
+Then for the optimal solution, we have max(d') < dⱼ.
+But dⱼ is the maximum value, so dⱼ = max(d') > max(d').
+Contradict!
+
+Implementation
+Keep track of a max heap, keyed by (d: evenly cut distance, m: number of gas stations added).
+For i = 1, ..., k:
+    Pop heap top, and insert (d*m/(m+1), m+1).
+pass
+return heap top distance
+
+TODO:
+Complexity: O(KlogN + NlogN)
+
+
+4. Range value space search
+What's the range space of minimal maximal distance? (0, max(d)).
+
+Then we can binary search in the value space, and verify whether it's possible.
+To verify for (n, k, d), iterate all stations, and see how many stations need to be
+added between j-1 and j. If we need more stations quota, then it's not possible.
+
+Complexity: O(NlogD), where D is the maximum distance between adjacent stations given.
+
 
  *
  */

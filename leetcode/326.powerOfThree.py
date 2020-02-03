@@ -16,9 +16,20 @@ Could you do it without using any loop / recursion?
 ==============================================================================================
 SOLUTION:
 
-1. Keep dividing, O(logN)
+1. Keep dividing by 3
+Complexity: O(logN)
 
-2. Mathematical relation?
+2. Logarithm
+If n is power of three, log₃(n) is integer.
+log₃(n) = ln(n)/ln(3).
+
+Complexity: O(logN)
+
+3. Lookup table
+
+Write down the look up table, 3, 9, 27, 81, ...
+
+Complexity: O(logN) or O(1)
 
 
 '''

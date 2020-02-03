@@ -3,20 +3,35 @@ Problems you have never heard before may be hard to solve, so fact it, embrace i
 
 TAKE THE CHALLENGE!
 
-### Examplify and INDUCE
+### Examplify and clarify
 Enumerate test cases/examples, to understand the problem, and maybe INDUCTIVELY REASON FROM EXAMPLES.
 
-### Abstraction and MODELING - convert a problem into a model
-MODEL the problem and define the mathematical OBJECTIVE.
+### Reduce
+Exploit the pattern by inducing.
+- Reduce to the simplest case and induce
+- Transform to some subproblems with well defined models
+- Reduce optimization to decision problem
 
-#### Observe, State, Model
-Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
+### Abstraction and MODELING - convert a problem into a mathematical model, mathematical objective
+MODEL the problem and define the MATHEMATICAL OBJECTIVE.
 
 Convert practical problems into mathematical/algorithmic MODELS.
 For example, N Queens, Course Schedule, Word Ladder II, Integer Replacement are all problems that can be
 abstracted into a graphical model.
 
+### BRUTE FORCE EXHAUST AND VERIFY: find a brute force solution 
+Understand the model is a brute force way.
+
+### STATE TRANSITION for different models
+Optimize by exploiting state transition recurrence relation for different mathematical objectives.
+Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
+- STATE SPACE
+    - DOMAIN SPACE: bit operation or combinatorial
+    - RANGE SPACE: search in range space lower bound and upper bound, exhaust and verify, maybe even with binary search!
+- STATE TRANSITION or RECURRENCE RELATION
+
 #### General Mathematical Models or Mathematical Objective
+
 - Equality: Interval or ranges
 - Binary representation: bitwise identities, manipulation
 - Modulo operation: modulo can contain two information: a, r = div(n, b)
@@ -64,7 +79,7 @@ abstracted into a graphical model.
     - joint, marginal, conditional probability
 
 
-Data structures
+DATA STRUCTURES
 - Data structures: array, buckets, linked list, stack and queue, trees, graphs, ...
     - Linear: array, linked list, stack, queue(deque), priority queue, double ended queue
         - Stack: FILO(First In Last Out). Backward processing, priority, monotonicity, depth first search.
@@ -91,7 +106,7 @@ Data structures
                 - shortest simple path: NP hard, need to exhaust all paths
 
 
-State transition technique
+STATE TRANSITION technique
 - STATE TRANSITION - the key is to model the problem and define proper state
     - state representation - PERSPECTIVE matters!
         - single variable state
@@ -136,6 +151,7 @@ For optimization problems(minimum or maximum operations), there are several appr
     - simulation and count(avoid unnecessary cost)
 - Analyze the lower bound or upper bound, to see if there exists a solution to meet the bounds requirements
     - Examples: minimum swaps to make array sorted(hard to come up with a solution directly and to prove it).
+    - Optimization problem to decision problem 
 - Model it: describe it with a mathematical model, transform to a mathematical objective function to optimize
     - Graph
         - shortest path in graph(dynamic programming, breadth first search)
