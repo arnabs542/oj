@@ -62,7 +62,17 @@ Corner case:
 2) rectangles with same (y1, y2), how to find corresponding left & right segment:
     can be combined into one larger rectangle, no need to corresponding one.
 
+Complexity: O(NlogN), worst O(N²) for same x values
+
+TODO: optimize
+1) No need to scan overlapped rectangles to compute, if left side x is equal to
+previous one.
+2) Deal with worst case specifically
+
 2. Segment tree - interval overlapping
+
+================================================================================
+https://community.topcoder.com/stat?c=problem_statement&pm=4463&rd=6536
 
  *
  */
@@ -105,9 +115,7 @@ public:
                 std::tie(y3, y4) = *it;
                 y3 = max(y3, yp);
                 if (y4 > y3) {
-                    assert(y4 >= y3); assert(x >= xp);
                     area += ((long)(y4 - y3)) * ((long)(x - xp)) % MOD;
-                    assert(area >= 0);
                 }
                 yp = max(yp, y4); // previous y
             }

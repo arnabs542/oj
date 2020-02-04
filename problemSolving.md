@@ -34,7 +34,7 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
 
 - Equality: Interval or ranges
 - Binary representation: bitwise identities, manipulation
-- Modulo operation: modulo can contain two information: a, r = div(n, b)
+- Modulo operation: modulo can contain two information: a, r = div(n, b). Odd and even positions, values.
 - Counting model
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space
@@ -150,8 +150,10 @@ For optimization problems(minimum or maximum operations), there are several appr
 - Simulate it: simulate the process
     - simulation and count(avoid unnecessary cost)
 - Analyze the lower bound or upper bound, to see if there exists a solution to meet the bounds requirements
-    - Examples: minimum swaps to make array sorted(hard to come up with a solution directly and to prove it).
     - Optimization problem to decision problem 
+    - Examples
+        - minimum swaps to make array sorted(hard to come up with a solution directly and to prove it).
+        - https://www.geeksforgeeks.org/find-median-row-wise-sorted-matrix/
 - Model it: describe it with a mathematical model, transform to a mathematical objective function to optimize
     - Graph
         - shortest path in graph(dynamic programming, breadth first search)
