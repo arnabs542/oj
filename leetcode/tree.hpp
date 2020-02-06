@@ -64,9 +64,18 @@ public:
 };
 
 
+/**
+ * Binary indexed tree for prefix sum query and update.
+ *
+ * Each vertex in the array, represented with index x, stores
+ * the range sum of range (parent(x), x].
+ *
+ * Easier to understand by considering ONE-BASED array.
+ *
+ */
 class BitTree {
 public:
-    BitTree(int n): mSize(n) {
+    BitTree(long n): mSize(n) {
         mData.resize(n+1);
     }
 
@@ -89,7 +98,7 @@ public:
     }
 
     vector<int> mData; // [0, 1, ..., n];
-    int mSize; // n
+    long mSize; // n
 };
 
 

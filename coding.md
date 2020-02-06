@@ -36,7 +36,7 @@ Use a top down approach.
 - Check TERMINATION STATE
 - Check TYPO, VARIABLE name misuse
 - Check OFF BY ONE error
-- Check numeric pitfalls: unsigned int arithmetic, overflow/underflow
+- Check numeric pitfalls: unsigned int arithmetic, overflow/underflow, float to int loses precision
 - Check return and break state!
 - Write function return statement first, since compiler may not warn you that.
 - Write COMMENTS first for to clarify program logic

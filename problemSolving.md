@@ -48,8 +48,7 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
         - tree: bst, heap
         - lexicographical sort: prefix tree, radix sort
     - Ordered data structure: augmented BST with rank
-    - Monotonic analysis
-    - Order statistics
+    - Order statistics: median, min/max value, odd even positions
 - Substring and subsequence
     - Prefix or suffix
     - string searching: brute force, finite automate, kmp, rolling hash, trie?
@@ -63,9 +62,9 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
     - Binary split: binary search tree, segment tree
     - Exponential split: binary indexed tree
 - Calculus: change rate
-    - integration: cumulative function
+    - integration: cumulative function, cumulative sum/prefix sum
     - differentiation: difference array
-    - Monotonicity analysis(单调性): max/min function, cumulative sum/prefix sum
+    - Monotonicity analysis(order, 单调性): max/min function,
         - Binary search
         - Sliding window
         - monotone stack or monotone queue

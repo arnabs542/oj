@@ -45,6 +45,8 @@ For n-th number, g(n) = n ^ (n >> 1), where n is in [0, 2^N].
 
 Complexity: O(N)
 
+Reference: https://cp-algorithms.com/algebra/gray-code.html
+
 What if we don't know the gray code generating algorithm?
 
 3. Dynamic programming - recurrence relation f(n) = r(f(n-1))

@@ -44,6 +44,11 @@ Number of range sums within range[lower, upper]
 
 Now we have a 'SMALLER THAN value and AFTER self' problem.
 
+After transformation, mathematical objective is:
+-----------------------------------------------
+    for each i in range [0, n-1], we want find number of such j
+that j >= i and S(i, j) in range [lower, upper].
+
 2. Count as sum - prefix sum and range query tree for sum
 
 "lie in [lower, upper]" involves COUNT of SMALLER THAN relation.
@@ -61,13 +66,13 @@ in LOGARITHM time, similar to problem 'count of smaller after self'!
 
 Problems
 -------
-1. Such prefix sum array may contain negative numbers that binary index tree
+1) Such prefix sum array may contain negative numbers that binary index tree
 can't handle negative indices.
 We can add a number delta to each element of prefix sum array, so that
 every element is no less than 0. And it doesn't change value of sum(i,j).
-2. Prefix sum may overflow
-3. Prefix sum may be very large, slowing down the algorithm.
-For this problem, we can map sum values into continuous integer space, so that
+2) Prefix sum may overflow
+3) Prefix sum may be very large, slowing down the algorithm.
+For this problem, we can MAP SUM VALUES INTO CONTINUOUS INTEGER SPACE, so that
 the prefix sum index have O(n) space.
 
 Procedure
@@ -85,7 +90,7 @@ Return number of eligible ranges.
 Complexity
 O(NlogN), O(N)
 
-3. Divide and conquer - Merge sort
+3. Divide and conquer - prefix sum for range sum query - merge sort
 
 Merge sort is stable sort.
 Merge sort can be used for finding numbers SMALLER THAN AFTER self.
@@ -123,16 +128,6 @@ O(NlogN), O(N)
  */
 #include <debug.hpp>
 
-/**
- * Binary indexed tree for prefix sum query and update.
- *
- * Each vertex in the array, represented with index x, stores
- * the range sum of range (parent(x), x].
- *
- * Easier to understand by considering ONE-BASED array.
- *
- */
-
 #include "tree.hpp"
 
 // binary indexed tree implementation: tree.hpp
@@ -141,16 +136,53 @@ class Solution {
 public:
     int countRangeSum(vector<int>& nums, int lower, int upper) {
         int result = 0;
-        //result = countRangeSumPrefixSumAndMergeSort(nums, lower, upper);
-        result = countRangeSumPrefixSumRangeQuery(nums, lower, upper);
+        result = countRangeSumPrefixSumAndMergeSort(nums, lower, upper);
+        //result = countRangeSumPrefixSumRangeQuery(nums, lower, upper);
         cout << nums << " [" << lower << ", " << upper << "]"
             << "=> " << result << endl;
         return result;
     }
 
-    int mergeSort(vector<long> &arr, int p, int q, int lower, int upper) {
+    /**
+     * Divide and conquer in a merge sort way
+     * Input: prefix sum array.
+     */
+    int divideAndConquer(vector<long> &ps, int low, int high, int lower, int upper) {
         int nRanges = 0;
-        if (p == q) return 0;
+        //if (low == high) return lower <= ps[low] & ps[low] <= upper; // XXX: corner case
+        if (low == high) return 0;
+
+        // divide and conquer
+        int m = (low + high) >> 1;
+        nRanges += divideAndConquer(ps, low, m, lower, upper); // m-low+1
+        nRanges += divideAndConquer(ps, m + 1, high, lower, upper); // high-m
+        // COMBINE: COUNT
+        {
+            int p = low, s = m + 1, t = m + 1; // [p, s] lower bound, [p, t] upper bound
+            while (p <= m) {
+                while (s <= high && ps[s] -  ps[p] < lower) ++s; // for j >= s, range sum >= lower
+                t = s;
+                while (t <= high && ps[t] - ps[p] <= upper) ++t; // for j >= t, range sum > upper
+                nRanges += t - s; // #ranges = (t-s)
+
+                ++p;
+            }
+        }
+
+        // COMBINE: SORT
+        //cout << vector<int>(ps.begin() + low, ps.begin() + high+1) << " in " << ps << " count: " << nRanges << endl;
+        //vector<int> arr1(ps.begin() + low, ps.begin() + high + 1); // XXX: implicit cast overflow/underflow
+        vector<long> arr1(ps.begin() + low, ps.begin() + high + 1);
+        //cout << "merge: " << arr1 << endl;
+        int p = 0, q = m+1-low; // [0, m-low], [m+1-low, high-low]
+        int k = low; // [low, high]. XXX: initialization, not 0!
+        while (p <= m - low && q <= high - low) {
+            if (arr1[p] <= arr1[q]) { ps[k++] = arr1[p++]; }
+            else { ps[k++] = arr1[q++]; }
+        }
+        while (p <= m - low) { ps[k++] = arr1[p++]; }
+        while (q <= high - low) { ps[k++] = arr1[q++]; }
+        //cout << "merge: " << arr1 << endl;
 
         return nRanges;
     }
@@ -166,7 +198,8 @@ public:
         //for (int i = 0; i < (int)nums.size(); ++i) indices[i] = i;
 
         // TODO:
-        int result = mergeSort(ps, 0, nums.size(), lower, upper); // merge sort?
+        int n = nums.size();
+        int result =  divideAndConquer(ps, 0, n, lower, upper); // merge sort
 
         return result;
 
@@ -175,7 +208,7 @@ public:
     int countRangeSumPrefixSumRangeQuery(vector<int> &nums, int lower, int upper) {
         // build prefix sum
         vector<long> prefixSums(nums.size() + 1, 0); // length indexed prefix sum array
-        for (int i = 1; i <= (int)nums.size(); ++i) {
+        for (uint i = 1; i <= nums.size(); ++i) {
             prefixSums[i] = prefixSums[i-1] + nums[i-1];
         }
 
@@ -194,7 +227,7 @@ public:
         // count as sum, range query sum
         int nRanges = 0;
         BitTree rsq(buckets.size()); // range sum query, [1, n]
-        for (int i = nums.size(); i >= 1;--i) {
+        for (i = nums.size(); i >= 1;--i) {
             rsq.update(buckets.at(prefixSums[i]), 1);
             int nUpper = rsq.query(buckets.at(upper + prefixSums[i-1])); // query for number of such j that ps[j] - ps[i-1] <= upper
             int nLower = rsq.query(buckets.at(lower + prefixSums[i-1] - 1)); // query for number of such j that ps[j] - ps[i-1] < lower
@@ -234,12 +267,23 @@ int main(int argc, char *argv[])
     result = 6;
     assert(solution.countRangeSum(nums, lower, upper) == result);
 
-    nums = {-2, 5, -1};
+    nums = {-2, 5};
+    lower = -2; upper = 2;
+    result = 1;
+    assert(solution.countRangeSum(nums, lower, upper) == result);
+
+    nums = {1};
+    lower = -2; upper = 2;
+    result = 1;
+    assert(solution.countRangeSum(nums, lower, upper) == result);
+
+    nums = {-2, 5, -1}; // {0, -2, 3, 2}; {-2, 0}, {2, 3}
     lower = -2; upper = 2;
     result = 3;
     assert(solution.countRangeSum(nums, lower, upper) == result);
 
-    nums = {-2147483647,0,-2147483647,2147483647};
+    nums = {-2147483647,0,-2147483647,2147483647}; // case: overflow.
+    // {0, -2147483647, -2147483647, -4294967294, -2147483647, }
     lower = -564, upper = 3864;
     result = 3;
     assert(solution.countRangeSum(nums, lower, upper) == result);
