@@ -25,7 +25,9 @@ A solution set is:
   ]
 
 ==============================================================================================
-SOLUTION:
+SOLUTION
+This is a combinatorial problem, and can be modelled with a graph.
+
 1. GRAPH traversal problem: finding paths
 Depth-first search or breadth-first search.
 

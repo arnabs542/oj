@@ -111,18 +111,18 @@ void trimTrailing(string &s) {
 class CodecBfs {
 public:
     // Encodes a tree to a single string.
-    string serialize(TreeNode* root)
+    static string serialize(TreeNode* root)
     {
         return serializeBfs(root);
     }
 
     // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data)
+    static TreeNode* deserialize(string data)
     {
         return deserializeBfs(data);
     }
 
-    string serializeBfs(TreeNode* root)
+    static string serializeBfs(TreeNode* root)
     {
         ostringstream out;
 
@@ -153,7 +153,7 @@ public:
         return result;
     }
 
-    TreeNode* deserializeBfs(string data)
+    static TreeNode* deserializeBfs(string data)
     {
         //cout << "deserialize data: " << data << endl;
         istringstream in(data);

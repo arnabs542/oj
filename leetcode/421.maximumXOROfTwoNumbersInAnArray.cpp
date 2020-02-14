@@ -1,3 +1,45 @@
+/**
+ *
+421. Maximum XOR of Two Numbers in an Array
+
+Total Accepted: 8291
+Total Submissions: 19023
+Difficulty: Medium
+Contributors: shen5630
+
+Given a non-empty array of numbers, a₀, a₁, a₂, … , a_{n-1}, where 0 ≤ aᵢ < 2^31.
+
+Find the maximum result of aᵢ XOR aⱼ, where 0 ≤ i, j < n.
+
+Could you do this in O(n) runtime?
+
+Example:
+
+Input: [3, 10, 5, 25, 2, 8]
+
+Output: 28
+
+Explanation: The maximum result is 5 ^ 25 = 28.
+
+================================================================================
+SOLUTION
+
+1. Naive solution - element-wise
+
+Compute pair-wise XOR result, take the maximum.
+
+Complexity: O(N²), O(1).
+
+2. Search in value space and verify
+
+Complexity: O(N), O(1)
+
+3. Prefix tree trie
+
+Complexity: O(N), O(N)
+
+ *
+ */
 #include <debug.hpp>
 
 #include <vector>

@@ -118,11 +118,14 @@ Procedure
 i in A and j in B.
 - Do real merge
 
-TODO: ?
-
 Complexity
 T(n) = 2T(n-1)+n
 O(NlogN), O(N)
+
+4. Divide and conquer - prefix sum - binary search tree lower bound/upper bound
+
+Computing distance between two iterators in a binary search tree can be O(N).
+Complexity: O(NlogN), worst O(N²)
 
 
  */
