@@ -51,6 +51,10 @@ If A is ascending, then:
 Given that, we can REPEATEDLY DIVIDING the array by 2 into two ranges, to find such a peak,
 just as Binary Search.
 
+1) Middle is larger than neighbours: found peak
+2) Middle is smaller than left neighbour: go left
+3) Middle is smaller than right neighbour: go right
+
 '''
 
 class Solution(object):

@@ -68,96 +68,96 @@ Complexity: O(NlogN)
 class Solution {
 public:
     int minSwap(vector<int> &nums) {
-		int result;
-		result = minSwapDependencyGraphCycle(nums);
+        int result;
+        result = minSwapDependencyGraphCycle(nums);
 
-		cout << nums << " => " << result << endl;
+        cout << nums << " => " << result << endl;
 
-		return result;
-	}
+        return result;
+    }
 
     int minSwapDependencyGraphCycle(vector<int> &nums) {
-		int n = nums.size();
-		vector<pair<int, int>> valIdx;
-		for (int i = 0; i < n; ++i) {
-			valIdx.push_back({nums[i], i});
-		}
-		sort(valIdx.begin(), valIdx.end());
-		cout << valIdx << endl;
-		vector<int> edges(n, -1); // target indices. XXX: can be removed by restoring the ordered pairs to original order.
-		for (int i = 0; i < n; ++i) {
-			edges[valIdx[i].second] = i; // source to destination index mapping
-		}
+        int n = nums.size();
+        vector<pair<int, int>> valIdx;
+        for (int i = 0; i < n; ++i) {
+            valIdx.push_back({nums[i], i});
+        }
+        sort(valIdx.begin(), valIdx.end());
+        cout << valIdx << endl;
+        vector<int> edges(n, -1); // target indices. XXX: can be removed by restoring the ordered pairs to original order.
+        for (int i = 0; i < n; ++i) {
+            edges[valIdx[i].second] = i; // source to destination index mapping
+        }
 
-		//cout << edges << endl;
-		int result = 0;
-		vector<int> visited(n, 0);
-		for (int i = 0; i < n; ++i) {
-			if (visited[i]) continue;
-			int u = i;
-			int nNodes = 0;
-			int nSwaps = 0;
-			do { // not cycle entry
-				visited[u] = 1; // visited
-				int v = edges[u];
-				if (nums[u] != nums[v] && v != i) { // swap, u -> v
-					++nSwaps;
-				}
-				++nNodes;
-				//cout << u  << " " << nNodes << endl;
-				u = v;
-			} while (u != i);
-			//result += (nNodes - 1);
-			result += (nSwaps);
-		}
+        //cout << edges << endl;
+        int result = 0;
+        vector<int> visited(n, 0);
+        for (int i = 0; i < n; ++i) {
+            if (visited[i]) continue;
+            int u = i;
+            int nNodes = 0;
+            int nSwaps = 0;
+            do { // not cycle entry
+                visited[u] = 1; // visited
+                int v = edges[u];
+                if (nums[u] != nums[v] && v != i) { // swap, u -> v
+                    ++nSwaps;
+                }
+                ++nNodes;
+                //cout << u  << " " << nNodes << endl;
+                u = v;
+            } while (u != i);
+            //result += (nNodes - 1);
+            result += (nSwaps);
+        }
 
-		return result;
-	}
+        return result;
+    }
 };
 
 int test() {
-	Solution solution;
-	vector<int> nums;
-	int output;
+    Solution solution;
+    vector<int> nums;
+    int output;
 
-	nums = {};
-	output = 0;
-	assert(solution.minSwap(nums) == output);
+    nums = {};
+    output = 0;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {1};
-	output = 0;
-	assert(solution.minSwap(nums) == output);
+    nums = {1};
+    output = 0;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {2, 1};
-	output = 1;
-	assert(solution.minSwap(nums) == output);
+    nums = {2, 1};
+    output = 1;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {1, 1};
-	output = 0;
-	assert(solution.minSwap(nums) == output);
+    nums = {1, 1};
+    output = 0;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {1, 1, 1};
-	output = 0;
-	assert(solution.minSwap(nums) == output);
+    nums = {1, 1, 1};
+    output = 0;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {1, 1, 1, 0};
-	output = 1;
-	assert(solution.minSwap(nums) == output);
+    nums = {1, 1, 1, 0};
+    output = 1;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {4, 3, 2, 1};
-	output = 2;
-	assert(solution.minSwap(nums) == output);
+    nums = {4, 3, 2, 1};
+    output = 2;
+    assert(solution.minSwap(nums) == output);
 
-	nums = {1, 5, 4, 3, 2};
-	output = 2;
-	assert(solution.minSwap(nums) == output);
+    nums = {1, 5, 4, 3, 2};
+    output = 2;
+    assert(solution.minSwap(nums) == output);
 
-	cout << "test passed" << endl;
+    cout << "test passed" << endl;
 
-	return 0;
+    return 0;
 }
 
 int main() {
-	test();
-	return 0;
+    test();
+    return 0;
 }

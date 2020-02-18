@@ -38,6 +38,25 @@ it could be the second violation!
 
 3. morris traversal?
 
+FOLLOW UP
+================================================================================
+
+1. Sort an almost sorted array where only two elements are swapped.
+https://www.geeksforgeeks.org/sort-an-almost-sorted-array-where-only-two-elements-are-swapped/
+
+Inspect what the array looks like when we swap two elements of a ascending
+sorted array.
+Suppose the swapped pair is (i, j) where i < j.
+1) We need to find the left larger number at position i(nums[i] = nums0[j]).
+And this number i: nums[i] > nums[i-1] and nums[i] > nums[i+1], which can be
+simplified to nums[i] > nums[i+1].
+2) Find the right smaller number at j (nums[j] = nums0[i]).
+Such j has property: nums[j] < nums[j-1] and nums[j] < nums[j+1], which can be
+simplified to nums[j] < nums[j-1].
+Remember there will be two such j if i and j are not adjacent to each other.
+In such case, choose last j.
+
+
 '''
 
 from _tree import Codec, TreeNode

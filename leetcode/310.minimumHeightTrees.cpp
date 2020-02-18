@@ -41,11 +41,20 @@ Note:
 ==============================================================================================
 SOLUTION
 
-1. Brute force
+1. Brute force - exhaust and verify
 Start dfs/bfs for every node, assuming it's root, track the distance from from root to every
 node. And accumulate the roots with minimum tree height.
 
 Complexity: O(V(V+E)), O(logN) ~ O(N)
+
+--------------------------------------------------------------------------------
+Graph model.
+1) A tree is a graph without cycles
+2) This is a shortest path problem
+The root of minimum height is similar to a MEDIAN number, and there are at most 2.
+
+Searching from possible root has higher complexity.
+Why don't we search from sinks(leaf nodes)?
 
 2. Reduce and induce - graph degrees analysis - cut the leaves until reach the root(s)
 

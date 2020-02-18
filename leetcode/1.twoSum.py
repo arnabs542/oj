@@ -27,7 +27,12 @@ Complexity: O(N²)
 
 Complexity: O(N), O(N)
 
-3. sort: two pointers, move index from two ends to center
+3. Sort: two pointers, move index from two ends to center
+Sort the array first.
+A pair of indices (i, j) forms a graph search space of 2D, where i < j.
+Then sum(i, j) >= sum(i-1,j), sum(i, j) >= sum(i, j+1).
+This gives a similar property to binary search tree!
+At each point (i, j), we can rule out a column of a row.
 
 Complexity: O(nlogn), O(1)
 

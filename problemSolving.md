@@ -65,6 +65,7 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
     - integration: cumulative function, cumulative sum/prefix sum
     - differentiation: difference array
     - Monotonicity analysis(order, 单调性): max/min function,
+        - Extreme value, maximum minimum values analysis
         - Binary search
         - Sliding window
         - monotone stack or monotone queue
@@ -107,10 +108,10 @@ DATA STRUCTURES
 
 STATE TRANSITION technique
 - STATE TRANSITION - the key is to model the problem and define proper state
-    - state representation - PERSPECTIVE matters!
+    - state definition & representation - PERSPECTIVE matters!
         - single variable state
-            - index(domain): index of elements in [0, n-1], index space of function domain
-            - value(range): value space of function range
+            - index(domain) space: index of elements in [0, n-1], index space of function domain
+            - value space: value space of function range, such as lower bound and upper bound
             - count: number of elements, characters, length of string in [0, n].
             - interval: a single point divides array into two parts, like quick sort partition.
             - bits: hash table, combination can be represented with bits.
@@ -120,12 +121,15 @@ STATE TRANSITION technique
             - One ended interval state: optimal solution ending here(kmp, maximum subarray, covered range)
         - combinatorial state
             - sets state: vertices, edges, 
-            - combination
+            - combination: permutation without order
             - permutation (most complex)
-    - state definition
-        - optimal solution so far (keep track of globally optimal so far)
-        - optimal solution ending here: window, string problem
-        - optimal solution within range: sequence problem
+                - position perspective: fill positions one by one(permutation with swapping)
+                - element perspective: add elements one by one(insertion sort, permutation with dp)
+    - optimal substructure
+        - index space
+            - locally optimal solution so far (keep track of globally optimal so far)
+            - locally optimal solution ENDING HERE: window, string problem
+            - locally optimal solution WITHIN RANGE: sequence problem
     - state transition technique 
         - STATE MACHINE
             - Deterministic finite automata(DFA)

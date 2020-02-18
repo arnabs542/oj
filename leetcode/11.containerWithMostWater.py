@@ -21,7 +21,11 @@ SOLUTION
 1. A brute-force solution would be compute all pair-wise container volume, time complexity
 O(N*N) = O(N²).
 
-2. Two pointers(GRAPH/binary tree search)
+2. Two pointers(GRAPH/binary search tree search)
+Search space (i, j) is 2D, and can be modeled as a graph, represented as a matrix.
+This search graph is similar to a binary search tree, if examined from
+top right point(0, n-1).
+
 The target indices i, j must satisfy 0 <= i, j <= n - 1, where n is the size of array.
 Initialize state = (i = 0, j = n - 1), and do graph search inward.
 
