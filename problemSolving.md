@@ -24,23 +24,28 @@ Understand the model is a brute force way.
 
 ### STATE TRANSITION for different models
 Optimize by exploiting state transition recurrence relation for different mathematical objectives.
-Observe the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
+Inspect the problem in different PERSPECTIVES, then different STATES will be tracked, and different MODELS apply!
 - STATE SPACE
     - DOMAIN SPACE: bit operation or combinatorial
     - RANGE SPACE: search in range space lower bound and upper bound, exhaust and verify, maybe even with binary search!
 - STATE TRANSITION or RECURRENCE RELATION
 
-#### General Mathematical Models or Mathematical Objective
-
-- Equality: Interval or ranges
-- Binary representation: bitwise identities, manipulation
-- Modulo operation: modulo can contain two information: a, r = div(n, b). Odd and even positions, values.
+#### General Mathematical Models, Objectives and Perspectives
+- Representation
+    - Binary representation of number
+        - bit manipulation
+        - k based number representation
+    - Modulo operation: modulo can contain two information: a, r = div(n, b). Odd and even positions, values.
+    - Sparse representation: matrix
 - Counting model
     - exhaust and find occurrence: O(n) time, O(1) space
     - hash count: O(n) time/space
     - count as sum: range sum query...
     - all condition converted maximum or minimum
 - Ordering model
+    - Extreme values: max/min values, peak value, 
+    - Order statistics: median, min/max value, odd even positions
+    - Binary search
     - Sorting algorithms
         - brute force: bubble sort, insert sort
         - bucket: bucket sort
@@ -48,8 +53,7 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
         - tree: bst, heap
         - lexicographical sort: prefix tree, radix sort
     - Ordered data structure: augmented BST with rank
-    - Order statistics: median, min/max value, odd even positions
-- Substring and subsequence
+- String
     - Prefix or suffix
     - string searching: brute force, finite automate, kmp, rolling hash, trie?
     - longest common substring: brute force, dynamic programming(locally optimal ending here), suffix tree
@@ -57,19 +61,18 @@ Observe the problem in different PERSPECTIVES, then different STATES will be tra
     - longest repeated substring
     - palindrome substring: brute force, dynamic programming 2D(locally optimal within bound of interval)
     - regular expression: dynamic programming, backtracking(dfs), finite automate
-- Partition model
+- Partition space
     - Pointers partition: quick sort partition, three way partition(dnf), divide and conquer
     - Binary split: binary search tree, segment tree
     - Exponential split: binary indexed tree
-- Calculus: change rate
-    - integration: cumulative function, cumulative sum/prefix sum
+- Mathematical analysis: calculus, study of change
+    - integration: summing, range sum query, cumulative function, cumulative sum/prefix sum
     - differentiation: difference array
-    - Monotonicity analysis(order, 单调性): max/min function,
-        - Extreme value, maximum minimum values analysis
+    - Monotonicity(order, 单调性)
+        - Extreme values, maximum minimum values analysis: ordered model, monotonic stack/queue
         - Binary search
         - Sliding window
         - monotone stack or monotone queue
-    - Extrema points analysis: often related to monotonic stacks and queues
 - combinatorics: combinatorics problems can be usually modelled as a graph
     - PERMUTATION
     - COMBINATION: permutation without order
@@ -105,7 +108,7 @@ DATA STRUCTURES
                     - all pairs: floyd-warshall(matrix multiply, O(V³))
                 - shortest simple path: NP hard, need to exhaust all paths
 
-
+Any problem in computer science can be solved with another level of indirection => Any problem in computer science can be solved with another state.
 STATE TRANSITION technique
 - STATE TRANSITION - the key is to model the problem and define proper state
     - state definition & representation - PERSPECTIVE matters!
@@ -125,29 +128,27 @@ STATE TRANSITION technique
             - permutation (most complex)
                 - position perspective: fill positions one by one(permutation with swapping)
                 - element perspective: add elements one by one(insertion sort, permutation with dp)
-    - optimal substructure
-        - index space
-            - locally optimal solution so far (keep track of globally optimal so far)
-            - locally optimal solution ENDING HERE: window, string problem
-            - locally optimal solution WITHIN RANGE: sequence problem
-    - state transition technique 
+    - state transition form/perspectives
+        - 1D sequential scanning
+            - partition by scanning: quick sort
+            - line sweep
+            - Sliding window recurrence relation: offset and stride
+            - Monotonic stack/queue
         - STATE MACHINE
             - Deterministic finite automata(DFA)
             - Nondeterministic finite automata(NFA: regular expression, ...)
         -  RECURRENCE RELATION(递推关系)
-            - Divide and conquer: partition into disjoint subproblems
-            - Backward induction
-            - DYNAMIC PROGRAMMING: overlapping subproblems
-                - f(n): optimal solution of substructure ending here
-                - f(p, q): optimal solution of substructure within range (p, q)
+            - Divide and conquer: OPTIMAL SUBSTRUCTURE obtained by partitioning into disjoint subproblems and combine
+            - DYNAMIC PROGRAMMING: OPTIMAL SUBSTRUCTURE of overlapping subproblems
+                - f(n)=F(f(n-1)..): optimal solution of substructure ENDING HERE, within range of [0, n], for window, string problems
+                - f(p, q): optimal solution of substructure WITHIN RANGE [p, q], for sequence problems
+                - f(n-1)=F(f(n)..): Backward induction
             - Greedy strategy
                 - monotonic stack/queue
                 - heap
-    - state transition form
-        - Sequential recurrence relation: one end dimensional dynamic programming
-        - Partition recurrence relation: divide and conquer, two ends dynamic programming
-        - Sliding window recurrence relation: offset and stride
-        - Monotonic stack/queue
+            - General recurrence relation: recursion without memoization!
+            - Dynamic programming: one end dimensional dynamic programming
+            - Greedy strategy
 
 For optimization problems(minimum or maximum operations), there are several approaches:
 - Simulate it: simulate the process

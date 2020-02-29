@@ -24,14 +24,16 @@ Define utility functions to make the code modular, and reduce the risk of writin
 
 ## Review code
 Use a top down approach.
-- Check modular design
+- Check modular logic
 - Check INITIALIZATION
     - larger value initialization and corner case(following for not executed)
 - Check STATE TRANSITION(maintenance of procedure): initialization in a loop, jump/break state
     - Check BRANCHES: use nested branch or logical AND condition?
-    - Check DUPLICATE VALUES: cycle, swap two equal addresses
-    - Check OUT OF BOUND errors
+    - Check DUPLICATE VALUES: MEMORY ALIASING/OVERLAPPING
+    - Check OUT OF BOUND errors: keep track of variables RANGE
     - Check infinite loop
+        - cycle
+        - forgot incrementing  (i++)
     - Check statements after break/continue
 - Check TERMINATION STATE
 - Check TYPO, VARIABLE name misuse
@@ -42,6 +44,18 @@ Use a top down approach.
 - Write COMMENTS first for to clarify program logic
 - Run TEST cases
 
+
+### Types of software bugs
+https://en.wikipedia.org/wiki/Software_bug#Types
+- Typo
+- Arithmetic
+    - division by zero
+    - overflow/underflow
+    - loss of precision
+- Logic
+    - infinite loops
+    - off by one error
+- Resource: memory access violation
 
 ## Reserve space
 Don't crowd the code.
@@ -55,7 +69,4 @@ bool        dfs(string word, Node *p)                           {
 
 ## Declare variables first
 Just in case that you might need a variable to be in larger scope
-
-
-
 

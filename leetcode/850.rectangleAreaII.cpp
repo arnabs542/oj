@@ -40,21 +40,38 @@ For interval overlapping problem, line sweep algorithm suits well.
 
 Process the rectangles in a manner with a line sweeping through rectangle sides.
 
-1. Line sweep - scan along x axis - keep track of OVERLAPPING INTERVALS, ordered by key (y1, y2) ,
-First we need to sort rectangle left and right sides, represented with tuple (x, y1, y2).
-Then line sweep  through the sides/intervals along x axis.
+--------------------------------------------------------------------------------
+Transform the problem to simpler situation where rectangles have same left and right sides.
+In this case, sum of rectangles area can be computed by scanning along the y-axis
+for rectangles lying withing range of two adjacent sweep lines.
 
-And we need to use a data structure to maintain overlapping rectangles(similar to
-overlapping intervals). And we need this structure to calculate area in between two
-adjacent sweep line, so we need this data structure to be ordered with respect to
+1. Line sweep - scan along x axis - keep track of OVERLAPPING INTERVALS, ordered by key (y1, y2) ,
+
+Key subproblems
+---------------
+1) To scan along X DIMENSION, we need to sort rectangle left and right sides,
+represented with tuple (x, y1, y2).
+2) To scan along Y DIMENSION for each x, store the rectangles in an ordered data structure,
+keyed by top or bottom sides.
+3) To get information about whether a rectangle is still in range of two
+ADJACENT SWEEP LINES, we can push and pop it out of the ordered data structure
+with respect to the time left or right side is swept.
+
+Procedure
+---------
+Line sweep through the sides/intervals along x axis.
+Use a data structure to maintain overlapping rectangles(similar to overlapping intervals).
+And we need this structure to calculate area in between two adjacent sweep line,
+so we need this data structure to be ordered with respect to
 key (y1, y2), and also identifiable by the original rectangle.
 
-For left side (x, y1, y2):
-    1) compute area between current side and previous side: +dy*(x-x0),
-    2) insert tuple (y1, y2, x) into ordered data structure.
-For right side (x, y1, y2):
+For left side segment (x, y1, y2):
+    1) compute area between current sweep line and previous one: +dy*(x-x0),
+    2) insert left side represented by (y1, y2, x) into ordered data structure.
+For right side segment (x, y1, y2):
     3) do 1)
-    4) pop out corresponding left side (x₀, y1, y2).
+    4) pop out corresponding left side (y1, y2, x0), where x0 can be arbitrary value.
+
 Termination: scanned all rectangle sides.
 
 Corner case:
