@@ -3,7 +3,7 @@
 ## Ask questions to CLARIFY
 - How is input data REPRESENTATION?
 - How big is the SIZE of the input?
-- How big is the RANGE of values? Positive values or negative values?
+- What is the RANGE of values? Positive values or negative values?
 - What kind of values are there? Are there negative numbers? Floating points? Will there be empty inputs?
 - Are there DUPLICATES within the input?
 - What are some EXTREME cases of the input?
@@ -16,6 +16,7 @@ Develop algorithm based on these test cases or examples.
 - Be clear input data, function signature
 - Initialization logic
 - Maintenance: STATE TRANSITION recurrence relation before writing
+    - Beware bounds of data
 - Termination condition
 - Write state transition RECURRENCE RELATION before writing code!
 
@@ -29,7 +30,7 @@ Use a top down approach.
     - larger value initialization and corner case(following for not executed)
 - Check STATE TRANSITION(maintenance of procedure): initialization in a loop, jump/break state
     - Check BRANCHES: use nested branch or logical AND condition?
-    - Check DUPLICATE VALUES: MEMORY ALIASING/OVERLAPPING
+    - Check DUPLICATE VALUES: MEMORY ALIASING/OVERLAPPING, e.g. swap(a, a), a = a.
     - Check OUT OF BOUND errors: keep track of variables RANGE
     - Check infinite loop
         - cycle

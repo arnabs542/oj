@@ -14,6 +14,9 @@
  * 2. Count inversion pairs
  * This is the problem of "count of smaller numbers after self".
  *
+ * And this can be solved with divide and conquer like merge sort, or
+ * count as sum with range sum query data structure.
+ *
  * Complexity: O(NlogN)
  *
  */
