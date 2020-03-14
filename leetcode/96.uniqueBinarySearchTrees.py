@@ -20,7 +20,8 @@ Given n = 3, there are a total of 5 unique BST's.
    2     1         2                 3
 
 ==============================================================================================
-SOLUTION:
+
+SOLUTION
     Of course, this is a Catalan Number problem.
     Divide and conquer to form state transition relation.
 
@@ -28,8 +29,10 @@ Given n, there are n - 1 nodes to construct except the root one. The we can divi
 nodes by (0, n -1), (1, n - 1), ..., (n - 1, 0), in total n ways. In each way, the number of
 unique BST is the number of left subtrees times the right tree's.
 
-Dynamic Programming:
-    f[i] = sum([f[j] * f[i - 1 - j] for j in range(i)])
+1) Dynamic Programming
+Recurrence relation:
+    f[i] = sum([f[k] * f[i - 1 - k] for k in range(i)])
+
 '''
 
 class Solution(object):
@@ -42,9 +45,10 @@ class Solution(object):
         f = [0] * (n + 2)
         f[0] = f[1] = 1
         for i in range(2, n + 1):
-            f[i] = sum([f[j] * f[i - 1 - j] for j in range(i)])
+            f[i] = sum([f[k] * f[(i - 1) - k] for k in range(i)]) # [0, n-1], Σf(i)f(n-1-i)
+            # f[i] = sum([f[k] * f[i - k] for k in range(1, i + 1)]) # [1, n]
 
-        print(f)
+        print(f, f[n])
         return f[n]
 
 def test():

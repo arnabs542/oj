@@ -26,7 +26,11 @@ SOLUTION
 Treated as a GRAPH problem, it can be solved with BREADTH-FIRST SEARCH or
 DEPTH-FIRST SEARCH. The key is to define proper state with RECURRENCE RELATION.
 
-1. Depth first search
+BUILD GRAPH:
+  in a POSITION PERSPECTIVE, instead of element perspective which is to add
+a new pair of parentheses every time.
+
+1. Depth first search - bottom up filling positions
 There are two approaches:
 1) Bottom up adding new element approach
 The well-formed combination is a string of length 2n. Then the process is to
@@ -55,6 +59,10 @@ Define state:
 
 Time Complexity: Catalan number.
 
+3. Top down depth first search - top down dividing n
+n = (0+n) = (1+(n-1)) = 2 + (n-2) = ... = (n-1) + 1
+
+
 '''
 
 class Solution(object):
@@ -64,8 +72,8 @@ class Solution(object):
         :type n: int
         :rtype: List[str]
         """
-        # result = self.generateParenthesisBFS(n)
-        result = self.generateParenthesisDFS(n)
+        result = self.generateParenthesisBFS(n)
+        # result = self.generateParenthesisDFS(n)
         print(result)
         return result
 
@@ -135,16 +143,16 @@ class Solution(object):
 def test():
     solution = Solution()
 
-    assert solution.generateParenthesis(0) == ['']
-    assert solution.generateParenthesis(1) == ['()']
-    assert solution.generateParenthesis(2)
+    assert solution.generateParenthesis(0) == [''] # 1
+    assert solution.generateParenthesis(1) == ['()'] # 1
+    assert solution.generateParenthesis(2) # 2
     assert solution.generateParenthesis(3) == [
         "((()))",
         "(()())",
         "(())()",
         "()(())",
         "()()()"
-    ]
+    ] # 1
     assert solution.generateParenthesis(5)
     print('self test passed')
     pass

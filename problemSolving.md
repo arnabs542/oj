@@ -131,7 +131,7 @@ STATE TRANSITION technique
     - state transition form/perspectives
         - 1D sequential scanning
             - partition by scanning: quick sort
-            - line sweep
+            - line sweep: interval overlapping problem, computational geometry
             - Sliding window recurrence relation: offset and stride
             - Monotonic stack/queue
         - STATE MACHINE
